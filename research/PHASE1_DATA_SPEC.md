@@ -3,6 +3,29 @@
 ## Objective
 Build a reproducible, auditable data layer sufficient to reproduce the frozen one-minute literal-core strategy without look-ahead.
 
+## Canonical Phase 1 gate vocabulary
+
+The repository uses one canonical G1–G14 vocabulary, defined here and in `research/PHASE1_GATE_MATRIX.md`. No other Phase 1 document may assign a different meaning to these IDs.
+
+| Gate | Canonical meaning |
+|---|---|
+| G1 | Immutable primary dataset / provenance |
+| G2 | Structural schema validation |
+| G3 | Duplicate handling |
+| G4 | Timestamp and session quality |
+| G5 | Underlying/option alignment |
+| G6 | Production historical Greeks / IV |
+| G7 | Target-delta availability |
+| G8 | Historical contract metadata |
+| G9 | Historical bid/ask / execution quality |
+| G10 | Date-specific transaction costs |
+| G11 | Market-context datasets |
+| G12 | Repaired CI execution |
+| G13 | Independent tester approval |
+| G14 | Phase 2 authorization |
+
+The detailed validation dimensions below are evidence used by these canonical gates; they are not separate G1–G10 gate IDs.
+
 ## Required datasets
 1. NIFTY 1-minute underlying index observations.
 2. NIFTY option 1-minute observations across the selected monthly expiries and strikes.
@@ -14,37 +37,36 @@ Build a reproducible, auditable data layer sufficient to reproduce the frozen on
 8. Corporate-action/event calendars relevant to the NIFTY reference series and option-contract continuity.
 9. Date-specific Paytm Money brokerage and statutory/exchange cost schedules.
 
-## Validation gates
-A dataset is not accepted merely because it downloads.
+## Validation dimensions
 
-### G1 Provenance
+### Provenance evidence
 Record source URL/repository, dataset revision or file hashes, acquisition timestamp, license/terms, and exact file list.
 
-### G2 Schema
+### Schema evidence
 Verify timestamps, underlying, expiry, strike, option type, OHLC, volume and OI fields as applicable.
 
-### G3 Time integrity
-Convert to a canonical timezone representation while retaining original timestamps. Reject future timestamps, duplicate observations and malformed timestamps.
+### Time/session evidence
+Convert to a canonical timezone representation while retaining original timestamps. Reject future timestamps and malformed timestamps. Characterize duplicates, missing bars, session-length anomalies and exchange-calendar mismatches before production acceptance.
 
-### G4 Market-data integrity
-Detect nonpositive prices, invalid OHLC relationships, missing bars, extreme gaps, stale observations and—if quote fields exist—crossed/locked markets and spread anomalies.
+### Market-data integrity evidence
+Detect nonpositive prices, invalid OHLC relationships, extreme gaps, stale observations and—if quote fields exist—crossed/locked markets and spread anomalies.
 
-### G5 Contract integrity
+### Contract evidence
 Verify that every option observation maps to a valid historical expiry/strike/type and that lot size/tick size are taken from effective-date metadata.
 
-### G6 Underlying alignment
+### Underlying-alignment evidence
 Verify that option timestamps align with the NIFTY underlying observation grid used for delta reconstruction and direction classification.
 
-### G7 Greek provenance
+### Greek evidence
 Prefer vendor-observed Greeks only when methodology and timestamp alignment are documented. Otherwise reconstruct using the frozen Phase 0 Black-Scholes/IV contract and record solver success/failure rates.
 
-### G8 Target-strike availability
+### Target-strike evidence
 Measure the proportion of one-minute decision timestamps for which the target deltas can be met within the frozen 0.05 maximum error and liquidity filters.
 
-### G9 Execution fields
-Record whether bid/ask exists. If absent, explicitly route execution to the frozen fallback-slippage convention and mark the observation as degraded execution data.
+### Execution evidence
+Record whether historical bid/ask exists. If absent, do not silently substitute current quotes or close prices. The frozen Phase 0 methodology treats historical midpoint execution as the literal core; any degraded fallback must remain explicitly identified and separately analyzed.
 
-### G10 Reconciliation
+### Reconciliation evidence
 Reconcile selected daily aggregates and contract metadata against official NSE sources. Discrepancies are logged rather than silently corrected.
 
 ## Sampling policy
@@ -65,15 +87,15 @@ Phase 1 must not apply current NIFTY contract rules retroactively.
 - Therefore the validator must use the historical contract master/effective contract metadata for every contract rather than infer expiry weekday or lot size from today's specification.
 
 ## Primary official references
-- NSE Contract Information: https://www.nseindia.com/static/products-services/equity-derivatives-contract-information
-- NSE Contract Specifications: https://www.nseindia.com/static/products-services/equity-derivatives-contract-specifications
-- NSE Circular 128/2024: https://nsearchives.nseindia.com/content/circulars/FAOP64625.pdf
-- NSE Circular 103/2025: https://nsearchives.nseindia.com/content/circulars/FAOP68589.pdf
-- NSE Circular 111/2025: https://nsearchives.nseindia.com/content/circulars/FAOP68747.pdf
+- NSE Contract Information
+- NSE Contract Specifications
+- NSE Circular 128/2024
+- NSE Circular 103/2025
+- NSE Circular 111/2025
 
-
-## Additional official contract metadata evidence
-- NSE Circular 37/2024 changed NIFTY market lot from 50 to 25 for contracts available from 26-Apr-2024, with the April 25 expiry excluded from the change. citeturn3search16
-- NSE Circular 128/2024 changed NIFTY market lot from 25 to 75 for new index derivatives introduced from 20-Nov-2024. citeturn3search13
-- NSE's June 2025 expiry-day transition first specified Tuesday for contracts expiring on/after Sep-2025, with detailed transition treatment for existing contracts. citeturn2search29turn2search28
-- NSE's current contract specification records the current Tuesday expiry and index-option tick-step framework; historical contract files/circular effective dates remain authoritative for historical reconstruction. citeturn2search0turn2search9
+## Source-validation additions
+- NSE Circular 37/2024 changed NIFTY market lot from 50 to 25 for contracts available from 26-Apr-2024, with the April 25 expiry excluded from the change.
+- NSE Circular 128/2024 changed NIFTY market lot from 25 to 75 for new index derivatives introduced from 20-Nov-2024.
+- NSE's June 2025 expiry-day transition specified Tuesday for the applicable transition contracts; effective-date contract metadata remains authoritative.
+- RBI Weekly Statistical Supplement provides the historical 91-day Treasury-bill primary-yield series used as the risk-free-rate source candidate.
+- Paytm Money publications provide date/cohort-specific brokerage and STT chronology; the complete machine-readable statutory/exchange schedule remains a G10 requirement.
