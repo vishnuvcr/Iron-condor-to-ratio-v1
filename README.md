@@ -6,7 +6,7 @@ Research project to reproduce and independently backtest the YouTube strategy �
 Developer.
 
 ## Current phase
-**Phase 0 fifth-gate correction pass — awaiting exact-commit CI audit and independent re-test.**
+**Phase 0 sixth-gate correction pass — awaiting exact-commit CI audit and independent re-test.**
 
 ## Gate
 **Phase 1 remains blocked.** Historical tester gates remain part of the audit trail, but the active gate is the current independent tester approval for the latest correction pass. The fourth independent tester failed PR #7 on B6 repository-control synchronization; no downstream research has started.
@@ -35,7 +35,7 @@ The correction branch freezes explicit research implementation conventions for d
 The strategy requires intraday option data. Daily NSE reports alone cannot reproduce the delta triggers. Phase 1 will require documented intraday NIFTY option data, coverage, timestamps, contract continuity, Greek methodology, licensing and quote quality.
 
 ## Current branch
-`phase-0-corrections-v5`
+`phase-0-corrections-v6`
 
 ## Current conclusion
 No performance conclusion, profitability claim or trading strategy conclusion is justified yet. Phase 1 is prohibited until the current correction pass passes independent tester approval.
@@ -57,3 +57,6 @@ PR #9 / `phase-0-corrections-v4` was independently audited on `tester/phase-0-fi
 
 ## Exact CI provenance for v5 correction
 The exact v5 correction commit `4515b32ecd3d6a17b061f53dd97245c393489166` passed the Phase 0 Integrity workflow. Auditable references: [workflow run #37114384784](https://github.com/vishnuvcr/Iron-condor-to-ratio-v1/actions/runs/37114384784) and check run #111178229183. This reference is tied to the tested SHA; subsequent audit-record commits do not replace that provenance.
+
+## Sixth tester gate
+PR #10 / `tester/phase-0-sixth-audit` independently confirmed the v5 B7/B8 CI evidence, but failed B9 because `research/TESTER_HANDOFF.md` still identified v4 and B10 because the integrity workflow did not positively assert the active current-branch field. The v6 correction pass addresses both blockers; Phase 1 remains blocked.
