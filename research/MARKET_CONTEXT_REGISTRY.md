@@ -25,3 +25,7 @@ These datasets are contextual and are not strategy signals unless explicitly pre
 - **NIFTY dividend yield:** NSE historical reports expose NIFTY P/E, P/B and dividend-yield values, providing a candidate date-aligned source for the frozen Black-Scholes q input. citeturn4search3
 - **Risk-free rate:** RBI publishes 91-day Treasury-bill auction yields and weekly statistical series; the Phase 0 convention will use the latest available 91-day T-bill yield on or before each decision date, then convert the quoted annual yield as pre-registered. citeturn4search2turn4search12
 - **Quote dependency:** India VIX methodology itself uses best bid/ask inputs, reinforcing the distinction between contextual volatility data and the missing historical contract-level quote data.
+
+
+## Date-specific risk-free source validation
+RBI Weekly Statistical Supplements provide 91-day Treasury-bill primary yields across historical reporting dates. Examples covering the study period show explicit 91-day primary yields, confirming that the required r input can be sourced from an official historical series rather than a contemporary rate. The production pipeline must still acquire the complete date-aligned series and apply the Phase 0 latest-on-or-before rule. citeturn4search6turn4search10turn4search0turn4search1turn4search2
