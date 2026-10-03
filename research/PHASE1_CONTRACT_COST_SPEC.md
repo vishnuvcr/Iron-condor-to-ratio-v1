@@ -28,6 +28,7 @@ Each contract-master record must include:
 1. NSE Circular 128/2024 changed NIFTY lot size from 25 to 75 for **new index derivatives introduced from 20 November 2024**. Existing contracts are not retroactively rewritten by this statement. [NSE Circular 128/2024](https://nsearchives.nseindia.com/content/circulars/FAOP64625.pdf).
 2. NSE Circular 33/2025 revised NIFTY expiry to Monday effective 4 April 2025, with existing-contract treatment specified in the circular. [NSE Circular 33/2025](https://nsearchives.nseindia.com/content/circulars/FAOP66938.pdf).
 3. NSE Circular 111/2025 subsequently revised NIFTY weekly/monthly/quarterly/half-yearly expiry to Tuesday, with explicit transition treatment for existing and long-dated contracts. [NSE Circular 111/2025](https://nsearchives.nseindia.com/content/circulars/FAOP68747.pdf).
+4. NSE Circular 176/2025 revised NIFTY lot size from 75 to 65, effective 28 October 2025 EOD, with weekly/monthly and quarterly/half-yearly transition treatment. [NSE Circular 176/2025](https://nsearchives.nseindia.com/content/circulars/FAOP70616.pdf).
 
 Therefore, the backtest must use the actual historical contract file/expiry for each contract rather than deriving expiry from today's weekday rule.
 
@@ -77,6 +78,10 @@ No charge may be applied retrospectively using today's rate.
 - No component is double counted.
 - Zero-cost and boundary cases have deterministic unit tests.
 - All schedules have provenance and effective dates.
+
+## 2026-10-03 evidence update
+
+The historical contract rule map now includes the 2024 lot-size increase, the April 2025 Monday-expiry transition, the June/July 2025 Tuesday-expiry transition, and the October 2025 lot-size revision. Production acceptance still requires the actual effective-date contract master and one-to-one reconciliation of every acquired option contract.
 
 ## Current evidence status
 
