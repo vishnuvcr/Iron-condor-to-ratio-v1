@@ -136,3 +136,11 @@ Tester must verify that these additions do not imply data acquisition or gate cl
 - Job/check: 111201667259 failed only in the earlier E041-superseded execution; final successful job/check: 111201763817.
 - Artifact: 11274027306; SHA-256 329eb437e42745f5613e7c41bdf33313977b09d49492513a190d3c1216f01980.
 - Tester must independently verify the final run and retain G13 as blocked until its own PASS report is recorded.
+
+
+## G4 developer-evidence closure — 2026-10-03
+- Fresh CI run: `37124047220`; job/check `111205697146`.
+- Artifact: `11274239403`; SHA-256 `141abc86ec20be5d34c8c4fcb6735fd04a8da10e4c5e9d7dc15158a5ec7eb48b`.
+- Reconciliation result: 1,254 normal eligible dates; 7 documented special-session dates; 1 pre-registered DATA_GAP_EXCLUDED date (2026-06-03); 0 unreconciled dates.
+- Normal execution window: 09:15–15:30 Asia/Kolkata. Source observations outside that window are retained for audit but are not eligible for strategy decisions.
+- Independent tester must verify the dated special-session references, the 300-timestamp incomplete-session rule, the exclusion of 2026-06-03 from the trading universe, and the zero-unreconciled result before G13 can pass.
