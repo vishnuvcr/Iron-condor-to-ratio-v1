@@ -70,7 +70,7 @@ The latest run passed structural validation but initially failed at deterministi
 Run 21 completed the structural, deterministic-deduplication, and diagnostic market-quality stages. Option timestamps matched NIFTY timestamps for 99.2953% of post-key-dedup option rows. However, NIFTY daily timestamp counts range from 6 to 420 across 1,262 dates; these session outliers are now an explicit acceptance blocker (E028) and will be characterized before production use.
 
 ## Branch
-phase-1-e046-bidirectional-reconciliation.
+`phase-1-e054-readme-branch-provenance` (current developer correction branch).
 
 ## Latest Phase 1 controls
 - Deterministic exact-row deduplication: `scripts/deduplicate_phase1_data.py`.
