@@ -235,3 +235,9 @@
 - Exact-head run 37157488655 reached the NSE endpoint and received structured JSON, but the response was a top-level list rather than the legacy `{d: ...}` wrapper.
 - Corrected the converter to accept both documented/current response shapes without changing source bytes or values.
 - No gate advancement; the next exact-head run must establish complete q coverage and then exercise RBI acquisition and production Greeks.
+
+
+## 2026-10-04 — E097 RBI acquisition performance correction
+- The exact-head RBI acquisition in run 37157538662 was serially probing 3,000 archive IDs and did not complete within the acceptable research execution window.
+- Replaced the serial scan with bounded parallel retrieval (20 workers), expanded the lower bound to ID 24000 to avoid an unverified 2021 coverage cutoff, and retained per-page SHA-256 provenance for every page containing the target series.
+- No values or acceptance criteria were relaxed. G6 remains FAIL / OPEN.
