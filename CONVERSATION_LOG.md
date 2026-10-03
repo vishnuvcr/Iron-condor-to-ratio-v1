@@ -6,23 +6,20 @@ This file records user-visible project instructions and work decisions, not hidd
 - User requested a backtest of the uploaded YouTube strategy and supplied the video URL.
 - User selected Developer role.
 - Uploaded transcript was used as the primary strategy specification.
-- Repository vishnuvcr/Iron-condor-to-ratio-v1 was inspected and found empty.
-- Phase 0 controls were established.
-- First tester gate recorded.
+- Repository was inspected and Phase 0 controls were established.
 
 ## 2026-10-03 — First tester result
-- Independent tester reported **Phase 0 FAIL / corrections required**.
-- Tester confirmed the source strategy was substantially transcribed correctly.
-- Tester blockers: delta convention; trigger sampling; strike selection; entry timing; fill/execution; trigger-to-fill ordering; expiry handling; Paytm Money historical cost verification; unit-test invariants.
+- Independent tester reported Phase 0 FAIL / corrections required.
 - Developer accepted the gate and did not advance Phase 1.
 
 ## 2026-10-03 — Correction pass
-- Added `research/OPERATIONAL_CONVENTIONS.md`.
-- Updated `research/STRATEGY_SPEC.md` with explicit source-vs-operational separation.
-- Updated research plan to require second independent tester approval.
-- Defined a one-minute deterministic literal-core implementation convention, no-look-ahead execution sequencing, leg-by-leg bid/ask fills, date-specific cost verification, and forced expiry close.
-- Phase 1 remains blocked pending second tester approval.
+- PR #3 introduced explicit operational conventions in the strategy specification and stated that a separate operational-conventions document had been added.
+- Phase 1 remained blocked pending second tester approval.
 
-## Source
-YouTube URL supplied by user: https://youtu.be/T4gvTshMEyA
-Uploaded transcript: What If the Iron Condor Starts Trending Ratio Spread Strategy.txt
+## 2026-10-03 — Second tester result
+- Independent tester re-audited PR #3.
+- Most first-tester conceptual blockers were addressed.
+- The promised `research/OPERATIONAL_CONVENTIONS.md` artifact was not present in the PR changed-file set/retrievable correction branch.
+- Additional numerical details remained incompletely frozen.
+- Second tester gate FAILED.
+- Phase 1 remains blocked; no performance or trading conclusion exists.
