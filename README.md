@@ -233,3 +233,6 @@ The G5 validator had a report-construction field-reference defect found before e
 - G6 remains **OPEN**. Correction PR #38 adds cache restore/save to the official-source acquisition workflow; complete r/q and IV/Greek production reconstruction remain pending.
 - G13/G14 and Phase 2 remain **BLOCKED**.
 - No backtest, optimization, profitability analysis, or strategy conclusion has been introduced.
+
+## 2026-10-04 — Tester PR #39 corrective response
+Tester PR #39 confirms **G5 FAIL/OPEN, G6 FAIL/OPEN, G9 PASS, G13/G14 and Phase 2 BLOCKED**. The Developer created `phase-1-g5-g6-reaudit-corrections-20261004` and corrected the two identified workflow/reuse defects. G5 push triggers now include the active correction branch. G6 source acquisition reuses retained source files rather than unconditionally redownloading them, while preserving provenance checks. No Phase 2 work has started.
