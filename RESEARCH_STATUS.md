@@ -130,3 +130,11 @@ Updated: 2026-10-03
 - Root cause identified from repository layout: `main` contains the dispatch wrapper workflow, while Phase 1 scripts/manifests remain on `phase-1-data-acquisition-validation`.
 - Corrected both workflow copies to accept `research_ref` for manual dispatch, defaulting to `phase-1-data-acquisition-validation`, and to checkout that ref. Push events continue to checkout `github.ref`.
 - G12 remains OPEN pending an actual successful Phase 1 execution and artifact evidence.
+
+
+## 2026-10-03 — G12 run 37122653828 / E041
+- The corrected branch-targeted CI executed as run `37122653828`, job `111201667259`.
+- Dependency installation passed; the syntax-check step failed because `scripts/validate_phase1_control_manifests.py` was missing from the checked-out Phase 1 branch.
+- The file existed on `main`; this was a branch synchronization defect.
+- Restored the validator unchanged to the Phase 1 branch at commit `68b39d91035bcb79c192cac80f20fd29ed6e709d`.
+- G12 remains OPEN pending the next execution.
