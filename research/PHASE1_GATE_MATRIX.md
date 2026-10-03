@@ -32,3 +32,13 @@ This matrix is the Phase 1 acceptance checklist. A source-validation PASS does n
 
 ## Canonical vocabulary control
 This file is the authoritative G1–G14 gate dictionary. No other Phase 1 document may assign a different meaning to these IDs.
+
+
+## E046 — bidirectional G4 reconciliation blocker
+
+| Gate | Requirement | Current state | Evidence / blocker |
+|---|---|---|---|
+| G4 | Timestamp/session quality | FAIL / OPEN | E046: prior reconciler iterated only observed dates, so manifest-only special sessions could disappear from the acceptance result. Corrective branch adds bidirectional manifest/data reconciliation, unique canonical mapping validation, fail-closed unknown-date handling, and regression tests. Fresh final-head CI and independent re-audit required. |
+| G12 | Repaired CI execution | OPEN for corrective head | Previous final-head run 37125656878 remains valid for the superseded head 09c4c2e4b6bc569d42d4743fac5132ad0672f8d8. This corrective branch requires a new final-head execution. |
+
+Phase 2 remains BLOCKED.
