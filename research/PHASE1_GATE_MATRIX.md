@@ -25,7 +25,7 @@ This matrix is the Phase 1 acceptance checklist. A source-validation PASS does n
 
 **Phase 1 remains IN PROGRESS / NOT APPROVED. Phase 2 remains BLOCKED.**
 
-The independent tester has closed the specific E046 technical defect and independently verified G4/G12. This does **not** constitute Phase 1 approval because G5–G11 remain incomplete, with G9 specifically blocked pending historical execution-quality data acquisition/validation.
+The independent tester has closed the specific E046 technical defect and independently verified G4/G12. G9 is also independently PASS under the revised bid/ask-free proxy methodology. This does **not** constitute Phase 1 approval because G5, G6, G7, G8, G10 and G11 remain incomplete.
 
 ## Non-negotiable acceptance rules
 
@@ -52,7 +52,7 @@ The tester handoff PR #27 is now the controlling next-step evidence for G9. Free
 The developer has formally proposed replacing the mandatory historical bid/ask requirement for the primary backtest with the frozen proxy-execution model in `research/PHASE1_EXECUTION_PROXY_SPEC.md`.
 
 **Current gate state remains unchanged pending tester approval:**
-- G9: **BLOCKED — methodology change pending independent tester review**
+- G9: **PASS — revised proxy methodology independently approved by Tester PR #32**
 - G13: **BLOCKED**
 - G14: **BLOCKED**
 - Phase 2: **BLOCKED**
