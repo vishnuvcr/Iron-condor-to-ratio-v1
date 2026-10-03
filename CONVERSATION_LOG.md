@@ -47,3 +47,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - No bid/ask columns were observed.
 - Added deterministic exact-row deduplication and CI execution. Added workflow concurrency/cache-save race mitigation after E025.
 - Phase 1 remains active; tester approval is still required before Phase 2.
+
+
+## 2026-10-03 — Phase 1 continuation
+- User authorized continued autonomous progress with the existing tester gate unchanged.
+- Latest CI run passed structural validation but failed at deterministic deduplication because the referenced script was absent from the committed tree.
+- Logged E026 and added the missing script. Phase 1 remains open pending fresh CI validation and all remaining acceptance gates.
