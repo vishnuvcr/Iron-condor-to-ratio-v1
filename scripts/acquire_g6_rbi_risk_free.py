@@ -8,7 +8,7 @@ import pandas as pd, requests
 
 START=date(2021,1,1); END=date(2026,9,30)
 ID_START=24000; ID_END=27900
-BASE="https://www.rbi.org.in/scripts/WSSView.aspx?Id={}"
+BASES=["https://www.rbi.org.in/scripts/WSSView.aspx?Id={}","https://rbi.org.in/Scripts/WSSView.aspx?Id={}","https://wss.rbi.org.in/Scripts/WSSView.aspx?Id={}"]
 RAW=Path("data/raw/g6_sources/rbi_wss")
 OUT=Path("data/processed/g6/risk_free.csv")
 REPORT=Path("data/validation/phase1_g6_rbi_acquisition.json")
@@ -34,16 +34,17 @@ def extract(html,sid):
     return rows
 
 def fetch_one(sid):
-    u=BASE.format(sid)
-    try:
-        r=requests.get(u,headers={"User-Agent":"Iron-condor-to-ratio-v1-research/1.0"},timeout=10)
-        if r.status_code!=200 or b"91-Day Treasury Bill (Primary) Yield" not in r.content: return {"id":sid,"url":u,"status":"NO_TARGET"},[]
-        b=r.content; (RAW/f"wss_{sid}.html").write_bytes(b)
-        rr=extract(r.text,sid)
-        return {"id":sid,"url":u,"bytes":len(b),"sha256":sha(b),"rows":len(rr)},rr
-    except Exception as e:
-        return {"id":sid,"url":u,"error":str(e)},[]
-
+    for base in BASES:
+        u=base.format(sid)
+        try:
+            r=requests.get(u,headers={"User-Agent":"Iron-condor-to-ratio-v1-research/1.0"},timeout=10)
+            if r.status_code==200 and b"91-Day Treasury Bill (Primary) Yield" in r.content:
+                b=r.content; (RAW/f"wss_{sid}.html").write_bytes(b)
+                rr=extract(r.text,sid)
+                return {"id":sid,"url":u,"status_code":r.status_code,"bytes":len(b),"sha256":sha(b),"rows":len(rr)},rr
+        except Exception as e:
+            pass
+    return {"id":sid,"status":"NO_TARGET_ALL_BASES"},[]
 def main():
     RAW.mkdir(parents=True,exist_ok=True); OUT.parent.mkdir(parents=True,exist_ok=True); REPORT.parent.mkdir(parents=True,exist_ok=True)
     pages=[]; allrows=[]
@@ -52,7 +53,13 @@ def main():
         for fut in as_completed(futures):
             rec,rr=fut.result(); pages.append(rec); allrows.extend(rr)
     df=pd.DataFrame(allrows)
-    if df.empty: raise RuntimeError("RBI_NO_91D_TBILL_ROWS")
+    if df.empty:
+        status_counts={}
+        for x in pages:
+            key=x.get("status","UNKNOWN") if x else "UNKNOWN"
+            status_counts[key]=status_counts.get(key,0)+1
+        REPORT.write_text(json.dumps({"status":"RBI_PRIMARY_ACCESS_FAILED","study_start":str(START),"study_end":str(END),"status_counts":status_counts,"pages":pages},indent=2,default=str))
+        raise RuntimeError("RBI_NO_91D_TBILL_ROWS")
     df["date"]=pd.to_datetime(df["date"],errors="coerce").dt.date
     df=df[(df.date>=START)&(df.date<=END)].sort_values("date")
     if df.empty: raise RuntimeError("RBI_NO_STUDY_WINDOW_ROWS")
