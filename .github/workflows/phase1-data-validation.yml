@@ -4,9 +4,17 @@ on:
   push:
     branches:
       - "phase-1-data-acquisition-validation"
+    paths:
+      - "data/manifests/**"
+      - "scripts/validate_phase1_data.py"
+      - ".github/workflows/phase1-data-validation.yml"
   pull_request:
     branches:
       - main
+    paths:
+      - "data/manifests/**"
+      - "scripts/validate_phase1_data.py"
+      - ".github/workflows/phase1-data-validation.yml"
   workflow_dispatch:
 
 jobs:
