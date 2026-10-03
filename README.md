@@ -35,7 +35,7 @@ Paytm Money materials document cohort/date-dependent brokerage and a 1 October 2
 ## Structural validation evidence
 A prior acquisition on mutable main downloaded 269 parquet files and passed structural validation on commit 5f701e329c7888e5ccd5cfe70cea0f5c14e452ac (run 37116084761, job 111183065244, artifact 11271990517, SHA-256 67fd3898800131d736a5652d1ece3c112c4b5b0489ffe07468f5865fb850d789). Because the source was mutable, that run is not the production acceptance run.
 
-The current workflow pins the source to 0f4800e and uses separate cache restore/save steps. Current run: 37116328987.
+The current workflow pins the source to 0f4800e and uses separate cache restore/save steps. Pinned-source audit run 37116400642 completed successfully: 109,112,358 rows across 269 files, with 0 hard structural failures but 30,363,281 exact duplicate rows across 138 files. Deterministic deduplication is now mandatory before production use. The acquisition scope has since been narrowed to index/NIFTY.parquet, so a fresh validation run is required.
 
 ## Open Phase 1 gates
 - pinned-source validation and file provenance;
