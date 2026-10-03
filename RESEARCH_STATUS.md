@@ -54,3 +54,6 @@ The branch `phase-0-corrections-v4` synchronizes the active gate to the current 
 
 ## Current gate
 **Phase 1 remains BLOCKED.** The current Phase 0 correction pass must receive independent tester approval before any historical data acquisition, backtesting, optimization or performance assessment begins.
+
+## Current developer correction PR
+PR #9 / `phase-0-corrections-v4` is the active developer correction pass for B6. The repository integrity workflow has passed on this branch. A fresh independent tester approval is still required before Phase 1.
