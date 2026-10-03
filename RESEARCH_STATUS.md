@@ -290,3 +290,11 @@ Updated: 2026-10-03
 - Corrected formula rendering in `research/PHASE1_EXECUTION_PROXY_SPEC.md`.
 - The slippage methodology itself is unchanged: adverse 0/5/10/20/50-bps scenarios with an effective-date one-tick floor.
 - This is a documentation/control correction only. G9 remains blocked pending independent tester approval of the methodology change; Phase 2 remains blocked.
+
+## 2026-10-03 — E065/E066 execution-proxy correction
+- Independent tester PR #30 identified two blocking defects in the proposed bid/ask-free methodology: E065 (underspecified missing-next-bar multi-leg state handling) and E066 (sell-side slippage could manufacture a zero-price fill).
+- Corrective branch: phase-1-execution-proxy-e065-e066.
+- E065 correction: adjustment orders are atomic; any missing/invalid leg causes the entire group to fail, preserves the pre-adjustment state, consumes the trigger, and requires trigger exit/re-entry before another adjustment can be generated. Expiry/session boundaries cannot be crossed to manufacture a fill.
+- E066 correction: sell fills are P_base - S(P_base) and are rejected when non-positive; zero-price clipping is prohibited. Buy fills also require positive base/fill prices.
+- Added scripts/test_phase1_execution_proxy_rules.py and manual/push/PR CI workflow for regression tests.
+- Tester approval has not yet been granted. G9/G13/G14 and Phase 2 remain BLOCKED. No backtest or profitability analysis has started.
