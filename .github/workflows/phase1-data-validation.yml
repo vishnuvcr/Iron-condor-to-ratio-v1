@@ -129,3 +129,5 @@ jobs:
           retention-days: 30
 
 # Final-head G4/E044 execution marker: all Phase 1 methodology and control changes are frozen before this run.
+
+# E046 final-head evidence marker: bidirectional reconciliation and regression tests frozen before final CI.
