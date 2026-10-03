@@ -310,3 +310,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - The methodology explicitly states that OHLC/LTP are not historical bid/ask and that the study cannot claim historical executable fills.
 - E063 records this as a formal methodology change.
 - G9/G13/G14/Phase 2 remain BLOCKED pending independent tester review; no Phase 2 work has started.
+
+## 2026-10-03 — E064 execution-proxy specification correction
+- Before independent tester review, developer inspection found malformed mathematical escape rendering in the new execution-proxy specification.
+- Corrected the specification using explicit plain-text/code-block equations and logged E064.
+- No methodology parameter changed.
+- The corrected exact developer head remains subject to independent tester review; G9/G13/G14/Phase 2 remain blocked.
