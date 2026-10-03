@@ -355,3 +355,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - Added official-source acquisition and hashing automation for the G6 RBI/NSE inputs.
 - The workflow has push/PR/manual triggers and unconditional artifact retention.
 - No G6 PASS is claimed; full-period r/q and IV/Greek reconstruction remain required. No Phase 2 work introduced.
+
+## 2026-10-04 — E074 G6 cache correction
+- Tester PR #36 found that the G6 official-source acquisition workflow lacked cache restore/save.
+- Developer added deterministic GitHub Actions cache restore/save for G6 source acquisition.
+- This is a workflow-control correction only; G6 remains OPEN until complete historical r/q inputs and full IV/Greek reconstruction are executed and independently reviewed.
+- Phase 2 remains BLOCKED.
