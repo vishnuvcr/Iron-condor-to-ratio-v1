@@ -41,3 +41,23 @@ The independent tester has closed the specific E046 technical defect and indepen
 The previous top-level table incorrectly exposed superseded E044/E045/E046 states. Those historical entries are retained below for traceability, while this top table is now synchronized to the independently verified Run #55 result.
 
 ## Historical evidence
+
+
+## 2026-10-03 — Tester free/public G9 search handoff
+
+A broader public-data search was completed after rejection of `antony9952/Nifty_option_TBT` as production G9 evidence.
+
+New candidates recorded for developer investigation:
+
+1. `antony9952/Nifty_option_TBT` raw-file salvage — highest-priority free route because public previews contain bid/ask/depth fields, despite cross-file schema incompatibility in the dataset viewer.
+2. `ayyararyan/nse-options-pipeline` — documented bid/ask/bid_qty/ask_qty schema; underlying historical archive is not yet demonstrated as complete/public.
+3. QuantDev-stack OptionVault — public market-depth/tick samples; full historical archive not established as free.
+4. QuantDev-stack TickBytes — public tick/depth samples; full historical archive not established as free.
+5. BarathGB007/nse-options-data-collector — documented bid/ask option-chain collection pipeline; complete historical archive not established.
+6. Public Hugging Face OHLC/IV/OI datasets — useful for supplementary validation, but not G9 execution-quality evidence.
+
+Tester recommendation: exhaust free raw-file/archive routes before procurement, but do not weaken G9 by substituting candle close or another OHLC field for historical bid/ask.
+
+Formal handoff: `research/TESTER_REPORT_PHASE1_G9_FREE_DATA_HANDOFF.md`.
+
+**Gate decision unchanged: G9 BLOCKED; G13/G14 and Phase 2 BLOCKED.**
