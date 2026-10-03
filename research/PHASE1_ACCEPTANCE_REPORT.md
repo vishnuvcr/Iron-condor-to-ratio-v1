@@ -67,3 +67,10 @@ The repaired audit now has a successful, independently inspectable Actions execu
 - Session reconciliation: 1,254 normal eligible dates; 7 documented special-session dates; 1 pre-registered incomplete-session exclusion (2026-06-03); 0 unreconciled dates.
 - The regular execution window is 09:15–15:30 Asia/Kolkata. Out-of-window source observations are retained and quantified but are not eligible for strategy decisions.
 - G4 is **PASS on developer evidence**, pending independent tester verification.
+
+
+## Independent G4/G12 re-audit
+- Run 37124047220 is a valid successful CI execution for commit dd5447fba974560020084146d6e1101e656a034c.
+- Independent tester did not accept G4 because E044 reveals an internal contradiction between the session-control manifest and reconciliation algorithm.
+- Independent tester did not accept final G12 because E045 shows the current branch head e9fce044ee34f24c3d7ef2422454d57f5af85ab5 is nine commits ahead of the tested commit and includes session-control changes.
+- Phase 1 remains not approved; Phase 2 remains blocked.
