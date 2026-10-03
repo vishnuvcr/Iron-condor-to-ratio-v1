@@ -394,3 +394,13 @@ This file records user-visible project instructions and work decisions, not hidd
 - Added `scripts/acquire_g6_nse_q_history.py` to the G6 production branch. It requests NIFTY 50 P/E/P/B/dividend-yield data in <=365-day chunks, retains response bytes and records SHA-256 hashes, and fails closed on acquisition errors.
 - Added `scripts/test_g6_nse_q_history.py` to validate the acquisition artifact structure.
 - The connector safety layer blocked the subsequent workflow-file mutation that would invoke this stage automatically; logged E085. No CI execution or G6 acceptance claim was made.
+
+
+## 2026-10-04 — Independent tester G6 production scaffold re-audit
+- User instructed the assistant to proceed while acting as the independent tester.
+- Tester audited developer G6 head c5f28327c13efd9b93bd4ca5a809dfc39b447c3d.
+- The production Greek implementation was found to be a scaffold rather than full production evidence: contemporaneous NIFTY underlying alignment, per-timestamp r/q selection, production IV/Greek reconstruction, target-delta selection, and study-window enforcement are not implemented.
+- The implementation uses deterministic bisection while the frozen G6 specification describes a Brent-style solver; this mismatch requires explicit resolution.
+- Required production r/q CSVs and the production evidence artifact are absent from the audited branch.
+- Tester determination: G6 FAIL / OPEN. G5 remains FAIL/WAIVED FOR CONTINUED RESEARCH, not PASS. G13/G14 and Phase 2 remain blocked.
+- Tester report: research/TESTER_REPORT_G6_PRODUCTION_SCAFFOLD_REAUDIT_20261004.md. Error E088 recorded.
