@@ -103,3 +103,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - Tester identified E033: G1–G10 were not canonical across Phase 1 documents.
 - Developer accepted the finding and normalized G1–G14 across the Phase 1 gate matrix, data specification, acceptance report and tester handoff.
 - No Phase 2 work, backtest, optimization or profitability claim was introduced.
+
+## 2026-10-03 — Substantive Phase 1 evidence gate
+- E033 was independently re-audited and closed PASS.
+- Began substantive G4–G12 evidence work rather than another documentation-only cycle.
+- External NSE research confirms historical session hours changed/special sessions occurred; current 15:40 F&O close cannot be applied retrospectively. Added `research/PHASE1_PRODUCTION_EVIDENCE_PLAN.md` requiring date-specific session metadata.
+- GitHub Actions evidence API reports zero workflow runs associated with repaired audit commit 336c8e8ddf5de93f31ef6b114e621747ae956620.
+- Local repository execution was attempted but outbound network resolution is unavailable in this environment; logged E034. This is not treated as CI evidence.
+- G4–G12 remain unresolved; no Phase 2 work started.
