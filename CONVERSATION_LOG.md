@@ -394,3 +394,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - Added `scripts/acquire_g6_nse_q_history.py` to the G6 production branch. It requests NIFTY 50 P/E/P/B/dividend-yield data in <=365-day chunks, retains response bytes and records SHA-256 hashes, and fails closed on acquisition errors.
 - Added `scripts/test_g6_nse_q_history.py` to validate the acquisition artifact structure.
 - The connector safety layer blocked the subsequent workflow-file mutation that would invoke this stage automatically; logged E085. No CI execution or G6 acceptance claim was made.
+
+
+## 2026-10-04 — E089 G6 production correction
+- Independent tester PR #45 determined G6 FAIL / OPEN on developer head c5f28327c13efd9b93bd4ca5a809dfc39b447c3d. E088 is accepted without reinterpretation.
+- The previous implementation was a scaffold rather than a completed historical Greek reconstruction.
+- The correction now performs timestamp-level production reconstruction with exact contemporaneous NIFTY joins, strictly-prior r/q selection, study-window enforcement, 15:30 IST expiry timing, deterministic Brent IV solving, signed/absolute deltas, target-delta diagnostics, populated failure counters, checksums and exact-checkout provenance.
+- G6 remains FAIL / OPEN because complete historical risk_free.csv and dividend_yield.csv inputs are not yet accepted and independent tester approval is still required.
+- G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH; G13/G14 and Phase 2 remain BLOCKED.
