@@ -25,7 +25,7 @@ Can the YouTube-described transition strategy—monthly 30Δ/10Δ Iron Condor tr
 - Report statistical uncertainty and limitations.
 
 ## Phase 0 — Specification and audit
-Status: CORRECTIONS IN PROGRESS — THIRD-GATE DEFECTS ADDRESSED FOR RE-TEST
+Status: CORRECTIONS IN PROGRESS — FOURTH-GATE DEFECTS ADDRESSED FOR RE-TEST
 - Capture source transcript and citation.
 - Separate explicit rules from ambiguous/discretionary statements.
 - Define research questions, aims, objectives, methodology and statistical plan.
@@ -33,10 +33,10 @@ Status: CORRECTIONS IN PROGRESS — THIRD-GATE DEFECTS ADDRESSED FOR RE-TEST
 - Identify historical data sources and coverage.
 - Define tester gate.
 
-Exit criterion: reproducible specification, data-source decision framework, operational convention freeze, unit-test specification and second tester approval.
+Exit criterion: reproducible specification, data-source decision framework, operational convention freeze, unit-test specification and approval from the current independent tester gate.
 
 ## Phase 1 — Data acquisition and validation
-Status: BLOCKED BY SECOND TESTER GATE
+Status: BLOCKED BY THE CURRENT INDEPENDENT TESTER GATE
 - Obtain historical NIFTY index and option-chain intraday data.
 - Cache source-derived data in repository-compatible storage or documented artifact storage.
 - Validate timestamps, expiries, strikes, OHLC, OI and Greeks.
@@ -48,7 +48,7 @@ Status: BLOCKED BY SECOND TESTER GATE
 Status: BLOCKED
 - Implement a deterministic Python state machine.
 - Use minute/event data where available.
-- Model bid/ask execution when available; otherwise configurable conservative slippage.
+- Model bid/ask execution when available; otherwise use the fixed literal-core fallback slippage defined in `research/OPERATIONAL_CONVENTIONS.md`. Any configurable alternative slippage assumption is permitted only as a pre-registered sensitivity variant and may not alter the literal-core run.
 - Include brokerage and applicable exchange/transaction charges, GST, SEBI charges and stamp duty as configurable assumptions.
 - Model lot size and capital/margin use.
 - Log every trade, adjustment, trigger, fill and reason.
@@ -75,7 +75,7 @@ Status: BLOCKED
 Deliver a complete manuscript containing abstract, introduction, literature/data review, research questions, aims/objectives, methods, results, statistical analysis, discussion, limitations, conclusion, future directions, tables, graphs, appendices, supplements and exact reproduction instructions.
 
 ## Phase 0 correction gate
-After the third tester FAIL,, the developer must resolve all execution-critical semantics in research/OPERATIONAL_CONVENTIONS.md and research/STRATEGY_SPEC.md, update status/error/conversation records, and obtain a second independent tester approval. Phase 1 remains prohibited until that approval.
+After any independent tester FAIL, the developer must resolve all required blockers in research/OPERATIONAL_CONVENTIONS.md and research/STRATEGY_SPEC.md, update status/error/conversation records, and obtain a new independent tester approval for the current correction pass. Historical tester counts remain audit history only; they do not define the active gate. Phase 1 remains prohibited until the current gate passes.
 
 ## Source-derived rule dictionary
 The transcript states that the initial monthly Iron Condor sells calls and puts around 0.30 delta and buys calls and puts around 0.10 delta. See uploaded transcript lines 292–307.
@@ -90,5 +90,5 @@ For reversal, the combined short-leg delta is described as rising to about 1.20�
 
 The video also discusses profit-taking and expiry-day decisions in a discretionary manner. Those will be isolated from the deterministic core backtest rather than silently hard-coded.
 
-## Third-gate correction record
-The third tester confirmed the missing canonical operational artifact is resolved but failed B1–B5. The developer correction freezes Brent-Dekker root tolerances and termination, exact no-arbitrage bounds and one-tick tolerance treatment, deterministic ceil/floor tick rounding, explicit future-quote rejection, and the literal-core slippage wording. A Phase 0 integrity workflow was also added with automatic push/PR execution and manual dispatch. Phase 1 remains prohibited pending independent re-test and approval.
+## Fourth-gate correction record
+The fourth tester confirmed B1–B5 are resolved but failed B6 because the live plan/status/README records still contained stale gate wording and the Phase 2 slippage wording did not explicitly restrict configurability to sensitivity variants. The developer correction pass synchronizes the active gate to the current independent tester approval model, identifies phase-0-corrections-v4 as the current developer branch, distinguishes the fixed literal-core slippage rule from pre-registered sensitivity variants, and strengthens the Phase 0 integrity workflow checks. Phase 1 remains prohibited pending another independent tester re-test and approval.
