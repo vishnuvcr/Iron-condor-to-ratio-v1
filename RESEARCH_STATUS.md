@@ -44,3 +44,11 @@ The video demonstrates selected months and explicitly says the examples are sele
 
 ## Phase 1 initial findings
 The current source sweep identified thetrademarkk/india-index-options-1m as the primary open candidate because its documented NIFTY data contain 1-minute OHLCV, OI, strike, option type and expiry across a multi-year span. Its documented schema does not include historical bid/ask, so quote execution remains a validation gap. A secondary rissin/nse-options-intraday dataset covers 2024 onward but documents unavailable intraday OI and no bid/ask. Official NSE sources will provide contract metadata, daily reference data, India VIX, FII/DII, corporate actions and reconciliation inputs.
+
+## Phase 1 workflow evidence
+- Exact validation commit: 5f701e329c7888e5ccd5cfe70cea0f5c14e452ac.
+- GitHub Actions run: 37116084761; job: 111183065244; conclusion: success.
+- Validation artifact: 11271990517; SHA-256: 67fd3898800131d736a5652d1ece3c112c4b5b0489ffe07468f5865fb850d789.
+- Acquisition downloaded 269 source parquet files before validation.
+- The corrected validator passed after distinguishing index and option schemas, exact duplicate rows, and conflicting duplicate keys.
+- Structural pass is not production acceptance: historical bid/ask, target-delta coverage, Greek reconstruction quality, historical contract metadata reconciliation, and date-specific Paytm Money/statutory costs remain open gates.
