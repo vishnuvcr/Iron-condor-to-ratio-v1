@@ -221,3 +221,7 @@ Independent tester PR #30 identified E065 and E066 in the proposed bid/ask-free 
 
 ## G9 status update — 2026-10-03
 **G9 = PASS under the revised proxy-execution methodology**, independently approved in Tester PR #32 after re-audit of developer head `8b99cb3b2b537c5b085c09729c27bb3957285ae8`. Historical bid/ask is not required for the primary backtest. The accepted model uses completed-bar decisions, the first eligible next-bar option open, atomic multi-leg execution, fail-closed missing-leg handling, trigger consumption/re-arm, historical tick-size floor, 0/5/10/20/50-bps adverse slippage and date-effective transaction costs. OHLC/LTP is never called bid/ask/midpoint/executable price. **G13/G14 and Phase 2 remain BLOCKED** pending G5/G6/G7/G8/G10/G11.
+
+
+### 2026-10-04 — G6 source acquisition automation
+G6 now has an automated official-source acquisition/hash workflow for the registered RBI/NSE inputs. It retains acquisition evidence on both success and failure but does not itself close G6; complete date-aligned r/q and full production IV/Greek reconstruction remain required.
