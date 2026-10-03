@@ -67,3 +67,15 @@ The current 15:40 close is reference information only. It must not be projected 
 - NSE Market Timings: https://www.nseindia.com/static/market-data/market-timings
 - NSE Market Timings & Holidays: https://www.nseindia.com/resources/exchange-communication-holidays
 - NSE historical F&O order/trade data: https://betanseapi.nseindia.com/static/market-data/eod-historical-data-subscription
+
+## E044 corrective implementation — 2026-10-03
+
+The G4 production-control implementation now has three mandatory layers:
+
+1. **Normal-session rule:** the strategy execution window is 09:15–15:30 IST. A non-special date requires at least 300 unique observations inside that window; otherwise it is DATA_GAP_EXCLUDED.
+2. **Explicit date controls:** known anomalous dates are declared in data/manifests/phase1_session_rules.json under date_controls. The reconciler must consume these controls and verify the observed classification equals the declared expected_classification. There is no unresolved_dates escape hatch.
+3. **Special-session interval validation:** each special date declares F&O execution_intervals and source_observation_intervals. Every execution interval must have observed coverage. Every observed timestamp must fall either inside an F&O execution interval or inside a documented source-observation interval. Otherwise the date is UNRECONCILED and the workflow fails.
+
+This distinction is necessary because underlying NIFTY observations can occur during capital-market/pre-open/closing windows that are not F&O option execution windows. Those observations remain available for audit but cannot trigger strategy decisions or fills.
+
+**Acceptance condition:** G4 cannot pass unless the reconciliation artifact reports zero unreconciled dates and zero control mismatches on the exact tested commit.
