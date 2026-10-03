@@ -392,3 +392,12 @@ This file records user-visible project instructions and work decisions, not hidd
 - The remaining 33,476 failures span 348 dates with some NIFTY observations; their mechanism remains unresolved and requires raw timestamp/neighbor diagnostics.
 - Added `data/validation/phase1_g5_failure_isolation_preliminary.json` and strengthened the diagnostic to verify expiry filename/column partition integrity before deciding whether a global key audit is necessary.
 - G5 remains FAIL/OPEN. No exclusion or tolerance has been introduced and no Phase 2 work has started.
+
+
+## 2026-10-04 — G5 failure-isolation external reconciliation
+
+- User supplied the independent tester's exact-tip G5 FAIL and instructed the developer to isolate, not repair away, the 521,069 failures.
+- Re-read the repository research plan, status, error log, Phase 1 data specification, and G5 failure-isolation controls before proceeding.
+- Reconciled the four later full-date gaps against official NSE holiday schedules and independent NIFTY historical observations. 2025-10-10 and 2026-05-25/26/29 are market dates, not exchange-holiday exclusions.
+- Added the external reconciliation report and clarified row-versus-unique-timestamp diagnostic semantics.
+- G5 remains FAIL/OPEN. No acceptance threshold or data treatment was relaxed.
