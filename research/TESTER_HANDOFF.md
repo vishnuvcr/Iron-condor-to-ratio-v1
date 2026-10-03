@@ -85,7 +85,7 @@ Phase 1 can advance only if the independent tester records PASS for the final br
 - Exact duplicate rows: 30,363,281; deterministic deduplication is required and implemented.
 - Prior successful diagnostic run: 596,005 IV/Greek solver observations with r=q=0; this is solver smoke testing only.
 ### Outstanding acceptance items
-1. Execute the repaired Phase 1 CI workflow and verify the new syntax gate, market-quality audit, and session-outlier characterization on the pinned source.
+1. Independently verify successful run 37122686454, job 111201763817, artifact 11274027306 and the reported G1–G12 evidence.
 2. Verify date-specific r/q reconstruction and production delta target availability under the frozen rules.
 3. Verify historical contract/lot/tick metadata against effective-date NSE sources.
 4. Verify date-specific Paytm Money brokerage/statutory cost schedules.
@@ -126,3 +126,13 @@ Tester must verify that these additions do not imply data acquisition or gate cl
 - Corrected commit: `fb5993afa89cfce7fac177d1a62c45e98bddbc27`.
 - Required re-audit: verify the syntax-check step contains an explicit multiline `run: |` block and that both `py_compile` and `validate_phase1_control_manifests.py` execute as separate commands in a successful Actions run.
 - G12 must remain FAIL/OPEN until that execution is independently verifiable. G13/G14 remain blocked.
+
+
+- G12 is now supported by successful run 37122686454 / job 111201763817 on commit 68b39d91035bcb79c192cac80f20fd29ed6e709d, with artifact 11274027306. Tester must independently verify the run and artifact before recording G13.
+
+
+### G12 successful-run verification point — 2026-10-03
+- Successful run: 37122686454.
+- Job/check: 111201667259 failed only in the earlier E041-superseded execution; final successful job/check: 111201763817.
+- Artifact: 11274027306; SHA-256 329eb437e42745f5613e7c41bdf33313977b09d49492513a190d3c1216f01980.
+- Tester must independently verify the final run and retain G13 as blocked until its own PASS report is recorded.
