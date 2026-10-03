@@ -260,5 +260,12 @@ This file records user-visible project instructions and work decisions, not hidd
 ## 2026-10-03 — Independent tester E054 and developer correction
 - User reported tester PR #22: E053 substantive synchronization correct, but README still named the older E046 branch.
 - Developer accepted E054 as a genuine current-state provenance defect.
-- Created `phase-1-e054-readme-branch-provenance` from audited PR #21 head `4f7186c4d2478bdd83f86f0bb35547f9b0b75f4f9b0b75aad840b3` and corrected the README branch identifier.
+- Created `phase-1-e054-readme-branch-provenance` from audited PR #21 head `4f7186c4d2478bdd83f86f0bb35547f4c8594fbc` and corrected the README branch identifier.
 - No Phase 2/backtesting/optimization/profitability work was introduced. Independent tester re-audit remains required.
+
+## 2026-10-03 — Independent tester E055 and developer correction
+- User reported tester PR #24: E054 itself is corrected, but the E054 audit trail in CONVERSATION_LOG.md contained a malformed SHA for the audited PR #21 developer head.
+- Correct audited PR #21 head: `4f7186c4d2478bdd83f86f0bb35547f4c8594fbc`.
+- Developer accepted E055 as a reproducibility/control defect and corrected the malformed SHA without changing any research methodology or gate result.
+- G1–G3 remain PASS; G4 and G12 remain independently PASS on the previously audited exact CI evidence; G5–G8/G10–G11 remain open/preliminary; G9 remains BLOCKED; G13/G14 and Phase 2 remain BLOCKED.
+- No Phase 2/backtesting/optimization/profitability work was introduced. The corrected exact developer head is now submitted for independent re-audit.
