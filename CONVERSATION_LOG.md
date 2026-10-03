@@ -208,3 +208,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - Inspected phase1_session_reconciliation.json: bidirectional reconciliation enabled; 1,262 observed dates; 13 manifest control dates; 10 special sessions reconciled; 1 data-gap exclusion; 0 unreconciled dates; 0 missing manifest-session dates.
 - Recorded E047 after the earlier exact-head run identified three documented NSE weekend live-trading dates not yet represented in the control manifest. The manifest was extended and the subsequent exact-head run passed.
 - Developer evidence now supports G4/G12 for the corrective head. No Phase 2 work or performance claim was started. Independent tester re-audit remains required for G13.
+
+
+## 2026-10-03 — User-provided Actions screenshot verification
+- User provided a GitHub Actions screenshot showing the Phase 1 workflow on `phase-1-e046-bidirectional-reconciliation`, with the workflow_dispatch “Run workflow” control visible.
+- The latest visible successful run corresponds to the E047 corrective execution already independently identified as run 37129894485 on commit 4099cd1217f072be961f120ab114034578e19197.
+- This screenshot is retained as corroborating UI evidence only. It does not replace repository/API verification of the current branch tip after subsequent documentation commits.
