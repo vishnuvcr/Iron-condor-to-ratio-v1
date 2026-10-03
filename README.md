@@ -296,3 +296,12 @@ See [G5 failure-isolation external reconciliation](research/PHASE1_G5_FAILURE_IS
 
 ## Current G5 status — 2026-10-04
 The G5 gate remains **FAIL / OPEN**. Failure-isolation run **37154125183** successfully reproduced the frozen **521,069** missing exact NIFTY timestamp alignments, but its artifact was generated from a mutable branch-tip checkout rather than the immutable Actions event SHA. That evidence is retained for diagnostic reproduction only. The failure-isolation workflow has now been corrected to checkout and assert `github.sha` for push/PR runs. A fresh exact-SHA diagnostic run and independent tester re-audit are required before G5 can change state. G6/G7/G8/G10/G11 remain OPEN, G9 remains independently PASS under the frozen proxy methodology, and G13/G14 plus Phase 2 remain BLOCKED. No backtest, optimization, profitability result, or trading strategy conclusion is authorized.
+
+
+## Latest G5 status — 2026-10-04
+
+The exact-tip G5 failure-isolation run **37154986733** completed successfully at immutable checkout **ee3ab7f2b08f79faa0f15d756aab2379136cefa9**. Artifact **11285517033** (SHA-256 **292c823060e87e5cf8ff72e5b08fc9662b8adc4c0ef10eacb87207f3ac8cc498**) reproduces the frozen **521,069** missing exact NIFTY alignments.
+
+The diagnostic reports 362 affected dates; 14 full-date underlying gaps account for 487,593 failures (93.5755%). It also found 238 overlapping option-file timestamp ranges, so partition-range separation is not sufficient to establish global uniqueness. A global key-level audit remains required.
+
+**Gate status: G5 FAIL/OPEN; G6/G7/G8/G10/G11 OPEN; G9 PASS; G13/G14 and Phase 2 BLOCKED.** The 100% exact timestamp rule remains unchanged.
