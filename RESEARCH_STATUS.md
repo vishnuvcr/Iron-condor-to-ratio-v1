@@ -63,3 +63,6 @@ PR #9 / `phase-0-corrections-v4` is the active developer correction pass for B6.
 
 ## Fifth correction pass
 The branch `phase-0-corrections-v5` replaces the ineffective multiline grep with a line-aware assertion and adds explicit exact-SHA/run provenance output to the integrity workflow. The correction pass will be validated on its exact resulting commit, with the resulting GitHub Actions run/check reference recorded in the audit records. A fresh independent tester approval is required before Phase 1.
+
+## Exact v5 CI provenance
+The corrected v5 commit `4515b32ecd3d6a17b061f53dd97245c393489166` passed the Phase 0 Integrity workflow. Workflow run: [#37114384784](https://github.com/vishnuvcr/Iron-condor-to-ratio-v1/actions/runs/37114384784). Check run: #111178229183. Phase 1 remains blocked pending independent tester approval.
