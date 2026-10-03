@@ -51,3 +51,18 @@ This is the developer branch. The README role therefore remains **Developer**. T
 ## Historical handoff/evidence
 
 
+
+
+## G5 developer handoff — 2026-10-03
+
+Developer has opened `phase-1-g5-underlying-option-alignment` for independent review after exact-head CI execution.
+
+Required G5 evidence:
+- `research/PHASE1_G5_ALIGNMENT_SPEC.md`
+- `scripts/phase1_g5_alignment_audit.py`
+- `.github/workflows/phase1-g5-alignment.yml`
+- `data/validation/phase1_g5_alignment_report.json`
+
+The acceptance condition is 100% exact timestamp alignment for decision-eligible option observations, with zero invalid option timestamps and zero duplicate NIFTY timestamps. Session eligibility and underlying alignment are intentionally tested as separate predicates. No interpolation or forward-fill is permitted.
+
+Tester must verify the exact developer head, Actions run/checkout SHA, complete G5 report, and that no Phase 2 work was introduced. G13/G14 remain blocked until all G5–G11 gates are independently accepted.
