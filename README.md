@@ -52,3 +52,8 @@ The current workflow pins the source to 0f4800e and uses separate cache restore/
 
 ## Branch
 phase-1-data-acquisition-validation.
+
+## Latest Phase 1 controls
+- Deterministic exact-row deduplication: `scripts/deduplicate_phase1_data.py`.
+- Conflicting duplicate keys remain fatal.
+- GitHub Actions concurrency/cache-save race mitigation added after E025.
