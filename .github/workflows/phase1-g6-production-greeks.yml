@@ -20,6 +20,8 @@ on:
       - "research/PHASE1_G6_PRODUCTION_GREEKS_SPEC.md"
       - ".github/workflows/phase1-g6-production-greeks.yml"
       - "data/processed/g6/**"
+      - "scripts/acquire_g6_nse_q_history.py"
+      - "scripts/acquire_g6_rbi_risk_free.py"
   workflow_dispatch:
     inputs:
       expected_commit_sha:
@@ -39,8 +41,18 @@ jobs:
           ref: ${{ github.event.inputs.expected_commit_sha || github.sha }}
       - uses: actions/setup-python@v5
         with: {python-version: "3.11"}
+      - name: Restore G6 official-source cache
+        id: g6-data-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            data/raw/g6_sources
+            data/processed/g6
+          key: g6-rq-20261004-${{ hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','data/manifests/phase1_control_sources.json') }}
+          restore-keys: |
+            g6-rq-20261004-
       - name: Install production dependencies
-        run: python -m pip install pandas pyarrow numba pytest
+        run: python -m pip install pandas pyarrow numba pytest requests lxml
       - name: Assert immutable checkout
         run: |
           set -euo pipefail
@@ -49,6 +61,38 @@ jobs:
           if [ -n "$expected" ]; then test "$actual" = "$expected"; fi
           echo "G6 exact checkout SHA: $actual"
 
+      - name: Acquire official NSE dividend-yield history
+        run: |
+          python scripts/acquire_g6_nse_q_history.py
+          python - <<'PY'
+          import json,pandas as pd
+          from pathlib import Path
+          raw=json.loads(Path("data/processed/g6/nse_nifty50_pepb_raw.json").read_text())
+          rows=[]
+          for ch in raw["chunks"]:
+              outer=json.loads(ch["payload"])
+              inner=outer.get("d","[]")
+              rows.extend(json.loads(inner) if isinstance(inner,str) else inner)
+          out=pd.DataFrame(rows)
+          if out.empty: raise SystemExit("NSE Q returned no rows")
+          out["date"]=pd.to_datetime(out["DATE"],errors="coerce").dt.date
+          out["div_yield_pct"]=pd.to_numeric(out["divYield"],errors="coerce")
+          out=out[["date","div_yield_pct"]].dropna().drop_duplicates("date")
+          out.to_csv("data/processed/g6/dividend_yield.csv",index=False)
+          print("NSE dividend-yield rows:",len(out))
+          PY
+
+      - name: Acquire official RBI 91-day Treasury-bill primary yield
+        run: python scripts/acquire_g6_rbi_risk_free.py
+
+      - name: Save G6 official-source cache
+        if: ${{ always() && hashFiles('data/raw/g6_sources/**','data/processed/g6/risk_free.csv','data/processed/g6/dividend_yield.csv') != '' }}
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            data/raw/g6_sources
+            data/processed/g6
+          key: g6-rq-20261004-${{ hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','data/manifests/phase1_control_sources.json') }}
       - name: Run deterministic G6 solver tests
         run: pytest -q scripts/test_phase1_g6_production_greeks.py
       - name: Run fail-closed G6 production evidence audit
