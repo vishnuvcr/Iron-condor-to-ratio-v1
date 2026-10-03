@@ -9,7 +9,7 @@ Developer.
 **Phase 0 sixth-gate correction pass — exact-commit CI passed; awaiting independent re-test.**
 
 ## Gate
-**Phase 1 remains blocked.** Historical tester gates remain part of the audit trail, but the active gate is the current independent tester approval for the latest correction pass. The fourth independent tester failed PR #7 on B6 repository-control synchronization; no downstream research has started.
+**Phase 1 remains blocked.** Historical tester gates remain part of the audit trail, but the active gate is the current independent tester approval for the latest correction pass. The fourth independent tester failed PR #8 on B6 repository-control synchronization; no downstream research has started.
 
 ## Source strategy
 The uploaded transcript is the primary strategy source. It specifies a monthly Iron Condor using short call/put near 0.30 delta and long call/put near 0.10 delta; transition when either short IC leg reaches approximately 0.10 delta; directional ratio spreads; continuation and reversal delta triggers; and discretionary profit-taking/expiry-day discussion.
