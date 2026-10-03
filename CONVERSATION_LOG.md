@@ -111,3 +111,14 @@ This file records user-visible project instructions and work decisions, not hidd
 - GitHub Actions evidence API reports zero workflow runs associated with repaired audit commit 336c8e8ddf5de93f31ef6b114e621747ae956620.
 - Local repository execution was attempted but outbound network resolution is unavailable in this environment; logged E034. This is not treated as CI evidence.
 - G4–G12 remain unresolved; no Phase 2 work started.
+
+
+## 2026-10-03 — Developer continuation: Phase 1 control-source formalization
+- User said “Ok proceed”; continued as Developer under the existing independent-tester gate.
+- Re-read the repository control files and confirmed Phase 1 remains active, Phase 2 blocked, and canonical G1–G14 vocabulary unchanged.
+- Conducted an official-source review covering NSE historical order/trade data, NSE market timing/session references, NIFTY contract circulars, RBI 91-day Treasury-bill yields, Paytm Money brokerage/STT chronology, and India VIX methodology.
+- Added machine-readable/control specifications for historical sessions, contract metadata/cost schedules, and quote-data procurement.
+- Added a control-source manifest and CI validator; this validates control metadata only and does not close any production data gate.
+- Key unresolved issue remains G9: the primary public historical dataset lacks documented bid/ask, while NSE historical order/trade data is paid and not yet acquired.
+- G12 remains open because a fresh GitHub Actions run of the repaired data-audit code has not been independently verified.
+- No backtest, optimization, profitability claim, or Phase 2 work was introduced.
