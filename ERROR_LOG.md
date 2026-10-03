@@ -118,3 +118,10 @@
 - Resolution: created `phase-1-e054-readme-branch-provenance` from the audited PR #21 head and corrected the README branch identifier. This is a control-plane correction only; no research methodology or gate result changed.
 - G13/G14 and Phase 2 remain blocked pending independent tester re-audit.
 | E055 | 2026-10-03 | 1 | Independent tester PR #24 found a malformed SHA in CONVERSATION_LOG.md for the audited PR #21 developer head recorded under E054. | The E054 provenance record could not be reproduced from the recorded hash, so E054 could not be closed despite the README branch correction being valid. | Corrected the E054 SHA to `4f7186c4d2478bdd83f86f0bb35547f4c8594fbc`, recorded the tester finding and correction, and submitted the resulting exact developer head for independent re-audit. No gate result or research methodology changed. |
+
+
+## E056 — 2026-10-03 — G9 TBT candidate schema rejection / validator-control gap
+- Candidate `antony9952/Nifty_option_TBT` at revision `643b48383839947b5fe3ed9483c9f7c0f167e865` exposes incompatible file schemas and a Hugging Face dataset-generation cast error.
+- The candidate is rejected for production G9. Additionally, the repository validator does not enforce cross-file schema equality and its per-row `schema_changes_detected` logic is ineffective for CSV files because `DictReader.fieldnames` is fixed after header parsing.
+- Resolution: retain the candidate as rejected evidence, require the licensed NSE Historical F&O Order & Trade route, and correct the validator before any future candidate acceptance attempt.
+- G9, G13, G14 and Phase 2 remain blocked.
