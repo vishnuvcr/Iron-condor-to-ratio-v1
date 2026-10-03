@@ -1,0 +1,37 @@
+name: Phase 1 G6 Source Acquisition Audit
+
+on:
+  push:
+    branches:
+      - "phase-1-g6-greeks-iv-evidence"
+    paths:
+      - "scripts/phase1_g6_source_acquisition.py"
+      - "data/manifests/phase1_control_sources.json"
+      - ".github/workflows/phase1-g6-source-acquisition.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "scripts/phase1_g6_source_acquisition.py"
+      - "data/manifests/phase1_control_sources.json"
+      - ".github/workflows/phase1-g6-source-acquisition.yml"
+  workflow_dispatch:
+
+jobs:
+  g6-source-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Acquire and hash official G6 sources
+        run: python scripts/phase1_g6_source_acquisition.py
+      - name: Upload G6 acquisition evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: g6-source-acquisition
+          path: |
+            data/raw/g6_sources
+            data/validation/phase1_g6_source_acquisition.json
