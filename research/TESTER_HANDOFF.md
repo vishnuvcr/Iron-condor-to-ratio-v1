@@ -198,3 +198,8 @@ Because repository control/status files were updated after the prior successful 
 - Do NOT reuse run 37129894485 as current-head evidence; it tested commit 4099cd1217f072be961f120ab114034578e19197.
 - Current connector-visible status for b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512 is pending with zero published statuses. An observable Actions run is required.
 - After that run is observable, tester must verify exact checkout SHA, all workflow steps, artifact hash/content, G4 zero-unreconciled result, and absence of Phase 2 work before issuing G13.
+
+
+## E052 — 2026-10-03 — co-commit exact-tip execution control
+- To prevent documentation-only commits from moving the research head after a workflow-trigger commit, the final control/documentation update is being co-committed with the workflow marker.
+- This commit is intended to be the exact current-head candidate for automatic Phase 1 CI. No G12 PASS is claimed until an observable Actions run proves the checkout SHA and completes all validation steps.

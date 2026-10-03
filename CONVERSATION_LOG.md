@@ -241,3 +241,8 @@ This file records user-visible project instructions and work decisions, not hidd
 - Touched the workflow only with a path-trigger verification marker and committed b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512.
 - Current connector-visible commit status is pending with zero published statuses; no G12 advancement is claimed.
 - Phase 2 remains blocked pending observable exact-tip Actions evidence and independent tester approval.
+
+
+## E052 — 2026-10-03 — co-commit exact-tip execution control
+- To prevent documentation-only commits from moving the research head after a workflow-trigger commit, the final control/documentation update is being co-committed with the workflow marker.
+- This commit is intended to be the exact current-head candidate for automatic Phase 1 CI. No G12 PASS is claimed until an observable Actions run proves the checkout SHA and completes all validation steps.

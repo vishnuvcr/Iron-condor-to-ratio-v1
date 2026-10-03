@@ -160,3 +160,8 @@ The default-branch Actions workflow was updated to expose the E046-corrected Pha
 The corrective branch now points to b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512. The workflow file was touched only to force a push-path execution after documentation commits had advanced the branch beyond the previously verified run 37129894485 on commit 4099cd1217f072be961f120ab114034578e19197.
 
 The current commit-status endpoint reports pending with zero published statuses, and the available repository connector does not expose the push-triggered run list. Accordingly, no current-head G12 PASS is claimed. Phase 2 remains BLOCKED until an observable Actions run proves the exact checkout SHA and the independent tester records G13 PASS.
+
+
+## E052 — 2026-10-03 — co-commit exact-tip execution control
+- To prevent documentation-only commits from moving the research head after a workflow-trigger commit, the final control/documentation update is being co-committed with the workflow marker.
+- This commit is intended to be the exact current-head candidate for automatic Phase 1 CI. No G12 PASS is claimed until an observable Actions run proves the checkout SHA and completes all validation steps.

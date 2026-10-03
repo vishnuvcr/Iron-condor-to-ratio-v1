@@ -209,3 +209,8 @@ Updated: 2026-10-03
 - Current GitHub commit status: pending, zero published statuses. The available repository connector does not expose the push-triggered run list for this commit.
 - Therefore G12 is NOT advanced. The required evidence remains an observable Actions run with checkout SHA equal to the exact branch tip, successful G4 reconciliation/artifact, and subsequent independent tester PASS.
 - No Phase 2 engine, optimization, profitability analysis, or strategy conclusion has been started.
+
+
+## E052 — 2026-10-03 — co-commit exact-tip execution control
+- To prevent documentation-only commits from moving the research head after a workflow-trigger commit, the final control/documentation update is being co-committed with the workflow marker.
+- This commit is intended to be the exact current-head candidate for automatic Phase 1 CI. No G12 PASS is claimed until an observable Actions run proves the checkout SHA and completes all validation steps.

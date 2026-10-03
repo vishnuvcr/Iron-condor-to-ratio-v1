@@ -101,3 +101,8 @@
 - To force a current-head execution without changing research logic, the workflow file was touched with an explicit path-trigger verification marker in commit b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512.
 - The branch now points to b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512. GitHub's commit-status endpoint currently reports pending with zero published statuses, and the available GitHub connector does not expose the resulting push-triggered run list.
 - Resolution: do not infer G12 from the trigger attempt. Require an observable Actions run whose checkout SHA equals b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512, then independent tester re-audit. Phase 2 remains blocked.
+
+
+## E052 — 2026-10-03 — co-commit exact-tip execution control
+- To prevent documentation-only commits from moving the research head after a workflow-trigger commit, the final control/documentation update is being co-committed with the workflow marker.
+- This commit is intended to be the exact current-head candidate for automatic Phase 1 CI. No G12 PASS is claimed until an observable Actions run proves the checkout SHA and completes all validation steps.
