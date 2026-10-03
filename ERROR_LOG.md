@@ -14,3 +14,6 @@
 
 | E021 | 2026-10-03 | 1 | Primary Hugging Face acquisition used mutable `main` instead of an immutable revision. | A rerun could silently change the production dataset. | Pinned the primary source to Hugging Face revision `0f4800e` and changed the acquisition workflow to use that revision. |
 | E022 | 2026-10-03 | 1 | While modernizing the cache workflow, the first edit placed the cache-save step before acquisition. | The intended post-acquisition cache persistence would not occur in that run. | Moved `actions/cache/save@v4` to immediately before validation, after acquisition; the corrected commit is 57a7fa060977d239edf3ea1a1a86c30975c0a25b. |
+
+| E023 | 2026-10-03 | 1 | Pinned-source audit found 30,363,281 exact duplicate option rows across 138 of 267 option files (109,112,358 total rows); no conflicting duplicate keys were found. | The duplicate volume is material and must not be treated as an insignificant quality flag. | Require deterministic exact-row deduplication before production backtest use; preserve original counts and dedup counts in the data audit. |
+| E024 | 2026-10-03 | 1 | Acquisition pattern index/*NIFTY*.parquet also downloaded BANKNIFTY.parquet, although this study uses NIFTY. | Added unnecessary data and obscured the exact intended source set. | Narrowed both acquisition manifest and workflow to index/NIFTY.parquet. |
