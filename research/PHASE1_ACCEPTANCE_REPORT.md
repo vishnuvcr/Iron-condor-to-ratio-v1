@@ -96,3 +96,22 @@ The acquisition scope has since been narrowed to the exact NIFTY underlying file
 A deterministic transformation `scripts/deduplicate_phase1_data.py` has been added. It removes exact duplicate rows only, retains the first occurrence deterministically, rejects conflicting duplicate keys, and records source/output SHA-256 hashes and row counts. The CI workflow now runs this transformation after structural validation. This is a reproducibility control, not an assumption that duplicates are economically meaningful observations.
 
 The workflow was also given a concurrency group and conditional cache-save logic after a cache-reservation race was observed during rapid successive commits (E025).
+
+
+## Run 21 market-quality evidence — 2026-10-03
+
+Workflow run 37117424573 completed successfully with structural validation, deterministic deduplication, and the diagnostic market-quality/Greek-feasibility audit.
+
+- 268 files: 267 NIFTY option files + 1 NIFTY index file.
+- Structural input rows: 108,625,497; hard failures: 0; conflicting duplicate-key groups: 0.
+- Exact duplicate rows removed deterministically: 30,363,281.
+- Post-dedup rows: 78,262,216.
+- Market-quality option rows after key-level deduplication: 77,776,166.
+- Option rows aligned to a NIFTY timestamp: 77,228,081 (99.2953%).
+- NIFTY dates: 1,262; daily timestamp count median 378, minimum 6, maximum 420.
+- The session-count range is not accepted as uniform market-session coverage. Dates below 300 or above 390 timestamps are now explicitly reported for characterization before production use.
+- Diagnostic IV/Greek solver sample: 596,005 successful solver observations. This used r=q=0 solely as a computational smoke test and is **not** production Greek evidence.
+- Target-delta availability remains OPEN because the production calculation requires date-specific r/q, frozen liquidity rules, and full decision-timestamp evaluation.
+- Historical bid/ask remains absent from the primary source schema; execution remains degraded unless an independent historical quote source is validated.
+
+**Current decision: Phase 1 remains IN PROGRESS.** The session-coverage anomalies and production Greek/target-delta gates must be resolved before independent tester handoff.
