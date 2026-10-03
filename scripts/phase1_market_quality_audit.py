@@ -10,9 +10,6 @@ RAW = Path("data/raw")
 OUT = Path("data/validation/phase1_market_quality_report.json")
 INDEX = RAW / "index" / "NIFTY.parquet"
 
-IST_OFFSET = "+05:30"
-MARKET_START = 9 * 60 + 15
-MARKET_END = 15 * 60 + 30
 
 
 def norm_ts(s):
@@ -142,6 +139,8 @@ def main():
                     delta = abs(bs_delta(S, K, 0.0, 0.0, T, iv, str(x["option_type"]).upper().startswith("C")))
                     target_checks.append(delta)
 
+    # Session boundaries are deliberately not hard-coded here; G4 uses the
+    # date-specific NSE session calendar specified in research/PHASE1_SESSION_CALENDAR_SPEC.md.
     session_outliers = [
         {"day": str(day), "timestamps": int(n)}
         for day, n in session_counts.items()
