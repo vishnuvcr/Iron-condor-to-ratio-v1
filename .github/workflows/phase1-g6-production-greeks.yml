@@ -65,12 +65,12 @@ jobs:
         run: |
           python scripts/acquire_g6_nse_q_history.py
           python - <<'PY'
-          import json,pandas as pd
+          import ast,json,pandas as pd
           from pathlib import Path
           raw=json.loads(Path("data/processed/g6/nse_nifty50_pepb_raw.json").read_text())
           rows=[]
           for ch in raw["chunks"]:
-              outer=json.loads(ch["payload"])
+              outer=ast.literal_eval(ch["payload"])
               inner=outer.get("d","[]")
               rows.extend(json.loads(inner) if isinstance(inner,str) else inner)
           out=pd.DataFrame(rows)
