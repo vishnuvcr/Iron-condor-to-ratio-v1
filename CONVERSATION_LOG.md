@@ -364,3 +364,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - Independent tester PR #40 found that G6 CACHE_HIT_LOCAL did not validate cached bytes against an immutable expected digest.
 - Developer corrected the acquisition function to require an expected SHA-256 and exact match for both cached and newly acquired source bytes; no placeholder digest is treated as valid evidence.
 - G5 exact-tip Actions evidence remains pending; G6 substantive production reconstruction remains pending; Phase 2 remains blocked.
+
+## 2026-10-04 — Tester PR #40 follow-through: source provenance and exact-tip CI
+- Developer used a one-time non-accepting bootstrap workflow to acquire the exact bytes of five registered G6 source pages and compute SHA-256 values.
+- The observed values were committed to the G6 source manifest; no fabricated placeholder digest was used.
+- G6 cache-integrity regression tests passed and exact-tip G6 CI run 37148353717 succeeded at commit e8fca6a6084a463528643b63dd8f310899c0b3bf, artifact 11282958617.
+- G5 exact-tip CI run 37148384171 is executing at commit 001e498bfc099e9f51df9129e1fdc2e9370b2b3a; no G5 gate advancement has been claimed.
