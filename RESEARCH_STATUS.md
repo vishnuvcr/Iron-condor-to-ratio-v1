@@ -169,3 +169,11 @@ Updated: 2026-10-03
 - Special-session source-observation schedules are pinned to NSE capital-market circulars in addition to F&O execution circulars.
 - Prior run 37125014956 successfully exercised the corrected logic on an ancestor commit and produced 1,254 normal eligible dates, 7 reconciled special sessions, 1 data-gap exclusion, and 0 unreconciled dates; this is diagnostic evidence only because E045 requires final-head execution.
 - Final-head CI is the next required evidence step; no gate is advanced from the prior run.
+
+
+## 2026-10-03 — Independent tester E046 final-head re-audit
+- Final-head CI evidence is independently verified: run `37125656878`, job `111210327724`, head SHA `09c4c2e4b6bc569d42d4743fac5132ad0672f8d8`, artifact `11275311823`, artifact SHA-256 `754a71a1b50f532b49e43be45f24ddc3eab80a4aa56df1f43b23f0030f04aa9c`.
+- G12 is therefore independently PASS for the exact final developer head.
+- G4 remains FAIL/OPEN under E046: `scripts/phase1_session_reconciliation.py` only iterates observed dates, so a special-session date declared in the control manifest but missing from the observed dataset is never reconciled and cannot fail the run. The implementation also does not perform the session-calendar specification's required one-to-one calendar join for every observed date; unrecognised observed dates can fall through to the generic normal-session rule.
+- Phase 1 remains IN PROGRESS. G13 and Phase 2 remain BLOCKED. No backtest engine, optimization, profitability analysis, or trading conclusion has begun.
+- Tester report: `research/TESTER_REPORT_PHASE1_G4_FINAL_REAUDIT.md`. Tester branch: `tester/phase-1-g4-final-reaudit`.
