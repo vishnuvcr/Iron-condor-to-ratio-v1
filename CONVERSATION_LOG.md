@@ -338,3 +338,5 @@ This file records user-visible project instructions and work decisions, not hidd
 - Added the G5 acceptance specification, fail-closed validator, and automated GitHub Actions workflow with cache restore/save and manual dispatch.
 - During implementation review, an initial validator draft was found to conflate session eligibility with NIFTY timestamp presence. This was corrected before execution and logged as E068.
 - No Phase 2/backtest/optimization/profitability work was introduced.
+
+- After opening developer PR #34, the available Actions run lookup returned zero PR-triggered runs for exact head `990f450a52e50bb9b62f2444aa015b5989087cf3`. Logged E069; no G5 result is claimed. The workflow retains automatic push/PR/manual triggers for repository-side execution.
