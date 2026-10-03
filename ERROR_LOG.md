@@ -122,3 +122,11 @@
 - E055 is closed. The 2026-10-03 G5–G11 source audit introduced no new error; source verification and documentation were completed without changing gate status.
 | E056 | 2026-10-03 | 1 | Attempted direct local retrieval of the RBI WSS source for G6 extraction; this execution environment again had no outbound DNS/network resolution. | A local extraction cannot be used as production evidence in this environment. | Do not substitute local/network failure with inferred values. Retain the official web-verified RBI source and defer machine-readable full-series extraction to the repository's CI/data-acquisition environment or an explicitly acquired source file. No gate result changed. |
 | E057 | 2026-10-03 | 1 | After independent tester PR #25 closed E055 PASS, several developer-side canonical documents still referenced tester PR #20 as the current tester result. | Stale tester provenance could make the current gate-control history ambiguous even though the substantive gate state was unchanged. | Updated README, gate matrix, acceptance report, tester handoff and research status to identify PR #25 as the current E055 re-audit record. No gate was advanced. |
+
+
+## E058 — 2026-10-03 — local raw-file salvage network limitation
+- Attempted direct local acquisition of the pinned antony9952/Nifty_option_TBT raw archive from Hugging Face revision 643b48383839947b5fe3ed9483c9f7c0f167e865.
+- The local runtime could not resolve huggingface.co (DNS/network failure), so no raw file was downloaded or accepted locally.
+- No substitute values, OHLC-to-quote conversion, or inferred bid/ask was used.
+- Resolution: retain the pinned CI acquisition workflow using the repository's HF_TOKEN secret and cache; independently inspect the resulting artifact before any G9 decision.
+- G9 remains BLOCKED; G13/G14 and Phase 2 remain BLOCKED.
