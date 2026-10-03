@@ -59,3 +59,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - Run 21 passed acquisition, structural validation, deduplication, and the diagnostic market-quality audit.
 - The audit found 1,262 NIFTY dates with daily timestamp counts from 6 to 420 (median 378). This was logged as E028 and treated as an acceptance blocker until anomalous dates are characterized.
 - Option-to-NIFTY timestamp alignment was 99.295% by option row after key-level deduplication; this is evidence for further audit, not final acceptance.
+
+
+## 2026-10-03 — Phase 1 continuation
+- User authorized continuation with “Proceed”.
+- Checked Phase 1 CI run 37118147417. Structural validation and deterministic deduplication passed, but the market-quality audit failed before execution with a Python SyntaxError caused by literal escaped newline sequences in the script; session-outlier characterization was consequently skipped.
+- Logged E029 and repaired scripts/phase1_market_quality_audit.py in commit 336c8e8ddf5de93f31ef6b114e621747ae956620.
+- Independent public-source review confirms the NSE live option-chain exposes bid/ask, but the primary historical Hugging Face source does not document historical bid/ask. Commercial 1-minute NIFTY chain archives likewise document OHLCV/OI without bid/ask. This remains a production execution-data gap, not a reason to silently substitute close for midpoint.
+- No Phase 2 work started; Phase 1 tester gate remains required.
