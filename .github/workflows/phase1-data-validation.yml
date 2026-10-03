@@ -40,13 +40,6 @@ jobs:
           restore-keys: |
             phase1-hf-
 
-      - name: Save Hugging Face source data cache
-        uses: actions/cache/save@v4
-        if: always()
-        with:
-          path: .cache/huggingface
-          key: phase1-hf-${{ hashFiles('data/manifests/phase1_sources.json', 'data/manifests/phase1_acquisition.json') }}
-
       - name: Install data dependencies
         run: |
           python -m pip install --upgrade pip
@@ -69,6 +62,13 @@ jobs:
               allow_patterns=["options/NIFTY/*.parquet", "index/*NIFTY*.parquet"],
           )
           PY
+
+      - name: Save Hugging Face source data cache
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .cache/huggingface
+          key: phase1-hf-${{ hashFiles('data/manifests/phase1_sources.json', 'data/manifests/phase1_acquisition.json') }}
 
       - name: Validate downloaded data
         run: python scripts/validate_phase1_data.py
