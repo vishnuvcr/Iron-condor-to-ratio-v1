@@ -17,6 +17,8 @@ on:
       - "scripts/phase1_market_quality_audit.py"
       - "scripts/phase1_session_outlier_characterization.py"
       - "scripts/validate_phase1_control_manifests.py"
+      - "scripts/phase1_session_reconciliation.py"
+      - "data/manifests/phase1_session_rules.json"
       - "data/manifests/phase1_control_sources.json"
       - ".github/workflows/phase1-data-validation.yml"
   pull_request:
@@ -28,6 +30,9 @@ on:
       - "scripts/deduplicate_phase1_data.py"
       - "scripts/phase1_market_quality_audit.py"
       - "scripts/phase1_session_outlier_characterization.py"
+      - "scripts/validate_phase1_control_manifests.py"
+      - "scripts/phase1_session_reconciliation.py"
+      - "data/manifests/phase1_session_rules.json"
       - ".github/workflows/phase1-data-validation.yml"
   workflow_dispatch:
     inputs:
@@ -109,6 +114,9 @@ jobs:
 
       - name: Characterize NIFTY session outliers
         run: python scripts/phase1_session_outlier_characterization.py
+
+      - name: Reconcile observed sessions to dated control rules
+        run: python scripts/phase1_session_reconciliation.py
 
       - name: Upload validation report
         if: always()
