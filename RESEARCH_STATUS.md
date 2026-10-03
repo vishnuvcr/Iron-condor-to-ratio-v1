@@ -45,3 +45,6 @@ The branch `phase-0-corrections-v3` resolves B1–B5 and adds a Phase 0 GitHub A
 
 ## Gate
 **Phase 1 remains BLOCKED.** Independent tester approval is required before any historical data acquisition or backtest work.
+
+## Fourth independent tester result
+**FAIL — Phase 0 approval not granted.** Numerical B1–B5 defects are resolved, but current gate/status records remain stale or inconsistent. Phase 1 remains blocked pending correction and another independent tester retest.
