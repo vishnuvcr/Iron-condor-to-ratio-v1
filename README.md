@@ -6,10 +6,10 @@ Research project to reproduce and independently backtest the YouTube strategy �
 Developer.
 
 ## Current phase
-**Phase 0 — specification, literature/data review and reproducibility controls: COMPLETE.**
+**Phase 0 correction pass — COMPLETE FOR SECOND TESTER REVIEW.**
 
 ## Gate
-**Phase 1 is blocked pending an independent tester report.** No backtest implementation has been advanced past this gate.
+**Phase 1 remains blocked.** The first independent tester failed Phase 0 and required corrections. The corrected specification is now awaiting a second independent tester review.
 
 ## Source strategy
 The uploaded transcript is the primary strategy source. It specifies a monthly Iron Condor using short call/put near 0.30 delta and long call/put near 0.10 delta; transition when either short IC leg reaches approximately 0.10 delta; directional ratio spreads; continuation and reversal delta triggers; and discretionary profit-taking/expiry-day discussion.
@@ -18,20 +18,21 @@ The uploaded transcript is the primary strategy source. It specifies a monthly I
 - [Research plan](RESEARCH_PLAN.md)
 - [Research status](RESEARCH_STATUS.md)
 - [Source-derived strategy specification](research/STRATEGY_SPEC.md)
+- [Operational conventions](research/OPERATIONAL_CONVENTIONS.md)
 - [Literature and data review](research/LITERATURE_AND_DATA_REVIEW.md)
 - [Tester handoff](research/TESTER_HANDOFF.md)
 - [Error log](ERROR_LOG.md)
 - [Conversation log](CONVERSATION_LOG.md)
 - [Project instructions](PROJECT_INSTRUCTIONS.md)
 
-## Data policy
-The strategy's triggers depend on intraday option deltas. NSE public historical-report pages provide authoritative daily derivatives reports, but daily reports alone cannot reproduce intraday trigger timing. Phase 1 therefore requires real historical intraday NIFTY option data with sufficient strike/expiry coverage and documented provenance.
+## First tester finding
+The first tester confirmed source fidelity but failed the phase because machine-level semantics were insufficiently defined. The complete tester report is on branch `tester/phase-0-audit` and PR #2.
 
-## Research controls
-Each phase will use a separate branch. Every phase will update status and error logs. Backtests will include configurable slippage, brokerage, transaction charges and other applicable costs. Synthetic data is permitted only for engine/unit tests, not for the primary performance conclusion.
+## Developer correction
+The correction branch freezes explicit research implementation conventions for delta arithmetic, one-minute trigger sampling, target-strike selection, entry timing, trigger-to-fill sequencing, bid/ask execution, costs, expiry handling, state transitions and unit-test invariants. These are clearly labelled implementation conventions rather than claims about the video.
+
+## Data policy
+The strategy requires intraday option data. Daily NSE reports alone cannot reproduce the delta triggers. Phase 1 will require documented intraday NIFTY option data, coverage, timestamps, contract continuity, Greek methodology, licensing and quote quality.
 
 ## Current conclusion
-No performance conclusion is justified yet. Phase 0 established a reproducible specification and identified the key data requirement and ambiguity controls.
-
-## Branch
-Phase 0 branch: phase-0-specification.
+No performance conclusion is justified. Phase 1 is prohibited until the corrected specification passes a second independent tester review.
