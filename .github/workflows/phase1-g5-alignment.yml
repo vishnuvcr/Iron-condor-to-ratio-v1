@@ -66,6 +66,7 @@ jobs:
           set -euo pipefail
           echo "G5 workflow commit: $(git rev-parse HEAD)"
           echo "G5 workflow ref: ${GITHUB_REF_NAME}"
+          echo "G5 exact-tip evidence is generated only from this checkout."
 
       - name: Syntax-check G5 validator
         run: |
