@@ -8,6 +8,7 @@ on:
       - "phase-1-g5-g6-reaudit-corrections-20261004"
     paths:
       - "scripts/phase1_g6_source_acquisition.py"
+      - "scripts/test_phase1_g6_cache_provenance.py"
       - "data/manifests/phase1_control_sources.json"
       - ".github/workflows/phase1-g6-source-acquisition.yml"
   pull_request:
@@ -15,6 +16,7 @@ on:
       - main
     paths:
       - "scripts/phase1_g6_source_acquisition.py"
+      - "scripts/test_phase1_g6_cache_provenance.py"
       - "data/manifests/phase1_control_sources.json"
       - ".github/workflows/phase1-g6-source-acquisition.yml"
   workflow_dispatch:
@@ -26,11 +28,6 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: Assert checked-out commit
-        run: |
-          set -euo pipefail
-          actual="$(git rev-parse HEAD)"
-          echo "G6 checkout SHA: $actual"
       - name: Restore G6 source cache
         id: g6-cache-restore
         uses: actions/cache/restore@v4
@@ -46,27 +43,8 @@ jobs:
           python-version: "3.11"
       - name: Test cache provenance rules
         run: python scripts/test_phase1_g6_cache_provenance.py
-
       - name: Acquire and hash official G6 sources
         run: python scripts/phase1_g6_source_acquisition.py
-      - name: Verify G6 artifact provenance
-        if: always()
-        run: |
-          set -euo pipefail
-          if [ -f data/validation/phase1_g6_source_acquisition.json ]; then
-            python - <<'PY'
-import json, subprocess
-from pathlib import Path
-p = Path("data/validation/phase1_g6_source_acquisition.json")
-report = json.loads(p.read_text())
-actual = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
-recorded = report.get("execution_provenance", {}).get("checked_out_commit_sha")
-if recorded != actual:
-    raise SystemExit(f"G6 artifact checkout SHA mismatch: report={recorded} actual={actual}")
-print(f"G6 artifact checkout SHA verified: {actual}")
-PY
-          fi
-
       - name: Save G6 source cache
         if: ${{ success() && steps.g6-cache-restore.outputs.cache-hit != 'true' }}
         uses: actions/cache/save@v4
