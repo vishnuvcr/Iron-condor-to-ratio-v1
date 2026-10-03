@@ -1,0 +1,108 @@
+name: Phase 1 G5 Underlying-Option Alignment
+
+on:
+  push:
+    branches:
+      - "phase-1-g5-underlying-option-alignment"
+    paths:
+      - "scripts/phase1_g5_alignment_audit.py"
+      - "data/manifests/phase1_session_rules.json"
+      - ".github/workflows/phase1-g5-alignment.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "scripts/phase1_g5_alignment_audit.py"
+      - "data/manifests/phase1_session_rules.json"
+      - ".github/workflows/phase1-g5-alignment.yml"
+  workflow_dispatch:
+    inputs:
+      research_ref:
+        description: "Research branch/ref to validate"
+        required: false
+        default: "phase-1-g5-underlying-option-alignment"
+        type: string
+
+jobs:
+  g5-alignment:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.research_ref || github.head_ref || github.ref }}
+
+      - name: Assert checked-out ref is auditable
+        run: |
+          set -euo pipefail
+          echo "Research ref: ${{ inputs.research_ref || github.head_ref || github.ref }}"
+          echo "Checked-out commit: $(git rev-parse HEAD)"
+          test -f scripts/phase1_g5_alignment_audit.py
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Syntax-check G5 validator
+        run: |
+          python -m py_compile scripts/phase1_g5_alignment_audit.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          json.loads(Path("data/manifests/phase1_session_rules.json").read_text())
+          print("session manifest JSON: valid")
+          PY
+
+      - name: Restore cached source data
+        id: cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/huggingface
+          key: phase1-hf-${{ hashFiles('data/manifests/phase1_sources.json', 'data/manifests/phase1_acquisition.json') }}
+          restore-keys: |
+            phase1-hf-
+
+      - name: Install data dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install huggingface_hub pandas pyarrow
+
+      - name: Acquire pinned primary source
+        run: |
+          set -euo pipefail
+          test -n "${HF_TOKEN}" || { echo "HF_TOKEN secret is required"; exit 1; }
+          python - <<'PY'
+          import os
+          from huggingface_hub import snapshot_download
+          snapshot_download(
+          repo_id="thetrademarkk/india-index-options-1m",
+          repo_type="dataset",
+          revision="0f4800e",
+          local_dir="data/raw",
+          cache_dir=".cache/huggingface",
+          token=os.environ["HF_TOKEN"],
+          allow_patterns=["options/NIFTY/*.parquet", "index/NIFTY.parquet"],
+          )
+          PY
+
+      - name: Save source cache
+        uses: actions/cache/save@v4
+        if: ${{ success() && steps.cache-restore.outputs.cache-hit != 'true' }}
+        with:
+          path: .cache/huggingface
+          key: phase1-hf-${{ hashFiles('data/manifests/phase1_sources.json', 'data/manifests/phase1_acquisition.json') }}
+
+      - name: Run G5 alignment audit
+        run: python scripts/phase1_g5_alignment_audit.py
+
+      - name: Upload G5 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase1-g5-alignment-report
+          path: data/validation/phase1_g5_alignment_report.json
+          retention-days: 30
