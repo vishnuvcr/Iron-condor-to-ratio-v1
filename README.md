@@ -63,3 +63,8 @@ phase-1-data-acquisition-validation.
 - Deterministic exact-row deduplication: `scripts/deduplicate_phase1_data.py`.
 - Conflicting duplicate keys remain fatal.
 - GitHub Actions concurrency/cache-save race mitigation added after E025.
+
+### Phase 1 latest execution
+- Run 22 (37118147417) completed with structural validation and deterministic deduplication successful, but the market-quality audit failed due to malformed escaped-newline Python source (E029).
+- E029 was repaired in commit 336c8e8ddf5de93f31ef6b114e621747ae956620; a clean Phase 1 rerun is required.
+- Historical bid/ask remains an explicit data-source gap. The primary historical dataset exposes OHLCV/OI but not documented bid/ask, while the current NSE option-chain page exposes bid/ask for live snapshots. No close-price substitution has been accepted for the frozen literal-core midpoint rule.
