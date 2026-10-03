@@ -301,3 +301,12 @@ This file records user-visible project instructions and work decisions, not hidd
 - Hardened `scripts/validate_g9_tbt_candidate.py` to classify every raw CSV independently, record SHA-256/bytes/schema/timestamps/contract-identity/duplicate/out-of-order/quote-validity diagnostics, and write an explicit `UNEXECUTED_ACQUISITION` report when acquisition fails. OHLC/LTP is not accepted as bid/ask.
 - Hardened `.github/workflows/phase1-g9-tbt-candidate.yml` with the current G9 branch trigger, PR paths, immutable candidate revision in the cache key, cache restore/save, and `if: always()` audit-artifact retention so acquisition failures remain inspectable.
 - G9 remains BLOCKED; Phase 2/backtesting/performance work remains prohibited pending independent tester approval.
+
+## 2026-10-03 — Independent tester audit of developer PR #28 exact head
+- Developer submitted PR #28 for G9 free-data salvage at exact head 4698fa62b45fc62ae6c543c168bccdfd3de1d5fc.
+- Tester re-read the active control files before auditing the implementation.
+- Tester found E060: the G9 pull-request workflow does not explicitly checkout or assert the PR head SHA, so a later successful PR run would not by itself establish exact-head provenance.
+- Tester found E061: the raw-file validator is materially stronger than the prior candidate validator but still reports diagnostics rather than enforcing the complete G9 acceptance contract as fail-closed tests.
+- Tester recorded E062: no independently observable exact-head G9 Actions artifact is currently available, so raw-file acquisition/coverage/quote-quality remain unverified.
+- Tester determination: G9 BLOCKED; G13 BLOCKED; G14 BLOCKED; Phase 2 BLOCKED.
+- No Phase 2/backtesting/optimization/profitability work was authorized or introduced.
