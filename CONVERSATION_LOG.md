@@ -55,3 +55,8 @@ Uploaded transcript: What If the Iron Condor Starts Trending Ratio Spread Strate
 - Developer created `phase-0-corrections-v4` from v3 without advancing Phase 1.
 - The correction pass synchronizes active gate wording, updates current status/branch records, logs E014, distinguishes literal-core slippage from sensitivity-only alternatives, and strengthens the Phase 0 integrity workflow checks.
 - Phase 1 remains blocked pending a new independent tester approval.
+
+## 2026-10-03 — v4 correction PR opened
+- Developer opened PR #9 from `phase-0-corrections-v4` to address the fourth tester's B6 repository-control FAIL.
+- The Phase 0 integrity workflow passed on the v4 correction branch after the synchronized records and control checks were committed.
+- Phase 1 remains blocked; PR #9 requires a fresh independent tester gate before any downstream research begins.
