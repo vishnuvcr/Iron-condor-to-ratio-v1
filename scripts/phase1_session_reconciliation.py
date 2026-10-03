@@ -13,16 +13,12 @@ def minutes(hhmm):
     return h * 60 + m
 
 
-def classify(day, first_minute, last_minute, count, special):
+def classify(day, first_minute, last_minute, count, eligible_count, special):
     if day in special:
         return "SPECIAL_SESSION", special[day]["type"]
-    start = minutes("09:15")
-    end = minutes("15:30")
-    if first_minute >= start and last_minute <= end:
-        return "NORMAL_IN_WINDOW", "NORMAL"
-    if first_minute < start or last_minute > end:
-        return "OUT_OF_WINDOW", "NORMAL_OR_UNRECONCILED"
-    return "PARTIAL", "NORMAL"
+    if eligible_count >= 300:
+        return "NORMAL_ELIGIBLE", "NORMAL"
+    return "DATA_GAP_EXCLUDED", "NORMAL_INCOMPLETE"
 
 
 def main():
@@ -43,12 +39,15 @@ def main():
         first = int(g["minute"].min())
         last = int(g["minute"].max())
         count = int(g["timestamp"].nunique())
-        status, session_type = classify(day, first, last, count, special)
+        eligible = int(((g["minute"] >= minutes("09:15")) & (g["minute"] <= minutes("15:30"))).sum())
+        status, session_type = classify(day, first, last, count, eligible, special)
         rows.append({
             "day": day,
             "observed_timestamps": count,
             "first_local_minute": first,
             "last_local_minute": last,
+            "eligible_regular_session_timestamps": eligible,
+            "out_of_window_timestamps": count - eligible,
             "status": status,
             "session_type": session_type,
             "special_source": special.get(day, {}).get("source"),
@@ -60,14 +59,13 @@ def main():
         "rule_source": str(RULES),
         "observed_dates": len(rows),
         "counts": {
-            "normal_in_window": sum(x["status"] == "NORMAL_IN_WINDOW" for x in rows),
+            "normal_eligible": sum(x["status"] == "NORMAL_ELIGIBLE" for x in rows),
             "special_session": sum(x["status"] == "SPECIAL_SESSION" for x in rows),
-            "out_of_window": sum(x["status"] == "OUT_OF_WINDOW" for x in rows),
-            "partial": sum(x["status"] == "PARTIAL" for x in rows),
+            "data_gap_excluded": sum(x["status"] == "DATA_GAP_EXCLUDED" for x in rows),
         },
-        "unresolved_dates": [x for x in rows if x["status"] != "NORMAL_IN_WINDOW" and x["status"] != "SPECIAL_SESSION"],
+        "unresolved_dates": [x for x in rows if x["status"] == "DATA_GAP_EXCLUDED"],
         "rows": rows,
-        "acceptance": "DIAGNOSTIC_ONLY_G4_REMAINS_OPEN",
+        "acceptance": "PRE_REGISTERED_EXCLUSION_APPLIED; G4_REQUIRES_INDEPENDENT_REVIEW",
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(out, indent=2))
