@@ -114,3 +114,7 @@ The corrected workflow was committed with an execution-trigger marker (`70baca4a
 
 ## 2026-10-03
 2026-10-03 — G12 UI correction: The Phase 1 workflow was added unchanged to the default branch so GitHub can expose the manual workflow-dispatch control. This does not merge the Phase 1 research branch or authorize Phase 2. Actual G12 execution remains pending dispatch.
+
+
+### G12 run #32 — branch-target correction
+Manual run #32 was dispatched on `main` and failed after 22 seconds. The dispatch workflow has now been corrected so manual execution defaults to `phase-1-data-acquisition-validation`, where the Phase 1 scripts and manifests reside. G12 remains unaccepted until a real run succeeds and produces verifiable artifacts.
