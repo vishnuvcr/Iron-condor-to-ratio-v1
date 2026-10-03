@@ -3,10 +3,10 @@
 Research project to reproduce and independently backtest the YouTube strategy “What If the Iron Condor Starts Trending? Ratio Spread Strategy”.
 
 ## Current role
-Developer.
+Tester.
 
 ## Current phase
-**Phase 0 fourth-gate correction pass — awaiting independent re-test.**
+**Phase 0 fifth independent audit — FAIL; correction required.**
 
 ## Gate
 **Phase 1 remains blocked.** Historical tester gates remain part of the audit trail, but the active gate is the current independent tester approval for the latest correction pass. The fourth independent tester failed PR #7 on B6 repository-control synchronization; no downstream research has started.
@@ -35,7 +35,7 @@ The correction branch freezes explicit research implementation conventions for d
 The strategy requires intraday option data. Daily NSE reports alone cannot reproduce the delta triggers. Phase 1 will require documented intraday NIFTY option data, coverage, timestamps, contract continuity, Greek methodology, licensing and quote quality.
 
 ## Current branch
-`phase-0-corrections-v4`
+`tester/phase-0-fifth-audit`
 
 ## Current conclusion
 No performance conclusion, profitability claim or trading strategy conclusion is justified yet. Phase 1 is prohibited until the current correction pass passes independent tester approval.
@@ -51,3 +51,7 @@ PR #7 was the v3 developer correction pass reviewed by the fourth tester; PR #8 
 
 ## Slippage control
 The literal-core fallback slippage is fixed by `research/OPERATIONAL_CONVENTIONS.md`. Configurable slippage assumptions are reserved for pre-registered sensitivity variants only and cannot change the literal-core result.
+
+
+## Fifth tester gate
+PR #9 / `phase-0-corrections-v4` was independently audited on `tester/phase-0-fifth-audit`. The fifth tester **failed Phase 0** on two repository-control issues: the stale-v2 branch assertion in `.github/workflows/phase0-integrity.yml` is ineffective because its grep pattern spans lines, and the claimed successful v4 workflow run is not independently auditable from the available commit status/check evidence. See [fifth tester report](research/TESTER_REPORT_PHASE0_FIFTH.md). Phase 1 remains blocked.
