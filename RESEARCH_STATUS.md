@@ -298,3 +298,6 @@ Updated: 2026-10-03
 - E066 correction: sell fills are P_base - S(P_base) and are rejected when non-positive; zero-price clipping is prohibited. Buy fills also require positive base/fill prices.
 - Added scripts/test_phase1_execution_proxy_rules.py and manual/push/PR CI workflow for regression tests.
 - Tester approval has not yet been granted. G9/G13/G14 and Phase 2 remain BLOCKED. No backtest or profitability analysis has started.
+
+## 2026-10-03 — Independent G9 approval
+Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2b537c5b085c09729c27bb3957285ae8`. G9 is now **PASS under the revised bid/ask-free proxy methodology**. E065 and E066 are PASS. Historical bid/ask is not mandatory for the primary backtest and OHLC/LTP is never relabeled as executable quotes. G13/G14 and Phase 2 remain BLOCKED because G5/G6/G7/G8/G10/G11 remain incomplete. No Phase 2 backtest or profitability analysis has started.
