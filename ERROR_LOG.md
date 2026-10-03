@@ -162,3 +162,5 @@
 - G6 source identification was previously documented, but no automated retained acquisition artifact existed yet.
 - Impact: source provenance could be cited, but exact acquired bytes and acquisition outcome were not reproducibly captured by the repository workflow.
 - Resolution: added a source-acquisition/hash script and GitHub Actions workflow with unconditional evidence upload. The artifact is explicitly non-accepting: it cannot promote G6 without full-period date-aligned r/q and production IV/Greek reconstruction.
+
+| E074 | 2026-10-04 | 1 | Independent tester PR #36 found the G6 official-source acquisition workflow lacked cache restore/save. | Repeated G6 source-audit runs could reacquire the same official inputs unnecessarily and did not satisfy the project's required cache/reuse control. | Added deterministic restore/save caching keyed to the G6 control-source manifest and acquisition script; cache paths cover the G6 source staging directory. G6 remains OPEN because source acquisition alone does not constitute complete r/q production inputs or IV/Greek acceptance. |
