@@ -1,0 +1,75 @@
+{
+  "phase": 1,
+  "updated": "2026-10-03",
+  "timezone": "Asia/Kolkata",
+  "session_sources": [
+    {
+      "name": "NSE market timings",
+      "url": "https://www.nseindia.com/static/market-data/market-timings",
+      "use": "current reference only; never projected backward"
+    },
+    {
+      "name": "NSE market timings and holidays",
+      "url": "https://www.nseindia.com/resources/exchange-communication-holidays",
+      "use": "holiday/special-session reconciliation"
+    },
+    {
+      "name": "NSE historical F&O order/trade data",
+      "url": "https://betanseapi.nseindia.com/static/market-data/eod-historical-data-subscription",
+      "use": "historical execution/quote-data procurement candidate"
+    }
+  ],
+  "contract_sources": [
+    {
+      "name": "NSE Circular 128/2024",
+      "url": "https://nsearchives.nseindia.com/content/circulars/FAOP64625.pdf",
+      "effective_rule": "NIFTY lot size 25 to 75 for new index derivatives introduced from 2024-11-20"
+    },
+    {
+      "name": "NSE Circular 33/2025",
+      "url": "https://nsearchives.nseindia.com/content/circulars/FAOP66938.pdf",
+      "effective_rule": "NIFTY expiry revised to Monday from 2025-04-04, with transition treatment"
+    },
+    {
+      "name": "NSE Circular 111/2025",
+      "url": "https://nsearchives.nseindia.com/content/circulars/FAOP68747.pdf",
+      "effective_rule": "NIFTY weekly/monthly/quarterly/half-yearly expiry revised to Tuesday, with transition treatment"
+    }
+  ],
+  "risk_free_sources": [
+    {
+      "name": "RBI Weekly Statistical Supplement",
+      "url": "https://www.rbi.org.in/scripts/WSSView.aspx?Id=26722",
+      "field": "91-Day Treasury Bill (Primary) Yield"
+    }
+  ],
+  "paytm_money_sources": [
+    {
+      "name": "Paytm Money brokerage chronology",
+      "url": "https://www.paytmmoney.com/blog/brokerage-charges-increase-from-25th-aug-23-existing-users-will-continue-on-old-brokerage-charges/",
+      "effective_date": "2023-08-25"
+    },
+    {
+      "name": "Paytm Money flat brokerage update",
+      "url": "https://www.paytmmoney.com/blog/all-new-paytm-money-updates-revisions-and-more/",
+      "effective_date": "2025-01-15"
+    },
+    {
+      "name": "Paytm Money STT update",
+      "url": "https://www.paytmmoney.com/blog/paytm-money-pricing-update-revised-charges-effective-1st-october/",
+      "effective_date": "2024-10-01"
+    }
+  ],
+  "volatility_context_sources": [
+    {
+      "name": "NSE India VIX",
+      "url": "https://www.nseindia.com/static/products-services/indices-indiavix-index",
+      "use": "regime/context variable"
+    },
+    {
+      "name": "NSE India VIX methodology",
+      "url": "https://nsearchives.nseindia.com/web/sites/default/files/inline-files/India_VIX_comp_meth.pdf",
+      "use": "documents use of best bid/ask NIFTY option quotes"
+    }
+  ]
+}
