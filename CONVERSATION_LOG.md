@@ -122,3 +122,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - Key unresolved issue remains G9: the primary public historical dataset lacks documented bid/ask, while NSE historical order/trade data is paid and not yet acquired.
 - G12 remains open because a fresh GitHub Actions run of the repaired data-audit code has not been independently verified.
 - No backtest, optimization, profitability claim, or Phase 2 work was introduced.
+
+
+## 2026-10-03 — E035 control correction
+- Repository audit found G1 marked PARTIAL in the acceptance report while the canonical gate matrix marked G1 PASS.
+- Repository audit also found unused hard-coded session constants in the market-quality diagnostic.
+- Synchronized G1 to PASS and removed the unused session constants. Logged E035.
+- G4 remains OPEN under the date-specific session-calendar specification; Phase 2 remains blocked.
