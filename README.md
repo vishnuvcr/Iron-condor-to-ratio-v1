@@ -37,5 +37,11 @@ The strategy requires intraday option data. Daily NSE reports alone cannot repro
 ## Current branch
 `phase-0-corrections-v2`
 
+# Tester gate
+
+**Third independent tester: FAIL. Phase 1 remains blocked.** PR #5 successfully adds the previously missing canonical operational file, but the third tester identified remaining reproducibility blockers in IV solver termination, no-arbitrage bounds, tick rounding, future-quote rejection, and specification consistency.
+
+[Third tester report](research/TESTER_REPORT_PHASE0_THIRD.md)
+
 ## Current conclusion
 No performance conclusion, profitability claim or trading strategy conclusion is justified yet. Phase 1 is prohibited until the corrected specification passes independent tester approval.
