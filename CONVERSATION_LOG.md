@@ -47,3 +47,11 @@ Uploaded transcript: What If the Iron Condor Starts Trending Ratio Spread Strate
 - B5: aligned STRATEGY_SPEC.md with the fixed literal-core fallback slippage formula.
 - Added a Phase 0 GitHub Actions integrity workflow with automatic push/PR triggers and manual dispatch.
 - Phase 1 remains blocked pending another independent tester approval.
+
+## 2026-10-03 — Fourth independent tester result and developer response
+- User reported the fourth independent tester gate as **FAIL** after independent review of PR #7 and the v3 branch.
+- The tester confirmed numerical blockers B1–B5 were resolved, but identified B6: stale active gate wording in RESEARCH_PLAN.md and RESEARCH_STATUS.md, a stale current-branch reference in README.md, missing current PR/gate visibility in README.md, and insufficiently explicit separation between fixed literal-core slippage and configurable sensitivity variants in Phase 2.
+- The tester report is recorded in `research/TESTER_REPORT_PHASE0_FOURTH.md`; tester PR #8 is the independent gate record.
+- Developer created `phase-0-corrections-v4` from v3 without advancing Phase 1.
+- The correction pass synchronizes active gate wording, updates current status/branch records, logs E014, distinguishes literal-core slippage from sensitivity-only alternatives, and strengthens the Phase 0 integrity workflow checks.
+- Phase 1 remains blocked pending a new independent tester approval.
