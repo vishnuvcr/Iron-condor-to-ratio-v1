@@ -51,3 +51,5 @@
 | E040 | 2026-10-03 | 1 | Manual Actions run #32 was dispatched against `main`, but Phase 1 executable scripts/manifests live on `phase-1-data-acquisition-validation`; the run failed after 22 seconds. | Workflow now accepts a `research_ref` input defaulting to `phase-1-data-acquisition-validation` and checks out that ref for manual dispatch. Push-triggered branch runs continue to use `github.ref`. | Await a real Phase 1 execution on the research branch before G12 acceptance. |
 
 | E041 | 2026-10-03 | 1 | G12 CI run 37122653828 reached the research branch but failed because `scripts/validate_phase1_control_manifests.py` was missing there, although the workflow invoked it and the file existed on main. | Restored the exact control-manifest validator to `phase-1-data-acquisition-validation` at commit `68b39d91035bcb79c192cac80f20fd29ed6e709d`. | Trigger/observe the next branch execution; G12 remains OPEN. |
+
+| E042 | 2026-10-03 | 1 | Final corrected Phase 1 Actions execution completed successfully after E041. | None; this is a resolved CI execution correction. | G12 is now PASS on developer evidence; independent tester must verify before G13/G14. |
