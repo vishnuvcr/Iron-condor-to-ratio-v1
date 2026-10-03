@@ -98,3 +98,8 @@ Current state: G4 FAIL/OPEN; G12 OPEN for the corrective head; G13 BLOCKED; Phas
 - G12 is independently PASS.
 - G13 remains BLOCKED because G5–G11 are not all production-accepted. Phase 2 remains blocked.
 - E053: stale canonical/top-level control-plane status remains to be synchronized.
+## E055 re-audit note
+- PR #23 correctly fixes the README branch identifier.
+- E055 remains open because the E054 conversation-log record contains a malformed exact PR #21 head SHA.
+- This is a provenance-control issue only; it does not invalidate Run #55 G4/G12 evidence.
+- Phase 1 remains not approved; G13/G14 and Phase 2 remain blocked.
