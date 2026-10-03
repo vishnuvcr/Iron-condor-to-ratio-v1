@@ -139,3 +139,14 @@ The G4 implementation has now been corrected: explicit date controls replace the
 ### E044 correction frozen — final-head CI pending
 The G4 correction is implemented and has successfully executed on an ancestor commit. The independent tester's E045 requirement is being honored: that run is not being treated as final evidence. The next CI execution will be tied to the final Phase 1 branch head after all methodology/control changes are frozen.
 undefined
+
+## Current Phase 1 status — 2026-10-03
+- Phase 1: IN PROGRESS / NOT APPROVED.
+- Corrective head: 4099cd1217f072be961f120ab114034578e19197.
+- Exact-head CI: run 37129894485, job 111222750604, all steps successful.
+- Validation artifact: 11275819920; SHA-256 57cdcc53ec350fea1ce398f1130d5dd66beb63cdc0b481485e2b0e4fe3d54178.
+- G4 reconciliation: 1,262 observed dates; 13 manifest controls; 10 special sessions reconciled; 1 data-gap exclusion; 0 unreconciled; 0 missing manifest-session dates.
+- G4/G12: developer-evidence PASS on the corrective head; G13: BLOCKED pending independent tester re-audit; Phase 2: BLOCKED.
+- E047 added dated controls for the documented weekend live-trading sessions 2024-01-20, 2025-02-01 and 2026-02-01 after the fail-closed exact-head rerun identified them.
+
+See research/PHASE1_GATE_MATRIX.md, research/PHASE1_ACCEPTANCE_REPORT.md, research/TESTER_HANDOFF.md, and ERROR_LOG.md.
