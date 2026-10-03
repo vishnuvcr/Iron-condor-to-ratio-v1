@@ -56,6 +56,14 @@ The strategy repeatedly changes multiple option legs near delta thresholds. Usin
 
 The quote-data decision is therefore a validity condition, not merely a performance refinement.
 
+## Additional official-source technical validation — 2026-10-03
+
+NSE's Historical Order & Trade Data specification (version 1.15, 08-Sep-2025) describes F&O order data at all order ticks and includes transaction time, buy/sell indicator, entry/cancel/modify activity, contract identity, order quantity and limit price. Corresponding F&O trade data include trade time, contract identity, trade price/quantity and buy/sell order numbers. These fields make deterministic order-book reconstruction technically plausible, subject to validating purchased-file coverage, sequencing semantics, and licensing/access terms.
+
+The NSE historical-data service also provides F&O historical order/trade files and technical/sample documentation; access is subscription/procurement controlled.
+
+This does **not** close G9. No licensed historical order/trade files have yet been acquired into the repository and no reconstruction has been validated.
+
 ## Current evidence status
 
-**BLOCKED — procurement/access required.**
+**BLOCKED — procurement/access and validation required.**
