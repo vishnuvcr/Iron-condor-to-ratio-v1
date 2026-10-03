@@ -183,3 +183,11 @@
 - Impact: treating these dates as holidays would silently remove genuine market-day observations and bias the alignment gate.
 - Resolution: classify them as unresolved primary NIFTY-source coverage gaps pending raw-source reconstruction. Keep the 100% exact-timestamp rule unchanged.
 - Diagnostic terminology was corrected to distinguish row counts from unique timestamp counts.
+
+
+## E082 — 2026-10-04 — G5 failure-isolation workflow mutable-branch checkout
+- The completed diagnostic run **37154125183** reproduced the frozen **521,069** missing exact alignments, but its artifact reported runtime checkout **52b5b807c8274d7fb315bfc155d2cde2bb29c924** while the workflow run head was **d6deadca7024eb88fa6c30dd0e2faff435f5ba80**.
+- Root cause: the workflow checked out `github.ref`, which resolves the mutable branch tip; status commits added while the run was executing changed that tip after the run was created.
+- Impact: the artifact remains useful as a successful reproduction of the frozen failure, but it cannot be accepted as exact-tip diagnostic evidence.
+- Resolution: changed the workflow to default to immutable `github.sha` for push/PR execution and to assert that exact SHA; manual dispatch may still supply an explicit `expected_commit_sha`. A fresh post-fix run is required.
+- G5 remains FAIL/OPEN; no threshold relaxation or data repair was introduced.
