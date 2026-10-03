@@ -370,3 +370,17 @@ This file records user-visible project instructions and work decisions, not hidd
 - The observed values were committed to the G6 source manifest; no fabricated placeholder digest was used.
 - G6 cache-integrity regression tests passed and exact-tip G6 CI run 37148353717 succeeded at commit e8fca6a6084a463528643b63dd8f310899c0b3bf, artifact 11282958617.
 - G5 exact-tip CI run 37148384171 is executing at commit 001e498bfc099e9f51df9129e1fdc2e9370b2b3a; no G5 gate advancement has been claimed.
+
+
+## 2026-10-04 — Independent tester G5 substantive failure confirmed / developer response
+
+- User supplied the independent tester re-audit of exact G5 run 37148487963, confirming a genuine substantive alignment failure at checkout `db668dd2b89bf691a6481affb3cb2a9060c5fe98`.
+- Preserved the failed evidence: artifact 11284131045, SHA-256 `30381036630380820693858817bea51be4fae82896e01eb98cf09dba61fd95fb`.
+- Accepted the reported counts: 521,069 missing exact alignments among 77,727,743 decision-eligible rows; 99.3296229% alignment; 362 affected expiry/day groups.
+- Accepted the tester's diagnostic requirement that the large 2021/2026 clusters must be investigated against G4 session/date controls and that the 100% rule must not be weakened.
+- Accepted the additional reproducibility concern that duplicate diagnostics are pre-dedup observations and that global cross-file option-key deduplication/partition separation must be demonstrated.
+- Created developer branch `phase-1-g5-failure-isolation-20261004` from the failed exact-tip SHA.
+- Added the failure-isolation specification, diagnostic script, and manual/push/PR GitHub Actions workflow. The diagnostic will reproduce the missing population, report date/timestamp clusters and surrounding NIFTY observations, re-evaluate session eligibility, and inspect option-file timestamp-range overlap.
+- No G5 correction or gate advancement has been claimed. No Phase 2/backtest/profitability analysis has started.
+
+- Verified the exact G6 implementation commit requested by the tester: `4319b612c3859581b01797798b6ef526abaf7ffe` on `phase-1-g6-production-greeks-20261004`. It contains the official NSE NIFTY 50 valuation acquisition implementation; this remains development evidence, not G6 acceptance.
