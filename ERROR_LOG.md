@@ -58,3 +58,11 @@
 
 | E044 | 2026-10-03 | 1 | Independent tester found the G4 control manifest still contained three unresolved-date entries while the reconciliation script ignored that field; special dates were labelled without checking their documented intervals. | Replaced the unresolved-date escape hatch with explicit date_controls; added executable F&O intervals and source-observation intervals for every special session; reconciliation now checks every special execution interval, every observed timestamp against documented observation windows, and every controlled anomaly against its expected classification. | Await fresh final-head CI and independent re-audit. |
 | E045 | 2026-10-03 | 1 | Successful G4/G12 run 37124047220 tested commit dd5447f, while the developer branch had advanced to e9fce04 with session-control changes. | Treat prior run as historical evidence only. Final-head CI must execute after the corrected G4 logic is frozen. | Fresh final-head workflow and independent tester verification required before G12/G13 closure. |
+
+
+## 2026-10-03 — E046 corrective step
+- User-provided independent tester report recorded E046 and superseded PR #17 with PR #18.
+- Developer confirmed the defect directly in the current reconciler: the observed-date groupby could never emit a failure for a manifest-only date.
+- Developer created phase-1-e046-bidirectional-reconciliation from the exact previously tested head 09c4c2e4b6bc569d42d4743fac5132ad0672f8d8.
+- The corrective implementation adds bidirectional reconciliation and regression tests for missing special dates, unknown observed dates, duplicate mappings and interval failures.
+- Phase 2 remains blocked pending fresh final-head CI and independent tester PASS.
