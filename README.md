@@ -182,3 +182,5 @@ The current commit-status endpoint reports pending with zero published statuses,
 
 ## E053 control-plane synchronization — 2026-10-03
 The independent tester's Run #55 re-audit identified stale top-level Phase 1 status text. This developer branch synchronizes the canonical current-state sections while retaining older run-specific evidence as historical records. The developer role remains correctly identified as Developer on this branch; tester status is represented by the independent tester report/PR rather than by changing the developer branch's role label.
+
+- **2026-10-03 substantive G5–G11 source audit:** added [G5–G11 source audit](research/PHASE1_G5_G11_SOURCE_AUDIT_20261003.md), expanded the official contract/cost/source manifests, and re-verified the NSE F&O Historical Order & Trade procurement route. These are evidence/provenance advances only; G5–G8/G10–G11 remain open and G9 remains blocked. No Phase 2 work has started.
