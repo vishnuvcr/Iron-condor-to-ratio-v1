@@ -4,32 +4,28 @@ Updated: 2026-10-03
 
 | Phase | Status | Gate |
 |---|---|---|
-| 0 Specification/audit | **COMPLETE** | Tester handoff ready |
-| 1 Data | **BLOCKED** | Independent tester report required |
+| 0 Specification/audit | **TESTER FAILED — CORRECTIONS REQUIRED** | Independent tester report issued |
+| 1 Data | **BLOCKED** | Phase 0 tester re-approval |
 | 2 Engine | BLOCKED | Phase 1 |
 | 3 Experiments | BLOCKED | Phase 2 |
 | 4 Statistics | BLOCKED | Phase 3 |
 | 5 Interpretation | BLOCKED | Phase 4 |
 | 6 Manuscript/release | BLOCKED | Phase 5 |
 
-## Phase 0 completed
-- Developer role confirmed.
-- Target repository audited; it was empty.
-- Uploaded YouTube transcript converted into a source-derived deterministic rule specification.
-- Research questions, aims, objectives, methodology and statistical analysis plan established.
-- Literature and data-source review completed at scoping level.
-- Intraday option-chain/Greek data requirement identified as essential.
-- Tester handoff created.
-- Errors and repository controls established.
-- Phase 0 merged to main.
+## Independent tester finding
 
-## Current blocking item
-The project instructions require an independent tester report before the developer advances to Phase 1. Therefore no data acquisition, backtest engine, optimization or performance claim has been started.
+The tester audited source fidelity, repository controls, data requirements, literature claims, and production-readiness constraints.
 
-## Important source limitation
-The video demonstrates selected months and explicitly says the examples are selective rather than representative of every month. The future backtest must therefore use a broad, predefined sample rather than selected examples.
+The source-derived strategy is substantially faithful, but production implementation is not yet deterministic enough for independent reproduction. Required corrections include canonical delta/sign semantics, trigger sampling, entry timing, target-strike selection, execution/fill rules, trigger-to-fill sequencing, and explicit literal-core expiry handling.
 
-## Phase 0 evidence
-- research/STRATEGY_SPEC.md
-- research/LITERATURE_AND_DATA_REVIEW.md
-- research/TESTER_HANDOFF.md
+## Tester report
+
+- research/TESTER_REPORT_PHASE0.md
+
+## Gate rule
+
+No production Phase 1 data acquisition or Phase 2 implementation should be treated as approved until the developer revises the specification and an independent tester re-validates it.
+
+## Current conclusion
+
+No strategy performance conclusion is justified. No production backtest result exists at this gate.
