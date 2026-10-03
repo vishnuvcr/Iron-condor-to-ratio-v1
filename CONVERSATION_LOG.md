@@ -53,3 +53,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - User authorized continued autonomous progress with the existing tester gate unchanged.
 - Latest CI run passed structural validation but failed at deterministic deduplication because the referenced script was absent from the committed tree.
 - Logged E026 and added the missing script. Phase 1 remains open pending fresh CI validation and all remaining acceptance gates.
+
+
+## 2026-10-03 — Phase 1 coverage finding
+- Run 21 passed acquisition, structural validation, deduplication, and the diagnostic market-quality audit.
+- The audit found 1,262 NIFTY dates with daily timestamp counts from 6 to 420 (median 378). This was logged as E028 and treated as an acceptance blocker until anomalous dates are characterized.
+- Option-to-NIFTY timestamp alignment was 99.295% by option row after key-level deduplication; this is evidence for further audit, not final acceptance.
