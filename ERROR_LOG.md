@@ -132,3 +132,9 @@
 - G9 remains BLOCKED; G13/G14 and Phase 2 remain BLOCKED.
 
 | E059 | 2026-10-03 | 1 / G9 | Exact developer head `d2003df53d07a952aa7434c4c706f396067b6080` has no associated PR-triggered GitHub Actions run; the available GitHub connector does not expose workflow-dispatch. | Exact-head acquisition evidence cannot yet be independently observed. This is an execution/CI-access limitation, not evidence that the TBT candidate is absent or invalid. | Repaired the G9 workflow so push/PR/manual-dispatch triggers, pinned cache keys, per-raw-file audit and always-uploaded failure reports are explicit. Preserve G9 BLOCKED and require an independently observed CI run/artifact before judging the candidate. |
+
+## E060 — 2026-10-03 — G9 PR workflow exact-head checkout not asserted
+- Independent tester audited developer PR #28 at exact head 4698fa62b45fc62ae6c543c168bccdfd3de1d5fc.
+- The G9 workflow uses actions/checkout@v4 without explicitly binding pull_request execution to the PR head SHA and without asserting the checked-out SHA.
+- Impact: a future green PR run could execute against a merge/test ref rather than the exact developer head, recreating the prior exact-tip evidence class.
+- Resolution required: checkout the intended event-specific SHA/ref and emit/fail-closed on an actual checkout-SHA assertion. G9 remains BLOCKED.
