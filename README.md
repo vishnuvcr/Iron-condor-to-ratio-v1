@@ -301,3 +301,9 @@ The G6 production branch now includes a fail-closed production Greek evidence sc
 - No acquisition was attempted in that run; the production scan therefore failed on the already-known missing r/q inputs.
 - Corrected the workflow at head 7177aa7dfeecc667cb3dd9471347d3538ba9a467 to execute both official acquisition scripts before the production scan, install requests/lxml, and cache the retained official-source material.
 - No gate advancement occurred; a fresh exact-head run is required.
+
+
+## 2026-10-04 — E093 NSE q response parsing correction
+- Exact-head run 37157292177 reached the official NSE dividend-yield acquisition successfully, but the conversion step failed because the retained response wrapper used Python-style single quotes and was parsed with `json.loads`.
+- Corrected the workflow to use `ast.literal_eval` for the trusted, locally retained response wrapper, then JSON-decode only the endpoint's inner `d` payload.
+- No data values were changed and no gate advanced. A fresh exact-head run is required.
