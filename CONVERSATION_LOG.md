@@ -255,3 +255,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - Tester logged E053 because several top-level control documents contained stale superseded status text.
 - Developer response: do not advance Phase 2. Synchronize the canonical developer-branch control sections, preserve historical evidence, and continue Phase 1 production-gate work. G9 remains blocked until historical bid/ask or sufficient order-level reconstruction data are actually acquired and validated.
 - No hidden chain-of-thought is copied into this log; this file records user-visible project decisions and execution events only.
+
+
+## 2026-10-03 — Independent tester E054 and developer correction
+- User reported tester PR #22: E053 substantive synchronization correct, but README still named the older E046 branch.
+- Developer accepted E054 as a genuine current-state provenance defect.
+- Created `phase-1-e054-readme-branch-provenance` from audited PR #21 head `4f7186c4d2478bdd83f86f0bb35547f9b0b75f4f9b0b75aad840b3` and corrected the README branch identifier.
+- No Phase 2/backtesting/optimization/profitability work was introduced. Independent tester re-audit remains required.
