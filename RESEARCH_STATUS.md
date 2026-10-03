@@ -325,3 +325,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - The workflow acquires and SHA-256 hashes the registered official RBI/NSE G6 source pages and retains evidence even on acquisition failure.
 - This is provenance/acquisition evidence only; it does not establish full-period r/q coverage or G6 PASS.
 - G6 remains OPEN pending complete date-aligned r/q inputs and production IV/Greek reconstruction.
+
+## 2026-10-04 — Tester PR #36 and E074 G6 cache correction
+- Independent tester PR #36 found the G6 source-acquisition workflow lacked cache restore/save.
+- Developer correction branch `phase-1-g6-cache-provenance-hardening` adds restore/save caching keyed to the control-source manifest and acquisition script.
+- G6 remains OPEN: the complete date-aligned historical r/q inputs and production IV/Greek reconstruction are still required.
+- No Phase 2/backtest/optimization/profitability work has started.
