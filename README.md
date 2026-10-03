@@ -50,6 +50,9 @@ The current workflow pins the source to 0f4800e and uses separate cache restore/
 
 **No performance conclusion is justified yet. No backtest engine or optimization has begun.**
 
+## Latest Phase 1 CI incident
+The latest run passed structural validation but initially failed at deterministic deduplication because the referenced script was missing from the committed tree (E026). The missing `scripts/deduplicate_phase1_data.py` has now been added. Phase 1 remains open pending a fresh CI run and the remaining data-quality, execution, cost, context, and independent-tester gates.
+
 ## Branch
 phase-1-data-acquisition-validation.
 
