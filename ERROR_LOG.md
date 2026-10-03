@@ -147,3 +147,11 @@
 
 | E065 | 2026-10-03 | 1 / G9 | Tester found the bid/ask-free proxy methodology did not define deterministic handling when one leg of a pending multi-leg adjustment lacked its next eligible bar. | Partial fills, repeated retries, or ambiguous strategy state could change P&L and invalidate reproducibility. | Corrected the specification: multi-leg adjustments are atomic; if any leg fails eligibility, no leg fills, the pre-adjustment state is retained, the triggering event is consumed, and re-entry into the trigger region is required before a new adjustment. Regression tests added. Await independent tester re-audit. |
 | E066 | 2026-10-03 | 1 / G9 | Tester found the sell-side slippage formula max(0, P_base-S(P_base)) could create a zero-price fill while zero/negative fills were declared invalid. | Could manufacture economically impossible fills and bias results. | Corrected sell fills to P_base-S(P_base) with explicit rejection when P_base<=0 or P_fill<=0; buy fills use the same positivity validation. Regression tests added. Await independent tester re-audit. |
+
+
+## E067 — 2026-10-03 — tester approval of bid/ask avoidance
+- Independent tester re-audited developer PR #31 exact head `8b99cb3b2b537c5b085c09729c27bb3957285ae8`.
+- E065 and E066 are closed by the developer correction.
+- The tester approved avoiding historical bid/ask for the primary backtest under the frozen proxy-execution specification.
+- G9 is therefore PASS under the revised methodology; this is not evidence of historical bid/ask and does not authorize Phase 2.
+- Remaining Phase 1 gates G5/G6/G7/G8/G10/G11 are still incomplete.
