@@ -36,3 +36,4 @@
 
 
 | E033 | 2026-10-03 | 1 | Phase 1 documents reused G1–G10 for different requirements, making gate statements ambiguous. | Tester results could be interpreted against the wrong acceptance criterion, undermining reproducibility and independent approval. | Established one canonical G1–G14 vocabulary and propagated it through the Phase 1 specification, acceptance report, gate matrix and tester handoff. A fresh independent audit is required before Phase 1 approval. |
+| E034 | 2026-10-03 | 1 | The model execution environment has no outbound network resolution, so a local clone/execution of the repository could not be performed from this session. | Local execution cannot substitute for independently verifiable GitHub Actions evidence and must not be presented as CI validation. | Recorded the limitation; used repository-native source inspection and GitHub Actions evidence APIs only. G12 remains open because commit 336c8e8 has zero associated workflow runs. |
