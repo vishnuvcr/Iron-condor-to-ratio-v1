@@ -8,7 +8,7 @@ Developer (developer branch). The independent tester operates through a separate
 **Phase 1 — data acquisition and validation: IN PROGRESS. Phase 0 is APPROVED.**
 
 ## Gate
-Phase 1 is **IN PROGRESS / NOT APPROVED**. Independent tester PR #20 independently verified G4 and G12 on the frozen exact-tip CI evidence, but G13 remains BLOCKED because G5–G11 are not yet production-accepted. Phase 2 remains BLOCKED.
+Phase 1 is **IN PROGRESS / NOT APPROVED**. Independent tester PR #25 closed E055 PASS after re-auditing the developer exact head; G13 remains BLOCKED because G5–G11 are not yet production-accepted. Phase 2 remains BLOCKED.
 
 ### Latest independently verified evidence
 - Developer exact tip audited: `378a130b6d450b288be140655f9b0b75aad840b3`
