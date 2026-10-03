@@ -246,3 +246,7 @@ This file records user-visible project instructions and work decisions, not hidd
 ## E052 — 2026-10-03 — co-commit exact-tip execution control
 - To prevent documentation-only commits from moving the research head after a workflow-trigger commit, the final control/documentation update is being co-committed with the workflow marker.
 - This commit is intended to be the exact current-head candidate for automatic Phase 1 CI. No G12 PASS is claimed until an observable Actions run proves the checkout SHA and completes all validation steps.
+
+
+## 2026-10-03 — Independent tester Run #55 / E046 final re-audit
+User supplied final corrective CI evidence: branch `phase-1-e046-bidirectional-reconciliation`, exact tip `378a130b6d450b288be140655f9b0b75aad840b3`, run `37135122966` (#55), job `111238039571`, artifact `11278418088`. Tester independently verified the branch SHA, Actions run/job success, all substantive workflow steps, artifact digest, and the E046 regression tests. G4 is independently PASS and G12 is independently PASS. G13 remains BLOCKED because G5–G11 are not all production-accepted. E053 was logged for stale top-level control/status text that has not yet been synchronized with the corrective evidence. No Phase 2 work is authorized.
