@@ -23,3 +23,10 @@ Every executed option leg receives a dated cost record for brokerage, STT where 
 - https://nsearchives.nseindia.com/content/circulars/FA64232.pdf
 - https://nsearchives.nseindia.com/content/circulars/FA73061.pdf
 - https://www.nseindia.com/static/invest/first-time-investor-sebi-turnover-fees-stt-other-levies
+
+
+## Official Paytm Money chronology verified 2026-10-03
+- Paytm Money states that new users from 25-Aug-2023 were charged ₹20 per executed order for Stock Delivery/Intraday/F&O, while pre-existing cohorts retained their applicable older brokerage rates. citeturn1search0
+- Paytm Money states that brokerage was aligned to a flat ₹20 across segments effective 15-Jan-2025. citeturn1search2
+- Paytm Money states that from 01-Oct-2024 option-sale STT increased to 0.1% from 0.0625%. citeturn1search1
+- These are brokerage/STT components only. The cost engine must additionally apply date-specific exchange transaction charges, IPFT, SEBI charges, GST, stamp duty and any applicable regulatory/clearing charges; none may be assumed constant across the full sample.
