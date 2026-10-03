@@ -18,17 +18,6 @@ on:
       - "data/manifests/phase1_control_sources.json"
       - ".github/workflows/phase1-g6-source-acquisition.yml"
   workflow_dispatch:
-    inputs:
-      provenance_bootstrap:
-        description: "One-time non-accepting source-byte digest bootstrap"
-        required: false
-        default: "false"
-        type: string
-      expected_commit_sha:
-        description: "Exact commit SHA expected in the acquisition artifact"
-        required: false
-        default: ""
-        type: string
 
 jobs:
   g6-source-audit:
