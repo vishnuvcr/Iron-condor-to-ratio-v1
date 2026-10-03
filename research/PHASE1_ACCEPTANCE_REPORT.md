@@ -21,7 +21,7 @@ All Phase 1 acceptance references use the canonical G1–G14 vocabulary below.
 | G9 | Historical bid/ask / execution quality | BLOCKED |
 | G10 | Date-specific transaction costs | OPEN |
 | G11 | Market-context datasets | OPEN |
-| G12 | Repaired CI execution | FAIL / unverified |
+| G12 | Repaired CI execution | PASS | Fresh successful Actions run 37122686454 / job 111201763817; artifact 11274027306 |
 | G13 | Independent tester approval | FAIL / BLOCKED |
 | G14 | Phase 2 authorization | BLOCKED |
 
@@ -56,3 +56,6 @@ Paytm Money publications document cohort/date-dependent brokerage and the 1 Octo
 **Phase 1 remains IN PROGRESS / NOT APPROVED. Phase 2 remains BLOCKED.**
 
 The next acceptance run must independently execute the repaired audit, characterize the 1,262 session-length observations, and then resolve the remaining G5–G12 production gates. An independent tester must subsequently record PASS for G13 before G14 can be opened.
+
+
+The repaired audit now has a successful, independently inspectable Actions execution. This closes G12 only; it does not close G4–G11 or authorize Phase 2.
