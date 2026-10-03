@@ -102,3 +102,10 @@ The developer formalized the remaining production evidence requirements without 
 
 ### E035 control correction — 2026-10-03
 The Phase 1 acceptance report was synchronized with the canonical G1 PASS state, and unused hard-coded session-bound constants were removed from the diagnostic audit. Historical session acceptance remains date-specific and G4 remains OPEN. No Phase 2 work has begun.
+
+
+### Independent tester data-gathering audit — 2026-10-03
+- Tester independently confirmed E036: PR #13/current repaired head `833d8a0b7195418bdc98d04976841963b6bacfc2` has zero associated workflow runs; no fresh acquisition/audit result is claimed.
+- The [Phase 1 data inventory](data/manifests/phase1_data_inventory.json) correctly separates prior evidenced acquisition from outstanding machine-readable procurement.
+- **E037:** the current workflow syntax-check command is malformed because an indented continuation is folded into a plain-scalar `run:` command. This is a CI correctness blocker and must be repaired before G12 can pass.
+- **Independent tester verdict: Phase 1 FAIL / IN PROGRESS; Phase 2 BLOCKED.** No backtest, optimization, profitability result, or trading conclusion is accepted.
