@@ -301,3 +301,12 @@ This file records user-visible project instructions and work decisions, not hidd
 - Hardened `scripts/validate_g9_tbt_candidate.py` to classify every raw CSV independently, record SHA-256/bytes/schema/timestamps/contract-identity/duplicate/out-of-order/quote-validity diagnostics, and write an explicit `UNEXECUTED_ACQUISITION` report when acquisition fails. OHLC/LTP is not accepted as bid/ask.
 - Hardened `.github/workflows/phase1-g9-tbt-candidate.yml` with the current G9 branch trigger, PR paths, immutable candidate revision in the cache key, cache restore/save, and `if: always()` audit-artifact retention so acquisition failures remain inspectable.
 - G9 remains BLOCKED; Phase 2/backtesting/performance work remains prohibited pending independent tester approval.
+
+## 2026-10-03 — Developer methodology change: bid/ask-free primary execution model
+- User agreed to proceed with a formal bid/ask-free methodology rather than silently skipping bid/ask.
+- Developer re-read the controlling research files before changing the plan.
+- Added `research/PHASE1_EXECUTION_PROXY_SPEC.md`.
+- Updated `RESEARCH_PLAN.md` so the primary research question and Phase 2 execution model use a completed-1-minute decision / next-eligible-minute-open proxy, adverse 0/5/10/20/50-bps per-leg slippage with an effective-date tick floor, and date-effective transaction costs.
+- The methodology explicitly states that OHLC/LTP are not historical bid/ask and that the study cannot claim historical executable fills.
+- E063 records this as a formal methodology change.
+- G9/G13/G14/Phase 2 remain BLOCKED pending independent tester review; no Phase 2 work has started.
