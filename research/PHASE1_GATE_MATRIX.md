@@ -60,3 +60,7 @@ Tester PR #32 independently re-audited developer PR #31 exact head `8b99cb3b2b53
 
 ## 2026-10-04 — Tester PR #39 correction set
 Tester PR #39 found G5/G6 control defects while explicitly preserving G9 PASS. The developer correction branch `phase-1-g5-g6-reaudit-corrections-20261004` fixes the G5 push-trigger coverage and G6 cache reuse path. These corrections do not advance G5/G6 without independent re-audit and observable exact-head evidence.
+
+
+## 2026-10-04 — G5 substantive failure isolation
+Independent tester re-audit of exact-tip G5 run 37148487963 confirmed a substantive alignment failure: 521,069 missing exact timestamps among 77,727,743 decision-eligible rows (99.3296229%), across 362 expiry/day groups. The failed artifact is preserved as immutable evidence. G5 is therefore **FAIL / OPEN**, not merely pending CI provenance. The new developer branch `phase-1-g5-failure-isolation-20261004` diagnoses the failure population without changing the 100% exact-match rule. The tester's cross-file deduplication concern is included as a required control.
