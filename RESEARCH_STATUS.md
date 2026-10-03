@@ -414,3 +414,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Exact-head run 37157292177 reached the official NSE dividend-yield acquisition successfully, but the conversion step failed because the retained response wrapper used Python-style single quotes and was parsed with `json.loads`.
 - Corrected the workflow to use `ast.literal_eval` for the trusted, locally retained response wrapper, then JSON-decode only the endpoint's inner `d` payload.
 - No data values were changed and no gate advanced. A fresh exact-head run is required.
+
+
+## 2026-10-04 — E094 NSE endpoint-response correction
+- Exact-head run 37157347960 reached the NSE acquisition but the endpoint returned an HTML page rather than the expected JSON payload. The stored HTML was then incorrectly treated as JSON.
+- Corrected the official NSE request to the documented single-quoted `cinfo` form with browser-style headers and added an explicit HTML-response failure check. The downstream parser is restored to JSON decoding because the corrected acquisition now requires a valid JSON response.
+- No secondary q source was substituted and no gate advanced.
