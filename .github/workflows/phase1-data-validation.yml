@@ -59,7 +59,7 @@ jobs:
               local_dir="data/raw",
               cache_dir=".cache/huggingface",
               token=os.environ["HF_TOKEN"],
-              allow_patterns=["options/NIFTY/*.parquet", "index/*NIFTY*.parquet"],
+              allow_patterns=["options/NIFTY/*.parquet", "index/NIFTY.parquet"],
           )
           PY
 
