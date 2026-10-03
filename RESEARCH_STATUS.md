@@ -381,3 +381,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 ## 2026-10-04 — E091 pandas datetime compatibility correction
 - Exact-tip run 37156932044 passed 6/7 G6 tests and failed only the strict-prior regression because pandas 3.x used different datetime units on the two merge keys.
 - Both sides are now normalized to datetime64[ns]. E091 is logged. No gate advancement occurred.
+
+
+## 2026-10-04 — G6 evidence completeness refinement
+- The production scan now requires option volume in the production schema and performs deterministic target-delta contract selection using minimum delta error, then higher volume, then lower strike distance as the frozen tie-break.
+- The scan also records signed-delta, absolute-delta and IV histograms in the evidence artifact.
+- This is an evidence-completeness correction only. G6 remains FAIL / OPEN because historical r/q production inputs are still missing.
