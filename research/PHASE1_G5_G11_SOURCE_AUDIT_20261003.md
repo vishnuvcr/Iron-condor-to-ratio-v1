@@ -97,3 +97,14 @@ The minimum context package is now source-verified at the provider level:
 ## G9 candidate update — public TBT bid/ask dataset
 
 A new Hugging Face candidate, `antony9952/Nifty_option_TBT`, exposes bid/ask/depth fields in its published preview. The dataset builder currently reports incompatible schemas across files, so the candidate is **not accepted**. The repository now contains an automated cached CI audit workflow to inspect raw CSV schemas, bid/ask presence and observed coverage. G9 remains BLOCKED pending successful validation and contract reconciliation.
+
+
+## G5 dedicated acceptance implementation — 2026-10-03
+
+A dedicated G5 production-evidence path is now implemented. `research/PHASE1_G5_ALIGNMENT_SPEC.md` freezes the acceptance rule, `scripts/phase1_g5_alignment_audit.py` performs the full-source audit, and `.github/workflows/phase1-g5-alignment.yml` provides automatic push/PR execution plus manual dispatch and cache reuse.
+
+The validator deliberately separates two predicates:
+1. whether an option timestamp is inside the date-specific strategy execution interval; and
+2. whether that exact timestamp exists in the NIFTY underlying grid.
+
+This separation prevents a tautological alignment test. G5 remains OPEN until exact-head CI produces the machine-readable report and an independent tester reviews it.
