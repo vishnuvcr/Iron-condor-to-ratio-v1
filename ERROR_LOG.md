@@ -144,3 +144,9 @@
 - Impact: the mathematical definition of the slippage function was not rendered reliably in the research control document.
 - Resolution: replaced the formulas with plain-text/code-block notation and re-read the corrected specification. No methodology values changed.
 - The corrected developer head is submitted for independent tester review. Phase 2 remains blocked.
+
+## E065 — 2026-10-03 — proxy execution missing-next-bar rule underspecified
+- Independent tester audited the bid/ask-free methodology.
+- The specification records a missing next-bar execution as an execution-data gap but does not define the deterministic effect on pending multi-leg orders and strategy state.
+- Impact: different implementations could produce materially different P&L/state transitions.
+- Resolution required: pre-register an exact fail-closed order/state rule before Phase 2. Methodology change remains unapproved.
