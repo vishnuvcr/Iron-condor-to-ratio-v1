@@ -244,3 +244,42 @@ Tester PR #40 found a G6 cache-integrity defect. The developer corrected the cac
 - G6 source provenance bootstrap produced real observed SHA-256 values, which are now committed to the manifest; no placeholder digests remain.
 - G6 exact-tip CI run **37148353717** succeeded at commit `e8fca6a6084a463528643b63dd8f310899c0b3bf`, with artifact **11282958617**. This does not constitute G6 PASS because substantive r/q and IV/Greek reconstruction remain incomplete.
 - G5 exact-tip CI run **37148384171** is executing at commit `001e498bfc099e9f51df9129e1fdc2e9370b2b3a`; G5 remains OPEN pending completion and tester re-audit.
+
+
+## 2026-10-04 — G5 substantive failure confirmed; diagnosis now controlling
+
+The independent tester confirmed the exact-tip G5 artifact as a **substantive data/alignment failure**, not a provenance problem:
+- checkout `db668dd2b89bf691a6481affb3cb2a9060c5fe98`;
+- run 37148487963 / job 111277213347;
+- artifact 11284131045, SHA-256 `30381036630380820693858817bea51be4fae82896e01eb98cf09dba61fd95fb`;
+- 108,139,447 raw option rows;
+- 77,727,743 decision-eligible rows;
+- 77,206,674 exact-aligned rows;
+- 521,069 missing exact alignments;
+- 99.3296229% alignment;
+- 362 affected expiry/day groups.
+
+The acceptance rule remains **100% exact timestamp alignment**. No nearest-minute matching, interpolation, forward-fill, or blanket deletion is being introduced.
+
+A dedicated diagnostic branch, `phase-1-g5-failure-isolation-20261004`, now investigates the failure population by underlying-source gaps, option timestamp irregularity, session-calendar classification, cross-file partition/duplicate effects, and broader source discontinuities. The failed artifact remains immutable evidence.
+
+The tester also requested explicit verification of global cross-file option-key deduplication or a formal partition guarantee. The diagnostic therefore inspects all option-file timestamp ranges and will require a global key audit if ranges overlap.
+
+### G6 implementation provenance
+The exact commit containing the official NSE NIFTY 50 valuation acquisition implementation is `4319b612c3859581b01797798b6ef526abaf7ffe` on `phase-1-g6-production-greeks-20261004`. This does not close G6; automatic workflow invocation and complete r/q, IV, delta, solver, coverage and no-lookahead evidence remain outstanding.
+
+### Current gate state
+- G1–G4: PASS
+- G5: **FAIL / OPEN — substantive alignment failure; diagnosis required**
+- G6: OPEN
+- G7: OPEN
+- G8: OPEN
+- G9: PASS under approved proxy methodology
+- G10: OPEN
+- G11: OPEN
+- G12: PASS
+- G13: BLOCKED
+- G14: BLOCKED
+- Phase 2: BLOCKED
+
+No backtest, optimization, profitability analysis, or trading-strategy conclusion has been performed.
