@@ -35,3 +35,15 @@ Uploaded transcript: What If the Iron Condor Starts Trending Ratio Spread Strate
 - Exact numerical semantics were frozen for IV/Black-Scholes reconstruction, slippage, strike selection, data quality, thresholds, direction classification, and historical contract metadata.
 - README, status, plan and error records were updated.
 - Phase 1 remains blocked pending independent re-test and approval.
+
+## 2026-10-03 — Third independent tester result and correction pass
+- User reported the third independent tester gate as **FAIL** and instructed the developer to proceed.
+- Developer verified PR #6 and the third tester report directly.
+- Developer created `phase-0-corrections-v3`.
+- B1: froze Brent-Dekker root tolerances, termination and binary64 semantics.
+- B2: froze exact Black-Scholes no-arbitrage bounds and one-tick tolerance handling.
+- B3: froze integer tick ceil/floor rounding and on-grid behavior.
+- B4: explicitly rejected future-dated quotes.
+- B5: aligned STRATEGY_SPEC.md with the fixed literal-core fallback slippage formula.
+- Added a Phase 0 GitHub Actions integrity workflow with automatic push/PR triggers and manual dispatch.
+- Phase 1 remains blocked pending another independent tester approval.
