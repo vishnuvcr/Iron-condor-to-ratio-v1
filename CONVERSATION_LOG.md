@@ -221,3 +221,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - Inspected the repository workflow definitions. The `main` workflow was still the older definition with default `research_ref=phase-1-data-acquisition-validation` and without E046 bidirectional reconciliation.
 - Updated `main` to the E046-corrected Phase 1 workflow. Main commit: 097d29c2816614bc7ba45365454b7f0dc270bc5d.
 - Run #52 is treated as unverified for the E046 corrective gate unless its manual input selected the corrective branch. No Phase 2 work was started.
+
+
+## 2026-10-03 21:06 IST — Run #52 completion screenshot
+- User provided a follow-up Actions screenshot showing Phase 1 manual run #52 completed successfully on the `main` event branch, duration about 10 minutes.
+- The run is not accepted as E046 corrective evidence because it was the pre-E048 `main` workflow execution. The `main` workflow was subsequently corrected in commit `097d29c2816614bc7ba45365454b7f0dc270bc5d` to default manual dispatch to `phase-1-e046-bidirectional-reconciliation` and include bidirectional G4 reconciliation.
+- Current evidence therefore still requires a fresh manual dispatch after the workflow correction, with the checked-out research ref/commit verified from the run logs.
