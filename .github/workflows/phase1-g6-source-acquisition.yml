@@ -20,13 +20,34 @@ on:
 jobs:
   g6-source-audit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
+      - name: Restore G6 source cache
+        id: g6-cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .cache/g6_sources
+            data/raw/g6_sources
+          key: g6-official-sources-${{ hashFiles('data/manifests/phase1_control_sources.json', 'scripts/phase1_g6_source_acquisition.py') }}
+          restore-keys: |
+            g6-official-sources-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Acquire and hash official G6 sources
         run: python scripts/phase1_g6_source_acquisition.py
+      - name: Save G6 source cache
+        if: ${{ success() && steps.g6-cache-restore.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .cache/g6_sources
+            data/raw/g6_sources
+          key: g6-official-sources-${{ hashFiles('data/manifests/phase1_control_sources.json', 'scripts/phase1_g6_source_acquisition.py') }}
+
       - name: Upload G6 acquisition evidence
         if: always()
         uses: actions/upload-artifact@v4
