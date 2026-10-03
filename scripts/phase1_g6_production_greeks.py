@@ -10,6 +10,7 @@ import hashlib, json, math, subprocess
 from pathlib import Path
 from datetime import datetime
 import pandas as pd
+import pyarrow.parquet as pq
 
 ROOT=Path("data")
 OPT_ROOT=ROOT/"raw"
@@ -111,8 +112,8 @@ def main():
         report["status"]="PRODUCTION_OPTION_INPUTS_MISSING"
         OUT.write_text(json.dumps(report,indent=2)); raise SystemExit(4)
 
-    sample=pd.read_parquet(parquet[0],columns=[c for c in REQUIRED_OPT if c in pd.read_parquet(parquet[0],nrows=0).columns])
-    missing_cols=sorted(REQUIRED_OPT-set(sample.columns))
+    option_schema=set(pq.ParquetFile(parquet[0]).schema.names)
+    missing_cols=sorted(REQUIRED_OPT-option_schema)
     if missing_cols:
         report["status"]="OPTION_SCHEMA_FAILURE"; report["missing_option_columns"]=missing_cols
         OUT.write_text(json.dumps(report,indent=2)); raise SystemExit(5)
