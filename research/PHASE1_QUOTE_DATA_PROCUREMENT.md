@@ -92,4 +92,10 @@ These are useful corroborative/data-engineering sources but do not satisfy the f
 - The published tariff confirms that Historical Order & Trade data are subscription-controlled/paid.
 - **G9 remains BLOCKED:** no licensed F&O historical files have been acquired into the repository and no reconstruction/quote-quality validation has been executed.
 - Close-price substitution remains prohibited under the frozen literal-core midpoint rule.
+## 2026-10-03 — new public bid/ask TBT candidate
 
+A new Hugging Face candidate, `antony9952/Nifty_option_TBT`, was identified. Its published preview contains timestamped depth-level `bid_price`, `bid_qty`, `ask_price`, and `ask_qty` fields for `NSE_FO` instrument keys. The dataset's current Hugging Face builder, however, reports incompatible schemas across files: some files contain TBT bid/ask/depth fields while others contain LTP/OHLC/OI/IV fields without those bid/ask columns. The candidate therefore cannot be treated as a homogeneous production archive without raw-file validation. urlHugging Face Nifty_option_TBThttps://huggingface.co/datasets/antony9952/Nifty_option_TBT
+
+The repository now contains `scripts/validate_g9_tbt_candidate.py` and `.github/workflows/phase1-g9-tbt-candidate.yml` to acquire the pinned candidate revision through the HF cache and audit file schemas, bid/ask presence, timestamps and observed coverage. This workflow has a manual dispatch control and an automatic push/PR path.
+
+**G9 remains BLOCKED.** The candidate must first demonstrate adequate study-window coverage, NIFTY contract identity/reconciliation, timestamp quality and quote-quality acceptance. It is not an accepted substitute for the official NSE historical Order & Trade route.
