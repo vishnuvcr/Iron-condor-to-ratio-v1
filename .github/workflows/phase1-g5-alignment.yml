@@ -22,6 +22,11 @@ on:
         required: false
         default: "phase-1-g5-underlying-option-alignment"
         type: string
+      expected_commit_sha:
+        description: "Exact commit SHA expected in the generated evidence artifact (recommended for manual runs)"
+        required: false
+        default: ""
+        type: string
 
 jobs:
   g5-alignment:
@@ -41,6 +46,10 @@ jobs:
           echo "Research ref: ${{ inputs.research_ref || github.head_ref || github.ref }}"
           echo "Checked-out commit: $(git rev-parse HEAD)"
           test -f scripts/phase1_g5_alignment_audit.py
+          actual_sha="$(git rev-parse HEAD)"
+          expected_sha="${{ inputs.expected_commit_sha }}"
+          if [ -n "$expected_sha" ]; then test "$actual_sha" = "$expected_sha"; fi
+          echo "G5 checkout SHA: $actual_sha"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -98,6 +107,23 @@ jobs:
 
       - name: Run G5 alignment audit
         run: python scripts/phase1_g5_alignment_audit.py
+
+      - name: Assert artifact provenance
+        if: always()
+        run: |
+          set -euo pipefail
+          test -f data/validation/phase1_g5_alignment_report.json
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          p = Path("data/validation/phase1_g5_alignment_report.json")
+          report = json.loads(p.read_text())
+          actual = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+          recorded = report.get("execution_provenance", {}).get("checked_out_commit_sha")
+          if recorded != actual:
+              raise SystemExit(f"artifact checkout SHA mismatch: report={recorded} actual={actual}")
+          print(f"artifact checkout SHA verified: {actual}")
+          PY
 
       - name: Upload G5 evidence
         if: always()
