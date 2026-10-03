@@ -88,3 +88,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - NSE official historical order/trade data remains the strongest identified route for historical execution-quality reconstruction; it is a paid data product and is not yet acquired.
 - Added this evidence and the full outstanding acceptance checklist to research/TESTER_HANDOFF.md. Logged E031.
 - No Phase 2 work initiated.
+
+
+## 2026-10-03 — Phase 1 official-source closure work
+- Validated official RBI 91-day Treasury-bill primary-yield series as the historical risk-free source candidate.
+- Validated official Paytm Money brokerage/STT chronology and official NSE historical lot-size/expiry circulars.
+- Updated Phase 1 tester handoff with these source-validation results.
+- Logged E032 because source existence is established but the complete date-aligned machine-readable series is not yet assembled.
