@@ -1,0 +1,70 @@
+name: Phase 1 G5 Failure Isolation
+
+on:
+  push:
+    branches: ["phase-1-g5-failure-isolation-20261004"]
+    paths:
+      - "scripts/phase1_g5_failure_isolation.py"
+      - "research/PHASE1_G5_FAILURE_ISOLATION_SPEC.md"
+      - ".github/workflows/phase1-g5-failure-isolation.yml"
+      - "data/manifests/phase1_session_rules.json"
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      expected_commit_sha:
+        description: "Exact checkout SHA expected in diagnostic artifact"
+        required: false
+        default: ""
+        type: string
+
+jobs:
+  isolate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.expected_commit_sha || github.ref }}
+      - name: Assert exact checkout
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          echo "G5 isolation checkout: $actual"
+          expected="${{ github.event.inputs.expected_commit_sha }}"
+          if [ -n "$expected" ]; then test "$actual" = "$expected"; fi
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Restore cached source data
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/huggingface
+          key: phase1-hf-${{ hashFiles('data/manifests/phase1_sources.json', 'data/manifests/phase1_acquisition.json') }}
+          restore-keys: |
+            phase1-hf-
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install huggingface_hub pandas pyarrow
+      - name: Acquire pinned primary source
+        run: |
+          set -euo pipefail
+          test -n "$HF_TOKEN"
+          python - <<'PY'
+          import os
+          from huggingface_hub import snapshot_download
+          snapshot_download(repo_id="thetrademarkk/india-index-options-1m",repo_type="dataset",revision="0f4800e",local_dir="data/raw",cache_dir=".cache/huggingface",token=os.environ["HF_TOKEN"],allow_patterns=["options/NIFTY/*.parquet","index/NIFTY.parquet"])
+          PY
+      - name: Run failure isolation
+        run: python scripts/phase1_g5_failure_isolation.py
+      - name: Upload diagnostic artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase1-g5-failure-isolation
+          path: data/validation/phase1_g5_failure_isolation.json
+          retention-days: 30
