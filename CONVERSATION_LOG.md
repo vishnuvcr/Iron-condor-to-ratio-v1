@@ -432,3 +432,13 @@ This file records user-visible project instructions and work decisions, not hidd
 - Verified 362 affected dates and 238 overlapping option-file timestamp ranges.
 - Determined that range overlap requires a global option-key audit; no duplicate conclusion or gate relaxation was made.
 - G5 remains FAIL/OPEN and Phase 2 remains BLOCKED pending independent tester re-audit.
+
+
+## 2026-10-04 — Explicit G5 research-use waiver
+
+- User explicitly accepted the available dataset as the working research dataset while rejecting any claim that G5 is a 100% timestamp-integrity PASS.
+- Recorded G5 as **FAIL / WAIVED FOR CONTINUED RESEARCH** rather than PASS.
+- Retained 521,069 unmatched observations, 14 full-date gaps, and 33,476 partial-date mismatches.
+- Preserved prohibitions on interpolation, nearest matching, forward-fill and silent deletion.
+- Required future performance results to disclose the integrity limitation and include affected-date/observation exclusion sensitivity analysis.
+- Confirmed that this waiver permits continued exploratory Phase 1 research only; it does not replace independent tester approval or authorize Phase 2.
