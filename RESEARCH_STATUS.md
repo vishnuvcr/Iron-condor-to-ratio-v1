@@ -462,3 +462,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Exact-head run 37158125363 executed the RBI scan but failed because non-target/404 pages returned `None`, while the concurrent collector expected every future result to be a `(record, rows)` tuple.
 - Corrected non-target pages to return an explicit empty-result tuple with provenance status `NO_TARGET`.
 - No data acceptance or gate change occurred.
+
+
+## 2026-10-04 — E102 final RBI primary-host fallback
+- The runner reached the RBI acquisition but produced zero target rows from the initial official host. A final bounded attempt now probes the canonical `www.rbi.org.in`, apex `rbi.org.in`, and `wss.rbi.org.in` WSS hosts for the same archive IDs.
+- If no primary rows are obtained, the script writes a failure diagnostic with per-page status counts and stops. No secondary RBI mirror is substituted into production.
+- This is the final planned primary-host acquisition attempt for G6; repeated blind retries are prohibited.
