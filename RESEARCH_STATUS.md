@@ -33,6 +33,14 @@ Updated: 2026-10-03
 8. Collect and align contextual regime variables: NIFTY, India VIX, FII/FPI, DII, GIFT NIFTY/overnight, global risk/volatility, NSE/BSE and relevant events.
 9. Obtain independent tester PASS for the final Phase 1 branch.
 
+## Pinned-source structural audit
+- Successful run: 37116400642; job 111183955555; artifact 11271442031.
+- Artifact SHA-256: 137396eab20370bbbf2285cbc684f7db1e1693d0b3a88f7c64f77a2e8ea967d0.
+- 109,112,358 rows across 269 files were audited; 0 hard-failure files and 0 conflicting duplicate-key groups.
+- 30,363,281 exact duplicate rows occurred across 138 files, so deterministic deduplication is now a mandatory production-data step.
+- No bid/ask fields were observed in the primary-source schema.
+- The acquisition scope has been narrowed from index/*NIFTY*.parquet to index/NIFTY.parquet; a fresh validation run is required.
+
 ## Phase 1 evidence
 - Prior structural validation commit: 5f701e329c7888e5ccd5cfe70cea0f5c14e452ac.
 - Prior successful run: 37116084761; job 111183065244.
