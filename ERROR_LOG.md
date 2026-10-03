@@ -177,3 +177,6 @@
 
 
 | E084 | 2026-10-04 | 1 | G6 production scaffold initially measured strict-prior r/q coverage against the q input table itself, which could make missing trading dates invisible. | Coverage acceptance could become tautological and falsely appear complete. | Corrected the validator to derive the trading-date universe from actual NIFTY option-bar timestamps; invalid option timestamps now fail closed. No G6 gate advanced. |
+
+
+| E085 | 2026-10-04 | 1 / G6 acquisition | Developer added an official-NSE q acquisition script and regression test, but the GitHub connector safety layer blocked the workflow-file mutation that would invoke the new acquisition stage automatically. | The acquisition code exists, but automatic CI execution of that new stage cannot yet be claimed from this interaction. | Retain the script/test as a controlled branch change; do not claim execution or G6 evidence. Reattempt workflow integration through a safer repository-control path. |
