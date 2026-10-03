@@ -58,3 +58,9 @@ The developer has formally proposed replacing the mandatory historical bid/ask r
 - Phase 2: **BLOCKED**
 
 The proxy model does not relabel OHLC/LTP as bid/ask. It uses completed-bar decisions, next eligible option-bar open fills, adverse 0/5/10/20/50-bps per-leg slippage with an effective-date tick floor, and date-effective transaction costs. This methodology must be independently reviewed before Phase 2 can be authorized.
+
+## 2026-10-03 — Tester audit of bid/ask-free methodology
+- Methodology change is NOT YET APPROVED.
+- E065 requires deterministic missing-next-bar/order-state handling.
+- E066 requires correction of the sell-side slippage formula so non-positive adjusted prices fail rather than become zero.
+- G9 remains BLOCKED; G13/G14 and Phase 2 remain BLOCKED.
