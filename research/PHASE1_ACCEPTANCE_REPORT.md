@@ -24,7 +24,7 @@ This is an interim evidence report, not production-data acceptance or a profitab
 | G13 | Independent tester approval | **BLOCKED** |
 | G14 | Phase 2 authorization | **BLOCKED** |
 
-### Exact-tip independent evidence
+## Exact-tip independent evidence
 - Developer branch: `phase-1-e046-bidirectional-reconciliation`
 - Exact audited tip: `378a130b6d450b288be140655f9b0b75aad840b3`
 - Actions run #55: `37135122966`
@@ -47,3 +47,5 @@ Run #55 independently closed the E046 technical defect and verified G4/G12. It d
 The independent tester identified stale top-level status text. This report now uses the table above as the canonical current state. Older run-specific sections are retained below as historical evidence and are not authoritative over the current table.
 
 ## Historical evidence
+
+
