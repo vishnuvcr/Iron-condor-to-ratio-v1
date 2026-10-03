@@ -51,4 +51,5 @@ Updated: 2026-10-03
 - Deterministic exact-row deduplication is implemented in scripts/deduplicate_phase1_data.py and is executed in CI after structural validation.
 - Conflicting duplicate keys remain fatal.
 - Workflow concurrency/cache-save race mitigation was added after E025.
-- Phase 1 remains IN PROGRESS and no Phase 2 work has started.
+- Phase 1 remains IN PROGRESS. Latest CI structural validation passed, but deterministic deduplication initially failed because its script was missing from the committed tree (E026). The missing script has now been added; a fresh CI run is required.
+- No Phase 2 work has started.
