@@ -57,3 +57,9 @@ The branch `phase-0-corrections-v4` synchronizes the active gate to the current 
 
 ## Current developer correction PR
 PR #9 / `phase-0-corrections-v4` is the active developer correction pass for B6. The repository integrity workflow has passed on this branch. A fresh independent tester approval is still required before Phase 1.
+
+## Fifth independent tester result
+**FAIL — Phase 0 approval not granted.** PR #9 resolves the fourth gate's active-record and slippage-language defects, and B1–B5 remain substantively resolved. The fifth audit found B7: the Phase 0 integrity workflow's multiline stale-v2 grep assertion is ineffective under standard grep, and B8: the claimed v4 workflow pass is not independently auditable from the available commit status/check evidence. Phase 1 remains blocked.
+
+## Fifth tester gate artifact
+The complete independent report is `research/TESTER_REPORT_PHASE0_FIFTH.md` on branch `tester/phase-0-fifth-audit`. Required corrections are to fix the stale-branch assertion, rerun the integrity workflow on the exact resulting commit, persist an auditable workflow/check reference, and submit the corrected pass for another independent tester review.
