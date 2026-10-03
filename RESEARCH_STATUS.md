@@ -176,3 +176,11 @@ Updated: 2026-10-03
 - Tester found the G4 reconciler was not fail-closed for manifest-only dates because it iterated only over observed dates. This violated the repository's one-to-one session-calendar reconciliation contract.
 - Resolution: created corrective branch phase-1-e046-bidirectional-reconciliation; refactored reconciliation into a bidirectional manifest/observed-date join, added unique mapping validation and fail-closed unknown-date handling, and added four regression tests.
 - Impact: G4 is FAIL/OPEN and G12 must be re-established on the corrective branch head. G13/G14 remain blocked. No Phase 2 work or performance analysis has begun.
+
+
+## E046/E047 corrective status — 2026-10-03
+- E046 bidirectional reconciliation is now exercised on exact corrective head 4099cd1217f072be961f120ab114034578e19197.
+- Exact-head Actions run: 37129894485; job 111222750604; artifact 11275819920; artifact SHA-256 57cdcc53ec350fea1ce398f1130d5dd66beb63cdc0b481485e2b0e4fe3d54178.
+- Reconciliation artifact reports 1,262 observed dates, 13 manifest control dates, 1,251 normal-eligible dates, 10 special-session dates, 1 data-gap exclusion, 0 unreconciled dates, and 0 missing manifest-session dates.
+- E047 recorded the three genuine weekend live-trading dates discovered by the fail-closed exact-head rerun: 2024-01-20, 2025-02-01, and 2026-02-01. They are now explicitly controlled in the session manifest with dated exchange-source references.
+- Current Phase 1 status: IN PROGRESS / NOT APPROVED. G4 and G12 have developer evidence on the current corrective head, but G13 is still BLOCKED pending independent tester re-audit. G5–G11 remain as previously stated; Phase 2 remains BLOCKED.
