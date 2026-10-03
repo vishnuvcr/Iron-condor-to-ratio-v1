@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "timezone": "Asia/Kolkata",
+  "study_data_end": "2026-07-02",
+  "regular_execution_session": {
+    "start": "09:15",
+    "end": "15:30",
+    "effective_from": "2021-05-07",
+    "effective_to": "2026-07-02",
+    "rationale": "The acquired primary dataset ends before NSE's August 3, 2026 equity-derivatives close-time change. NSE's 2025 F&O circulars document 09:15-15:30 regular trading; the August 3, 2026 change to 15:40 is outside the acquired period.",
+    "sources": [
+      "https://nsearchives.nseindia.com/content/circulars/FAOP67026.pdf",
+      "https://nsearchives.nseindia.com/content/circulars/FAOP74467.pdf"
+    ]
+  },
+  "special_sessions": [
+    {
+      "date": "2021-11-04",
+      "type": "MUHURAT",
+      "start": "18:15",
+      "end": "19:15",
+      "source": "NSE F&O Muhurat circular chain; source document to be pinned in final calendar"
+    },
+    {
+      "date": "2022-10-24",
+      "type": "MUHURAT",
+      "start": "18:15",
+      "end": "19:15",
+      "source": "NSE F&O Muhurat circular chain; source document to be pinned in final calendar"
+    },
+    {
+      "date": "2023-11-12",
+      "type": "MUHURAT",
+      "start": "18:15",
+      "end": "19:15",
+      "source": "NSE/FAOP/59126"
+    },
+    {
+      "date": "2024-03-02",
+      "type": "SPECIAL_LIVE_DR",
+      "sessions": [
+        [
+          "09:15",
+          "10:00"
+        ],
+        [
+          "11:30",
+          "12:30"
+        ]
+      ],
+      "source": "NSE/MSD/60677"
+    },
+    {
+      "date": "2024-05-18",
+      "type": "SPECIAL_LIVE_DR",
+      "sessions": [
+        [
+          "09:15",
+          "10:00"
+        ],
+        [
+          "11:30",
+          "12:30"
+        ]
+      ],
+      "source": "NSE/MSD/61893"
+    },
+    {
+      "date": "2024-11-01",
+      "type": "MUHURAT",
+      "start": "18:00",
+      "end": "19:00",
+      "source": "NSE/FAOP/64630"
+    },
+    {
+      "date": "2025-10-21",
+      "type": "MUHURAT",
+      "start": "13:45",
+      "end": "14:45",
+      "source": "NSE/FAOP/70320"
+    }
+  ],
+  "preopen_note": {
+    "effective_from": "2025-12-08",
+    "start": "09:00",
+    "end": "09:15",
+    "applicability": "NSE states F&O pre-open applies to index and single-stock futures; this is not treated as an option execution window.",
+    "source": "NSE/FAOP/69898"
+  },
+  "unresolved_dates": [
+    {
+      "date": "2021-06-28",
+      "issue": "Observed 09:07-16:00 with 399 timestamps; not yet reconciled to an official special-session source."
+    },
+    {
+      "date": "2026-06-03",
+      "issue": "Observed only 15:25-15:30 with 6 timestamps; partial-day coverage requires data-quality treatment."
+    },
+    {
+      "date": "2026-07-01",
+      "issue": "Observed 09:00-15:30 with 391 timestamps; pre-session observations require classification against the frozen 09:15 execution window."
+    }
+  ],
+  "status": "CONTROL_RULES_ONLY_G4_REMAINS_OPEN"
+}
