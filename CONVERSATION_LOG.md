@@ -384,3 +384,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - No G5 correction or gate advancement has been claimed. No Phase 2/backtest/profitability analysis has started.
 
 - Verified the exact G6 implementation commit requested by the tester: `4319b612c3859581b01797798b6ef526abaf7ffe` on `phase-1-g6-production-greeks-20261004`. It contains the official NSE NIFTY 50 valuation acquisition implementation; this remains development evidence, not G6 acceptance.
+
+## 2026-10-04 — Preliminary artifact-level G5 diagnosis
+- Downloaded and inspected immutable G5 artifact 11284131045 and independently accepted G4 artifact 11278418088.
+- Recomputed date-level failure totals from the frozen G5 expiry/day coverage and compared affected dates with the G4 observed-date reconciliation.
+- Classified 14 dates as full underlying-source date gaps: no NIFTY observed date exists in G4 while every decision-eligible option row on the date is unaligned. These account for 487,593 failures (93.5762%).
+- The remaining 33,476 failures span 348 dates with some NIFTY observations; their mechanism remains unresolved and requires raw timestamp/neighbor diagnostics.
+- Added `data/validation/phase1_g5_failure_isolation_preliminary.json` and strengthened the diagnostic to verify expiry filename/column partition integrity before deciding whether a global key audit is necessary.
+- G5 remains FAIL/OPEN. No exclusion or tolerance has been introduced and no Phase 2 work has started.
