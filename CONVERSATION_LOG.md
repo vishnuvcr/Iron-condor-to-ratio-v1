@@ -316,3 +316,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - Corrected the specification using explicit plain-text/code-block equations and logged E064.
 - No methodology parameter changed.
 - The corrected exact developer head remains subject to independent tester review; G9/G13/G14/Phase 2 remain blocked.
+
+## 2026-10-03 — E065/E066 developer correction
+- User reported independent tester PR #30 and its determination that the bid/ask-free methodology was not approved.
+- Verified PR #30 and read the tester report. E065 concerns deterministic handling of a missing next-bar leg in a pending multi-leg order; E066 concerns a sell slippage formula that could produce zero despite zero/negative fills being invalid.
+- Created developer branch phase-1-execution-proxy-e065-e066 from exact methodology head 010e40bdba5c92ba9f109e720e30e2f6a7125cfd.
+- Corrected research/PHASE1_EXECUTION_PROXY_SPEC.md with atomic multi-leg fail-closed handling, explicit state/trigger consumption/re-arm rules, session/expiry constraints, and strict positive fill validation for both buy and sell legs.
+- Added scripts/test_phase1_execution_proxy_rules.py and .github/workflows/phase1-execution-proxy-tests.yml for deterministic E065/E066 regression tests.
+- G9 remains blocked pending independent tester re-audit. No Phase 2/backtest/performance work has started.
