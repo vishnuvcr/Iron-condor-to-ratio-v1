@@ -99,3 +99,6 @@ phase-1-data-acquisition-validation.
 
 ### Latest Phase 1 evidence step — 2026-10-03
 The developer formalized the remaining production evidence requirements without promoting any gate to PASS. Official NSE documentation confirms a paid F&O historical order/trade product suitable for quote/execution reconstruction. Official NSE circulars confirm that NIFTY lot size and expiry rules changed during the sample, so historical contract metadata must be effective-date based. RBI provides historical 91-day T-bill primary yields, and Paytm Money documents brokerage/STT changes by date and user cohort. G4–G12 remain open/blocked pending machine-readable acquisition, execution and independent review.
+
+### E035 control correction — 2026-10-03
+The Phase 1 acceptance report was synchronized with the canonical G1 PASS state, and unused hard-coded session-bound constants were removed from the diagnostic audit. Historical session acceptance remains date-specific and G4 remains OPEN. No Phase 2 work has begun.
