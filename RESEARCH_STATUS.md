@@ -123,3 +123,10 @@ Updated: 2026-10-03
 
 ## 2026-10-03
 2026-10-03 — G12 UI correction: The Phase 1 workflow was not present on main, which explains the missing Run workflow control. The workflow was added unchanged to main at commit 25f43daf258add201adf0efc67ea9d58c682ed38. G12 remains unexecuted until a dispatch is actually initiated; no Phase 2 work has begun.
+
+
+## 2026-10-03 — G12 run #32 diagnosis and correction
+- Manual Actions run #32 was visibly started on `main` and failed after 22 seconds.
+- Root cause identified from repository layout: `main` contains the dispatch wrapper workflow, while Phase 1 scripts/manifests remain on `phase-1-data-acquisition-validation`.
+- Corrected both workflow copies to accept `research_ref` for manual dispatch, defaulting to `phase-1-data-acquisition-validation`, and to checkout that ref. Push events continue to checkout `github.ref`.
+- G12 remains OPEN pending an actual successful Phase 1 execution and artifact evidence.
