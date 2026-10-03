@@ -60,16 +60,38 @@ NSE documentation also describes Black-Scholes as the theoretical pricing basis 
 
 ### IV solver
 
-- Solve for positive volatility using Brent's bracketing method.
-- Initial bracket: `[1e-6, 5.0]` annualized volatility.
+Use a version-independent Brent root solver contract. A conforming implementation must produce the same accepted root to the tolerances below; a library implementation may be used only if configured to these semantics.
+
+- Solve for positive volatility using the Brent-Dekker method on f(sigma) = model_price(sigma) - input_price.
+- Initial bracket: [1e-6, 5.0] annualized volatility.
 - If the pricing error does not change sign over that bracket, expand the upper bound by doubling it until 10.0; do not exceed 10.0.
 - If no sign change exists at 10.0, reject the observation.
-- Absolute pricing tolerance: `1e-8` option-price units.
+- Root absolute tolerance: 1e-10 annualized volatility.
+- Root relative tolerance: 1e-10.
+- A root is accepted when either abs(f(sigma)) <= 1e-8 or the Brent bracket width <= max(1e-10, 1e-10*abs(sigma)).
 - Maximum iterations: 100.
+- On the iteration where the stopping criterion is first satisfied, return the current Brent candidate before any further bracket update.
+- If 100 iterations are reached without satisfying the stopping criterion, reject the observation.
+- The canonical algorithm is the standard Brent-Dekker method using bisection, secant and inverse-quadratic interpolation, with interpolation accepted only when the standard Brent safeguard inequalities are satisfied; otherwise use bisection.
+- Literal-core arithmetic is IEEE-754 binary64.
+- A library implementation is permitted only when its returned root satisfies these same acceptance tolerances; record the library and version in the run manifest.
 - Do not forward-fill failed IVs.
 - After solving IV, recompute model premium and require absolute model-vs-input error <= 1e-6. Otherwise reject.
 - Reject non-finite values and option prices outside the no-arbitrage bounds, allowing at most one historical tick of numerical rounding tolerance.
 - IV must be strictly positive and finite.
+
+### No-arbitrage price bounds
+
+For discounted underlying S_q = S*exp(-qT) and discounted strike K_r = K*exp(-rT):
+
+- Call lower bound: max(0, S_q - K_r).
+- Call upper bound: S_q.
+- Put lower bound: max(0, K_r - S_q).
+- Put upper bound: K_r.
+
+Let tick_size be the historical contract tick size. Reject a midpoint if it is below lower_bound - tick_size or above upper_bound + tick_size.
+If a midpoint lies within one tick outside a mathematical bound, clamp the inversion price to that mathematical bound before IV solving. A clamped boundary price uses the lower volatility floor 1e-6; if model-vs-clamped-price error at that floor exceeds 1e-8, reject the observation.
+This defines the one-tick tolerance exactly and prevents an implementation from inventing an IV for a price outside the theoretical domain.
 
 ### Delta fallback
 
@@ -107,7 +129,7 @@ For a quote used for execution or IV reconstruction:
 - ask must be >= bid;
 - midpoint must be strictly positive;
 - relative spread `(ask-bid)/mid <= 0.25`;
-- quote timestamp may not be more than 120 seconds older than the decision timestamp;
+- quote timestamp must satisfy quote_timestamp <= decision_timestamp and decision_timestamp - quote_timestamp <= 120 seconds;
 - crossed or otherwise invalid quote records are rejected;
 - missing underlying observation rejects the corresponding Greek reconstruction;
 - missing expiry/strike/option type/contract identifier rejects the contract;
@@ -157,7 +179,7 @@ If a valid traded price exists but no executable bid/ask exists, the literal-cor
 - `reference_price` is the latest valid trade price available at or before the decision timestamp, subject to the 120-second freshness rule.
 - Buy fill = reference price + fallback slippage.
 - Sell fill = max(tick_size, reference price - fallback slippage).
-- Prices are rounded away from the trader to the contract tick size.
+- Prices are rounded with integer tick arithmetic. For raw_price and tick_size, let n = raw_price/tick_size. Buy fill = ceil(n)*tick_size; sell fill = floor(n)*tick_size. If n is exactly an integer, that on-grid price is retained. Decimal/rational tick arithmetic is used to determine integer n, avoiding binary floating-point ambiguity. Buy rounding never falls below raw_price; sell rounding never exceeds raw_price.
 - If no valid bid/ask and no fresh reference trade exist, no fill occurs and the event is logged as unfilled.
 - The fallback is a pre-registered literal-core convention; alternative slippage assumptions are sensitivity variants and cannot be selected after observing results.
 
