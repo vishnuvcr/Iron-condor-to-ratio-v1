@@ -180,3 +180,7 @@ Required checks:
 7. Record G13 independently as PASS or FAIL; do not infer approval from developer evidence.
 
 Developer state: G4/G12 = developer-evidence PASS; G13 = BLOCKED; G14 = BLOCKED.
+
+
+## Exact-tip CI requirement — 2026-10-03
+Because repository control/status files were updated after the prior successful validation, the next Actions run must be matched to the resulting branch tip before G12 is treated as current-head evidence.
