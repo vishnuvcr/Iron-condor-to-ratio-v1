@@ -444,3 +444,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Exact-head run 37157862634 reported the RBI acquisition step successful, but the production artifact still lacked `risk_free.csv`.
 - Inspection of exact-head source showed `main()` was defined but never invoked, so the step was a no-op and the CI success status was misleading.
 - Added the explicit module entry point. No gate advancement; the next run must prove actual RBI row extraction, coverage, provenance and production consumption.
+
+
+## 2026-10-04 — E099 RBI entry-point escaping correction
+- Exact-head run 37157954305 failed because the E098 entry-point was committed with literal `\\n` text, causing a Python syntax error.
+- Corrected the file to contain actual newline characters and preserved the intended explicit `main()` invocation.
+- No gate advancement; a fresh exact-head run is required.
