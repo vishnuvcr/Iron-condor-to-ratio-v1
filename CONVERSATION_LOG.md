@@ -162,3 +162,9 @@ This file records user-visible project instructions and work decisions, not hidd
 ## 2026-10-03 — Manual run #32 diagnosis
 - User screenshot showed `Phase 1 Data Acquisition and Validation #32`, event `Manually`, branch `main`, failed after 22 seconds.
 - Developer diagnosed the branch mismatch and changed the workflow so manual dispatch defaults to the Phase 1 research branch via `research_ref` while preserving normal push behavior.
+
+
+## 2026-10-03 — G12 run 37122653828 / E041
+- Actual CI evidence became available through the GitHub check-run endpoint.
+- Run `37122653828`, job `111201667259`: checkout, Python setup, cache restore, and dependency installation passed; syntax-check failed because `scripts/validate_phase1_control_manifests.py` was absent from the Phase 1 branch.
+- Developer restored the exact existing validator from main to the Phase 1 branch at `68b39d91035bcb79c192cac80f20fd29ed6e709d`.
