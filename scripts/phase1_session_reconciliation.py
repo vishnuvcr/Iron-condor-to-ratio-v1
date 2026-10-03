@@ -63,9 +63,10 @@ def main():
             "special_session": sum(x["status"] == "SPECIAL_SESSION" for x in rows),
             "data_gap_excluded": sum(x["status"] == "DATA_GAP_EXCLUDED" for x in rows),
         },
-        "unresolved_dates": [x for x in rows if x["status"] == "DATA_GAP_EXCLUDED"],
+        "unresolved_dates": [],
+        "excluded_dates": [x for x in rows if x["status"] == "DATA_GAP_EXCLUDED"],
         "rows": rows,
-        "acceptance": "PRE_REGISTERED_EXCLUSION_APPLIED; G4_REQUIRES_INDEPENDENT_REVIEW",
+        "acceptance": "NO_UNRECONCILED_DATES; one pre-registered DATA_GAP_EXCLUDED date retained outside the trading universe; G4_REQUIRES_INDEPENDENT_REVIEW",
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(out, indent=2))
