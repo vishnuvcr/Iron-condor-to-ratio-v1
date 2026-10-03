@@ -14,4 +14,7 @@ The tester should independently verify:
 10. The developer has not advanced into Phase 1 before tester approval.
 
 ## Acceptance
-Phase 1 may start only after an independent tester report is available and records a pass or explicitly documents required corrections.
+Phase 1 may start only after the **current independent tester gate** records a pass for the latest Phase 0 correction pass. Historical labels such as first/second/third/fourth tester are audit history only and do not define the active gate. A FAIL requires corrections on a new developer correction pass and another independent re-test before Phase 1 can start.
+
+## Current gate state
+The current developer correction branch is `phase-0-corrections-v4`. The fourth tester report (PR #8) failed B6 repository-control synchronization. Phase 1 remains blocked pending independent approval of the v4 correction pass.
