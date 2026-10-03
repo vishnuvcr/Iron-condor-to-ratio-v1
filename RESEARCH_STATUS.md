@@ -324,3 +324,8 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Tester also required manual-dispatch artifact provenance to bind explicitly to the checked-out commit.
 - Developer correction branch `phase-1-g5-e071-ci-provenance-hardening` records the checkout SHA inside `phase1_g5_alignment_report.json` and verifies it in CI; manual dispatch accepts an optional exact expected commit SHA.
 - G5 remains OPEN. G13/G14 and Phase 2 remain BLOCKED.
+
+## 2026-10-04 — E075 stale G9 wording correction
+- Repository control review found superseded G9-blocked wording in the canonical gate matrix after Tester PR #32 had already approved G9.
+- Corrected the current/historical control wording without changing the underlying methodology.
+- G9 remains PASS under the revised proxy methodology; G5/G6/G7/G8/G10/G11 remain open; G13/G14 and Phase 2 remain blocked.
