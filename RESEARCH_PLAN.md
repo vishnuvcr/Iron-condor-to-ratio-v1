@@ -1,7 +1,7 @@
 # Research Plan
 
 ## Research question
-Can the YouTube-described transition strategy—monthly 30Δ/10Δ Iron Condor transitioning to a directional ratio spread when the IC short leg reaches about 10Δ—produce reproducible risk-adjusted returns after realistic execution costs, slippage and brokerage assumptions?
+Can the YouTube-described transition strategy—monthly 30Δ/10Δ Iron Condor transitioning to a directional ratio spread when the IC short leg reaches about 10Δ—produce reproducible risk-adjusted returns under a frozen proxy-execution model with realistic adverse slippage, brokerage and date-effective transaction costs?
 
 ## Secondary questions
 1. What exact deterministic rules can be extracted from the video without adding unsupported assumptions?
@@ -20,7 +20,7 @@ Can the YouTube-described transition strategy—monthly 30Δ/10Δ Iron Condor tr
 - Build a source-derived rule dictionary.
 - Acquire and validate intraday NIFTY option data.
 - Implement the strategy as a state machine.
-- Model fills, slippage, brokerage, taxes and margin/capital usage.
+- Model proxy fills using the frozen completed-1-minute decision / next-eligible-minute-open convention; apply adverse slippage, brokerage, taxes and margin/capital usage.
 - Run baseline, sensitivity and robustness experiments.
 - Report statistical uncertainty and limitations.
 
@@ -49,7 +49,7 @@ Status: IN PROGRESS — G13/Phase 2 remains blocked
 Status: BLOCKED
 - Implement a deterministic Python state machine.
 - Use minute/event data where available.
-- Model bid/ask execution when available; otherwise configurable conservative slippage.
+- Primary methodology uses the frozen bid/ask-free proxy-execution model in `research/PHASE1_EXECUTION_PROXY_SPEC.md`: decision on a completed 1-minute bar, base fill at the next eligible option bar open, adverse per-leg slippage of 0/5/10/20/50 bps with a historical tick-size floor, and date-effective transaction costs. Historical bid/ask is not reconstructed or claimed.
 - Include brokerage and applicable exchange/transaction charges, GST, SEBI charges and stamp duty as configurable assumptions.
 - Model lot size and capital/margin use.
 - Log every trade, adjustment, trigger, fill and reason.
@@ -91,3 +91,20 @@ The video also discusses profit-taking and expiry-day decisions in a discretiona
 
 ## 2026-10-03 — E053 status correction
 Research-plan phase statuses were synchronized with the independent tester's current determination. Phase 0 is approved; Phase 1 remains active for substantive data-gate work; G13 and Phase 2 remain blocked. This is a status correction only and does not alter the proposed research phases or methodology.
+
+## 2026-10-03 — Bid/ask-free methodology change
+Status: **METHODOLOGY CHANGE — pending independent tester approval**
+
+The primary backtest no longer requires historical bid/ask. This is an explicit methodology change and does not relabel OHLC/LTP as bid/ask.
+
+The frozen proxy convention is:
+- evaluate strategy decisions only on completed 1-minute bars;
+- execute at the next eligible 1-minute option bar open;
+- apply adverse slippage per leg at 0, 5, 10, 20 and 50 bps, with a date-effective one-tick floor;
+- apply date-effective brokerage/statutory/exchange costs separately;
+- never interpolate a missing execution bar or use future information;
+- report failed/missing executions explicitly.
+
+The 10-bps scenario is the primary scenario; 0 bps is a diagnostic lower bound and 20/50 bps are stress sensitivities.
+
+This change supersedes the prior mandatory historical bid/ask requirement for the primary backtest. It does **not** authorize Phase 2: independent tester approval is required before Phase 2.
