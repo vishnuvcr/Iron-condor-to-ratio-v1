@@ -221,3 +221,7 @@ Independent tester PR #30 identified E065 and E066 in the proposed bid/ask-free 
 
 ## G9 status update — 2026-10-03
 **G9 = PASS under the revised proxy-execution methodology**, independently approved in Tester PR #32 after re-audit of developer head `8b99cb3b2b537c5b085c09729c27bb3957285ae8`. Historical bid/ask is not required for the primary backtest. The accepted model uses completed-bar decisions, the first eligible next-bar option open, atomic multi-leg execution, fail-closed missing-leg handling, trigger consumption/re-arm, historical tick-size floor, 0/5/10/20/50-bps adverse slippage and date-effective transaction costs. OHLC/LTP is never called bid/ask/midpoint/executable price. **G13/G14 and Phase 2 remain BLOCKED** pending G5/G6/G7/G8/G10/G11.
+
+
+### 2026-10-04 — E071 G5 validator correction
+The G5 validator had a report-construction field-reference defect found before execution. It was corrected to use the actual `decision_eligible` field. No G5 PASS is claimed; exact-head CI and tester review remain required.
