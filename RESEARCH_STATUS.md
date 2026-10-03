@@ -395,3 +395,10 @@ The failure-isolation script was also strengthened to test whether each option p
 - No interpolation, nearest matching, forward fill, deletion, holiday reclassification, or threshold relaxation was introduced.
 - The remaining 33,476 failures across 348 partially observed dates still require raw timestamp-level CI characterization.
 - G5 remains FAIL/OPEN; G6/G7/G8/G10/G11 remain OPEN; G9 PASS; G13/G14 and Phase 2 remain BLOCKED.
+
+
+## 2026-10-04 — G5 raw failure-isolation CI execution
+- Exact-tip diagnostic run **37154125183**, job **111293869429**, checkout **d6deadca7024eb88fa6c30dd0e2faff435f5ba80** is executing on the pinned Hugging Face source.
+- Checkout, exact-SHA assertion, cache restore, dependency installation, and source acquisition all passed.
+- The full raw parquet failure-isolation computation remains in progress; no partial result is being promoted to evidence.
+- G5 remains FAIL/OPEN. No acceptance rule, data treatment, or gate state has changed.
