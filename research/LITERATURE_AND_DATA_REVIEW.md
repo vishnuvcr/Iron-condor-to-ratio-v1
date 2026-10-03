@@ -49,3 +49,7 @@ The primary performance backtest must use real historical NIFTY option prices wi
 
 ### Research implication
 The literature establishes that ratio spreads and NIFTY option strategies have been studied, but it does not establish the YouTube strategy's transition logic, parameter values, or net profitability. The present study therefore remains a reproducibility/backtest question rather than a literature-confirmation exercise.
+
+
+## 2026-10-03 — G9 data-source screening update
+The broader search screened public GitHub NIFTY options pipelines and market-data collectors. Some document bid/ask-shaped schemas or execution modelling, but the underlying historical quote files are not publicly retained/validated for the complete study window. These are methodological references only and do not satisfy G9.
