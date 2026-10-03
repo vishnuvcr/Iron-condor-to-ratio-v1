@@ -79,3 +79,5 @@ phase-1-data-acquisition-validation.
 
 - Official RBI, NSE and Paytm Money source validation advanced the rate/cost/contract metadata gates; complete historical extraction remains open.
 - Phase 1 tester handoff now separates closed source-identification work from remaining production-acquisition gates.
+
+- Added research/PHASE1_GATE_MATRIX.md as the explicit acceptance matrix for the tester; it separates source identification from production acquisition and keeps Phase 2 blocked.
