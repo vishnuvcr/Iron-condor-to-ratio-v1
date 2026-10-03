@@ -3,7 +3,7 @@
 Research project to reproduce and independently backtest the YouTube strategy “What If the Iron Condor Starts Trending? Ratio Spread Strategy”.
 
 ## Current role
-Developer.
+Tester (independent audit branch).
 
 ## Current phase
 **Phase 1 — data acquisition and validation: IN PROGRESS. Phase 0 is APPROVED.**
@@ -57,7 +57,7 @@ The latest run passed structural validation but initially failed at deterministi
 Run 21 completed the structural, deterministic-deduplication, and diagnostic market-quality stages. Option timestamps matched NIFTY timestamps for 99.2953% of post-key-dedup option rows. However, NIFTY daily timestamp counts range from 6 to 420 across 1,262 dates; these session outliers are now an explicit acceptance blocker (E028) and will be characterized before production use.
 
 ## Branch
-phase-1-e046-bidirectional-reconciliation.
+phase-1-e053-control-sync (developer PR #21 under independent re-audit).
 
 ## Latest Phase 1 controls
 - Deterministic exact-row deduplication: `scripts/deduplicate_phase1_data.py`.
@@ -174,3 +174,9 @@ The current commit-status endpoint reports pending with zero published statuses,
 - **Phase 2: BLOCKED.**
 - E053 records stale top-level control-plane status text that must be synchronized before final Phase 1 approval.
 - Tester report: `research/TESTER_REPORT_PHASE1_E046_FINAL_REAUDIT.md`.
+
+## Independent tester E053 re-audit — 2026-10-03
+- PR #21 exact head: `4f7186c4d2478bdd83f86f0bb35547f4c8594fbc` on `phase-1-e053-control-sync`.
+- Canonical G1–G14 status is substantively synchronized: G4/G12 independently PASS; G5–G8/G10–G11 open; G9 blocked; G13/G14 blocked.
+- E054 remains open because the developer README current-branch field was stale at the audited head.
+- Tester report: `research/TESTER_REPORT_PHASE1_E053_REAUDIT.md`.
