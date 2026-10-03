@@ -174,3 +174,12 @@
 | E086 | 2026-10-04 | 1 / G5 | Exact-tip G5 CI run 37148487963 failed substantively: 521,069 of 77,727,743 decision-eligible option rows lacked an exact NIFTY timestamp; alignment was 99.3296229% versus the required 100%. The affected population spans 362 expiry/day groups, with large date clusters. | G5 cannot be accepted and the cause cannot be inferred from the aggregate artifact alone. | Preserved the failed artifact/run as immutable evidence. Created `phase-1-g5-failure-isolation-20261004` with a diagnostic specification, pinned-source failure reproduction, per-date/per-timestamp diagnostics, neighboring-index analysis, session reclassification, and option-file timestamp-range overlap checks. The 100% exact-timestamp rule is unchanged; no interpolation, forward-fill, nearest-match, or blanket deletion is permitted. |
 
 | E087 | 2026-10-04 | 1 / G5 | Artifact-level reconciliation showed that 14 affected dates have no NIFTY observed date in the independently accepted G4 artifact while option data exist, accounting for 487,593 of 521,069 G5 failures (93.5762%). The remaining 33,476 failures span 348 dates with partial NIFTY observations. | Confirms that most G5 failures are associated with primary underlying date gaps, while a smaller intraday mechanism remains unresolved. | Recorded the immutable-artifact preliminary classification. No date was excluded from G5 acceptance, and the 100% exact timestamp rule remains frozen. Raw-data CI diagnostics are still required for the remaining 33,476 rows and for formal expiry-partition/global-key verification. |
+
+
+## E081 — 2026-10-04 — G5 full-date failure isolation / external reconciliation
+
+- Independent tester confirmed 521,069 exact NIFTY alignment failures. Failure isolation identified 14 full-date gaps accounting for 487,593 rows (93.5755% of failures).
+- The four later dates (2025-10-10, 2026-05-25, 2026-05-26, 2026-05-29) were independently checked against NSE holiday calendars and external NIFTY history and are not supported as exchange holidays.
+- Impact: treating these dates as holidays would silently remove genuine market-day observations and bias the alignment gate.
+- Resolution: classify them as unresolved primary NIFTY-source coverage gaps pending raw-source reconstruction. Keep the 100% exact-timestamp rule unchanged.
+- Diagnostic terminology was corrected to distinguish row counts from unique timestamp counts.
