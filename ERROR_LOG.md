@@ -106,3 +106,6 @@
 ## E052 — 2026-10-03 — co-commit exact-tip execution control
 - To prevent documentation-only commits from moving the research head after a workflow-trigger commit, the final control/documentation update is being co-committed with the workflow marker.
 - This commit is intended to be the exact current-head candidate for automatic Phase 1 CI. No G12 PASS is claimed until an observable Actions run proves the checkout SHA and completes all validation steps.
+
+
+| E053 | 2026-10-03 | 1 | Independent tester found stale top-level Phase 1 status text after the E046/E047 corrective work: README role/current gate wording and top-level gate/acceptance/handoff states did not clearly match the latest independent Run #55 result. | Reviewers could read superseded E044/E045/E046 states as current, weakening control-plane reproducibility even though G4/G12 technical evidence was valid. | Synchronized the developer branch's canonical current-state sections; explicitly labeled historical evidence as append-only; recorded Run #55 G4/G12 independent PASS and G13/G14 BLOCKED; retained Developer as the correct role label on the developer branch and kept tester role/result in PR #20 and the tester report. No Phase 2 advancement. |
