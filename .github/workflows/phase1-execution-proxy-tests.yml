@@ -1,0 +1,30 @@
+name: Phase 1 Execution Proxy Rule Tests
+
+on:
+  push:
+    branches:
+      - "phase-1-execution-proxy-e065-e066"
+      - "phase-1-execution-proxy-methodology"
+    paths:
+      - "research/PHASE1_EXECUTION_PROXY_SPEC.md"
+      - "scripts/test_phase1_execution_proxy_rules.py"
+      - ".github/workflows/phase1-execution-proxy-tests.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "research/PHASE1_EXECUTION_PROXY_SPEC.md"
+      - "scripts/test_phase1_execution_proxy_rules.py"
+      - ".github/workflows/phase1-execution-proxy-tests.yml"
+  workflow_dispatch:
+
+jobs:
+  execution-proxy-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run E065/E066 regression tests
+        run: python scripts/test_phase1_execution_proxy_rules.py
