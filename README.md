@@ -193,3 +193,10 @@ The independent tester's PR #27 prescribed a fixed acquisition order for G9. The
 
 ## G9 salvage continuation — 2026-10-03
 The exact developer submission `d2003df53d07a952aa7434c4c706f396067b6080` was checked for associated PR-triggered Actions; none was observed through the available GitHub connector, so no CI result is claimed. The G9 workflow and validator were then hardened: raw CSVs are classified independently with immutable-file SHA-256, schema, timestamp, contract-identity, duplicate/order, and bid/ask validity diagnostics; acquisition failures produce a retained machine-readable report; OHLC/LTP is never substituted for bid/ask; cache keys are pinned to the candidate revision; and the workflow uploads the audit report even when acquisition fails. G9 remains **BLOCKED** and Phase 2 remains **BLOCKED** pending independently reproducible raw-data evidence and tester approval.
+
+## 2026-10-03 — E063 execution-methodology change
+The primary backtest methodology has been explicitly changed so historical bid/ask is no longer mandatory. See [Phase 1 Execution Proxy Specification](research/PHASE1_EXECUTION_PROXY_SPEC.md).
+
+The frozen model uses completed 1-minute decision bars and fills at the next eligible option bar open, with adverse per-leg slippage scenarios of 0/5/10/20/50 bps and an effective-date tick-size floor. Brokerage and statutory/exchange costs remain date-effective and separate. Missing execution bars are not interpolated, and OHLC/LTP are never relabeled as bid/ask.
+
+This changes the interpretation of the research from historical executable-fill validation to **proxy-execution backtesting under explicit sensitivity assumptions**. G9 is **BLOCKED pending independent tester approval of the methodology**; G13/G14 and Phase 2 remain BLOCKED.
