@@ -383,3 +383,15 @@ The exact commit containing the new official-NSE NIFTY 50 valuation acquisition 
 The frozen artifacts permit a date-level classification of the 521,069 missing exact alignments without modifying the production rule. Of 362 affected dates, 14 dates have no NIFTY observation date in the independently accepted G4 reconciliation and all 487,593 decision-eligible option rows on those dates are unaligned (93.5762% of all G5 failures). The 14 dates are 2021-05-07, 2021-05-10, 2021-05-11, 2021-05-12, 2021-05-14, 2021-05-17, 2021-05-18, 2021-05-19, 2021-05-20, 2021-05-21, 2025-10-10, 2026-05-25, 2026-05-26 and 2026-05-29. The remaining 33,476 failures occur across 348 dates where NIFTY has some observed timestamps; their exact mechanism remains unresolved pending raw-data diagnostics. This preliminary result is stored in `data/validation/phase1_g5_failure_isolation_preliminary.json` and does not relax G5.
 
 The failure-isolation script was also strengthened to test whether each option parquet file contains exactly one expiry matching its filename. If that partition guarantee fails, the diagnostic will require a global contract-key duplicate audit before any correction is considered.
+
+
+## 2026-10-04 — G5 failure-isolation external reconciliation
+
+- Completed the non-accepting external reconciliation requested by the independent tester.
+- The 14 full-date gaps remain classified as underlying-source coverage failures, not exclusions.
+- Official NSE 2025 F&O holiday evidence shows 2025-10-10 was not an October holiday; independent NIFTY history confirms NIFTY traded that date. Official NSE 2026 F&O holiday evidence lists May 28, not May 25/26/29; independent NIFTY history confirms observations on all three later dates.
+- Added `research/PHASE1_G5_FAILURE_ISOLATION_EXTERNAL_RECON_20261004.md`.
+- Corrected failure-isolation diagnostic field semantics so row counts are explicitly named as row counts and unique-timestamp counts remain distinct.
+- No interpolation, nearest matching, forward fill, deletion, holiday reclassification, or threshold relaxation was introduced.
+- The remaining 33,476 failures across 348 partially observed dates still require raw timestamp-level CI characterization.
+- G5 remains FAIL/OPEN; G6/G7/G8/G10/G11 remain OPEN; G9 PASS; G13/G14 and Phase 2 remain BLOCKED.
