@@ -239,3 +239,9 @@ Updated: 2026-10-03
 - The public GitHub ecosystem also contains pipelines with bid/ask-shaped schemas or execution modelling, but the underlying historical quote files are not retained/validated for this study.
 - These sources are recorded as non-qualifying alternatives. The official NSE historical F&O order/trade product remains the preferred G9 acquisition route.
 - G9 remains BLOCKED pending licensed acquisition and deterministic validation/reconstruction.
+
+## 2026-10-03 — E054 README branch provenance correction
+- Independent tester PR #22 found the README's current branch identifier was stale relative to developer PR #21.
+- Created `phase-1-e054-readme-branch-provenance` from exact audited head `4f7186c4d2478bdd83f86f0bb35547f4c8594fbc`.
+- Corrected only the README branch provenance and recorded E054 in the error/status controls.
+- No gate result changed: G4/G12 remain independently PASS; G5–G8/G10–G11 remain open/preliminary; G9 remains blocked; G13/G14 and Phase 2 remain blocked.
