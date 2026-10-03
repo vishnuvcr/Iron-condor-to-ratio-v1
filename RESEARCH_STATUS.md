@@ -105,3 +105,10 @@ Updated: 2026-10-03
 - Official NSE historical F&O order/trade data remains identified but not acquired because it is a paid/procurement-controlled product.
 - Reopening PR #13 was attempted to obtain a fresh Actions acquisition/audit run; the workflow-run query still returned zero runs. This is recorded as an execution-environment limitation, not a data-validation PASS.
 - G4–G12 remain open/blocked and Phase 2 remains blocked.
+
+
+## 2026-10-03 — Independent tester data-gathering audit
+- E036 was independently confirmed: PR #13/current repaired head `833d8a0b7195418bdc98d04976841963b6bacfc2` has zero associated workflow runs; no fresh acquisition/audit execution is claimed.
+- The new `data/manifests/phase1_data_inventory.json` is conservative and separates historical CI evidence from not-yet-acquired production datasets.
+- Independent tester identified E037 in `.github/workflows/phase1-data-validation.yml`: the syntax-check `run:` command is a folded plain scalar, so the intended second Python command is not executed separately.
+- Phase 1 remains FAIL/IN PROGRESS; Phase 2 remains BLOCKED. G4–G12 are not all satisfied and G13/G14 remain blocked.
