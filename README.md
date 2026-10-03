@@ -3,13 +3,13 @@
 Research project to reproduce and independently backtest the YouTube strategy “What If the Iron Condor Starts Trending? Ratio Spread Strategy”.
 
 ## Current role
-Developer.
+**Tester — Phase 0 second independent audit**
 
 ## Current phase
-**Phase 0 — specification, literature/data review and reproducibility controls: COMPLETE.**
+**Phase 0 second tester gate: FAILED / corrections required.**
 
 ## Gate
-**Phase 1 is blocked pending an independent tester report.** No backtest implementation has been advanced past this gate.
+**Phase 1 remains blocked.** The first tester's blockers were substantially addressed, but the second tester found repository-integrity and reproducibility gaps that must be corrected before approval.
 
 ## Source strategy
 The uploaded transcript is the primary strategy source. It specifies a monthly Iron Condor using short call/put near 0.30 delta and long call/put near 0.10 delta; transition when either short IC leg reaches approximately 0.10 delta; directional ratio spreads; continuation and reversal delta triggers; and discretionary profit-taking/expiry-day discussion.
@@ -18,20 +18,18 @@ The uploaded transcript is the primary strategy source. It specifies a monthly I
 - [Research plan](RESEARCH_PLAN.md)
 - [Research status](RESEARCH_STATUS.md)
 - [Source-derived strategy specification](research/STRATEGY_SPEC.md)
-- [Literature and data review](research/LITERATURE_AND_DATA_REVIEW.md)
-- [Tester handoff](research/TESTER_HANDOFF.md)
+- [Second tester report](research/TESTER_REPORT_PHASE0_SECOND.md)
+- [First tester report](https://github.com/vishnuvcr/Iron-condor-to-ratio-v1/blob/tester/phase-0-audit/research/TESTER_REPORT_PHASE0.md)
 - [Error log](ERROR_LOG.md)
 - [Conversation log](CONVERSATION_LOG.md)
 - [Project instructions](PROJECT_INSTRUCTIONS.md)
 
-## Data policy
-The strategy's triggers depend on intraday option deltas. NSE public historical-report pages provide authoritative daily derivatives reports, but daily reports alone cannot reproduce intraday trigger timing. Phase 1 therefore requires real historical intraday NIFTY option data with sufficient strike/expiry coverage and documented provenance.
+## Second tester finding
 
-## Research controls
-Each phase will use a separate branch. Every phase will update status and error logs. Backtests will include configurable slippage, brokerage, transaction charges and other applicable costs. Synthetic data is permitted only for engine/unit tests, not for the primary performance conclusion.
+The corrected STRATEGY_SPEC now clearly labels machine-level mechanics as research implementation conventions rather than claims about the YouTube source. Most first-tester blockers are explicitly addressed.
+
+However, PR #3 promises `research/OPERATIONAL_CONVENTIONS.md`, links to it, and states it was added, but that artifact is absent from the PR changed-file list and is not retrievable from the correction branch. Exact numerical conventions for Greeks, fallback slippage, tie-breaking, data-quality filters, threshold inequalities, direction classification and historical expiry identification also require further freezing.
 
 ## Current conclusion
-No performance conclusion is justified yet. Phase 0 established a reproducible specification and identified the key data requirement and ambiguity controls.
 
-## Branch
-Phase 0 branch: phase-0-specification.
+No performance conclusion is justified. No Phase 1 work should proceed until the second tester blockers are corrected and independently re-tested.
