@@ -283,3 +283,6 @@ The exact commit containing the official NSE NIFTY 50 valuation acquisition impl
 - Phase 2: BLOCKED
 
 No backtest, optimization, profitability analysis, or trading-strategy conclusion has been performed.
+
+## 2026-10-04 — Preliminary G5 failure classification
+Immutable G4/G5 artifact comparison now establishes that **14 affected dates have no NIFTY observed date at all**, while option rows exist; those dates account for **487,593 / 521,069 = 93.5762%** of the G5 missing alignments. The remaining **33,476** failures span **348 dates** where NIFTY has some observations and therefore require timestamp-level diagnosis. The 14 full-date gaps are preserved as evidence rather than silently excluded. The diagnostic branch also now checks whether each expiry parquet is partitioned by a single expiry matching its filename; if not, a global contract-key audit is required. G5 remains FAIL/OPEN and the 100% exact-timestamp rule is unchanged.
