@@ -199,3 +199,12 @@ This file records user-visible project instructions and work decisions, not hidd
 - Corrective branch: phase-1-e046-bidirectional-reconciliation.
 - New regression tests: missing special date, unknown observed date, duplicate manifest mapping, special interval failure.
 - Tester must verify the corrective branch's final-head CI, regression-test execution, G4 artifact, and absence of Phase 2 work before issuing G13.
+
+
+## 2026-10-03 — E046/E047 corrective execution
+- User said “Proceed” to continue the developer-controlled Phase 1 workflow.
+- Verified exact corrective-head Actions run 37129894485 on commit 4099cd1217f072be961f120ab114034578e19197; all job steps completed successfully.
+- Verified artifact 11275819920 (SHA-256 57cdcc53ec350be96e2b0e4fe3d54178).
+- Inspected phase1_session_reconciliation.json: bidirectional reconciliation enabled; 1,262 observed dates; 13 manifest control dates; 10 special sessions reconciled; 1 data-gap exclusion; 0 unreconciled dates; 0 missing manifest-session dates.
+- Recorded E047 after the earlier exact-head run identified three documented NSE weekend live-trading dates not yet represented in the control manifest. The manifest was extended and the subsequent exact-head run passed.
+- Developer evidence now supports G4/G12 for the corrective head. No Phase 2 work or performance claim was started. Independent tester re-audit remains required for G13.
