@@ -14,6 +14,7 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "data/manifests/phase1_control_sources.json"
+SESSION_RULES = ROOT / "data/manifests/phase1_session_rules.json"
 REQUIRED_GROUPS = {
     "session_sources",
     "contract_sources",
@@ -25,6 +26,25 @@ REQUIRED_GROUPS = {
 
 def main() -> None:
     data = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    session_rules = json.loads(SESSION_RULES.read_text(encoding="utf-8"))
+    if "unresolved_dates" in session_rules:
+        raise SystemExit("phase1_session_rules.json: unresolved_dates escape hatch is prohibited")
+    for required in ("regular_execution_session", "special_sessions", "date_controls", "acceptance_rules"):
+        if required not in session_rules:
+            raise SystemExit(f"phase1_session_rules.json: missing {required}")
+    special_dates = {x.get("date") for x in session_rules["special_sessions"]}
+    for row in session_rules["special_sessions"]:
+        if not row.get("source_evidence"):
+            raise SystemExit(f"special session {row.get('date')}: missing source_evidence")
+        if not row.get("execution_intervals") or not row.get("source_observation_intervals"):
+            raise SystemExit(f"special session {row.get('date')}: missing interval controls")
+    for row in session_rules["date_controls"]:
+        if row.get("date") in special_dates:
+            raise SystemExit(f"date control {row.get('date')} duplicates a special session")
+        if row.get("expected_classification") not in {"NORMAL_ELIGIBLE", "DATA_GAP_EXCLUDED"}:
+            raise SystemExit(f"date control {row.get('date')}: invalid expected_classification")
+    if "UNRECONCILED" not in session_rules["acceptance_rules"].get("unresolved_rule", ""):
+        raise SystemExit("phase1_session_rules.json: unresolved-date acceptance rule missing")
     missing = REQUIRED_GROUPS.difference(data)
     if missing:
         raise SystemExit(f"missing required source groups: {sorted(missing)}")
@@ -46,6 +66,7 @@ def main() -> None:
             {
                 "status": "PASS",
                 "manifest": str(MANIFEST.relative_to(ROOT)),
+                "session_rules": str(SESSION_RULES.relative_to(ROOT)),
                 "groups": {g: len(data[g]) for g in sorted(REQUIRED_GROUPS)},
                 "note": "control-plane validation only; no production gate is closed",
             },
