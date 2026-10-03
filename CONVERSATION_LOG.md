@@ -401,3 +401,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - Reconciled the four later full-date gaps against official NSE holiday schedules and independent NIFTY historical observations. 2025-10-10 and 2026-05-25/26/29 are market dates, not exchange-holiday exclusions.
 - Added the external reconciliation report and clarified row-versus-unique-timestamp diagnostic semantics.
 - G5 remains FAIL/OPEN. No acceptance threshold or data treatment was relaxed.
+
+
+## 2026-10-04 — G5 raw diagnostic execution started
+- Re-read the controlling research files before execution.
+- Started exact-tip G5 failure-isolation CI run 37154125183 / job 111293869429 at checkout d6deadca7024eb88fa6c30dd0e2faff435f5ba80.
+- CI confirmed checkout, cache restore, dependency installation and pinned-source acquisition successfully; full raw diagnostic is still running.
+- No partial diagnostic output is being treated as a result and G5 remains FAIL/OPEN.
