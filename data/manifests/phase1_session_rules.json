@@ -101,5 +101,12 @@
       "issue": "Observed 09:00-15:30 with 391 timestamps; pre-session observations require classification against the frozen 09:15 execution window."
     }
   ],
-  "status": "CONTROL_RULES_ONLY_G4_REMAINS_OPEN"
+  "status": "CONTROL_RULES_WITH_PRE_REGISTERED_DATA_GAP_EXCLUSION_G4_REMAINS_PENDING_REEXECUTION",
+  "normal_session_acceptance": {
+    "eligible_window": "09:15-15:30 Asia/Kolkata, inclusive",
+    "minimum_observed_minutes": 300,
+    "exclusion_rule": "For a non-special observed date, if fewer than 300 unique timestamps fall inside the eligible regular-session window, classify the date as DATA_GAP_EXCLUDED and do not permit strategy trading on that date. Retain all raw rows and the exclusion reason in the audit output.",
+    "rationale": "The frozen research requires decision-time observations during the regular F&O execution window. This rule prevents fabrication or forward-filling of a materially incomplete session while preserving the source evidence.",
+    "pre_registered": true
+  }
 }
