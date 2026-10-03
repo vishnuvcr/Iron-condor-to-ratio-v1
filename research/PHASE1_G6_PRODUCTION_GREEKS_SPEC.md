@@ -89,3 +89,11 @@ A successful workflow run proves only that the implementation produced the repor
 The public NSE Indices historical-data interface explicitly exposes daily P/E, P/B and dividend-yield reports. An independently documented public reverse-engineering reference records the underlying historical valuation endpoint, with a maximum 365-day request window and multi-year pagination requirements. This is a procurement/implementation lead, not yet production data acceptance. The public documentation is linked in the project research record.
 
 RBI public WSS pages independently expose the required 91-Day Treasury Bill (Primary) Yield field. RBI's DBIE documentation also states that government-securities datasets are available through its public data API, but the study's frozen G6 rule remains tied to the specified 91-day primary-yield series and strict no-lookahead handling; no alternate rate series is silently substituted.
+
+
+## 2026-10-04 — E089 G6 production correction
+- Independent tester PR #45 determined G6 FAIL / OPEN on developer head c5f28327c13efd9b93bd4ca5a809dfc39b447c3d. E088 is accepted without reinterpretation.
+- The previous implementation was a scaffold rather than a completed historical Greek reconstruction.
+- The correction now performs timestamp-level production reconstruction with exact contemporaneous NIFTY joins, strictly-prior r/q selection, study-window enforcement, 15:30 IST expiry timing, deterministic Brent IV solving, signed/absolute deltas, target-delta diagnostics, populated failure counters, checksums and exact-checkout provenance.
+- G6 remains FAIL / OPEN because complete historical risk_free.csv and dividend_yield.csv inputs are not yet accepted and independent tester approval is still required.
+- G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH; G13/G14 and Phase 2 remain BLOCKED.
