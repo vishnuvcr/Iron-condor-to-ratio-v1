@@ -203,3 +203,6 @@ This changes the interpretation of the research from historical executable-fill 
 
 ### E064 — execution-proxy specification documentation correction
 The execution-proxy specification initially rendered mathematical escape sequences incorrectly. The equations were corrected without changing the frozen slippage parameters or execution convention. See `research/PHASE1_EXECUTION_PROXY_SPEC.md`. This correction does not advance any gate.
+
+## Latest execution-proxy correction — 2026-10-03
+Independent tester PR #30 identified E065 and E066 in the proposed bid/ask-free execution methodology. The developer correction now defines atomic multi-leg failure handling: if any required next-bar leg is missing or invalid, no leg fills, the prior state is retained, the triggering event is consumed, and a fresh trigger requires exit/re-entry. Sell-side slippage no longer clips to zero; non-positive fills are rejected explicitly, matching the invalid-price rule. Regression tests and a dedicated GitHub Actions workflow were added. **Tester approval is still pending; G9/G13/G14 and Phase 2 remain BLOCKED.**
