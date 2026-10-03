@@ -177,9 +177,9 @@ def main():
                 },
             )
             rec["option_rows"] += int(len(g))
-            rec["decision_timestamps"] += int(g["in_session"].sum())
+            rec["decision_timestamps"] += int(g["decision_eligible"].sum())
             rec["aligned_decision_timestamps"] += int(
-                g.loc[g["in_session"], "timestamp"].isin(eligible_index).sum()
+                g.loc[g["decision_eligible"], "timestamp"].isin(eligible_index).sum()
             )
 
     report = {
