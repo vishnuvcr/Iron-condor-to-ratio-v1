@@ -90,3 +90,12 @@ phase-1-data-acquisition-validation.
 - External NSE evidence confirms historical session timing cannot be inferred from today's 15:40 F&O close; date-specific session metadata is required.
 - G12 remains open: GitHub Actions reports zero workflow runs for repaired audit commit 336c8e8ddf5de93f31ef6b114e621747ae956620.
 - E034 records that local execution cannot substitute for CI because this environment has no outbound network resolution.
+
+## Phase 1 control-source specifications
+- [Historical NSE session calendar specification](research/PHASE1_SESSION_CALENDAR_SPEC.md) — date-specific session reconciliation; no retrospective use of current 15:40 hours.
+- [Historical contract and cost specification](research/PHASE1_CONTRACT_COST_SPEC.md) — effective-date NIFTY lot/expiry controls and date/cohort-specific Paytm Money/statutory charges.
+- [Historical quote-data procurement decision](research/PHASE1_QUOTE_DATA_PROCUREMENT.md) — G9 requires bid/ask or deterministic order-level reconstruction; close-price substitution remains disallowed.
+- [Phase 1 control-source manifest](data/manifests/phase1_control_sources.json) — provenance register for session, contract, risk-free, broker-cost and volatility-context sources.
+
+### Latest Phase 1 evidence step — 2026-10-03
+The developer formalized the remaining production evidence requirements without promoting any gate to PASS. Official NSE documentation confirms a paid F&O historical order/trade product suitable for quote/execution reconstruction. Official NSE circulars confirm that NIFTY lot size and expiry rules changed during the sample, so historical contract metadata must be effective-date based. RBI provides historical 91-day T-bill primary yields, and Paytm Money documents brokerage/STT changes by date and user cohort. G4–G12 remain open/blocked pending machine-readable acquisition, execution and independent review.
