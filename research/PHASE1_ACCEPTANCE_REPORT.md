@@ -76,3 +76,12 @@ Independent tester PR #18 identified E046: the G4 reconciler only iterated dates
 The developer accepted E046 without advancing any gate. Corrective branch: phase-1-e046-bidirectional-reconciliation. The implementation now performs manifest/data and data/manifest reconciliation, validates duplicate/overlapping mappings, and includes four regression tests.
 
 Current state: G4 FAIL/OPEN; G12 OPEN for the corrective head; G13 BLOCKED; Phase 2 BLOCKED.
+
+
+## E046/E047 exact-head evidence — 2026-10-03
+- Corrective head: 4099cd1217f072be961f120ab114034578e19197.
+- Actions run: 37129894485; job: 111222750604; all job steps completed successfully.
+- Artifact: 11275819920; SHA-256: 57cdcc53ec350fea1ce398f1130d5dd66beb63cdc0b481485e2b0e4fe3d54178.
+- Reconciliation artifact: 1,262 observed dates; 13 manifest control dates; 1,251 normal eligible; 10 special-session reconciled; 1 data-gap excluded; 0 unreconciled; 0 missing manifest-session dates.
+- E047 arose when the fail-closed exact-head run identified three genuine documented weekend live-trading dates absent from the control manifest. Those dates were added with dated exchange-source references and the exact-head rerun then passed.
+- Developer evidence: G4 PASS and G12 PASS for the exact corrective head. Independent approval is not yet granted; G13 remains BLOCKED. Phase 2 remains BLOCKED.
