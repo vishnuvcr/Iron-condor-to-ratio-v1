@@ -32,3 +32,12 @@ jobs:
           grep -q "Call lower bound" research/OPERATIONAL_CONVENTIONS.md
           grep -q "Buy fill = ceil(n)\*tick_size" research/OPERATIONAL_CONVENTIONS.md
           grep -q "Phase 1" RESEARCH_STATUS.md
+          grep -q "current independent tester approval" RESEARCH_PLAN.md
+          grep -q "Current independent tester approval for Phase 0" RESEARCH_STATUS.md
+          grep -q "phase-0-corrections-v4" README.md
+          grep -q "fourth independent tester" README.md
+          grep -q "sensitivity variant" RESEARCH_PLAN.md
+          grep -q "fixed literal-core fallback" RESEARCH_PLAN.md
+          ! grep -q "Status: BLOCKED BY SECOND TESTER GATE" RESEARCH_PLAN.md
+          ! grep -q "| 1 Data | **BLOCKED** | Second tester approval" RESEARCH_STATUS.md
+          ! grep -q "## Current branch\n`phase-0-corrections-v2`" README.md
