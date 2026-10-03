@@ -105,3 +105,10 @@ Updated: 2026-10-03
 - Official NSE historical F&O order/trade data remains identified but not acquired because it is a paid/procurement-controlled product.
 - Reopening PR #13 was attempted to obtain a fresh Actions acquisition/audit run; the workflow-run query still returned zero runs. This is recorded as an execution-environment limitation, not a data-validation PASS.
 - G4–G12 remain open/blocked and Phase 2 remains blocked.
+
+
+## 2026-10-03 — Independent tester E037 correction
+- Independent tester result: Phase 1 FAIL / IN PROGRESS; Phase 2 BLOCKED.
+- E037 identified a workflow command-block defect in the Phase 1 syntax-check step. The second command was not a separate shell command.
+- Corrected in commit `fb5993afa89cfce7fac177d1a62c45e98bddbc27` using an explicit multiline `run: |` block.
+- G12 remains FAIL/OPEN pending an independently verifiable successful Actions run of the corrected workflow. G13/G14 remain blocked.
