@@ -186,3 +186,7 @@ The independent tester's Run #55 re-audit identified stale top-level Phase 1 sta
 - **2026-10-03 substantive G5–G11 source audit:** added [G5–G11 source audit](research/PHASE1_G5_G11_SOURCE_AUDIT_20261003.md), expanded the official contract/cost/source manifests, and re-verified the NSE F&O Historical Order & Trade procurement route. These are evidence/provenance advances only; G5–G8/G10–G11 remain open and G9 remains blocked. No Phase 2 work has started.
 
 - **G9 candidate discovery:** a public Hugging Face NIFTY TBT dataset with bid/ask/depth fields was identified and registered as a candidate. Its published dataset currently reports incompatible schemas, so it is not accepted. An automated cached CI audit workflow has been added; G9 remains BLOCKED pending validation.
+
+
+### G9 free-data salvage — current step
+The independent tester's PR #27 prescribed a fixed acquisition order for G9. The developer has created the G9 free-data salvage protocol at research/PHASE1_G9_FREE_DATA_SALVAGE.md and expanded the source manifest. Current candidates include the pinned Hugging Face TBT archive, the ayyararyan/nse-options-pipeline raw-data lead, OptionVault/TickBytes samples, and retained-data investigation for the NSE options collector. **G9 remains BLOCKED** until one common validator demonstrates complete, reproducible historical execution-quality coverage. Candle close/OHLC remains prohibited as a bid/ask or midpoint substitute.
