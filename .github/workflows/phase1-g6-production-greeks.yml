@@ -10,6 +10,8 @@ on:
       - "research/PHASE1_G6_PRODUCTION_GREEKS_SPEC.md"
       - ".github/workflows/phase1-g6-production-greeks.yml"
       - "data/processed/g6/**"
+      - "scripts/acquire_g6_nse_q_history.py"
+      - "scripts/acquire_g6_rbi_risk_free.py"
   pull_request:
     branches: [main]
     paths:
