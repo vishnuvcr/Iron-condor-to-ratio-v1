@@ -88,11 +88,26 @@ def main():
         report.update({"status":"INPUT_VALIDATION_FAILURE","errors":errors})
         OUT.write_text(json.dumps(report,indent=2)); raise SystemExit(3)
 
-    # Strictly-before coverage is measured against every trading day represented
-    # by the prepared q table; no interpolation is performed.
-    trading_days=sorted(pd.to_datetime(q["date"]).dropna().unique())
-    r_dates=set(r["date"])
-    q_dates=set(q["date"])
+    # Strictly-before coverage is measured against the actual option-data trading-date universe.
+    parquet=list((OPT_ROOT/"options/NIFTY").glob("*.parquet"))
+    report["option_files"]=len(parquet)
+    if not parquet:
+        report["status"]="PRODUCTION_OPTION_INPUTS_MISSING"
+        OUT.write_text(json.dumps(report,indent=2)); raise SystemExit(4)
+    option_dates=set()
+    invalid_files=0
+    for p in parquet:
+        df_dates=pd.read_parquet(p,columns=["timestamp"])
+        ts=pd.to_datetime(df_dates["timestamp"],errors="coerce")
+        if ts.isna().any(): invalid_files += 1
+        option_dates.update(ts.dropna().dt.normalize().unique())
+    if invalid_files:
+        report["status"]="OPTION_INVALID_TIMESTAMP"
+        report["invalid_option_timestamp_files"]=invalid_files
+        OUT.write_text(json.dumps(report,indent=2)); raise SystemExit(6)
+    trading_days=sorted(option_dates)
+    r_dates=set(r["date"].dt.normalize())
+    q_dates=set(q["date"].dt.normalize())
     r_eligible=[d for d in trading_days if any(x<d for x in r_dates)]
     q_eligible=[d for d in trading_days if any(x<d for x in q_dates)]
     report["coverage"]={
