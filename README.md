@@ -6,7 +6,7 @@ Research project to reproduce and independently backtest the YouTube strategy �
 Developer.
 
 ## Current phase
-**Phase 0 sixth-gate correction pass — awaiting exact-commit CI audit and independent re-test.**
+**Phase 0 sixth-gate correction pass — exact-commit CI passed; awaiting independent re-test.**
 
 ## Gate
 **Phase 1 remains blocked.** Historical tester gates remain part of the audit trail, but the active gate is the current independent tester approval for the latest correction pass. The fourth independent tester failed PR #7 on B6 repository-control synchronization; no downstream research has started.
