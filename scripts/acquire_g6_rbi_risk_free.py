@@ -37,7 +37,7 @@ def fetch_one(sid):
     u=BASE.format(sid)
     try:
         r=requests.get(u,headers={"User-Agent":"Iron-condor-to-ratio-v1-research/1.0"},timeout=10)
-        if r.status_code!=200 or b"91-Day Treasury Bill (Primary) Yield" not in r.content: return None
+        if r.status_code!=200 or b"91-Day Treasury Bill (Primary) Yield" not in r.content: return {"id":sid,"url":u,"status":"NO_TARGET"},[]
         b=r.content; (RAW/f"wss_{sid}.html").write_bytes(b)
         rr=extract(r.text,sid)
         return {"id":sid,"url":u,"bytes":len(b),"sha256":sha(b),"rows":len(rr)},rr
