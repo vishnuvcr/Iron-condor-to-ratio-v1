@@ -17,7 +17,7 @@ on:
       - "scripts/phase1_g6_source_acquisition.py"
       - "data/manifests/phase1_control_sources.json"
       - ".github/workflows/phase1-g6-source-acquisition.yml"
-  workflow_dispatch: {}
+  workflow_dispatch:
 
 jobs:
   g6-source-audit:
