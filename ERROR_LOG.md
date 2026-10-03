@@ -271,3 +271,6 @@
 - The runner reached the RBI acquisition but produced zero target rows from the initial official host. A final bounded attempt now probes the canonical `www.rbi.org.in`, apex `rbi.org.in`, and `wss.rbi.org.in` WSS hosts for the same archive IDs.
 - If no primary rows are obtained, the script writes a failure diagnostic with per-page status counts and stops. No secondary RBI mirror is substituted into production.
 - This is the final planned primary-host acquisition attempt for G6; repeated blind retries are prohibited.
+
+
+| E103 | 2026-10-04 | 1 / G6 | Final primary RBI acquisition run 37158613890 executed all three official RBI/WSS hostnames over the bounded archive range but produced zero parseable 91-Day Treasury Bill (Primary) Yield rows. | Production r input cannot be established from the primary machine-readable source in the CI environment; proceeding with a mirror without explicit provenance would contaminate G6 acceptance. | Record the external access/provenance blocker, retain G6 FAIL/OPEN, and investigate any secondary RBI mirror only as a separately labelled cross-check/provisional source. No silent substitution or gate advancement. |
