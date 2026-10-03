@@ -410,3 +410,16 @@ The failure-isolation script was also strengthened to test whether each option p
 - The cause was mutable `github.ref` checkout combined with branch status commits during execution. This run is therefore reproduction evidence only, not exact-tip evidence.
 - Workflow corrected in **ee3ab7f2b08f79faa0f15d756aab2379136cefa9** to bind push/PR checkout and assertion to immutable `github.sha`; manual dispatch retains optional explicit expected-SHA control.
 - G5 remains **FAIL/OPEN**. No data treatment, interpolation, nearest matching, forward fill, deletion, or threshold relaxation was introduced. Fresh exact-SHA CI and independent tester re-audit are required.
+
+
+## 2026-10-04 — Immutable G5 failure-isolation reproduction
+
+- Exact-tip diagnostic run **37154986733** / job **111296435573** completed successfully at checkout **ee3ab7f2b08f79faa0f15d756aab2379136cefa9**.
+- Diagnostic artifact **11285517033**, SHA-256 **292c823060e87e5cf8ff72e5b08fc9662b8adc4c0ef10eacb87207f3ac8cc498**.
+- Artifact runtime checkout exactly matches the Actions head.
+- The immutable diagnostic independently reproduced **521,069** missing exact NIFTY alignments, exactly matching the frozen tester evidence.
+- It reports **362 affected dates** and confirms the 14 previously identified full-date gaps account for **487,593 / 521,069 = 93.5755%**.
+- It also reports **238 overlapping option-file timestamp ranges** despite every file containing a single expiry matching its filename; therefore partition-range separation cannot be used as a global duplicate-proof.
+- Remaining unresolved population: **33,476 rows across 348 dates** with some NIFTY observations; these require timestamp/neighbor and global-key diagnostics.
+- G5 remains **FAIL/OPEN**. G6/G7/G8/G10/G11 remain OPEN; G9 remains PASS; G13/G14 and Phase 2 remain BLOCKED.
+- No exact-match relaxation, interpolation, forward-fill, deletion, holiday reclassification, backtest, optimization, or profitability analysis was introduced.
