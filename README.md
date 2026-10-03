@@ -73,3 +73,6 @@ phase-1-data-acquisition-validation.
 - PR #13 was opened for the repaired CI path, but no new Actions status was emitted in this environment; therefore Phase 1 acceptance remains blocked and no repaired-run result is claimed.
 
 - E029 control improvement: Phase 1 CI now performs a fail-fast Python syntax check before data acquisition.
+
+- Phase 1 evidence search expanded to GitHub/open-source and commercial NIFTY archives; reviewed alternatives also lack historical bid/ask. NSE Historical Order & Trade Data remains the preferred quote-source procurement route.
+- Tester handoff updated with the remaining acceptance gates; Phase 2 remains blocked.
