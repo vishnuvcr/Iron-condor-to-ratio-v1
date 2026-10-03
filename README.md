@@ -122,3 +122,7 @@ Manual run #32 was dispatched on `main` and failed after 22 seconds. The dispatc
 
 ### G12 execution evidence — E041
 Run `37122653828` reached the Phase 1 branch but failed in syntax/control-manifest validation because `scripts/validate_phase1_control_manifests.py` was missing from that branch. The validator has been restored unchanged at commit `68b39d91035bcb79c192cac80f20fd29ed6e709d`. G12 remains open pending the next execution.
+
+
+### Latest Phase 1 execution — G12 PASS on developer evidence
+Successful run `37122686454` on `phase-1-data-acquisition-validation` completed all Phase 1 workflow steps. Artifact `11274027306` was verified. Fresh data evidence: 108,625,497 raw rows, 0 hard-failure files, 30,363,281 exact duplicates removed, 77,776,166 option rows after key dedup, 99.2953% option/NIFTY timestamp alignment, and 286 session-count diagnostic outliers. G12 is now PASS on developer evidence; G13/G14 remain blocked.
