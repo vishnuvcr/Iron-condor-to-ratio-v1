@@ -144,3 +144,13 @@ Tester must verify that these additions do not imply data acquisition or gate cl
 - Reconciliation result: 1,254 normal eligible dates; 7 documented special-session dates; 1 pre-registered DATA_GAP_EXCLUDED date (2026-06-03); 0 unreconciled dates.
 - Normal execution window: 09:15–15:30 Asia/Kolkata. Source observations outside that window are retained for audit but are not eligible for strategy decisions.
 - Independent tester must verify the dated special-session references, the 300-timestamp incomplete-session rule, the exclusion of 2026-06-03 from the trading universe, and the zero-unreconciled result before G13 can pass.
+
+
+## E044/E045 corrective handoff — 2026-10-03
+- E044 is accepted as a substantive G4 reproducibility defect: the prior manifest's unresolved_dates were not consumed, and special-session labels were not interval-validated.
+- The corrected session manifest is schema version 2.0. It has no unresolved_dates escape hatch.
+- Explicit date_controls now cover 2021-06-28, 2026-06-03 and 2026-07-01 with expected classifications and policies.
+- Every special session now declares F&O execution_intervals and source_observation_intervals with pinned NSE evidence.
+- The reconciler now fails if: a controlled anomaly does not match its expected classification; a special execution interval has no observed coverage; an observed timestamp is outside both execution and documented source-observation intervals; or any date remains uncontrolled/unreconciled.
+- E045 is accepted: previous successful CI is historical evidence only because it ran on an older commit. G12 must be re-established on the resulting final Phase 1 head.
+- Phase 2 remains blocked. Tester should independently verify the final-head commit, complete workflow, artifact hash, G4 report and the absence of unresolved/uncontrolled dates before considering G12/G13.
