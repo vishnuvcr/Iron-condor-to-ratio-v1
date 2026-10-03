@@ -102,3 +102,7 @@ The developer formalized the remaining production evidence requirements without 
 
 ### E035 control correction — 2026-10-03
 The Phase 1 acceptance report was synchronized with the canonical G1 PASS state, and unused hard-coded session-bound constants were removed from the diagnostic audit. Historical session acceptance remains date-specific and G4 remains OPEN. No Phase 2 work has begun.
+
+
+### Independent tester E037 — 2026-10-03
+The independent Phase 1 tester recorded **FAIL / IN PROGRESS** and kept Phase 2 **BLOCKED**. E037 identified a CI correctness defect: the syntax-check step used a plain `run:` scalar, so its second command was folded into the first command rather than executed separately. The workflow was corrected in commit `fb5993afa89cfce7fac177d1a62c45e98bddbc27` using an explicit multiline command block. G12 remains FAIL/OPEN until the corrected workflow has an independently verifiable Actions run. No backtest, optimization, profitability result, or trading conclusion has been introduced.
