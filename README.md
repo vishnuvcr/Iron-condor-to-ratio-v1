@@ -244,3 +244,10 @@ Tester PR #40 found a G6 cache-integrity defect. The developer corrected the cac
 - G6 source provenance bootstrap produced real observed SHA-256 values, which are now committed to the manifest; no placeholder digests remain.
 - G6 exact-tip CI run **37148353717** succeeded at commit `e8fca6a6084a463528643b63dd8f310899c0b3bf`, with artifact **11282958617**. This does not constitute G6 PASS because substantive r/q and IV/Greek reconstruction remain incomplete.
 - G5 exact-tip CI run **37148384171** is executing at commit `001e498bfc099e9f51df9129e1fdc2e9370b2b3a`; G5 remains OPEN pending completion and tester re-audit.
+
+## 2026-10-04 — G6 substantive production reconstruction implementation
+- New branch: `phase-1-g6-production-greeks-20261004` from paired SHA `db668dd2b89bf691a6481affb3cb2a9060c5fe98`.
+- Added the fail-closed G6 production Greek specification, production audit script, and GitHub Actions workflow.
+- The pipeline requires historical r/q inputs and refuses to manufacture missing coverage, future data, interpolation, or proxy values.
+- A local official-NSE q-data acquisition attempt was blocked by environment DNS isolation and logged as E082; this is not treated as research evidence.
+- G6 remains OPEN; G5 remains independently tracked on its exact-tip submission; G13/G14 and Phase 2 remain BLOCKED.
