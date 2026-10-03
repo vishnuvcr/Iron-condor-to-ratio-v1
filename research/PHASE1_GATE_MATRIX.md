@@ -47,3 +47,11 @@ The previous top-level table incorrectly exposed superseded E044/E045/E046 state
 
 ## 2026-10-03 — E058 / Tester PR #27 G9 free-data salvage continuation
 The tester handoff PR #27 is now the controlling next-step evidence for G9. Free-data candidates are being investigated in the prescribed order; no candidate is production-accepted yet. G9 remains **BLOCKED**. The local Hugging Face download attempt failed due to DNS/network isolation and was logged as E058; no inferred quote data were created. Phase 2 remains blocked.
+
+## 2026-10-03 — Tester PR #28 exact-head G9 salvage audit
+- Independent tester audited developer head 4698fa62b45fc62ae6c543c168bccdfd3de1d5fc.
+- G9 remains BLOCKED.
+- E060: exact PR-head checkout is not asserted by the G9 workflow.
+- E061: raw-file diagnostics do not yet enforce the complete G9 acceptance contract.
+- E062: no independently observable exact-head G9 artifact is available.
+- G13/G14 and Phase 2 remain BLOCKED.
