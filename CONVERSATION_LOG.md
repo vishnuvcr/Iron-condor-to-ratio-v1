@@ -329,3 +329,12 @@ This file records user-visible project instructions and work decisions, not hidd
 - User reported Tester PR #32 approval of the revised bid/ask-free methodology.
 - Independently verified PR #32 exists and explicitly records G9 PASS at exact developer head `8b99cb3b2b537c5b085c09729c27bb3957285ae8`, with E065/E066 PASS and G13/G14/Phase 2 still blocked by G5/G6/G7/G8/G10/G11.
 - Synchronized the canonical Phase 1 gate matrix and control-plane status to G9 PASS. No Phase 2 work was started.
+
+
+## 2026-10-03 — User authorized G5 continuation
+- User said “ok proceed”; developer continued as Developer under the existing independent-tester gate.
+- Re-read the current control plane before starting the next permitted gate. G9 is independently PASS under Tester PR #32; G13/G14 and Phase 2 remain blocked by G5/G6/G7/G8/G10/G11.
+- Created `phase-1-g5-underlying-option-alignment` from the synchronized G9-pass developer head.
+- Added the G5 acceptance specification, fail-closed validator, and automated GitHub Actions workflow with cache restore/save and manual dispatch.
+- During implementation review, an initial validator draft was found to conflate session eligibility with NIFTY timestamp presence. This was corrected before execution and logged as E068.
+- No Phase 2/backtest/optimization/profitability work was introduced.
