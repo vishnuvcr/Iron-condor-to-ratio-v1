@@ -1,3 +1,39 @@
+# Phase 1 Tester Handoff — Canonical Gate Contract
+
+Effective: 2026-10-03
+
+The canonical Phase 1 gate IDs are defined only as follows:
+
+| Gate | Meaning |
+|---|---|
+| G1 | Immutable primary dataset / provenance |
+| G2 | Structural schema validation |
+| G3 | Duplicate handling |
+| G4 | Timestamp and session quality |
+| G5 | Underlying/option alignment |
+| G6 | Production historical Greeks / IV |
+| G7 | Target-delta availability |
+| G8 | Historical contract metadata |
+| G9 | Historical bid/ask / execution quality |
+| G10 | Date-specific transaction costs |
+| G11 | Market-context datasets |
+| G12 | Repaired CI execution |
+| G13 | Independent tester approval |
+| G14 | Phase 2 authorization |
+
+This vocabulary is authoritative for all current Phase 1 documents. Older G1–G10 labels in historical evidence are not acceptance IDs.
+
+## E033 normalization
+The first independent Phase 1 tester identified ambiguous reuse of G1–G10 between the gate matrix, data specification and acceptance report. Those meanings have now been normalized to the canonical table above.
+
+## Required re-audit
+1. Confirm all current Phase 1 documents use the canonical G1–G14 meanings.
+2. Confirm the repaired audit has an independently verifiable GitHub Actions run.
+3. Confirm G4 session anomalies are reconciled to historical exchange sessions.
+4. Confirm G5–G12 are evidenced or remain explicit blockers.
+5. Confirm no Phase 2 work or performance claim has been introduced.
+6. Record G13 independently; do not infer approval from developer evidence.
+
 # Tester Handoff — Phase 0
 
 ## Required independent checks
