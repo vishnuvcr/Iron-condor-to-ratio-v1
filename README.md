@@ -150,3 +150,7 @@ undefined
 - E047 added dated controls for the documented weekend live-trading sessions 2024-01-20, 2025-02-01 and 2026-02-01 after the fail-closed exact-head rerun identified them.
 
 See research/PHASE1_GATE_MATRIX.md, research/PHASE1_ACCEPTANCE_REPORT.md, research/TESTER_HANDOFF.md, and ERROR_LOG.md.
+
+
+## E048 manual-dispatch safeguard — 2026-10-03
+The default-branch Actions workflow was updated to expose the E046-corrected Phase 1 workflow for manual dispatch. Main workflow commit: `097d29c2816614bc7ba45365454b7f0dc270bc5d`. Manual run #52 shown in the user screenshot is not accepted as corrective evidence unless its explicit `research_ref` selected the E046 branch.
