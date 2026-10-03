@@ -287,3 +287,10 @@ The G6 production branch now includes a fail-closed production Greek evidence sc
 - Actions run 37157070947 completed with unit tests passing and the production audit failing closed because data/processed/g6/risk_free.csv and data/processed/g6/dividend_yield.csv are absent.
 - Evidence artifact 11285937357 was produced and is bound to the exact checkout SHA; artifact digest sha256:c9d3748f22da9f83525f7aa4594dafbb69364370764230dae374a487d9f7d78c.
 - This is substantive evidence that the corrected production scanner is reached and fails closed on missing mandatory inputs. It is not G6 PASS evidence.
+
+
+## 2026-10-04 — G6 official r/q acquisition implementation
+- Added `scripts/acquire_g6_rbi_risk_free.py` to enumerate the official RBI WSS archive, retain/hash source pages containing the 91-day Treasury-bill primary yield, extract dated observations, reject conflicting duplicates, and emit `data/processed/g6/risk_free.csv`.
+- Extended the G6 workflow to execute the existing official NSE Indices NIFTY 50 P/E/P/B/dividend-yield acquisition and convert its double-parsed response into `data/processed/g6/dividend_yield.csv` before the production scan.
+- The production pipeline therefore now has a concrete primary-source acquisition path for both mandatory r and q inputs. No secondary proxy has been substituted.
+- G6 remains FAIL / OPEN pending exact-head CI acquisition results and independent tester review.
