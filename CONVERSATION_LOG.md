@@ -269,3 +269,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - Developer accepted E055 as a reproducibility/control defect and corrected the malformed SHA without changing any research methodology or gate result.
 - G1–G3 remain PASS; G4 and G12 remain independently PASS on the previously audited exact CI evidence; G5–G8/G10–G11 remain open/preliminary; G9 remains BLOCKED; G13/G14 and Phase 2 remain BLOCKED.
 - No Phase 2/backtesting/optimization/profitability work was introduced. The corrected exact developer head is now submitted for independent re-audit.
+
+## 2026-10-03 — G5–G11 substantive source audit after E055 PASS
+- User said “ok proceed”; developer re-read the canonical Phase 1 controls before continuing.
+- Conducted a substantive official-source audit rather than documentation-only work. Verified RBI 91-day Treasury Bill Primary Yield availability, NSE NIFTY lot-size/expiry transitions through 2025, official NSE F&O Historical Order & Trade availability and schema/version documentation, Paytm Money brokerage/STT chronology, India VIX, NIFTY historical index data, FII/FPI-DII and GIFT NIFTY/NSE IX context.
+- Added `research/PHASE1_G5_G11_SOURCE_AUDIT_20261003.md` and expanded the control-source manifest and G8/G9 specifications.
+- G5–G11 statuses remain unchanged because production datasets/reconstruction are still incomplete; G9 remains BLOCKED. No Phase 2/backtest/optimization/profitability work was introduced.
