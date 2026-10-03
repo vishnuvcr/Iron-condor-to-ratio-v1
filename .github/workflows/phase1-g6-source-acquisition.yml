@@ -46,6 +46,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Test cache provenance rules
+        run: python scripts/test_phase1_g6_cache_provenance.py
+
       - name: Acquire and hash official G6 sources
         run: python scripts/phase1_g6_source_acquisition.py
       - name: Verify G6 artifact provenance
