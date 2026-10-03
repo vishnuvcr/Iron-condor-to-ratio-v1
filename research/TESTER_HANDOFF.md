@@ -184,3 +184,8 @@ Developer state: G4/G12 = developer-evidence PASS; G13 = BLOCKED; G14 = BLOCKED.
 
 ## Exact-tip CI requirement — 2026-10-03
 Because repository control/status files were updated after the prior successful validation, the next Actions run must be matched to the resulting branch tip before G12 is treated as current-head evidence.
+
+
+## E048 routing verification point — 2026-10-03
+- Verify that the main-branch workflow now defaults manual dispatch to `phase-1-e046-bidirectional-reconciliation` and contains the E046 bidirectional reconciliation and regression-test steps.
+- Do not accept manual run #52 as corrective G12 evidence solely from its `main` event branch label. Inspect the workflow's recorded checked-out research ref/commit.
