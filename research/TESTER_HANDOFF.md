@@ -165,3 +165,18 @@ Tester must verify that these additions do not imply data acquisition or gate cl
 Independent tester PR #18 identified a fail-closed defect in G4: manifest-only special-session dates were not processed. The corrective branch phase-1-e046-bidirectional-reconciliation adds two-way manifest/data reconciliation and regression tests.
 
 The previously verified final-head CI remains valid only for its exact superseded head; it is not reused as evidence for the corrective branch. Phase 2 remains blocked until a new corrective-head CI run and independent tester PASS.
+
+
+## Final corrective-head re-audit request — 2026-10-03
+Please independently audit exact head 4099cd1217f072be961f120ab114034578e19197 and Actions run 37129894485.
+
+Required checks:
+1. Confirm the checkout SHA equals the corrective head and job 111222750604 completed all Phase 1 steps successfully.
+2. Independently inspect artifact 11275819920 and verify SHA-256 57cdcc53ec350fea1ce398f1130d5dd66beb63cdc0b481485e2b0e4fe3d54178.
+3. Confirm phase1_session_reconciliation.json reports bidirectional_reconciliation=true, 1,262 observed dates, 13 manifest controls, 10 special sessions reconciled, 1 data-gap exclusion, 0 unreconciled, and 0 missing manifest-session dates.
+4. Confirm E047's three dated weekend sessions are supported by the repository's cited exchange evidence and execution eligibility remains constrained to the documented F&O interval.
+5. Confirm G5–G11 remain explicit blockers where production evidence is incomplete, especially historical bid/ask (G9), date-specific transaction costs (G10), and contextual datasets (G11).
+6. Confirm no Phase 2 engine, optimization, profitability result, or strategy conclusion has been introduced.
+7. Record G13 independently as PASS or FAIL; do not infer approval from developer evidence.
+
+Developer state: G4/G12 = developer-evidence PASS; G13 = BLOCKED; G14 = BLOCKED.
