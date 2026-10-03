@@ -80,3 +80,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - Added a fail-fast py_compile step to Phase 1 CI before acquisition.
 - Independently compiled the repaired session-outlier code block; syntax check passed.
 - This is not treated as a substitute for full pinned-data CI execution.
+
+
+## 2026-10-03 — Phase 1 evidence search continuation
+- Inspected the failed-run artifact 11272278743: structural validation and deterministic deduplication reports were present; market-quality/session reports were absent because E029 stopped the job before those steps.
+- Broader search covered GitHub pipelines and commercial NIFTY 1-minute archives. Reviewed sources explicitly describe OHLCV/OI but not historical bid/ask, so they cannot satisfy the frozen literal-core midpoint requirement.
+- NSE official historical order/trade data remains the strongest identified route for historical execution-quality reconstruction; it is a paid data product and is not yet acquired.
+- Added this evidence and the full outstanding acceptance checklist to research/TESTER_HANDOFF.md. Logged E031.
+- No Phase 2 work initiated.
