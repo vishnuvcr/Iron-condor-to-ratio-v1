@@ -41,3 +41,7 @@ The independent tester has closed the specific E046 technical defect and indepen
 The previous top-level table incorrectly exposed superseded E044/E045/E046 states. Those historical entries are retained below for traceability, while this top table is now synchronized to the independently verified Run #55 result.
 
 ## Historical evidence
+
+
+## G9 TBT candidate screening — 2026-10-03
+The independent tester rejected the pinned `antony9952/Nifty_option_TBT` candidate as production evidence because its public dataset metadata reports incompatible schemas and a dataset-generation cast error. G9 remains **BLOCKED** pending licensed historical execution/quote data acquisition and the full deterministic execution-quality audit. The candidate is retained as rejected evidence only.
