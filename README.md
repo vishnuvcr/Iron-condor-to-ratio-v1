@@ -239,3 +239,8 @@ Tester PR #39 confirms **G5 FAIL/OPEN, G6 FAIL/OPEN, G9 PASS, G13/G14 and Phase 
 
 ## 2026-10-04 — Tester PR #40 corrective response
 Tester PR #40 found a G6 cache-integrity defect. The developer corrected the cache path to fail closed on missing or mismatched immutable SHA-256 provenance. G5/G6 remain OPEN and G9 remains PASS; no Phase 2 work has started.
+
+## 2026-10-04 — Latest CI evidence
+- G6 source provenance bootstrap produced real observed SHA-256 values, which are now committed to the manifest; no placeholder digests remain.
+- G6 exact-tip CI run **37148353717** succeeded at commit `e8fca6a6084a463528643b63dd8f310899c0b3bf`, with artifact **11282958617**. This does not constitute G6 PASS because substantive r/q and IV/Greek reconstruction remain incomplete.
+- G5 exact-tip CI run **37148384171** is executing at commit `001e498bfc099e9f51df9129e1fdc2e9370b2b3a`; G5 remains OPEN pending completion and tester re-audit.
