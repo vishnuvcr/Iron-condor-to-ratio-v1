@@ -78,3 +78,9 @@ Additional public-source screening found several technically interesting but non
 - Commercial/subscription-style repositories advertise tick/Level-2 NIFTY option data, but access, licensing, historical coverage and reproducibility are not established for this study.
 
 These sources are retained as search evidence, not as accepted G9 data. The official NSE Historical Order & Trade product remains the preferred acquisition route because its specification exposes all-order-tick F&O data with order price/side/activity and linked trade identifiers. G9 remains BLOCKED until licensed raw data are actually acquired and reconstructed.
+
+## 2026-10-03 — Hugging Face / open-data screening
+
+Hugging Face screening identified additional NIFTY option datasets, including `rissin/nse-options-intraday` and `artist-23/nifty-options-data`. The former combines daily NSE F&O history with 1-minute Upstox candles and does not establish historical bid/ask; the latter exposes OHLC/IV/OI-style fields but does not document bid/ask. The primary `thetrademarkk/india-index-options-1m` schema likewise remains OHLCV(+OI) without historical bid/ask.
+
+These are useful corroborative/data-engineering sources but do not satisfy the frozen G9 execution-price requirement. G9 therefore remains BLOCKED.
