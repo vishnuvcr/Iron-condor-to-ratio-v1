@@ -279,3 +279,8 @@ This file records user-visible project instructions and work decisions, not hidd
 - During canonical control review after E055 PASS, developer-side files still referenced tester PR #20 as the current tester record.
 - Corrected current tester provenance to PR #25 and recorded E057 in ERROR_LOG.md.
 - Gate states did not change: G1–G3 PASS; G4/G12 independently PASS; G5 preliminary/open; G6–G8/G10–G11 open; G9 blocked; G13/G14 and Phase 2 blocked.
+
+## 2026-10-03 — G9 public TBT candidate discovery and automation
+- Broader source screening found `antony9952/Nifty_option_TBT` on Hugging Face. Its published preview contains timestamped bid/ask/depth fields for NSE_FO instrument keys, but the dataset builder reports incompatible schemas across files.
+- Registered the candidate at pinned revision `643b48383839947b5fe3ed9483c9f7c0f167e865` and added `scripts/validate_g9_tbt_candidate.py` plus `.github/workflows/phase1-g9-tbt-candidate.yml` for cached CI acquisition and raw-file audit.
+- G9 remains BLOCKED; the candidate is not accepted until study-window coverage, NIFTY contract identity, timestamp quality and quote reconstruction are validated. No Phase 2 work was introduced.
