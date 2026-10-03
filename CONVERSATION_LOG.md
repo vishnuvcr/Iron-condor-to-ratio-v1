@@ -138,3 +138,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - Reopened PR #13 to attempt a fresh automated acquisition/audit execution; the workflow-run API still returned zero runs. Logged E036 and did not claim a new download or validation result.
 - Added `data/manifests/phase1_data_inventory.json` so gathered data and outstanding procurement items are explicitly separated.
 - NSE historical F&O order/trade data remains the required quote/execution procurement blocker. No close-price substitution was made.
+
+
+## 2026-10-03 — Independent tester E037 correction
+- Independent tester reported Phase 1 FAIL / IN PROGRESS and Phase 2 BLOCKED.
+- E037: `.github/workflows/phase1-data-validation.yml` used a plain `run:` scalar for the syntax-check step, causing the following indented command to be folded into the py_compile invocation rather than executed as a separate command.
+- Corrected the step to `run: |` with two explicit commands in commit `fb5993afa89cfce7fac177d1a62c45e98bddbc27`.
+- Logged E037 in `ERROR_LOG.md`.
+- No Phase 1 gate was advanced. G12 remains FAIL/OPEN until independently verifiable GitHub Actions execution succeeds, and G13/G14 remain blocked.
