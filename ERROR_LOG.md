@@ -183,3 +183,11 @@
 
 
 | E086 | 2026-10-04 | 1 / G5 | Exact-tip G5 alignment audit Run 37148487963 failed at the substantive alignment stage on commit db668dd2b89bf691a6481affb3cb2a9060c5fe98. Artifact provenance/check-out binding succeeded, but the validator did not meet its acceptance condition. | G5 cannot be accepted and Phase 1 remains blocked. | Preserve the failed artifact as evidence. Do not relax the 100% exact-timestamp alignment rule. Next developer action is diagnostic isolation of the failed alignment population and corrective methodology only if justified by pre-registered rules; independent tester review remains mandatory. |
+
+
+## 2026-10-04 — E089 G6 production correction
+- Independent tester PR #45 determined G6 FAIL / OPEN on developer head c5f28327c13efd9b93bd4ca5a809dfc39b447c3d. E088 is accepted without reinterpretation.
+- The previous implementation was a scaffold rather than a completed historical Greek reconstruction.
+- The correction now performs timestamp-level production reconstruction with exact contemporaneous NIFTY joins, strictly-prior r/q selection, study-window enforcement, 15:30 IST expiry timing, deterministic Brent IV solving, signed/absolute deltas, target-delta diagnostics, populated failure counters, checksums and exact-checkout provenance.
+- G6 remains FAIL / OPEN because complete historical risk_free.csv and dividend_yield.csv inputs are not yet accepted and independent tester approval is still required.
+- G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH; G13/G14 and Phase 2 remain BLOCKED.
