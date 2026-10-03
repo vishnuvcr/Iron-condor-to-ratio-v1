@@ -191,3 +191,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - Developer accepted both findings without gate advancement.
 - Corrected G4 controls now use explicit date_controls; no unresolved-date escape hatch exists. Special sessions now contain F&O execution intervals and documented source-observation intervals, and the reconciler checks both interval coverage and uncontrolled timestamps.
 - G4/G12 remain open pending a fresh final-head CI execution and independent tester approval.
+
+
+## E046 corrective handoff — 2026-10-03
+- Independent tester PR #18 found a substantive G4 fail-closed defect: manifest-only special-session dates were never evaluated because the reconciler iterated only observed dates.
+- Required correction is bidirectional reconciliation: every manifest-controlled date must be represented in the output, and every observed date must resolve to exactly one canonical mapping.
+- Corrective branch: phase-1-e046-bidirectional-reconciliation.
+- New regression tests: missing special date, unknown observed date, duplicate manifest mapping, special interval failure.
+- Tester must verify the corrective branch's final-head CI, regression-test execution, G4 artifact, and absence of Phase 2 work before issuing G13.
