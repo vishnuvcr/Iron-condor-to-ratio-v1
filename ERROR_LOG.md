@@ -191,3 +191,6 @@
 - The correction now performs timestamp-level production reconstruction with exact contemporaneous NIFTY joins, strictly-prior r/q selection, study-window enforcement, 15:30 IST expiry timing, deterministic Brent IV solving, signed/absolute deltas, target-delta diagnostics, populated failure counters, checksums and exact-checkout provenance.
 - G6 remains FAIL / OPEN because complete historical risk_free.csv and dividend_yield.csv inputs are not yet accepted and independent tester approval is still required.
 - G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH; G13/G14 and Phase 2 remain BLOCKED.
+
+
+| E090 | 2026-10-04 | 1 / G6 CI | Corrective G6 unit tests imported scripts.phase1_g6_production_greeks, but scripts is not a Python package in the repository; exact-tip CI failed during test collection before production evidence generation. | The substantive G6 correction could not be exercised by CI and no evidence artifact was produced on that run. | Changed the test to import the module from the scripts execution path. No gate advanced; a fresh exact-head CI run is required. |
