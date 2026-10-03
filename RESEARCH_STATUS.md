@@ -214,3 +214,13 @@ Updated: 2026-10-03
 ## E052 — 2026-10-03 — co-commit exact-tip execution control
 - To prevent documentation-only commits from moving the research head after a workflow-trigger commit, the final control/documentation update is being co-committed with the workflow marker.
 - This commit is intended to be the exact current-head candidate for automatic Phase 1 CI. No G12 PASS is claimed until an observable Actions run proves the checkout SHA and completes all validation steps.
+
+
+## Independent tester E046 final re-audit — 2026-10-03
+- Exact developer tip `378a130b6d450b288be140655f9b0b75aad840b3` independently verified against Actions run #55 (`37135122966`), job `111238039571`, and artifact `11278418088`.
+- Artifact digest independently recomputed as `de60c50a047357d7f89d5602ea42fd832158855779e34169fec2b9beeb02159a`, matching GitHub's recorded digest.
+- G4: PASS independently. Artifact reports 1,262 observed dates, 13 manifest controls, 1,251 normal eligible, 10 special-session reconciliations, 1 data-gap exclusion, 0 unreconciled, 0 missing manifest-session dates. Four E046 regression tests passed in CI.
+- G12: PASS independently for the exact developer tip.
+- G13: BLOCKED because G5–G11 remain incomplete/open/blocked; Phase 2 remains blocked.
+- E053: stale top-level control/status sections remain in README, gate matrix, acceptance report, and tester handoff. This is a documentation-control defect that must be synchronized before final Phase 1 approval.
+- Tester report: `research/TESTER_REPORT_PHASE1_E046_FINAL_REAUDIT.md`.
