@@ -95,3 +95,12 @@ This file records user-visible project instructions and work decisions, not hidd
 - Validated official Paytm Money brokerage/STT chronology and official NSE historical lot-size/expiry circulars.
 - Updated Phase 1 tester handoff with these source-validation results.
 - Logged E032 because source existence is established but the complete date-aligned machine-readable series is not yet assembled.
+
+
+## 2026-10-03 — First independent Phase 1 tester audit
+- The tester independently audited PR #13 / `phase-1-data-acquisition-validation`.
+- Source chronology checks were supported: RBI provides historical 91-day Treasury-bill primary yields; Paytm Money documents the major brokerage/STT transition dates; NSE documents historical NIFTY lot-size and expiry changes. citeturn617425search0turn572247search0turn572247search1turn617425search1turn771458view0turn572247search40
+- Phase 1 nevertheless remains **FAIL / IN PROGRESS** because repaired CI has not been executed on the repaired code, historical bid/ask remains unresolved, production r/q/Greek and target-delta coverage remain open, session anomalies are unreconciled, effective-date contract metadata is not fully reconciled, complete date-specific cost schedules are incomplete, and contextual datasets are not fully aligned.
+- New blocker B033/E033: G1–G14 meanings are inconsistent between `research/PHASE1_GATE_MATRIX.md`, `research/PHASE1_DATA_SPEC.md` and `research/PHASE1_ACCEPTANCE_REPORT.md`.
+- `research/TESTER_REPORT_PHASE1_FIRST.md` records the independent FAIL.
+- No Phase 2 work or profitability analysis was performed.
