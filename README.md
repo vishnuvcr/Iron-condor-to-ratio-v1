@@ -106,3 +106,7 @@ The Phase 1 acceptance report was synchronized with the canonical G1 PASS state,
 
 ### Independent tester E037 — 2026-10-03
 The independent Phase 1 tester recorded **FAIL / IN PROGRESS** and kept Phase 2 **BLOCKED**. E037 identified a CI correctness defect: the syntax-check step used a plain `run:` scalar, so its second command was folded into the first command rather than executed separately. The workflow was corrected in commit `fb5993afa89cfce7fac177d1a62c45e98bddbc27` using an explicit multiline command block. G12 remains FAIL/OPEN until the corrected workflow has an independently verifiable Actions run. No backtest, optimization, profitability result, or trading conclusion has been introduced.
+
+
+### G12 autonomous execution attempt — 2026-10-03
+The corrected workflow was committed with an execution-trigger marker (`70baca4a23649ec58cb30e2e91a6747f3f2d8267`) to test whether a repository-side push could initiate Actions. GitHub returned zero workflow runs for that commit. G12 therefore remains FAIL/OPEN; no Phase 2 advancement is permitted.
