@@ -71,7 +71,7 @@ The corrected v5 commit `4515b32ecd3d6a17b061f53dd97245c393489166` passed the Ph
 **FAIL — Phase 0 approval not granted.** B9 found `research/TESTER_HANDOFF.md` stale at v4; B10 found the integrity workflow lacked a positive assertion that the active README current-branch field is `phase-0-corrections-v5`. The sixth audit independently confirmed the v5 B7/B8 CI evidence. Phase 1 remains blocked.
 
 ## Sixth correction pass
-The branch `phase-0-corrections-v6` synchronizes `research/TESTER_HANDOFF.md` to v6 / PR #11 and adds a positive active-current-branch assertion to `.github/workflows/phase0-integrity.yml`. The resulting exact commit must pass CI; exact SHA/run/check provenance will then be recorded. Another independent tester approval is required before Phase 1.
+The branch `phase-0-corrections-v6` synchronizes `research/TESTER_HANDOFF.md` to v6 / PR #11 and adds a positive active-current-branch assertion to `.github/workflows/phase0-integrity.yml`. The exact v6 correction commit passed CI; its SHA/run/check provenance is recorded above. Another independent tester approval is required before Phase 1.
 
 ## Exact v6 CI provenance
 The exact v6 correction commit `fd1ed356bdc12d18e3b3dbfb507c8d5be2510237` passed the Phase 0 Integrity workflow. Workflow run: [#37114577283](https://github.com/vishnuvcr/Iron-condor-to-ratio-v1/actions/runs/37114577283). Integrity job/check: #111178768606. The run head SHA exactly matches the tested commit. Phase 1 remains blocked pending another independent tester approval.
