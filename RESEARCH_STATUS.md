@@ -468,3 +468,13 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - The runner reached the RBI acquisition but produced zero target rows from the initial official host. A final bounded attempt now probes the canonical `www.rbi.org.in`, apex `rbi.org.in`, and `wss.rbi.org.in` WSS hosts for the same archive IDs.
 - If no primary rows are obtained, the script writes a failure diagnostic with per-page status counts and stops. No secondary RBI mirror is substituted into production.
 - This is the final planned primary-host acquisition attempt for G6; repeated blind retries are prohibited.
+
+
+## 2026-10-04 — Final G6 primary r acquisition result
+- Exact developer head: `fcba8794002b9f129a20dd1e4d19f32c3a97bab5`.
+- Final Actions run: `37158613890`; job `111307127681`.
+- Official NSE NIFTY 50 dividend-yield acquisition completed successfully with **1,425 rows**.
+- RBI acquisition executed across three official hostnames (`www.rbi.org.in`, `rbi.org.in`, `wss.rbi.org.in`) over the bounded WSS ID range and returned **zero parseable 91-Day Treasury Bill (Primary) Yield observations** to the runner. The step therefore failed closed with `RBI_NO_91D_TBILL_ROWS`.
+- RBI public WSS/DBIE availability is independently corroborated externally, but the machine-readable primary series could not be retrieved by this CI execution environment. No secondary mirror has been substituted into production.
+- **G6 remains FAIL / OPEN.** This is the final planned blind primary-host retry. A secondary RBI mirror may be investigated only as a separately labelled cross-check/provisional source and cannot silently convert G6 to PASS.
+- G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH; G13/G14 and Phase 2 remain BLOCKED.
