@@ -270,7 +270,7 @@ The exact commit containing the official NSE NIFTY 50 valuation acquisition impl
 
 ### Current gate state
 - G1–G4: PASS
-- G5: **FAIL / OPEN — substantive alignment failure; diagnosis required**
+- G5: **FAIL / WAIVED FOR CONTINUED RESEARCH — integrity limitation carried forward; not a PASS**
 - G6: OPEN
 - G7: OPEN
 - G8: OPEN
