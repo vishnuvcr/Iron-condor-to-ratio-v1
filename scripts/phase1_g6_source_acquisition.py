@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import subprocess
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -68,7 +69,12 @@ def main() -> None:
         records.append(rec)
         time.sleep(0.25)
 
+    checkout_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
     report = {
+        "execution_provenance": {
+            "checked_out_commit_sha": checkout_sha,
+            "artifact_binding": "Source-acquisition report is generated from the exact Git checkout used by this workflow."
+        },
         "gate": "G6",
         "status": "ACQUISITION_COMPLETE" if failures == 0 else "ACQUISITION_INCOMPLETE",
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
