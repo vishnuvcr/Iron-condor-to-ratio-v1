@@ -103,3 +103,10 @@ RBI public WSS pages independently expose the required 91-Day Treasury Bill (Pri
 - The production scan now requires option volume in the production schema and performs deterministic target-delta contract selection using minimum delta error, then higher volume, then lower strike distance as the frozen tie-break.
 - The scan also records signed-delta, absolute-delta and IV histograms in the evidence artifact.
 - This is an evidence-completeness correction only. G6 remains FAIL / OPEN because historical r/q production inputs are still missing.
+
+
+## 2026-10-04 — G6 official r/q acquisition implementation
+- Added `scripts/acquire_g6_rbi_risk_free.py` to enumerate the official RBI WSS archive, retain/hash source pages containing the 91-day Treasury-bill primary yield, extract dated observations, reject conflicting duplicates, and emit `data/processed/g6/risk_free.csv`.
+- Extended the G6 workflow to execute the existing official NSE Indices NIFTY 50 P/E/P/B/dividend-yield acquisition and convert its double-parsed response into `data/processed/g6/dividend_yield.csv` before the production scan.
+- The production pipeline therefore now has a concrete primary-source acquisition path for both mandatory r and q inputs. No secondary proxy has been substituted.
+- G6 remains FAIL / OPEN pending exact-head CI acquisition results and independent tester review.
