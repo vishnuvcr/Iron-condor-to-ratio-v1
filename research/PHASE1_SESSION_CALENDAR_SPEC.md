@@ -79,3 +79,10 @@ The G4 production-control implementation now has three mandatory layers:
 This distinction is necessary because underlying NIFTY observations can occur during capital-market/pre-open/closing windows that are not F&O option execution windows. Those observations remain available for audit but cannot trigger strategy decisions or fills.
 
 **Acceptance condition:** G4 cannot pass unless the reconciliation artifact reports zero unreconciled dates and zero control mismatches on the exact tested commit.
+
+
+## E046 corrective implementation — 2026-10-03
+
+The G4 reconciler is now explicitly bidirectional. It validates that special-session and date-control manifest rows have unique dates and cannot overlap; it reconciles every manifest-controlled date against observed data so a declared session with zero observations becomes UNRECONCILED; and it reconciles every observed date to exactly one canonical mapping. Observed dates outside the study range or on weekends without an explicit special-session control are fail-closed as UNRECONCILED. Four regression tests cover missing special dates, unknown observed dates, duplicate manifest mappings, and special-session interval failures.
+
+G4 cannot pass unless both directions contain no unresolved mapping and no interval/control failure.
