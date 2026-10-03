@@ -59,3 +59,10 @@ Phase 1 can advance only if the independent tester records PASS for the final br
 8. Issue an independent PASS/FAIL report before any Phase 2 work.
 ### Gate rule
 Phase 2 remains BLOCKED until an independent tester explicitly approves the completed Phase 1 branch. A methodology/data-quality pass is not a profitability claim.
+
+
+### Newly closed source-validation items
+- **Risk-free rate:** official RBI Weekly Statistical Supplement series confirmed as a historical source for 91-day Treasury-bill primary yields. Complete date-aligned extraction remains open.
+- **Paytm Money:** official publications confirm the major brokerage/STT transition dates; the complete statutory/exchange charge schedule remains open.
+- **NIFTY contracts:** official NSE circulars confirm effective-date lot-size and expiry changes; production contract metadata remains to be reconciled from effective-date contract files.
+- **Quote data:** remains the principal unresolved data-source issue. NSE historical order/trade data is the preferred procurement candidate.
