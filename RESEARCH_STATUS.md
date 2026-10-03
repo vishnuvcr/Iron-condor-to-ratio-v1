@@ -46,3 +46,9 @@ Updated: 2026-10-03
 - Prior successful run: 37116084761; job 111183065244.
 - Prior artifact: 11271990517; SHA-256 67fd3898800131d736a5652d1ece3c112c4b5b0489ffe07468f5865fb850d789.
 - Current corrected workflow run: 37116328987.
+
+## Latest controls
+- Deterministic exact-row deduplication is implemented in scripts/deduplicate_phase1_data.py and is executed in CI after structural validation.
+- Conflicting duplicate keys remain fatal.
+- Workflow concurrency/cache-save race mitigation was added after E025.
+- Phase 1 remains IN PROGRESS and no Phase 2 work has started.
