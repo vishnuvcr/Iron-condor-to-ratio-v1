@@ -70,3 +70,10 @@ Phase 1 must not apply current NIFTY contract rules retroactively.
 - NSE Circular 128/2024: https://nsearchives.nseindia.com/content/circulars/FAOP64625.pdf
 - NSE Circular 103/2025: https://nsearchives.nseindia.com/content/circulars/FAOP68589.pdf
 - NSE Circular 111/2025: https://nsearchives.nseindia.com/content/circulars/FAOP68747.pdf
+
+
+## Additional official contract metadata evidence
+- NSE Circular 37/2024 changed NIFTY market lot from 50 to 25 for contracts available from 26-Apr-2024, with the April 25 expiry excluded from the change. citeturn3search16
+- NSE Circular 128/2024 changed NIFTY market lot from 25 to 75 for new index derivatives introduced from 20-Nov-2024. citeturn3search13
+- NSE's June 2025 expiry-day transition first specified Tuesday for contracts expiring on/after Sep-2025, with detailed transition treatment for existing contracts. citeturn2search29turn2search28
+- NSE's current contract specification records the current Tuesday expiry and index-option tick-step framework; historical contract files/circular effective dates remain authoritative for historical reconstruction. citeturn2search0turn2search9
