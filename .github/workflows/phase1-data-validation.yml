@@ -1,3 +1,4 @@
+# E037 corrected: syntax-check commands are explicit multiline shell commands.
 name: Phase 1 Data Acquisition and Validation
 
 concurrency:
