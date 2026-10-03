@@ -349,3 +349,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Exact-tip G6 run **37148353717** succeeded at developer commit `e8fca6a6084a463528643b63dd8f310899c0b3bf`; artifact **11282958617**, digest `sha256:bdb21f11285b16535f3ea6338bbf9bff3afe717f6ef727575642f0aaba4d6d11`.
 - This is acquisition/provenance evidence only and does not close G6 substantive requirements.
 - Exact-tip G5 run **37148384171** is currently executing at commit `001e498bfc099e9f51df9129e1fdc2e9370b2b3a`; no G5 result is claimed until completion and independent review.
+
+## 2026-10-04 — G6 substantive reconstruction implementation started
+- Created branch `phase-1-g6-production-greeks-20261004` from paired exact-tip SHA `db668dd2b89bf691a6481affb3cb2a9060c5fe98`.
+- Added the fail-closed G6 production Greek specification, implementation script, and dedicated GitHub Actions workflow.
+- The specification covers strict no-lookahead r/q selection, Black-Scholes IV, signed/absolute delta, solver diagnostics, target-delta availability, expiry/date coverage and checksums.
+- G6 remains OPEN; G13/G14 and Phase 2 remain BLOCKED.
