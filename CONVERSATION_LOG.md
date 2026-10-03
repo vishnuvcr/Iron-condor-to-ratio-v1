@@ -452,3 +452,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - Exact-head run 37157347960 reached the NSE acquisition but the endpoint returned an HTML page rather than the expected JSON payload. The stored HTML was then incorrectly treated as JSON.
 - Corrected the official NSE request to the documented single-quoted `cinfo` form with browser-style headers and added an explicit HTML-response failure check. The downstream parser is restored to JSON decoding because the corrected acquisition now requires a valid JSON response.
 - No secondary q source was substituted and no gate advanced.
+
+
+## 2026-10-04 — E095 NSE q access-layer hardening
+- Exact-head run 37157416345 still received HTML from the NSE dividend-yield endpoint despite the corrected payload.
+- The acquisition client is now hardened with an initial historical-data page GET for session cookies, browser-style headers, the current `/Backpage.aspx/...` endpoint and the legacy `/BackPage/...` fallback, with explicit JSON-vs-HTML validation.
+- No q data have been substituted and G6 remains FAIL / OPEN.
