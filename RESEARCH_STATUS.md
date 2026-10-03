@@ -192,3 +192,10 @@ Updated: 2026-10-03
 - The `main` workflow has now been replaced with the E046-corrected workflow; main workflow commit: 097d29c2816614bc7ba45365454b7f0dc270bc5d.
 - Run #52 is not automatically accepted as G12 corrective evidence unless its explicit `research_ref` input selected `phase-1-e046-bidirectional-reconciliation`. The screenshot does not expose that input.
 - Current status remains Phase 1 IN PROGRESS / NOT APPROVED; G13 and Phase 2 remain BLOCKED.
+
+
+## E050 automatic corrective CI execution — 2026-10-03
+- CI safeguard commit: `59e025ff0050fb30d2a43928aad02f3a63277a0b`.
+- The workflow now fails closed on push if the execution branch is not `phase-1-e046-bidirectional-reconciliation`.
+- A protected automatic run is triggered by the workflow change and again by this execution-record commit. The final branch-tip run must be inspected for exact checkout SHA, complete step success, and G4 reconciliation results before G12 is accepted.
+- G13 and Phase 2 remain blocked.
