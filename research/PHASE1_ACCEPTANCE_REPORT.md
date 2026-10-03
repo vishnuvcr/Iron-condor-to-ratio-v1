@@ -115,3 +115,7 @@ Workflow run 37117424573 completed successfully with structural validation, dete
 - Historical bid/ask remains absent from the primary source schema; execution remains degraded unless an independent historical quote source is validated.
 
 **Current decision: Phase 1 remains IN PROGRESS.** The session-coverage anomalies and production Greek/target-delta gates must be resolved before independent tester handoff.
+
+
+## Updated quote-data finding
+The primary Hugging Face 1-minute source remains structurally useful but does not contain historical bid/ask. Public/commercial 1-minute archives reviewed also describe OHLCV/OI rather than bid/ask. NSE's official historical order-and-trade product is now registered as the preferred independent quote-source escalation because its F&O order data is documented at order-tick level; however, access is paid and has not yet been procured. The frozen Phase 0 literal core therefore remains blocked on quote-quality data rather than silently substituting close prices. citeturn3search0turn3search19
