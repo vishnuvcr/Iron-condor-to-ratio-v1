@@ -30,23 +30,23 @@ For each option-leg order, adverse slippage is applied to the next-bar open.
 
 For a buy:
 
-[
-P_{fill}=P_{base}+S(P_{base})
-]
+```
+P_fill = P_base + S(P_base)
+```
 
 For a sell:
 
-[
-P_{fill}=max(0,P_{base}-S(P_{base}))
-]
+```
+P_fill = max(0, P_base - S(P_base))
+```
 
 where:
 
-[
-S(P)=max(	ext{one tick},; sP)
-]
+```
+S(P) = max(one_tick, s * P)
+```
 
-The primary scenario uses a pre-registered slippage rate (s=10) basis points per leg, with sensitivity scenarios at 0, 5, 10, 20 and 50 basis points.
+The primary scenario uses a pre-registered slippage rate **s = 10 basis points per leg**, with sensitivity scenarios at 0, 5, 10, 20 and 50 basis points.
 
 The one-tick floor uses the effective historical NIFTY option tick-size rule applicable to the contract date. If the price is non-positive or the required contract/tick metadata are unavailable, the fill is invalid rather than fabricated.
 
