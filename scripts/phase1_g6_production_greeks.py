@@ -40,7 +40,7 @@ TARGETS=(0.30,0.10,0.50,0.40,0.08)
 DELTA_TOL=0.05
 REQUIRED_R={"date","yield_pct"}
 REQUIRED_Q={"date","div_yield_pct"}
-REQUIRED_OPT={"timestamp","expiry","strike","option_type","close"}
+REQUIRED_OPT={"timestamp","expiry","strike","option_type","close","volume"}
 
 @njit(cache=True)
 def _norm_cdf(x):
@@ -213,9 +213,12 @@ def main():
         day_to_q=dict(zip(div_dates["date"].astype(str),div_dates["q"]))
         counters={k:0 for k in ["option_rows_scanned","option_rows_study_window","underlying_exact_match","underlying_missing",
                                  "r_missing","q_missing","invalid_model_input","nonpositive_premium","no_arbitrage_rejection",
-                                 "bracket_failure","non_convergence","iv_converged","target_timestamp_groups",
+                                 "bracket_failure","non_convergence","iv_converged","target_timestamp_groups","target_selected_records",
                                  "target_available_0.30","target_available_0.10","target_available_0.50","target_available_0.40","target_available_0.08"]}
         target_errors={str(t):[] for t in TARGETS}
+        delta_bins=np.linspace(-1.0,1.0,101); delta_hist=np.zeros(100,dtype=np.int64)
+        abs_bins=np.linspace(0.0,1.0,101); abs_hist=np.zeros(100,dtype=np.int64)
+        iv_bins=np.linspace(0.0,3.0,121); iv_hist=np.zeros(120,dtype=np.int64)
         files=sorted(OPT_ROOT.glob("*.parquet"))
         if not files: raise RuntimeError("OPTION_INPUTS_MISSING")
         counters["option_files"]=len(files)
@@ -230,6 +233,7 @@ def main():
             df["expiry_close"]=df["expiry"].map(expiry_close)
             df["strike"]=pd.to_numeric(df["strike"],errors="coerce")
             df["close"]=pd.to_numeric(df["close"],errors="coerce")
+            df["volume"]=pd.to_numeric(df["volume"],errors="coerce").fillna(0.0)
             df=df[(df["timestamp"]>=STUDY_START)&(df["timestamp"]<STUDY_END+pd.Timedelta(days=1))]
             counters["option_rows_study_window"]+=len(df)
             if df.empty: continue
@@ -261,19 +265,28 @@ def main():
                     gd["signed_delta"]=[bs_delta(float(s),float(k),float(t),float(r0),float(q0),float(v),int(kk))
                                         for s,k,t,r0,q0,v,kk in zip(gd["underlying"],gd["strike"],gd["t"],gd["r"],gd["q"],gd["iv"],kind[valid.to_numpy()][good])]
                     gd["abs_delta"]=gd["signed_delta"].abs()
+                    delta_hist += np.histogram(gd["signed_delta"].clip(-0.999999,0.999999),bins=delta_bins)[0]
+                    abs_hist += np.histogram(gd["abs_delta"].clip(0,0.999999),bins=abs_bins)[0]
+                    iv_hist += np.histogram(gd["iv"].clip(0,2.999999),bins=iv_bins)[0]
                     for (ts,ex,ot),g in gd.groupby(["timestamp","expiry","option_type"],sort=False):
                         counters["target_timestamp_groups"]+=1
                         for target in TARGETS:
-                            err=(g["abs_delta"]-target).abs()
-                            if len(err)==0: continue
-                            e=float(err.min())
-                            if e<=DELTA_TOL:
-                                key=f"target_available_{target:.2f}"
-                                counters[key]+=1
-                                target_errors[f"{target:.2f}"].append(e)
+                            g=g.assign(delta_error=(g["abs_delta"]-target).abs(), strike_distance=(g["strike"]-g["underlying"]).abs())
+                            eligible=g[g["delta_error"]<=DELTA_TOL]
+                            if eligible.empty: continue
+                            selected=eligible.sort_values(["delta_error","volume","strike_distance"],ascending=[True,False,True],kind="mergesort").iloc[0]
+                            key=f"target_available_{target:.2f}"
+                            counters[key]+=1
+                            counters["target_selected_records"]+=1
+                            target_errors[f"{target:.2f}"].append(float(selected["delta_error"]))
         report["diagnostics"]=counters
         report["target_error_summary"]={k:({"count":len(v),"max_error":max(v),"mean_error":float(np.mean(v))} if v else {"count":0})
                                         for k,v in target_errors.items()}
+        report["greek_distributions"]={
+            "signed_delta_histogram":{"bin_edges":delta_bins.tolist(),"counts":delta_hist.tolist()},
+            "absolute_delta_histogram":{"bin_edges":abs_bins.tolist(),"counts":abs_hist.tolist()},
+            "iv_histogram":{"bin_edges":iv_bins.tolist(),"counts":iv_hist.tolist()}
+        }
         report["checksums"]={"risk_free_csv":sha256_file(R_PATH),"dividend_yield_csv":sha256_file(Q_PATH),
                              "underlying_parquet":sha256_file(UNDERLYING)}
         report["status"]="PRODUCTION_SCAN_COMPLETE"
