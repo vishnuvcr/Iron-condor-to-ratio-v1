@@ -408,3 +408,12 @@ This file records user-visible project instructions and work decisions, not hidd
 - Started exact-tip G5 failure-isolation CI run 37154125183 / job 111293869429 at checkout d6deadca7024eb88fa6c30dd0e2faff435f5ba80.
 - CI confirmed checkout, cache restore, dependency installation and pinned-source acquisition successfully; full raw diagnostic is still running.
 - No partial diagnostic output is being treated as a result and G5 remains FAIL/OPEN.
+
+
+## 2026-10-04 — Independent tester G5 failure-isolation overlap re-audit
+- Verified exact-tip diagnostic run 37154986733 / job 111296435573 at checkout ee3ab7f2b08f79faa0f15d756aab2379136cefa9.
+- Independently downloaded artifact 11285517033 and verified SHA-256 292c823060e87e5cf8ff72e5b08fc9662b8adc4c0ef10eacb87207f3ac8cc498.
+- Reproduced 521,069 missing exact matches and confirmed 362 affected dates, 14 full-date gaps, 487,593 full-date failures, 33,476 remaining failures, 267 option files, 238 timestamp-range overlap pairs, and zero filename/expiry partition mismatches.
+- Determined that per-file frozen-key deduplication cannot establish global uniqueness when file timestamp ranges overlap. Required next step is a non-accepting global cross-file key audit with duplicate/conflict classification and quantified impact on G5.
+- Correct arithmetic is 487,593 / 521,069 = 93.5755%; E087's 93.5762% is logged as E082.
+- G5 remains FAIL/OPEN; G6/G7/G8/G10/G11 remain open; G13/G14 and Phase 2 remain blocked. No acceptance-rule relaxation is approved.
