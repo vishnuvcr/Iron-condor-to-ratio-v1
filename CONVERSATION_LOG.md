@@ -359,3 +359,8 @@ This file records user-visible project instructions and work decisions, not hidd
 - Developer reviewed the reported G5 trigger, G6 cache-reuse, G9 wording, and project-control findings.
 - Created `phase-1-g5-g6-reaudit-corrections-20261004`.
 - Corrected G5 push triggers and G6 acquisition cache reuse; synchronized control documentation. No Phase 2 work has begun.
+
+## 2026-10-04 — Tester PR #40 and G6 integrity correction
+- Independent tester PR #40 found that G6 CACHE_HIT_LOCAL did not validate cached bytes against an immutable expected digest.
+- Developer corrected the acquisition function to require an expected SHA-256 and exact match for both cached and newly acquired source bytes; no placeholder digest is treated as valid evidence.
+- G5 exact-tip Actions evidence remains pending; G6 substantive production reconstruction remains pending; Phase 2 remains blocked.
