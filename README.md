@@ -6,7 +6,7 @@ Research project to reproduce and independently backtest the YouTube strategy �
 Developer.
 
 ## Current phase
-**Phase 0 fourth-gate correction pass — awaiting independent re-test.**
+**Phase 0 fifth-gate correction pass — awaiting exact-commit CI audit and independent re-test.**
 
 ## Gate
 **Phase 1 remains blocked.** Historical tester gates remain part of the audit trail, but the active gate is the current independent tester approval for the latest correction pass. The fourth independent tester failed PR #7 on B6 repository-control synchronization; no downstream research has started.
@@ -35,7 +35,7 @@ The correction branch freezes explicit research implementation conventions for d
 The strategy requires intraday option data. Daily NSE reports alone cannot reproduce the delta triggers. Phase 1 will require documented intraday NIFTY option data, coverage, timestamps, contract continuity, Greek methodology, licensing and quote quality.
 
 ## Current branch
-`phase-0-corrections-v4`
+`phase-0-corrections-v5`
 
 ## Current conclusion
 No performance conclusion, profitability claim or trading strategy conclusion is justified yet. Phase 1 is prohibited until the current correction pass passes independent tester approval.
@@ -47,7 +47,10 @@ PR #8 / `tester/phase-0-fourth-audit` failed Phase 0 on B6 repository-control sy
 `.github/workflows/phase0-integrity.yml` automatically validates required Phase 0 artifacts on pushes and pull requests and provides a manual `workflow_dispatch` entry. This is a control workflow only; it does not initiate Phase 1.
 
 ## Latest correction pass
-PR #7 was the v3 developer correction pass reviewed by the fourth tester; PR #8 is the fourth independent tester gate. PR #9 is the current v4 developer correction pass. The current developer branch is `phase-0-corrections-v4`, which must receive another independent tester approval before Phase 1 can begin.
+PR #7 was the v3 developer correction pass reviewed by the fourth tester; PR #8 is the fourth independent tester gate; PR #9 was the v4 developer correction pass reviewed by the fifth tester. The current developer branch is `phase-0-corrections-v5`, which must receive another independent tester approval before Phase 1 can begin.
 
 ## Slippage control
 The literal-core fallback slippage is fixed by `research/OPERATIONAL_CONVENTIONS.md`. Configurable slippage assumptions are reserved for pre-registered sensitivity variants only and cannot change the literal-core result.
+
+## Fifth tester gate
+PR #9 / `phase-0-corrections-v4` was independently audited on `tester/phase-0-fifth-audit`. The fifth tester failed Phase 0 on B7 (ineffective multiline grep assertion) and B8 (missing independently auditable exact-SHA CI evidence). The v5 correction pass fixes the assertion and requires exact-commit workflow provenance before re-test.
