@@ -255,3 +255,11 @@ Tester PR #40 found a G6 cache-integrity defect. The developer corrected the cac
 
 ## 2026-10-04 — G6 production branch update
 The G6 production branch now includes a fail-closed production Greek evidence scaffold and corrected E084 coverage logic. Coverage is derived from actual NIFTY option-bar dates rather than the reference q table. Official-source acquisition leads have been documented, but no substitute rate/dividend data have been accepted and G6 remains OPEN. The paired G5 exact-tip audit on run 37148487963 is still executing independently.
+
+
+## 2026-10-04 — E089 G6 production correction
+- Independent tester PR #45 determined G6 FAIL / OPEN on developer head c5f28327c13efd9b93bd4ca5a809dfc39b447c3d. E088 is accepted without reinterpretation.
+- The previous implementation was a scaffold rather than a completed historical Greek reconstruction.
+- The correction now performs timestamp-level production reconstruction with exact contemporaneous NIFTY joins, strictly-prior r/q selection, study-window enforcement, 15:30 IST expiry timing, deterministic Brent IV solving, signed/absolute deltas, target-delta diagnostics, populated failure counters, checksums and exact-checkout provenance.
+- G6 remains FAIL / OPEN because complete historical risk_free.csv and dividend_yield.csv inputs are not yet accepted and independent tester approval is still required.
+- G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH; G13/G14 and Phase 2 remain BLOCKED.
