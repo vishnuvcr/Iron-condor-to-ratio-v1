@@ -232,3 +232,10 @@ Updated: 2026-10-03
 - E053 was identified as stale top-level status text in the README/gate/acceptance/handoff controls. This developer branch synchronizes the canonical current-state sections while retaining historical run-specific evidence as append-only traceability.
 - Phase 1 remains IN PROGRESS / NOT APPROVED. Phase 2 remains BLOCKED. No backtest, optimization, profitability result, or strategy conclusion has been introduced.
 - Official NSE historical-data specification review confirms that F&O order data are all-order-tick records with transaction time, buy/sell indicator, entry/cancel/modify activity, contract identity, order quantity and limit price; corresponding F&O trade data include transaction time, contract identity, trade price/quantity and buy/sell order numbers. This makes the NSE order/trade product a technically plausible reconstruction route, but acquisition and validation are still required before G9 can move from BLOCKED. 
+
+
+## 2026-10-03 — G9 open-data screening extension
+- Hugging Face screening found `rissin/nse-options-intraday` and `artist-23/nifty-options-data` as additional NIFTY option datasets. They provide historical/intraday OHLC/IV/OI-type data but do not establish the required historical bid/ask series for the complete study window.
+- The public GitHub ecosystem also contains pipelines with bid/ask-shaped schemas or execution modelling, but the underlying historical quote files are not retained/validated for this study.
+- These sources are recorded as non-qualifying alternatives. The official NSE historical F&O order/trade product remains the preferred G9 acquisition route.
+- G9 remains BLOCKED pending licensed acquisition and deterministic validation/reconstruction.
