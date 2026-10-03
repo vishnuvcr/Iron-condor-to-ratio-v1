@@ -229,3 +229,9 @@
 - Exact-head run 37157416345 still received HTML from the NSE dividend-yield endpoint despite the corrected payload.
 - The acquisition client is now hardened with an initial historical-data page GET for session cookies, browser-style headers, the current `/Backpage.aspx/...` endpoint and the legacy `/BackPage/...` fallback, with explicit JSON-vs-HTML validation.
 - No q data have been substituted and G6 remains FAIL / OPEN.
+
+
+## 2026-10-04 — E096 NSE q response-shape correction
+- Exact-head run 37157488655 reached the NSE endpoint and received structured JSON, but the response was a top-level list rather than the legacy `{d: ...}` wrapper.
+- Corrected the converter to accept both documented/current response shapes without changing source bytes or values.
+- No gate advancement; the next exact-head run must establish complete q coverage and then exercise RBI acquisition and production Greeks.
