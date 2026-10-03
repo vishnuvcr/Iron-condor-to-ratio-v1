@@ -35,3 +35,11 @@ Uploaded transcript: What If the Iron Condor Starts Trending Ratio Spread Strate
 - Exact numerical semantics were frozen for IV/Black-Scholes reconstruction, slippage, strike selection, data quality, thresholds, direction classification, and historical contract metadata.
 - README, status, plan and error records were updated.
 - Phase 1 remains blocked pending independent re-test and approval.
+
+## 2026-10-03 — Third independent tester result
+- Tester independently reviewed PR #5 and the actual `phase-0-corrections-v2` branch.
+- The previously missing `research/OPERATIONAL_CONVENTIONS.md` artifact was verified present and tracked; that prior defect is resolved.
+- Tester found remaining blockers: IV solver termination semantics; exact no-arbitrage bounds and tick tolerance; exact tick-rounding semantics; explicit rejection of future-dated quotes; and an inconsistency where `STRATEGY_SPEC.md` still calls literal-core fallback slippage configurable.
+- Tester also recorded the absence of `.github/workflows` as a non-gating repository-control observation for the appropriate pre-Phase-1 infrastructure work.
+- Phase 0 remains FAIL; Phase 1 remains blocked.
+- Tester report: `research/TESTER_REPORT_PHASE0_THIRD.md`.
