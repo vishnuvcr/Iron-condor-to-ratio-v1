@@ -245,3 +245,10 @@ Updated: 2026-10-03
 - Created `phase-1-e054-readme-branch-provenance` from exact audited head `4f7186c4d2478bdd83f86f0bb35547f4c8594fbc`.
 - Corrected only the README branch provenance and recorded E054 in the error/status controls.
 - No gate result changed: G4/G12 remain independently PASS; G5–G8/G10–G11 remain open/preliminary; G9 remains blocked; G13/G14 and Phase 2 remain blocked.
+
+## 2026-10-03 — E055 E054-audit SHA provenance correction
+- Independent tester PR #24 found a malformed SHA in the E054 entry of `CONVERSATION_LOG.md` for the audited PR #21 developer head.
+- Corrected SHA: `4f7186c4d2478bdd83f86f0bb35547f4c8594fbc`.
+- This is a reproducibility/control correction only; no methodology or gate result changed.
+- Current developer branch remains `phase-1-e054-readme-branch-provenance`; the resulting exact developer head is submitted for independent tester re-audit.
+- G1–G3 remain PASS; G4/G12 remain independently PASS; G5–G8/G10–G11 remain open/preliminary; G9 remains BLOCKED; G13/G14 and Phase 2 remain BLOCKED. No Phase 2/backtest/optimization/profitability work has started.
