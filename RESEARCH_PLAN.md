@@ -25,7 +25,7 @@ Can the YouTube-described transition strategy—monthly 30Δ/10Δ Iron Condor tr
 - Report statistical uncertainty and limitations.
 
 ## Phase 0 — Specification and audit
-Status: IN PROGRESS
+Status: CORRECTIONS IN PROGRESS
 - Capture source transcript and citation.
 - Separate explicit rules from ambiguous/discretionary statements.
 - Define research questions, aims, objectives, methodology and statistical plan.
@@ -33,10 +33,10 @@ Status: IN PROGRESS
 - Identify historical data sources and coverage.
 - Define tester gate.
 
-Exit criterion: reproducible specification, data-source decision framework and tester handoff.
+Exit criterion: reproducible specification, data-source decision framework, operational convention freeze, unit-test specification and second tester approval.
 
 ## Phase 1 — Data acquisition and validation
-Status: BLOCKED BY TESTER GATE
+Status: BLOCKED BY SECOND TESTER GATE
 - Obtain historical NIFTY index and option-chain intraday data.
 - Cache source-derived data in repository-compatible storage or documented artifact storage.
 - Validate timestamps, expiries, strikes, OHLC, OI and Greeks.
@@ -73,6 +73,9 @@ Results; inferences; discussion; strengths; limitations; conclusion; future rese
 ## Phase 6 — Manuscript and release
 Status: BLOCKED
 Deliver a complete manuscript containing abstract, introduction, literature/data review, research questions, aims/objectives, methods, results, statistical analysis, discussion, limitations, conclusion, future directions, tables, graphs, appendices, supplements and exact reproduction instructions.
+
+## Phase 0 correction gate
+After the first tester FAIL, the developer must resolve all execution-critical semantics in research/OPERATIONAL_CONVENTIONS.md and research/STRATEGY_SPEC.md, update status/error/conversation records, and obtain a second independent tester approval. Phase 1 remains prohibited until that approval.
 
 ## Source-derived rule dictionary
 The transcript states that the initial monthly Iron Condor sells calls and puts around 0.30 delta and buys calls and puts around 0.10 delta. See uploaded transcript lines 292–307.
