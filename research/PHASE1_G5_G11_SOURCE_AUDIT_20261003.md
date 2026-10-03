@@ -93,3 +93,7 @@ The minimum context package is now source-verified at the provider level:
 | G11 | OPEN | NIFTY/VIX/FII-DII/GIFT NIFTY/BSE/event source package documented |
 
 **No Phase 2 work is authorized by this evidence step.**
+
+## G9 candidate update — public TBT bid/ask dataset
+
+A new Hugging Face candidate, `antony9952/Nifty_option_TBT`, exposes bid/ask/depth fields in its published preview. The dataset builder currently reports incompatible schemas across files, so the candidate is **not accepted**. The repository now contains an automated cached CI audit workflow to inspect raw CSV schemas, bid/ask presence and observed coverage. G9 remains BLOCKED pending successful validation and contract reconciliation.
