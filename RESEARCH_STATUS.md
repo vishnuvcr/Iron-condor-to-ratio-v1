@@ -402,3 +402,11 @@ The failure-isolation script was also strengthened to test whether each option p
 - Checkout, exact-SHA assertion, cache restore, dependency installation, and source acquisition all passed.
 - The full raw parquet failure-isolation computation remains in progress; no partial result is being promoted to evidence.
 - G5 remains FAIL/OPEN. No acceptance rule, data treatment, or gate state has changed.
+
+
+## 2026-10-04 — G5 diagnostic provenance correction
+- Failure-isolation CI run **37154125183** completed successfully and reproduced the frozen **521,069** missing exact NIFTY alignments.
+- The diagnostic artifact correctly reproduced the failure but revealed a CI control defect: the runtime checkout SHA was **52b5b807c8274d7fb315bfc155d2cde2bb29c924**, not the run head **d6deadca7024eb88fa6c30dd0e2faff435f5ba80**.
+- The cause was mutable `github.ref` checkout combined with branch status commits during execution. This run is therefore reproduction evidence only, not exact-tip evidence.
+- Workflow corrected in **ee3ab7f2b08f79faa0f15d756aab2379136cefa9** to bind push/PR checkout and assertion to immutable `github.sha`; manual dispatch retains optional explicit expected-SHA control.
+- G5 remains **FAIL/OPEN**. No data treatment, interpolation, nearest matching, forward fill, deletion, or threshold relaxation was introduced. Fresh exact-SHA CI and independent tester re-audit are required.
