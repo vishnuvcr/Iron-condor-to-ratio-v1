@@ -324,3 +324,12 @@ This file records user-visible project instructions and work decisions, not hidd
 - Corrected research/PHASE1_EXECUTION_PROXY_SPEC.md with atomic multi-leg fail-closed handling, explicit state/trigger consumption/re-arm rules, session/expiry constraints, and strict positive fill validation for both buy and sell legs.
 - Added scripts/test_phase1_execution_proxy_rules.py and .github/workflows/phase1-execution-proxy-tests.yml for deterministic E065/E066 regression tests.
 - G9 remains blocked pending independent tester re-audit. No Phase 2/backtest/performance work has started.
+
+
+## 2026-10-03 — Tester approval of bid/ask avoidance
+- User requested approval to avoid historical bid/ask.
+- Tester independently re-audited developer PR #31 exact head `8b99cb3b2b537c5b085c09729c27bb3957285ae8`.
+- E065 and E066 passed re-audit.
+- Tester explicitly approved the bid/ask-free proxy methodology for the primary backtest.
+- G9 is PASS under the revised methodology; no claim is made that historical bid/ask exists.
+- G13/G14 and Phase 2 remain blocked because other Phase 1 gates remain incomplete.
