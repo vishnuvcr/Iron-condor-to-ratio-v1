@@ -75,3 +75,12 @@ Uploaded transcript: What If the Iron Condor Starts Trending Ratio Spread Strate
 - Auditable GitHub Actions workflow run: #37114384784; check run: #111178229183.
 - The successful run explicitly executed the line-aware B7 assertion and the exact-CI-provenance step.
 - Subsequent README/status/error-log commits record this reference without changing the SHA that was tested; Phase 1 remains blocked pending fresh independent tester approval.
+
+## 2026-10-03 — Sixth independent tester gate
+- Independent tester audited PR #10 / `phase-0-corrections-v5`.
+- B7 is resolved: the line-aware awk assertion executed successfully.
+- B8 is resolved: workflow run #37114384784 is independently verified as a successful push run with exact head SHA `4515b32ecd3d6a17b061f53dd97245c393489166`; integrity job/check #111178229183 also succeeded.
+- B9: `research/TESTER_HANDOFF.md` still names `phase-0-corrections-v4` as the current developer correction branch.
+- B10: the integrity workflow does not positively enforce that the README current-branch field is `phase-0-corrections-v5`.
+- Tester report: `research/TESTER_REPORT_PHASE0_SIXTH.md` on `tester/phase-0-sixth-audit`.
+- Phase 0 FAIL; Phase 1 remains BLOCKED pending correction and fresh independent approval.
