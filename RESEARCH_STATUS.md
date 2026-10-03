@@ -138,3 +138,11 @@ Updated: 2026-10-03
 - The file existed on `main`; this was a branch synchronization defect.
 - Restored the validator unchanged to the Phase 1 branch at commit `68b39d91035bcb79c192cac80f20fd29ed6e709d`.
 - G12 remains OPEN pending the next execution.
+
+
+## 2026-10-03 — Successful Phase 1 CI execution / G12 PASS
+- Successful run `37122686454`, job/check `111201763817`, head commit `68b39d91035bcb79c192cac80f20fd29ed6e709d`.
+- Artifact `11274027306`, SHA-256 `329eb437e42745f5613e7c41bdf33313977b09d49492513a190d3c1216f01980`.
+- Fresh evidence: 268 files, 108,625,497 raw rows, 0 hard failures, 30,363,281 exact duplicates removed deterministically, 77,776,166 option rows after key dedup, 99.2953047% option/NIFTY timestamp alignment, 286 session-count diagnostic outliers among 1,262 dates.
+- G12 is now PASS on developer evidence.
+- G4 remains OPEN; G5 remains PRELIMINARY; G6–G8, G10–G11 remain OPEN; G9 remains BLOCKED; G13 remains BLOCKED pending independent tester PASS; G14 remains BLOCKED.
