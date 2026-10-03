@@ -44,3 +44,8 @@ No production performance dataset is accepted until the validation report record
 9. historical lot/tick/expiry metadata;
 10. licensing/redistribution constraints;
 11. independent reconciliation against official NSE reference data.
+
+
+## Independent quote-source escalation
+- **NSE Historical Order & Trade Data (F&O):** official historical order/trade product. NSE documents F&O order data at all order ticks and provides a technical specification; current NSE market-data documentation also distinguishes Level 1 best bid/ask, Level 2 depth, Level 3 depth and tick-by-tick full order book. This is the strongest identified official route for reconstructing historical execution-quality quotes, but it is a paid product and requires procurement/access credentials. See the official NSE historical-data and real-time-data product pages for scope and subscription requirements.
+- **Acceptance status:** candidate/procurement required; not yet acquired, therefore not yet part of the production backtest dataset.
