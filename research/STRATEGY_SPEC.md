@@ -53,7 +53,7 @@ The video does not define the following machine-level semantics. They are theref
 11. **No recursive same-timestamp transitions:** a new structure cannot trigger again from the same observation unless a separate independent event exists.
 12. **Unit-test invariants:** exact quantities, delta arithmetic, direction mapping, threshold crossing, no future contract use, fill ordering, zero-at-expiry, one cost record per cash-flow leg, and rejection handling.
 
-Full definitions are in [research/OPERATIONAL_CONVENTIONS.md](OPERATIONAL_CONVENTIONS.md).
+Full definitions are in the canonical tracked file [research/OPERATIONAL_CONVENTIONS.md](OPERATIONAL_CONVENTIONS.md). The correction branch freezes the exact numerical semantics required for independent reproduction, including IV inversion, quote filters, strike tie-breaking, threshold inequalities, direction classification, fallback slippage, and historical contract metadata.
 
 ## C. Explicitly excluded from the literal core
 The video discusses discretionary profit-taking and discretionary expiry-day management; it does not provide one universal deterministic threshold. These remain separate, pre-registered sensitivity variants. fileciteturn0file0L895-L943
