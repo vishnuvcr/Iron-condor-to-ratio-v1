@@ -31,3 +31,5 @@ No gate becomes PASS merely because a source has been identified. A gate becomes
 
 ## E053 current-state note
 G4 and G12 are now independently verified from Run #55. The remaining production evidence gates are G5–G11; G9 remains blocked until historical bid/ask or sufficient order-level reconstruction data are acquired and validated.
+
+- 2026-10-03 evidence update: official NSE Historical Order & Trade availability and schema/version documentation were re-verified; G9 remains blocked pending licensed F&O acquisition and deterministic reconstruction. G8's effective-date contract-rule evidence was expanded through the October 2025 lot-size revision, and G11 provider coverage was expanded to GIFT NIFTY/NSE IX.
