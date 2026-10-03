@@ -53,8 +53,8 @@ def main():
         if miss.empty: continue
         total+=len(miss); miss["day"]=miss["timestamp"].dt.tz_convert(rules["timezone"]).dt.strftime("%Y-%m-%d")
         for d,g in miss.groupby("day"):
-            q=dates.setdefault(d,{"missing_rows":0,"unique_missing_timestamps":0,"examples":[]})
-            q["missing_rows"]+=len(g); q["unique_missing_timestamps"]+=g["timestamp"].nunique()
+            q=dates.setdefault(d,{"missing_row_count":0,"unique_missing_timestamps":0,"examples":[]})
+            q["missing_row_count"]+=len(g); q["unique_missing_timestamps"]+=g["timestamp"].nunique()
             q["examples"]+=list(map(str,g["timestamp"].drop_duplicates().head(max(0,20-len(q["examples"])))))
         for t,n in miss["timestamp"].value_counts().items(): freq[str(t)]=freq.get(str(t),0)+int(n)
         for t in miss["timestamp"].drop_duplicates().head(200):
@@ -64,13 +64,14 @@ def main():
             if len(examples)<100: examples.append({"timestamp":k,"day":d,"prev_nifty":str(prev),"next_nifty":str(nxt)})
     out={"execution_provenance":{"checked_out_commit_sha":subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()},
          "frozen_failed_evidence":{"run":37148487963,"job":111277213347,"artifact":11284131045,"artifact_sha256":"30381036630380820693858817bea51be4fae82896e01eb98cf09dba61fd95fb","missing_rows":521069},
-         "recomputed_missing_rows":total,"affected_date_count":len(dates),"affected_dates":dates,
+         "recomputed_missing_row_count":total,"affected_date_count":len(dates),"affected_dates":dates,
+         "diagnostic_field_semantics":{"missing_row_count":"eligible option rows lacking exact NIFTY timestamp","unique_missing_timestamps":"distinct eligible option timestamps lacking exact NIFTY timestamp","decision_timestamps":"not emitted; use unique_decision_timestamps if added by a future diagnostic","aligned_decision_timestamps":"not emitted; use unique_aligned_timestamps if added by a future diagnostic"},
          "missing_timestamp_frequency_top100":sorted(freq.items(),key=lambda x:(-x[1],x[0]))[:100],
          "timestamp_diagnostics":seconds,"examples":examples,
          "option_file_timestamp_ranges":ranges,"overlapping_option_file_ranges":overlaps,"expiry_partition_checks":expiry_partition,"all_files_single_expiry_matching_filename":all(x["partition_matches_filename"] for x in expiry_partition),
          "classification_notes":{"underlying_source_gap":"Requires within-day NIFTY coverage and neighbor-gap evidence; absence alone is not classified as a source gap.","option_source_timestamp_irregularity":"Seconds/microseconds and neighbor distances are reported; no correction is applied.","session_calendar":"Eligibility is recomputed only from phase1_session_rules.json.","cross_file_duplicates":"Non-overlap of timestamp ranges establishes partition separation; overlap requires global key audit.","dataset_discontinuity":"Large clusters are retained, not excluded."},
          "acceptance":{"diagnostic_only":True,"exact_timestamp_requirement":1.0,"no_interpolation":True,"no_forward_fill":True}}
     OUT.parent.mkdir(parents=True,exist_ok=True); OUT.write_text(json.dumps(out,indent=2))
-    print(json.dumps({"recomputed_missing_rows":total,"affected_dates":len(dates),"overlap_pairs":len(overlaps)},indent=2))
+    print(json.dumps({"recomputed_missing_row_count":total,"affected_dates":len(dates),"overlap_pairs":len(overlaps)},indent=2))
     if total==0: raise SystemExit("Frozen failure could not be reproduced")
 if __name__=="__main__": main()
