@@ -305,3 +305,10 @@ The exact-tip G5 failure-isolation run **37154986733** completed successfully at
 The diagnostic reports 362 affected dates; 14 full-date underlying gaps account for 487,593 failures (93.5755%). It also found 238 overlapping option-file timestamp ranges, so partition-range separation is not sufficient to establish global uniqueness. A global key-level audit remains required.
 
 **Gate status: G5 FAIL/OPEN; G6/G7/G8/G10/G11 OPEN; G9 PASS; G13/G14 and Phase 2 BLOCKED.** The 100% exact timestamp rule remains unchanged.
+
+
+## 2026-10-04 — G5 research-use waiver
+
+The working research dataset is now explicitly accepted for continued exploratory research despite the G5 integrity failure. **G5 is not PASS**: it is recorded as **FAIL / WAIVED FOR CONTINUED RESEARCH**. The 521,069 unmatched observations, 14 full-date gaps, and 33,476 partial-date mismatches remain retained and documented. No interpolation, nearest-timestamp matching, forward-fill, or silent deletion is allowed.
+
+Any eventual trading-performance result must clearly disclose this dataset-integrity limitation and include robustness/sensitivity analysis comparing results with affected observations/dates excluded. This research-use waiver does **not** authorize Phase 2 or replace the independent tester gate; G13/G14 and Phase 2 remain blocked until the required tester disposition.
