@@ -135,3 +135,6 @@ Fresh CI run `37124047220` reconciled the NIFTY observation dates against dated 
 The independent tester found two substantive blockers. E044: the previous G4 manifest still contained unresolved-date entries that the reconciliation code ignored, and special-session labels did not validate actual documented intervals. E045: the successful run was on an older commit, not the current final Phase 1 head. Both findings are accepted.
 
 The G4 implementation has now been corrected: explicit date controls replace the unresolved-date escape hatch; every special session has documented F&O execution intervals and source-observation intervals; the reconciler checks interval coverage, source-observation containment, controlled anomalies, and uncontrolled dates. A fresh workflow run on the resulting final Phase 1 head is required. No Phase 2 work has started.
+
+### E044 correction frozen — final-head CI pending
+The G4 correction is implemented and has successfully executed on an ancestor commit. The independent tester's E045 requirement is being honored: that run is not being treated as final evidence. The next CI execution will be tied to the final Phase 1 branch head after all methodology/control changes are frozen.
