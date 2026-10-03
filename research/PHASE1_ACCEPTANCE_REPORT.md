@@ -13,7 +13,7 @@ All Phase 1 acceptance references use the canonical G1–G14 vocabulary below.
 | G1 | Immutable primary dataset / provenance | PASS |
 | G2 | Structural schema validation | PASS on prior pinned acquisition |
 | G3 | Duplicate handling | PASS on prior pinned acquisition |
-| G4 | Timestamp and session quality | OPEN |
+| G4 | Timestamp and session quality | **FAIL / OPEN — E046** |
 | G5 | Underlying/option alignment | PRELIMINARY |
 | G6 | Production historical Greeks / IV | OPEN |
 | G7 | Target-delta availability | OPEN |
@@ -21,7 +21,7 @@ All Phase 1 acceptance references use the canonical G1–G14 vocabulary below.
 | G9 | Historical bid/ask / execution quality | BLOCKED |
 | G10 | Date-specific transaction costs | OPEN |
 | G11 | Market-context datasets | OPEN |
-| G12 | Repaired CI execution | PASS | Fresh successful Actions run 37122686454 / job 111201763817; artifact 11274027306 |
+| G12 | Repaired CI execution | **PASS — independently verified** | Final-head run 37125656878 / job 111210327724; artifact 11275311823; artifact SHA-256 754a71a1b50f532b49e43be45f24ddc3eab80a4aa56df1f43b23f0030f04aa9c |
 | G13 | Independent tester approval | FAIL / BLOCKED |
 | G14 | Phase 2 authorization | BLOCKED |
 
@@ -67,3 +67,10 @@ The repaired audit now has a successful, independently inspectable Actions execu
 - Session reconciliation: 1,254 normal eligible dates; 7 documented special-session dates; 1 pre-registered incomplete-session exclusion (2026-06-03); 0 unreconciled dates.
 - The regular execution window is 09:15–15:30 Asia/Kolkata. Out-of-window source observations are retained and quantified but are not eligible for strategy decisions.
 - G4 is **PASS on developer evidence**, pending independent tester verification.
+
+
+## Independent tester final-head re-audit — E046
+- Exact final-head CI execution is independently verified and closes the prior E045 evidence mismatch for G12.
+- The G4 artifact itself reports 1,254 normal eligible dates, 7 special sessions, 1 data-gap exclusion, and 0 unreconciled observed rows. These output counts are internally consistent with the tested dataset.
+- However, the implementation remains fail-open for missing special-session dates because `phase1_session_reconciliation.py` only iterates dates present in the observed dataset. A special date declared in the manifest but absent from the data is never processed. The implementation also does not enforce the session-calendar specification's requirement that every observed date map to exactly one canonical session row.
+- Therefore G4 is not accepted despite the successful final-head CI run. G13 and G14 remain blocked.
