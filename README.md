@@ -76,3 +76,6 @@ phase-1-data-acquisition-validation.
 
 - Phase 1 evidence search expanded to GitHub/open-source and commercial NIFTY archives; reviewed alternatives also lack historical bid/ask. NSE Historical Order & Trade Data remains the preferred quote-source procurement route.
 - Tester handoff updated with the remaining acceptance gates; Phase 2 remains blocked.
+
+- Official RBI, NSE and Paytm Money source validation advanced the rate/cost/contract metadata gates; complete historical extraction remains open.
+- Phase 1 tester handoff now separates closed source-identification work from remaining production-acquisition gates.
