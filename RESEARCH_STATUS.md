@@ -301,3 +301,11 @@ Updated: 2026-10-03
 
 ## 2026-10-03 — Independent G9 approval
 Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2b537c5b085c09729c27bb3957285ae8`. G9 is now **PASS under the revised bid/ask-free proxy methodology**. E065 and E066 are PASS. Historical bid/ask is not mandatory for the primary backtest and OHLC/LTP is never relabeled as executable quotes. G13/G14 and Phase 2 remain BLOCKED because G5/G6/G7/G8/G10/G11 remain incomplete. No Phase 2 backtest or profitability analysis has started.
+
+
+## 2026-10-03 — G5 underlying/option alignment step
+- Developer continued under the independent-tester gate after G9 PASS; Phase 2 remains BLOCKED.
+- Created branch `phase-1-g5-underlying-option-alignment` from the synchronized G9-pass developer head.
+- Added `research/PHASE1_G5_ALIGNMENT_SPEC.md`, `scripts/phase1_g5_alignment_audit.py`, and `.github/workflows/phase1-g5-alignment.yml`.
+- The G5 validator separates session eligibility from underlying alignment, requires exact timestamp matching to the NIFTY grid, rejects duplicate NIFTY timestamps and invalid option timestamps, reports expiry/day coverage, and never interpolates or forward-fills.
+- G5 remains OPEN pending an exact-head Actions run and independent tester re-audit. No Phase 2/backtest/profitability work has started.
