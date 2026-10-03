@@ -64,6 +64,12 @@ jobs:
           echo "Research ref: ${{ inputs.research_ref || github.ref }}"
           echo "Checked-out commit: $(git rev-parse HEAD)"
 
+      - name: Assert corrective branch for push execution
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          set -euo pipefail
+          test "${GITHUB_REF_NAME}" = "phase-1-e046-bidirectional-reconciliation"
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
