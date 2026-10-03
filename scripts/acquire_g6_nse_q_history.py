@@ -17,14 +17,20 @@ REPORT=Path("data/validation/phase1_g6_nse_q_acquisition.json")
 
 def fetch(a,b):
     cinfo={"name":"NIFTY 50","startDate":a.strftime("%d %b %Y"),"endDate":b.strftime("%d %b %Y"),"indexName":"NIFTY 50"}
-    payload=json.dumps({"cinfo":json.dumps(cinfo,separators=(",",":"))}).encode()
+    cinfo_text=str(cinfo).replace(chr(34),chr(39))
+    payload=json.dumps({"cinfo":cinfo_text}).encode()
     req=Request(URL,data=payload,headers={
         "Content-Type":"application/json; charset=utf-8",
+        "Accept":"application/json, text/javascript, */*; q=0.01",
         "Referer":"https://www.niftyindices.com/reports/historical-data",
         "Origin":"https://www.niftyindices.com",
-        "User-Agent":"Iron-condor-to-ratio-v1-research/1.0"})
-    with urlopen(req,timeout=120) as r: return r.read()
-
+        "User-Agent":"Mozilla/5.0"})
+    with urlopen(req,timeout=120) as r:
+        body=r.read()
+        if body.lstrip().startswith(b"<!DOCTYPE") or b"<html" in body[:1000].lower():
+            raise RuntimeError("NSE_Q_ENDPOINT_RETURNED_HTML")
+        json.loads(body.decode("utf-8"))
+        return body
 def sha(b): return hashlib.sha256(b).hexdigest()
 
 def main():
