@@ -60,3 +60,6 @@ Tester PR #32 independently re-audited developer PR #31 exact head `8b99cb3b2b53
 
 ## 2026-10-04 — Tester PR #39 correction set
 Tester PR #39 found G5/G6 control defects while explicitly preserving G9 PASS. The developer correction branch `phase-1-g5-g6-reaudit-corrections-20261004` fixes the G5 push-trigger coverage and G6 cache reuse path. These corrections do not advance G5/G6 without independent re-audit and observable exact-head evidence.
+
+## 2026-10-04 — G6 substantive reconstruction implementation
+A dedicated G6 production branch was created from the paired exact-tip submission. The new pipeline is fail-closed and does not advance G6: mandatory date-aligned r/q inputs, production IV/Greek reconstruction, diagnostics, target-delta availability and checksum evidence remain outstanding. G5's paired Actions run remains a separate in-progress submission at the original exact SHA. G13/G14 and Phase 2 remain BLOCKED.
