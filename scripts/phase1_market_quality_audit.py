@@ -142,7 +142,7 @@ def main():
                     delta = abs(bs_delta(S, K, 0.0, 0.0, T, iv, str(x["option_type"]).upper().startswith("C")))
                     target_checks.append(delta)
 
-    result = {
+\n    session_outliers = [\n        {"day": str(day), "timestamps": int(n)}\n        for day, n in session_counts.items()\n        if int(n) < 300 or int(n) > 390\n    ]\n\n    result = {
         "status": "phase1_market_quality_audit_complete",
         "option_files": len(option_files),
         "option_rows_after_key_dedup": total_rows,
