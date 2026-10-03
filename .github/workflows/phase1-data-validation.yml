@@ -1,5 +1,5 @@
 # E037 corrected: syntax-check commands are explicit multiline shell commands.
-# G12 execution trigger: manual dispatch defaults to the Phase 1 research branch.
+# G12 execution trigger: Phase 1 validation runs on the acquisition branch and the E046 corrective branch.
 name: Phase 1 Data Acquisition and Validation
 
 concurrency:
@@ -10,6 +10,7 @@ on:
   push:
     branches:
       - "phase-1-data-acquisition-validation"
+      - "phase-1-e046-bidirectional-reconciliation"
     paths:
       - "data/manifests/**"
       - "scripts/validate_phase1_data.py"
@@ -33,14 +34,16 @@ on:
       - "scripts/phase1_session_outlier_characterization.py"
       - "scripts/validate_phase1_control_manifests.py"
       - "scripts/phase1_session_reconciliation.py"
+      - "scripts/test_phase1_session_reconciliation.py"
       - "data/manifests/phase1_session_rules.json"
+      - "data/manifests/phase1_control_sources.json"
       - ".github/workflows/phase1-data-validation.yml"
   workflow_dispatch:
     inputs:
       research_ref:
         description: "Research branch to validate"
         required: false
-        default: "phase-1-data-acquisition-validation"
+        default: "phase-1-e046-bidirectional-reconciliation"
         type: string
 
 jobs:
@@ -54,6 +57,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.research_ref || github.ref }}
+
+      - name: Record checked-out research ref
+        run: |
+          set -euo pipefail
+          echo "Research ref: ${{ inputs.research_ref || github.ref }}"
+          echo "Checked-out commit: $(git rev-parse HEAD)"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -128,6 +137,4 @@ jobs:
           path: data/validation/*.json
           retention-days: 30
 
-# Final-head G4/E044 execution marker: all Phase 1 methodology and control changes are frozen before this run.
-
-# E046 final-head evidence marker: bidirectional reconciliation, regression tests, and documentation frozen before final CI.
+# E046 corrective execution marker: bidirectional reconciliation, regression tests, and documentation are frozen before exact-head CI evidence.
