@@ -8,7 +8,7 @@ Developer (developer branch). The independent tester operates through a separate
 **Phase 1 — data acquisition and validation: IN PROGRESS. Phase 0 is APPROVED.**
 
 ## Gate
-Phase 1 is **IN PROGRESS / NOT APPROVED**. Independent tester PR #25 closed E055 PASS after re-auditing the developer exact head; G13 remains BLOCKED because G5–G11 are not yet production-accepted. Phase 2 remains BLOCKED.
+Phase 1 is **IN PROGRESS / NOT APPROVED**. Tester PR #32 independently approved G9 under the revised proxy-execution methodology, but G13 remains BLOCKED because G5/G6/G7/G8/G10/G11 are not yet production-accepted. Phase 2 remains BLOCKED.
 
 ### Latest independently verified evidence
 - Developer exact tip audited: `378a130b6d450b288be140655f9b0b75aad840b3`
@@ -18,7 +18,7 @@ Phase 1 is **IN PROGRESS / NOT APPROVED**. Independent tester PR #25 closed E055
 - Artifact SHA-256: `de60c50a047357d7f89d5602ea42fd832158855779e34169fec2b9beeb02159`
 - G4: **PASS — independently verified**
 - G12: **PASS — independently verified**
-- G9: **BLOCKED** pending acquisition/validation of historical bid/ask or sufficient order-level reconstruction data.
+- G9: **PASS — independently approved under revised proxy methodology** (Tester PR #32). Historical bid/ask is not mandatory for the primary backtest; OHLC/LTP is never relabeled as bid/ask.
 - G13/G14: **BLOCKED**
 - No backtest engine, optimization, profitability result, or trading-strategy conclusion has been introduced.
 - Historical evidence sections below are append-only records; the gate table above is the current control state.
@@ -51,6 +51,18 @@ A prior acquisition on mutable main downloaded 269 parquet files and passed stru
 The current workflow pins the source to 0f4800e and uses separate cache restore/save steps. Pinned-source audit run 37116400642 completed successfully: 109,112,358 rows across 269 files, with 0 hard structural failures but 30,363,281 exact duplicate rows across 138 files. Deterministic deduplication is now mandatory before production use. The acquisition scope has since been narrowed to index/NIFTY.parquet, so a fresh validation run is required.
 
 ## Open Phase 1 gates
+- G5 underlying/option alignment — automated exact-timestamp acceptance audit pending CI;
+- G6 production historical Greeks/IV;
+- G7 target-delta availability;
+- G8 historical contract metadata;
+- G10 date-specific transaction costs;
+- G11 market-context datasets;
+- independent Phase 1 tester PASS.
+
+## G5 alignment step — 2026-10-03
+A dedicated fail-closed G5 validator and GitHub Actions workflow were added. The validator separates date-specific session eligibility from exact NIFTY timestamp matching, rejects duplicate underlying timestamps and invalid option timestamps, reports expiry/day coverage, and never interpolates missing underlying observations. The workflow uses the pinned source revision `0f4800e`, cache restore/save, automatic push/PR triggers, manual dispatch, and retained evidence artifacts. G5 is **OPEN pending exact-head CI evidence and independent tester review**.
+
+Open Phase 1 gates — detailed:
 - pinned-source validation and file provenance;
 - timestamp/missing/stale coverage;
 - underlying alignment;
@@ -70,7 +82,7 @@ The latest run passed structural validation but initially failed at deterministi
 Run 21 completed the structural, deterministic-deduplication, and diagnostic market-quality stages. Option timestamps matched NIFTY timestamps for 99.2953% of post-key-dedup option rows. However, NIFTY daily timestamp counts range from 6 to 420 across 1,262 dates; these session outliers are now an explicit acceptance blocker (E028) and will be characterized before production use.
 
 ## Branch
-`phase-1-g9-free-data-salvage` (current developer G9 salvage branch).
+`phase-1-g5-underlying-option-alignment` (current developer G5 evidence branch).
 
 ## Latest Phase 1 controls
 - Deterministic exact-row deduplication: `scripts/deduplicate_phase1_data.py`.
