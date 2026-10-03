@@ -277,3 +277,11 @@ Updated: 2026-10-03
 - G9 validator now audits every acquired raw CSV independently and emits an acquisition-failure report rather than losing the diagnostic when network/DNS acquisition fails.
 - G9 workflow now uses the current salvage branch, immutable candidate revision in cache keys, PR path coverage, cache restore/save, and unconditional audit-artifact upload.
 - G9 remains BLOCKED. No Phase 2/backtest/performance analysis has started.
+
+## 2026-10-03 — Independent tester exact-head G9 salvage audit
+- Tester audited developer PR #28 at exact head 4698fa62b45fc62ae6c543c168bccdfd3de1d5fc.
+- G9 remains BLOCKED.
+- E060: G9 PR workflow does not explicitly prove checkout of the PR head SHA.
+- E061: the hardened raw-file validator provides useful diagnostics but does not yet enforce the full fail-closed G9 acceptance contract (coverage, timezone, NIFTY identity, contract completeness, conflict semantics, quote age, depth semantics, no-future-leakage, licensing, and final candidate disposition).
+- E062: no independently observable exact-head CI artifact is available, so the candidate remains unverified at raw-file level.
+- G13/G14 and Phase 2 remain BLOCKED. No Phase 2 work has started.
