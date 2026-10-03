@@ -370,3 +370,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - The observed values were committed to the G6 source manifest; no fabricated placeholder digest was used.
 - G6 cache-integrity regression tests passed and exact-tip G6 CI run 37148353717 succeeded at commit e8fca6a6084a463528643b63dd8f310899c0b3bf, artifact 11282958617.
 - G5 exact-tip CI run 37148384171 is executing at commit 001e498bfc099e9f51df9129e1fdc2e9370b2b3a; no G5 gate advancement has been claimed.
+
+
+## 2026-10-04 — Independent tester G5 exact-artifact re-audit
+- Tester independently verified G5 checkout `db668dd2b89bf691a6481affb3cb2a9060c5fe98`, Actions run `37148487963`, job `111277213347`, artifact `11284131045`, and artifact SHA-256 `30381036630380820693858817bea51eb98cf09dba61fd95fb`.
+- The artifact confirms 77,727,743 decision-eligible option rows, 77,206,674 exact NIFTY matches, 521,069 missing exact alignments, and 99.3296229% alignment. Expiry/day row counts reconcile exactly to the same totals.
+- Independent date-level characterization shows 487,593 (93.5755%) of the missing rows occur on 14 full-miss dates that have option observations but no observed NIFTY date. The 2021 dates overlap the NIFTY file's observed-start boundary; 2025-10-10 and 2026-05-25/26/29 remain unexplained source gaps until independently reconciled.
+- Tester assessment: characterize missing timestamps by date/session/source before any acceptance-rule change. Keep the 100% exact-timestamp rule frozen; no interpolation, nearest matching, forward fill, or silent deletion. G5 FAIL/OPEN; G6 OPEN; G13/G14 and Phase 2 BLOCKED.
+- Added tester report `research/TESTER_REPORT_G5_EXACT_ARTIFACT_REAUDIT_20261004.md` and error-log entry E081. This log records user-visible decisions and findings only; hidden chain-of-thought is not stored.
