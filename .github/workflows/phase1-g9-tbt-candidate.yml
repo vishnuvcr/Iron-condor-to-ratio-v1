@@ -7,9 +7,11 @@ concurrency:
 on:
   push:
     branches:
-      - "phase-1-e054-readme-branch-provenance"
+      - "phase-1-g9-free-data-salvage"
     paths:
       - "scripts/validate_g9_tbt_candidate.py"
+      - "research/PHASE1_G9_FREE_DATA_SALVAGE.md"
+      - "data/manifests/phase1_sources.json"
       - "data/manifests/phase1_control_sources.json"
       - ".github/workflows/phase1-g9-tbt-candidate.yml"
   pull_request:
@@ -17,6 +19,8 @@ on:
       - main
     paths:
       - "scripts/validate_g9_tbt_candidate.py"
+      - "research/PHASE1_G9_FREE_DATA_SALVAGE.md"
+      - "data/manifests/phase1_sources.json"
       - "data/manifests/phase1_control_sources.json"
       - ".github/workflows/phase1-g9-tbt-candidate.yml"
   workflow_dispatch:
@@ -30,24 +34,39 @@ jobs:
       HF_TOKEN: ${{ secrets.HF_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
+      - name: Restore HF candidate cache
+        id: hf-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .cache/huggingface
+            .cache/huggingface_g9_tbt
+          key: g9-tbt-643b48383839947b5fe3ed9483c9f7c0f167e865-${{ hashFiles('scripts/validate_g9_tbt_candidate.py') }}
+          restore-keys: |
+            g9-tbt-643b48383839947b5fe3ed9483c9f7c0f167e865-
       - name: Install candidate-audit dependencies
         run: |
           python -m pip install --upgrade pip
           pip install huggingface_hub
-
       - name: Audit G9 TBT candidate
         run: python scripts/validate_g9_tbt_candidate.py
-
       - name: Upload G9 candidate audit
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: g9-tbt-candidate-audit
           path: data/validation/g9_tbt_candidate_report.json
+          if-no-files-found: warn
           retention-days: 30
+      - name: Save HF candidate cache
+        if: always() && steps.hf-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .cache/huggingface
+            .cache/huggingface_g9_tbt
+          key: g9-tbt-643b48383839947b5fe3ed9483c9f7c0f167e865-${{ hashFiles('scripts/validate_g9_tbt_candidate.py') }}
