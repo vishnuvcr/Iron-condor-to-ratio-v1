@@ -184,3 +184,11 @@ Updated: 2026-10-03
 - Reconciliation artifact reports 1,262 observed dates, 13 manifest control dates, 1,251 normal-eligible dates, 10 special-session dates, 1 data-gap exclusion, 0 unreconciled dates, and 0 missing manifest-session dates.
 - E047 recorded the three genuine weekend live-trading dates discovered by the fail-closed exact-head rerun: 2024-01-20, 2025-02-01, and 2026-02-01. They are now explicitly controlled in the session manifest with dated exchange-source references.
 - Current Phase 1 status: IN PROGRESS / NOT APPROVED. G4 and G12 have developer evidence on the current corrective head, but G13 is still BLOCKED pending independent tester re-audit. G5–G11 remain as previously stated; Phase 2 remains BLOCKED.
+
+
+## E048 manual-dispatch safeguard — 2026-10-03
+- The user-provided Actions UI showed manual run #52 queued from the `main` workflow entry.
+- Inspection of the `main` workflow revealed its manual-dispatch default still pointed to the older acquisition branch and omitted the E046 bidirectional G4 reconciliation step.
+- The `main` workflow has now been replaced with the E046-corrected workflow; main workflow commit: 097d29c2816614bc7ba45365454b7f0dc270bc5d.
+- Run #52 is not automatically accepted as G12 corrective evidence unless its explicit `research_ref` input selected `phase-1-e046-bidirectional-reconciliation`. The screenshot does not expose that input.
+- Current status remains Phase 1 IN PROGRESS / NOT APPROVED; G13 and Phase 2 remain BLOCKED.
