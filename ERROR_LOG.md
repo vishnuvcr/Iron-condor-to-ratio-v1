@@ -130,3 +130,5 @@
 - No substitute values, OHLC-to-quote conversion, or inferred bid/ask was used.
 - Resolution: retain the pinned CI acquisition workflow using the repository's HF_TOKEN secret and cache; independently inspect the resulting artifact before any G9 decision.
 - G9 remains BLOCKED; G13/G14 and Phase 2 remain BLOCKED.
+
+| E059 | 2026-10-03 | 1 / G9 | Exact developer head `d2003df53d07a952aa7434c4c706f396067b6080` has no associated PR-triggered GitHub Actions run; the available GitHub connector does not expose workflow-dispatch. | Exact-head acquisition evidence cannot yet be independently observed. This is an execution/CI-access limitation, not evidence that the TBT candidate is absent or invalid. | Repaired the G9 workflow so push/PR/manual-dispatch triggers, pinned cache keys, per-raw-file audit and always-uploaded failure reports are explicit. Preserve G9 BLOCKED and require an independently observed CI run/artifact before judging the candidate. |
