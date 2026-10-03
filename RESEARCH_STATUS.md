@@ -438,3 +438,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - The exact-head RBI acquisition in run 37157538662 was serially probing 3,000 archive IDs and did not complete within the acceptable research execution window.
 - Replaced the serial scan with bounded parallel retrieval (20 workers), expanded the lower bound to ID 24000 to avoid an unverified 2021 coverage cutoff, and retained per-page SHA-256 provenance for every page containing the target series.
 - No values or acceptance criteria were relaxed. G6 remains FAIL / OPEN.
+
+
+## 2026-10-04 — E098 RBI acquisition entry-point defect
+- Exact-head run 37157862634 reported the RBI acquisition step successful, but the production artifact still lacked `risk_free.csv`.
+- Inspection of exact-head source showed `main()` was defined but never invoked, so the step was a no-op and the CI success status was misleading.
+- Added the explicit module entry point. No gate advancement; the next run must prove actual RBI row extraction, coverage, provenance and production consumption.
