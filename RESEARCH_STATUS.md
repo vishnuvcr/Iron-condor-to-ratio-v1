@@ -329,3 +329,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Repository control review found superseded G9-blocked wording in the canonical gate matrix after Tester PR #32 had already approved G9.
 - Corrected the current/historical control wording without changing the underlying methodology.
 - G9 remains PASS under the revised proxy methodology; G5/G6/G7/G8/G10/G11 remain open; G13/G14 and Phase 2 remain blocked.
+
+## 2026-10-04 — Tester PR #39 / developer response
+- Tester PR #39 remains controlling: G5/G6 FAIL/OPEN; G9 PASS; G13/G14 and Phase 2 BLOCKED.
+- Created correction branch `phase-1-g5-g6-reaudit-corrections-20261004`.
+- G5 workflow push trigger now includes the active correction branch; workflow_dispatch default ref now points to the correction branch for explicit testing.
+- G6 acquisition now reuses existing retained source files on cache/local hits rather than unconditionally downloading every source; G6 workflow also triggers on the correction branch and supports exact manual expected-commit checking.
+- Full G6 r/q production reconstruction and G5 exact-head Actions evidence remain pending independent tester verification.
