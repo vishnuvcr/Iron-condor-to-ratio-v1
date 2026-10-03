@@ -48,4 +48,4 @@ The independent tester identified stale top-level status text. This report now u
 
 ## Historical evidence
 
-
+- 2026-10-03 substantive evidence update: the G5–G11 source audit strengthened official provenance for RBI 91-day T-bill yields, NSE contract transitions, NSE historical Order & Trade procurement, Paytm Money brokerage/STT chronology, India VIX, NIFTY index, FII/FPI-DII and GIFT NIFTY context. Production gates remain unchanged because machine-readable production datasets/reconstruction are still incomplete.
