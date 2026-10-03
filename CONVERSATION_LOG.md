@@ -26,3 +26,12 @@ This file records user-visible project instructions and work decisions, not hidd
 ## Source
 YouTube URL supplied by user: https://youtu.be/T4gvTshMEyA
 Uploaded transcript: What If the Iron Condor Starts Trending Ratio Spread Strategy.txt
+
+## 2026-10-03 — Second independent tester result and developer response
+- User reported the second independent tester gate as **FAIL** and instructed the developer to proceed with corrections.
+- Developer verified PR #4 and the tester branch directly.
+- The missing `research/OPERATIONAL_CONVENTIONS.md` artifact was confirmed absent from PR #3.
+- Developer created `phase-0-corrections-v2` from the correction branch and added the canonical operational artifact.
+- Exact numerical semantics were frozen for IV/Black-Scholes reconstruction, slippage, strike selection, data quality, thresholds, direction classification, and historical contract metadata.
+- README, status, plan and error records were updated.
+- Phase 1 remains blocked pending independent re-test and approval.
