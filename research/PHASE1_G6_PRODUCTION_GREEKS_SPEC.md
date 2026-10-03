@@ -82,3 +82,10 @@ Any missing mandatory evidence leaves G6 OPEN.
 ## Evidence boundary
 
 A successful workflow run proves only that the implementation produced the reported evidence from its exact checkout. G6 becomes PASS only after independent tester review of the substantive evidence package.
+
+
+## 2026-10-04 source-method audit update
+
+The public NSE Indices historical-data interface explicitly exposes daily P/E, P/B and dividend-yield reports. An independently documented public reverse-engineering reference records the underlying historical valuation endpoint, with a maximum 365-day request window and multi-year pagination requirements. This is a procurement/implementation lead, not yet production data acceptance. The public documentation is linked in the project research record.
+
+RBI public WSS pages independently expose the required 91-Day Treasury Bill (Primary) Yield field. RBI's DBIE documentation also states that government-securities datasets are available through its public data API, but the study's frozen G6 rule remains tied to the specified 91-day primary-yield series and strict no-lookahead handling; no alternate rate series is silently substituted.
