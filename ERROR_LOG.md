@@ -132,3 +132,9 @@
 - G9 remains BLOCKED; G13/G14 and Phase 2 remain BLOCKED.
 
 | E059 | 2026-10-03 | 1 / G9 | Exact developer head `d2003df53d07a952aa7434c4c706f396067b6080` has no associated PR-triggered GitHub Actions run; the available GitHub connector does not expose workflow-dispatch. | Exact-head acquisition evidence cannot yet be independently observed. This is an execution/CI-access limitation, not evidence that the TBT candidate is absent or invalid. | Repaired the G9 workflow so push/PR/manual-dispatch triggers, pinned cache keys, per-raw-file audit and always-uploaded failure reports are explicit. Preserve G9 BLOCKED and require an independently observed CI run/artifact before judging the candidate. |
+
+## E063 — 2026-10-03 — explicit bid/ask methodology change
+- Developer formally changed the primary research methodology so historical bid/ask is no longer mandatory for the primary backtest.
+- Impact: the previous G9 acceptance contract is no longer the correct mandatory criterion for the primary execution model, but the change must not be interpreted as evidence of historical executable fills.
+- Resolution: added `research/PHASE1_EXECUTION_PROXY_SPEC.md` and updated `RESEARCH_PLAN.md` to freeze completed-1-minute decision / next-eligible-minute-open execution, adverse 0/5/10/20/50-bps per-leg slippage with an effective-date tick floor, date-effective transaction costs, and explicit missing-execution handling.
+- Independent tester approval is required before Phase 2. No Phase 2 work has started.
