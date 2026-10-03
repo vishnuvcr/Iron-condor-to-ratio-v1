@@ -129,3 +129,12 @@ This file records user-visible project instructions and work decisions, not hidd
 - Repository audit also found unused hard-coded session constants in the market-quality diagnostic.
 - Synchronized G1 to PASS and removed the unused session constants. Logged E035.
 - G4 remains OPEN under the date-specific session-calendar specification; Phase 2 remains blocked.
+
+
+## 2026-10-03 — Data gathering request
+- User requested: “Gather data”.
+- Verified the immutable Hugging Face primary dataset inventory and official NSE/RBI/Paytm Money source endpoints through current source review.
+- Prior CI evidence establishes the primary NIFTY-only acquisition inventory: 268 files, 108,625,497 rows, 30,363,281 exact duplicates, zero conflicting duplicate-key groups, and no bid/ask fields.
+- Reopened PR #13 to attempt a fresh automated acquisition/audit execution; the workflow-run API still returned zero runs. Logged E036 and did not claim a new download or validation result.
+- Added `data/manifests/phase1_data_inventory.json` so gathered data and outstanding procurement items are explicitly separated.
+- NSE historical F&O order/trade data remains the required quote/execution procurement blocker. No close-price substitution was made.
