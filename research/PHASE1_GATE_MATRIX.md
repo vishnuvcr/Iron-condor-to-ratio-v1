@@ -68,3 +68,7 @@ E047 is resolved as a control-manifest completion issue. The three newly control
 - **G13 BLOCKED.** G5–G11 remain incomplete/open/blocked, especially G9 historical bid/ask/execution data.
 - **E053 OPEN:** canonical/top-level status text is stale and must be synchronized before final Phase 1 approval.
 - G14 / Phase 2 remains BLOCKED.
+## E055 re-audit note
+- E054 README branch provenance is corrected at developer PR #23.
+- E055 remains open because the E054 conversation-log entry contains a malformed exact PR #21 head SHA.
+- Canonical gate state remains G4/G12 independently PASS; G5–G8/G10–G11 open; G9 blocked; G13/G14 blocked; Phase 2 blocked.
