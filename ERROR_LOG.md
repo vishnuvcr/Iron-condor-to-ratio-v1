@@ -156,3 +156,9 @@
 | E069 | 2026-10-03 | 1 / G5 | No PR-triggered GitHub Actions run was observable for the exact G5 PR head through the available repository connector after PR #34 creation. | Without an observable exact-head run, the G5 evidence artifact cannot be claimed and the gate cannot be advanced. | Retained the G5 workflow with automatic push/PR/manual triggers and cache reuse; recorded the absence as an execution-environment limitation; no G5 PASS is claimed and no Phase 2 work is authorized. |
 
 | E070 | 2026-10-03 | 1 / G6 | Historical r/q source identification is available, but a complete date-aligned machine-readable production series has not yet been assembled. | Using sampled pages or current rates would create incomplete or potentially look-ahead-contaminated Greek inputs. | Registered official RBI/NSE Indices sources, froze a strict pre-trading-date source rule, and kept G6 OPEN until full production inputs and solver evidence exist. |
+
+
+## E072 — 2026-10-04 — G6 source acquisition evidence boundary
+- G6 source identification was previously documented, but no automated retained acquisition artifact existed yet.
+- Impact: source provenance could be cited, but exact acquired bytes and acquisition outcome were not reproducibly captured by the repository workflow.
+- Resolution: added a source-acquisition/hash script and GitHub Actions workflow with unconditional evidence upload. The artifact is explicitly non-accepting: it cannot promote G6 without full-period date-aligned r/q and production IV/Greek reconstruction.
