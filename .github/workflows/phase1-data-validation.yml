@@ -1,4 +1,5 @@
 # E037 corrected: syntax-check commands are explicit multiline shell commands.
+# G12 execution trigger: manual dispatch defaults to the Phase 1 research branch.
 name: Phase 1 Data Acquisition and Validation
 
 concurrency:
