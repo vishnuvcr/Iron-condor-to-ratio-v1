@@ -183,3 +183,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - Pre-registered a normal-session eligibility rule: 09:15–15:30 IST, with a minimum of 300 observed timestamps; incomplete non-special dates are excluded from trading while raw data are retained.
 - Fresh run `37124047220` reconciled 1,254 normal dates, 7 special dates and one excluded data-gap date (2026-06-03), with zero unreconciled dates.
 - G4 is now PASS on developer evidence; independent tester approval remains mandatory.
+
+
+## 2026-10-03 — Independent G4/G12 re-audit
+- Independently verified run 37124047220 succeeded with job 111205697146 and artifact 11274239403.
+- Identified E044: session rules explicitly list unresolved dates, but the reconciliation script ignores that list and can report zero unresolved dates; special-session intervals are not directly validated.
+- Identified E045: run 37124047220 tested commit dd5447fba974560020084146d6e1101e656a034c, not current branch head e9fce044ee34f24c3d7ef2422454d57f5af85ab5. Final G12 remains open.
+- Tester verdict remains Phase 1 FAIL/IN PROGRESS and Phase 2 BLOCKED.
