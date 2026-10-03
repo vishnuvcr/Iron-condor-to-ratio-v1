@@ -60,3 +60,11 @@ Uploaded transcript: What If the Iron Condor Starts Trending Ratio Spread Strate
 - Developer opened PR #9 from `phase-0-corrections-v4` to address the fourth tester's B6 repository-control FAIL.
 - The Phase 0 integrity workflow passed on the v4 correction branch after the synchronized records and control checks were committed.
 - Phase 1 remains blocked; PR #9 requires a fresh independent tester gate before any downstream research begins.
+
+## 2026-10-03 — Fifth independent tester gate
+- Independent tester audited PR #9 / `phase-0-corrections-v4`.
+- Active gate synchronization, literal-core versus sensitivity slippage separation, source/convention separation, and numerical B1–B5 controls were confirmed substantially resolved.
+- Tester identified B7: the workflow assertion `grep -q "## Current branch\\n\`phase-0-corrections-v2\`"` cannot match the intended two-line record under standard grep, so the stale-branch guard is ineffective.
+- Tester identified B8: the developer's claimed successful v4 workflow run is not independently auditable from the available workflow-run/commit-status evidence for head SHA `1ba06188ff5adc48ab0055087d813ca617b5b873`.
+- Tester created `research/TESTER_REPORT_PHASE0_FIFTH.md` on `tester/phase-0-fifth-audit`.
+- Phase 0 FAIL; Phase 1 remains BLOCKED pending correction, auditable CI evidence, and a fresh independent tester approval.
