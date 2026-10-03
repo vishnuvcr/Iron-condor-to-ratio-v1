@@ -21,6 +21,7 @@ on:
       - "scripts/validate_phase1_data.py"
       - "scripts/deduplicate_phase1_data.py"
       - "scripts/phase1_market_quality_audit.py"
+      - "scripts/phase1_session_outlier_characterization.py"
       - ".github/workflows/phase1-data-validation.yml"
   workflow_dispatch:
 
@@ -86,6 +87,9 @@ jobs:
 
       - name: Run Phase 1 market-quality and Greek feasibility audit
         run: python scripts/phase1_market_quality_audit.py
+
+      - name: Characterize NIFTY session outliers
+        run: python scripts/phase1_session_outlier_characterization.py
 
       - name: Upload validation report
         if: always()
