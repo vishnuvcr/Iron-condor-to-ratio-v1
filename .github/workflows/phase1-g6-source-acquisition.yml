@@ -53,6 +53,8 @@ jobs:
         with:
           python-version: "3.11"
       - name: Acquire and hash official G6 sources
+        env:
+          G6_PROVENANCE_BOOTSTRAP: "true"
         run: python scripts/phase1_g6_source_acquisition.py
       - name: Verify G6 artifact provenance
         if: always()
@@ -89,3 +91,4 @@ jobs:
           path: |
             data/raw/g6_sources
             data/validation/phase1_g6_source_acquisition.json
+            data/validation/phase1_g6_provenance_bootstrap.json
