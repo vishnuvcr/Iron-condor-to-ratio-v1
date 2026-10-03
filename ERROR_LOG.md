@@ -197,3 +197,10 @@
 
 
 | E091 | 2026-10-04 | 1 / G6 CI | Exact-tip G6 run 37156932044 passed 6/7 tests but the strict-prior regression test failed because pandas 3.x preserved different datetime units on the left and right merge keys. | The no-lookahead join could not be CI-verified. | Normalized both strict-prior join keys to datetime64[ns]. No methodology relaxation or gate advancement. |
+
+
+## 2026-10-04 — G6 official r/q acquisition implementation
+- Added `scripts/acquire_g6_rbi_risk_free.py` to enumerate the official RBI WSS archive, retain/hash source pages containing the 91-day Treasury-bill primary yield, extract dated observations, reject conflicting duplicates, and emit `data/processed/g6/risk_free.csv`.
+- Extended the G6 workflow to execute the existing official NSE Indices NIFTY 50 P/E/P/B/dividend-yield acquisition and convert its double-parsed response into `data/processed/g6/dividend_yield.csv` before the production scan.
+- The production pipeline therefore now has a concrete primary-source acquisition path for both mandatory r and q inputs. No secondary proxy has been substituted.
+- G6 remains FAIL / OPEN pending exact-head CI acquisition results and independent tester review.
