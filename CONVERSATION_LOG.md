@@ -378,3 +378,12 @@ This file records user-visible project instructions and work decisions, not hidd
 - Added the fail-closed G6 production Greek specification, implementation script, and GitHub Actions workflow.
 - A local attempt to acquire official NSE historical q data failed due DNS/network isolation; this was logged as E082. No substitute data or acceptance claim was made.
 - G6 remains OPEN and G13/G14/Phase 2 remain BLOCKED.
+
+
+## 2026-10-04 — Developer continuation after user authorization
+- User said "ok proceed" and authorized autonomous continuation.
+- Re-read the current gate/status/error/conversation/README controls before advancing.
+- Confirmed paired G5 exact-tip Run 37148487963 remains in progress at the substantive G5 alignment audit; no G5 PASS was asserted.
+- Continued G6 on branch phase-1-g6-production-greeks-20261004 without advancing any gate.
+- Public-source audit confirmed official NSE Indices historical P/E/P/B/Dividend Yield availability and RBI WSS exposure of the required 91-Day Treasury Bill (Primary) Yield field. No proxy r/q values were substituted.
+- Identified and corrected E084: G6 reference-data coverage was initially defined from the q table itself; it is now defined from actual option-data trading dates. G6 remains OPEN.
