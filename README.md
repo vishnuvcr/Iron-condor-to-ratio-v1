@@ -130,3 +130,10 @@ Successful run `37122686454` on `phase-1-data-acquisition-validation` completed 
 
 ### G4 session reconciliation — PASS on developer evidence
 Fresh CI run `37124047220` reconciled the NIFTY observation dates against dated session controls: 1,254 normal eligible dates, 7 documented special sessions, and one pre-registered data-gap exclusion (2026-06-03), with zero unreconciled dates. Strategy execution will use only the regular 09:15–15:30 IST F&O window except explicitly documented special sessions; excluded raw dates remain retained for audit. G4 still requires independent tester verification.
+
+
+### Independent G4/G12 re-audit — 2026-10-03
+- Run 37124047220 is independently verified as successful, but **G4 is not accepted**.
+- **E044:** the session-control manifest still lists unresolved dates while the reconciliation script ignores that field and can emit zero unresolved dates; special-session intervals are not directly checked.
+- **E045:** the successful run tested commit dd5447fba974560020084146d6e1101e656a034c, while the current Phase 1 branch is e9fce044ee34f24c3d7ef2422454d57f5af85ab5 and contains later session-control changes. A final-head rerun is required for G12.
+- Independent tester verdict: **Phase 1 FAIL / IN PROGRESS; Phase 2 BLOCKED.**
