@@ -102,3 +102,14 @@ Phase 2 remains BLOCKED until an independent tester explicitly approves the comp
 - **Paytm Money:** official publications confirm the major brokerage/STT transition dates; the complete statutory/exchange charge schedule remains open.
 - **NIFTY contracts:** official NSE circulars confirm effective-date lot-size and expiry changes; production contract metadata remains to be reconciled from effective-date contract files.
 - **Quote data:** remains the principal unresolved data-source issue. NSE historical order/trade data is the preferred procurement candidate.
+
+
+## Latest developer evidence package — 2026-10-03
+New control artifacts for independent review:
+- `research/PHASE1_SESSION_CALENDAR_SPEC.md` — G4 evidence contract.
+- `research/PHASE1_CONTRACT_COST_SPEC.md` — G8/G10 evidence contract.
+- `research/PHASE1_QUOTE_DATA_PROCUREMENT.md` — G9 procurement and reconstruction contract.
+- `data/manifests/phase1_control_sources.json` — source-provenance manifest.
+- `scripts/validate_phase1_control_manifests.py` — control-plane manifest validator.
+
+Tester must verify that these additions do not imply data acquisition or gate closure. In particular, G9 remains BLOCKED until historical bid/ask or sufficient order-level data are actually acquired and reconstructed; G12 remains OPEN until the repaired workflow executes successfully in GitHub Actions.
