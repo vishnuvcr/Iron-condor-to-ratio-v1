@@ -144,3 +144,10 @@ Tester must verify that these additions do not imply data acquisition or gate cl
 - Reconciliation result: 1,254 normal eligible dates; 7 documented special-session dates; 1 pre-registered DATA_GAP_EXCLUDED date (2026-06-03); 0 unreconciled dates.
 - Normal execution window: 09:15–15:30 Asia/Kolkata. Source observations outside that window are retained for audit but are not eligible for strategy decisions.
 - Independent tester must verify the dated special-session references, the 300-timestamp incomplete-session rule, the exclusion of 2026-06-03 from the trading universe, and the zero-unreconciled result before G13 can pass.
+
+
+## Independent G4/G12 re-audit — 2026-10-03
+- Run 37124047220 / job 111205697146 / artifact 11274239403 independently verified successful.
+- G4 remains unaccepted because E044 found unresolved_dates in the control manifest that are ignored by the reconciliation script; special-session intervals are not directly validated.
+- G12 remains open for final-head acceptance under E045 because the successful run tested dd5447fba974560020084146d6e1101e656a034c, while current branch head is e9fce044ee34f24c3d7ef2422454d57f5af85ab5 and includes later session-control changes.
+- G13/G14 remain blocked.
