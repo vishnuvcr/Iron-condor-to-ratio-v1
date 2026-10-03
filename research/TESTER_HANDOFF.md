@@ -119,3 +119,10 @@ Tester must verify that these additions do not imply data acquisition or gate cl
 - Verify the acceptance report now agrees with the canonical G1 PASS state.
 - Verify the market-quality diagnostic contains no hard-coded historical session boundaries; G4 must rely on the date-specific session calendar.
 - Treat E035 as a control correction only. G4–G12 remain independently unresolved until production evidence is executed.
+
+
+## E037 verification point — 2026-10-03
+- Independent tester identified a CI command-block defect in `.github/workflows/phase1-data-validation.yml`.
+- Corrected commit: `fb5993afa89cfce7fac177d1a62c45e98bddbc27`.
+- Required re-audit: verify the syntax-check step contains an explicit multiline `run: |` block and that both `py_compile` and `validate_phase1_control_manifests.py` execute as separate commands in a successful Actions run.
+- G12 must remain FAIL/OPEN until that execution is independently verifiable. G13/G14 remain blocked.
