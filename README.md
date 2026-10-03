@@ -68,3 +68,6 @@ phase-1-data-acquisition-validation.
 - Run 22 (37118147417) completed with structural validation and deterministic deduplication successful, but the market-quality audit failed due to malformed escaped-newline Python source (E029).
 - E029 was repaired in commit 336c8e8ddf5de93f31ef6b114e621747ae956620; a clean Phase 1 rerun is required.
 - Historical bid/ask remains an explicit data-source gap. The primary historical dataset exposes OHLCV/OI but not documented bid/ask, while the current NSE option-chain page exposes bid/ask for live snapshots. No close-price substitution has been accepted for the frozen literal-core midpoint rule.
+
+- Phase 1 quote-data escalation: official NSE Historical Order & Trade Data is registered as the preferred procurement candidate for historical order-level quote reconstruction; access is paid and not yet acquired.
+- PR #13 was opened for the repaired CI path, but no new Actions status was emitted in this environment; therefore Phase 1 acceptance remains blocked and no repaired-run result is claimed.
