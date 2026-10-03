@@ -49,18 +49,14 @@ The previous top-level table incorrectly exposed superseded E044/E045/E046 state
 The tester handoff PR #27 prescribed a fixed acquisition order for G9. Subsequent methodology review led to the independently approved proxy-execution approach recorded under G9; the obsolete historical statement that G9 remained blocked solely for bid/ask acquisition is retained only as historical context and does not override the canonical G9 PASS table.
 
 ## 2026-10-03 — explicit execution-proxy methodology change
-The developer has formally proposed replacing the mandatory historical bid/ask requirement for the primary backtest with the frozen proxy-execution model in `research/PHASE1_EXECUTION_PROXY_SPEC.md`.
-
-**Current gate state remains unchanged pending tester approval:**
-- G9: **PASS — revised proxy methodology independently approved by Tester PR #32**
-- G13: **BLOCKED**
-- G14: **BLOCKED**
-- Phase 2: **BLOCKED**
-
-The proxy model does not relabel OHLC/LTP as bid/ask. It uses completed-bar decisions, next eligible option-bar open fills, adverse 0/5/10/20/50-bps per-leg slippage with an effective-date tick floor, and date-effective transaction costs. This methodology must be independently reviewed before Phase 2 can be authorized.
+The primary execution model was changed to the frozen proxy methodology and was subsequently independently approved by Tester PR #32. Current G9 state is PASS; G13/G14 and Phase 2 remain blocked by G5/G6/G7/G8/G10/G11.
 
 ## 2026-10-03 — E065/E066 correction pending re-audit
+
 Tester PR #30 identified two defects in the proposed bid/ask-free methodology. The developer correction addressed both without changing the 0/5/10/20/50-bps sensitivity schedule. This historical note records the pre-approval state; Tester PR #32 subsequently approved G9.
 
 ## 2026-10-03 — G9 PASS under revised execution methodology
 Tester PR #32 independently re-audited developer PR #31 exact head `8b99cb3b2b537c5b085c09729c27bb3957285ae8`. E065 and E066 are PASS and G9 is PASS under the revised bid/ask-free proxy methodology. This does not authorize Phase 2. G13/G14 remain blocked by G5/G6/G7/G8/G10/G11.
+
+## 2026-10-04 — Tester PR #39 correction set
+Tester PR #39 found G5/G6 control defects while explicitly preserving G9 PASS. The developer correction branch `phase-1-g5-g6-reaudit-corrections-20261004` fixes the G5 push-trigger coverage and G6 cache reuse path. These corrections do not advance G5/G6 without independent re-audit and observable exact-head evidence.
