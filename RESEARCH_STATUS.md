@@ -318,3 +318,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Added `research/PHASE1_G6_GREEKS_IV_SPEC.md` and registered RBI 91-day Treasury-bill primary yield plus NSE Indices historical NIFTY dividend-yield sources in `data/manifests/phase1_control_sources.json`.
 - Frozen no-look-ahead timing: source inputs must be dated strictly before the option's trading date; missing historical inputs invalidate the observation rather than using future values.
 - G6 remains OPEN because the complete date-aligned r/q datasets and full production IV/Greek reconstruction have not yet been executed.
+
+
+## 2026-10-04 — G6 official-source acquisition automation
+- Added `scripts/phase1_g6_source_acquisition.py` and `.github/workflows/phase1-g6-source-acquisition.yml`.
+- The workflow acquires and SHA-256 hashes the registered official RBI/NSE G6 source pages and retains evidence even on acquisition failure.
+- This is provenance/acquisition evidence only; it does not establish full-period r/q coverage or G6 PASS.
+- G6 remains OPEN pending complete date-aligned r/q inputs and production IV/Greek reconstruction.
