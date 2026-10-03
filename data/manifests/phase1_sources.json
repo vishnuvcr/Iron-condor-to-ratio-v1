@@ -1,0 +1,35 @@
+{
+  "phase": 1,
+  "created": "2026-10-03",
+  "timezone": "Asia/Kolkata",
+  "primary_candidate": {
+    "repo_id": "thetrademarkk/india-index-options-1m",
+    "repo_type": "dataset",
+    "revision": "main (must be pinned to an immutable dataset commit before production acquisition)",
+    "license": "cc-by-nc-4.0",
+    "tracks": [
+      {"path": "options/NIFTY", "granularity": "1min", "fields_expected": ["timestamp","open","high","low","close","volume","open_interest","trading_day","symbol","strike","option_type","expiry"]},
+      {"path": "index/NIFTY", "granularity": "1min", "purpose": "underlying reference for delta reconstruction and direction classification"}
+    ],
+    "known_gap": "historical bid/ask is not documented in the schema"
+  },
+  "secondary_candidate": {
+    "repo_id": "rissin/nse-options-intraday",
+    "repo_type": "dataset",
+    "revision": "main (must be pinned before production acquisition)",
+    "license": "other",
+    "intraday_range": "2024-present as documented by dataset card",
+    "known_gaps": ["bid/ask not documented","OI is NaN for Upstox intraday rows"]
+  },
+  "official_context_sources": [
+    {"name":"NSE option chain","url":"https://www.nseindia.com/option-chain"},
+    {"name":"NSE equity derivatives contract specifications","url":"https://www.nseindia.com/static/products-services/equity-derivatives-contract-specifications"},
+    {"name":"NSE contract information / permitted lot size","url":"https://www.nseindia.com/static/products-services/equity-derivatives-contract-information"},
+    {"name":"NSE data and reports download","url":"https://www.nseindia.com/static/products-services/equity-market-data-reports-download"},
+    {"name":"NSE FII/FPI and DII activity","url":"https://www.nseindia.com/reports/fii-dii"},
+    {"name":"NSE corporate actions","url":"https://www.nseindia.com/companies-listing/corporate-filings-actions"},
+    {"name":"Paytm Money pricing update","url":"https://www.paytmmoney.com/blog/all-new-paytm-money-updates-revisions-and-more/"},
+    {"name":"Paytm Money 2023 brokerage update","url":"https://www.paytmmoney.com/blog/brokerage-charges-increase-from-25th-aug-23-existing-users-will-continue-on-old-brokerage-charges/"},
+    {"name":"Paytm Money October 2024 pricing update","url":"https://www.paytmmoney.com/blog/paytm-money-pricing-update-revised-charges-effective-1st-october/"}
+  ]
+}
