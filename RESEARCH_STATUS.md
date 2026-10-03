@@ -4,29 +4,34 @@ Updated: 2026-10-03
 
 | Phase | Status | Gate |
 |---|---|---|
-| 0 Specification/audit | **CORRECTIONS IN PROGRESS** | Second independent tester approval required |
-| 1 Data | **BLOCKED** | Second tester approval |
+| 0 Specification/audit | **SECOND TESTER FAILED — CORRECTIONS REQUIRED** | Second independent tester report issued |
+| 1 Data | **BLOCKED** | Phase 0 second-tester approval |
 | 2 Engine | BLOCKED | Phase 1 |
 | 3 Experiments | BLOCKED | Phase 2 |
 | 4 Statistics | BLOCKED | Phase 3 |
 | 5 Interpretation | BLOCKED | Phase 4 |
 | 6 Manuscript/release | BLOCKED | Phase 5 |
 
-## First tester result
-Phase 0 received **FAIL / corrections required**. The tester confirmed source fidelity but identified unresolved delta semantics, trigger sampling, strike selection, entry timing, execution/fill sequencing, expiry policy, Paytm Money historical cost verification and unit-test invariants.
+## Second tester result
 
-## Developer corrections completed on this branch
-- Added `research/OPERATIONAL_CONVENTIONS.md`.
-- Formalized signed-vs-absolute delta handling and combined short-delta arithmetic.
-- Fixed canonical trigger sampling to one-minute observations.
-- Defined deterministic target-strike selection and maximum delta error.
-- Defined entry timing as prior-session setup with next-session execution for the literal core.
-- Defined trigger-to-fill sequencing and no-look-ahead constraints.
-- Defined bid/ask leg-by-leg fills with documented fallback slippage.
-- Defined literal-core forced expiry close and excluded discretionary profit-taking.
-- Added date-specific Paytm Money cost verification requirements.
-- Added state-machine and unit-test invariants.
-- Updated the research plan with a mandatory second-tester gate.
+The correction patch materially addresses the first tester's conceptual blockers and correctly separates source-derived rules from implementation conventions.
+
+However, the canonical `research/OPERATIONAL_CONVENTIONS.md` file referenced by PR #3 is absent from the PR changed-file list and cannot be retrieved from the correction branch. Additional numerical definitions remain incomplete for independent reproduction.
+
+## Second tester report
+
+- research/TESTER_REPORT_PHASE0_SECOND.md
+
+## Required before another gate
+
+- Add the missing canonical operational-conventions artifact.
+- Freeze exact Greek reconstruction conventions.
+- Freeze numerical fallback slippage.
+- Freeze exact strike tie-breaking and data-quality filters.
+- Freeze threshold inequalities and reversal interpretation.
+- Freeze direction classification.
+- Freeze historical expiry/contract metadata rules.
 
 ## Current conclusion
-No performance conclusion exists. Phase 1 remains prohibited until the corrected specification passes a second independent tester review.
+
+No performance conclusion exists. Phase 1 remains prohibited.
