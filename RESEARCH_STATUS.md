@@ -309,3 +309,5 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Added `research/PHASE1_G5_ALIGNMENT_SPEC.md`, `scripts/phase1_g5_alignment_audit.py`, and `.github/workflows/phase1-g5-alignment.yml`.
 - The G5 validator separates session eligibility from underlying alignment, requires exact timestamp matching to the NIFTY grid, rejects duplicate NIFTY timestamps and invalid option timestamps, reports expiry/day coverage, and never interpolates or forward-fills.
 - G5 remains OPEN pending an exact-head Actions run and independent tester re-audit. No Phase 2/backtest/profitability work has started.
+
+- After PR #34 creation, the available GitHub Actions run lookup returned zero PR-triggered runs for exact head `990f450a52e50bb9b62f2444aa015b5989087cf3`; logged E069. This is an execution-observability limitation, not a G5 data result. G5 remains OPEN.
