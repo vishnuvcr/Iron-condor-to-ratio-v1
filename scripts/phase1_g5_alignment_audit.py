@@ -262,3 +262,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Exact-tip CI control marker: validated by the Phase 1 workflow.
