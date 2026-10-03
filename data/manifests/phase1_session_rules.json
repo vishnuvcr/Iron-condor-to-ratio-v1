@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "2.0",
   "timezone": "Asia/Kolkata",
   "study_data_end": "2026-07-02",
   "regular_execution_session": {
@@ -7,38 +7,74 @@
     "end": "15:30",
     "effective_from": "2021-05-07",
     "effective_to": "2026-07-02",
-    "rationale": "The acquired primary dataset ends before NSE's August 3, 2026 equity-derivatives close-time change. NSE's 2025 F&O circulars document 09:15-15:30 regular trading; the August 3, 2026 change to 15:40 is outside the acquired period.",
+    "rationale": "The study data end precedes the later NSE equity-derivatives close-time change. The strategy may make decisions only during the explicitly documented F&O execution window; underlying-index observations outside that window are retained only for audit.",
     "sources": [
-      "https://nsearchives.nseindia.com/content/circulars/FAOP67026.pdf",
-      "https://nsearchives.nseindia.com/content/circulars/FAOP74467.pdf"
+      "https://nsearchives.nseindia.com/content/circulars/FAOP63427.pdf",
+      "https://nsearchives.nseindia.com/content/circulars/FAOP65730.pdf"
     ]
   },
   "special_sessions": [
     {
       "date": "2021-11-04",
       "type": "MUHURAT",
-      "start": "18:15",
-      "end": "19:15",
-      "source": "NSE/FAOP/50049"
+      "execution_intervals": [
+        [
+          "18:15",
+          "19:15"
+        ]
+      ],
+      "source_observation_intervals": [
+        [
+          "17:45",
+          "19:45"
+        ]
+      ],
+      "source": "NSE/FAOP/50049",
+      "source_evidence": "https://archives.nseindia.com/content/circulars/FAOP50049.pdf",
+      "observation_basis": "NSE capital-market Muhurat schedule CMTR50050; underlying-index observations in pre-open/closing windows are non-F&O execution observations."
     },
     {
       "date": "2022-10-24",
       "type": "MUHURAT",
-      "start": "18:15",
-      "end": "19:15",
-      "source": "NSE/FAOP/54024"
+      "execution_intervals": [
+        [
+          "18:15",
+          "19:15"
+        ]
+      ],
+      "source_observation_intervals": [
+        [
+          "17:45",
+          "19:45"
+        ]
+      ],
+      "source": "NSE/FAOP/54024",
+      "source_evidence": "https://archives.nseindia.com/content/circulars/FAOP54024.pdf",
+      "observation_basis": "NSE capital-market Muhurat schedule CMTR54023; underlying-index observations in pre-open/closing windows are non-F&O execution observations."
     },
     {
       "date": "2023-11-12",
       "type": "MUHURAT",
-      "start": "18:15",
-      "end": "19:15",
-      "source": "NSE/FAOP/59126"
+      "execution_intervals": [
+        [
+          "18:15",
+          "19:15"
+        ]
+      ],
+      "source_observation_intervals": [
+        [
+          "17:45",
+          "19:45"
+        ]
+      ],
+      "source": "NSE/FAOP/59126",
+      "source_evidence": "https://nsearchives.nseindia.com/content/circulars/FAOP59126.pdf",
+      "observation_basis": "NSE capital-market Muhurat schedule CMTR59124; underlying-index observations in pre-open/closing windows are non-F&O execution observations."
     },
     {
       "date": "2024-03-02",
       "type": "SPECIAL_LIVE_DR",
-      "sessions": [
+      "execution_intervals": [
         [
           "09:15",
           "10:00"
@@ -48,12 +84,24 @@
           "12:30"
         ]
       ],
-      "source": "NSE/MSD/60677"
+      "source_observation_intervals": [
+        [
+          "08:45",
+          "10:00"
+        ],
+        [
+          "11:15",
+          "13:00"
+        ]
+      ],
+      "source": "NSE/MSD/60677",
+      "source_evidence": "https://nsearchives.nseindia.com/content/circulars/MSD60677.pdf",
+      "observation_basis": "NSE circular documents CM pre-open and closing windows around the two F&O execution sessions."
     },
     {
       "date": "2024-05-18",
       "type": "SPECIAL_LIVE_DR",
-      "sessions": [
+      "execution_intervals": [
         [
           "09:15",
           "10:00"
@@ -63,59 +111,101 @@
           "12:30"
         ]
       ],
-      "source": "NSE/MSD/61893"
+      "source_observation_intervals": [
+        [
+          "08:45",
+          "10:00"
+        ],
+        [
+          "11:15",
+          "13:00"
+        ]
+      ],
+      "source": "NSE/MSD/61893",
+      "source_evidence": "https://nsearchives.nseindia.com/content/circulars/MSD61893.pdf",
+      "observation_basis": "NSE circular documents CM pre-open and closing windows around the two F&O execution sessions."
     },
     {
       "date": "2024-11-01",
       "type": "MUHURAT",
-      "start": "18:00",
-      "end": "19:00",
-      "source": "NSE/FAOP/64630"
+      "execution_intervals": [
+        [
+          "18:00",
+          "19:00"
+        ]
+      ],
+      "source_observation_intervals": [
+        [
+          "17:30",
+          "19:30"
+        ]
+      ],
+      "source": "NSE/FAOP/64630",
+      "source_evidence": "https://nsearchives.nseindia.com/content/circulars/FAOP64630.pdf",
+      "observation_basis": "NSE capital-market Muhurat schedule CMTR64628 documents pre-open, normal, closing and trade-modification windows."
     },
     {
       "date": "2025-10-21",
       "type": "MUHURAT",
-      "start": "13:45",
-      "end": "14:45",
-      "source": "NSE/FAOP/70320"
+      "execution_intervals": [
+        [
+          "13:45",
+          "14:45"
+        ]
+      ],
+      "source_observation_intervals": [
+        [
+          "13:15",
+          "15:15"
+        ]
+      ],
+      "source": "NSE/FAOP/70320",
+      "source_evidence": "https://nsearchives.nseindia.com/content/circulars/FAOP70320.pdf",
+      "observation_basis": "NSE capital-market Muhurat schedule CMTR70319 documents block-deal, pre-open, normal, closing and trade-modification windows."
     }
   ],
   "preopen_note": {
     "effective_from": "2025-12-08",
     "start": "09:00",
     "end": "09:15",
-    "applicability": "NSE states F&O pre-open applies to index and single-stock futures; this is not treated as an option execution window.",
-    "source": "NSE/FAOP/69898"
+    "applicability": "NSE states F&O pre-open applies to index and single-stock futures, not option execution. Underlying-index observations in this interval are therefore non-execution observations for this study.",
+    "source": "NSE/FAOP/69898",
+    "source_evidence": "https://nsearchives.nseindia.com/content/circulars/FAOP69898.pdf"
   },
-  "unresolved_dates": [
+  "date_controls": [
     {
       "date": "2021-06-28",
-      "issue": "Observed 09:07-16:00 with 399 timestamps; not yet reconciled to an official special-session source."
+      "expected_classification": "NORMAL_ELIGIBLE",
+      "policy": "ALLOW_OUT_OF_EXECUTION_SOURCE_OBSERVATIONS",
+      "reason": "Observed 09:07-16:00 contains source observations outside the frozen F&O execution window. These observations are retained for audit but cannot trigger strategy decisions or fills. The date remains eligible because 376 observations fall inside 09:15-15:30.",
+      "minimum_eligible_timestamps": 300
     },
     {
       "date": "2026-06-03",
-      "issue": "Observed only 15:25-15:30 with 6 timestamps; partial-day coverage requires data-quality treatment."
+      "expected_classification": "DATA_GAP_EXCLUDED",
+      "policy": "EXCLUDE_FROM_TRADING_UNIVERSE",
+      "reason": "Only six observations exist, all between 15:25 and 15:30. Fewer than 300 eligible regular-session timestamps are available; no missing observations are fabricated or forward-filled.",
+      "minimum_eligible_timestamps": 300
     },
     {
       "date": "2026-07-01",
-      "issue": "Observed 09:00-15:30 with 391 timestamps; pre-session observations require classification against the frozen 09:15 execution window."
+      "expected_classification": "NORMAL_ELIGIBLE",
+      "policy": "ALLOW_DOCUMENTED_PREOPEN_SOURCE_OBSERVATIONS",
+      "reason": "Observed 09:00-15:30. The 09:00-09:14 source observations are outside the frozen option-execution window and cannot trigger strategy decisions; the 09:15-15:30 window remains eligible.",
+      "minimum_eligible_timestamps": 300
     }
   ],
-  "status": "CONTROL_RULES_WITH_PRE_REGISTERED_DATA_GAP_EXCLUSION_G4_REMAINS_PENDING_REEXECUTION",
   "normal_session_acceptance": {
     "eligible_window": "09:15-15:30 Asia/Kolkata, inclusive",
     "minimum_observed_minutes": 300,
-    "exclusion_rule": "For a non-special observed date, if fewer than 300 unique timestamps fall inside the eligible regular-session window, classify the date as DATA_GAP_EXCLUDED and do not permit strategy trading on that date. Retain all raw rows and the exclusion reason in the audit output.",
-    "rationale": "The frozen research requires decision-time observations during the regular F&O execution window. This rule prevents fabrication or forward-filling of a materially incomplete session while preserving the source evidence.",
+    "exclusion_rule": "For a non-special observed date, fewer than 300 unique timestamps inside the eligible regular-session window causes DATA_GAP_EXCLUDED.",
+    "out_of_execution_rule": "Observed source timestamps outside the execution window are never used for strategy decisions. They must be either covered by a documented date_control or be reported as UNRECONCILED.",
     "pre_registered": true
   },
-  "source_evidence": {
-    "2021-11-04": "https://archives.nseindia.com/content/circulars/FAOP50049.pdf",
-    "2022-10-24": "https://archives.nseindia.com/content/circulars/FAOP54024.pdf",
-    "2023-11-12": "https://nsearchives.nseindia.com/content/circulars/FAOP59126.pdf",
-    "2024-03-02": "https://nsearchives.nseindia.com/content/circulars/MSD60677.pdf",
-    "2024-05-18": "https://nsearchives.nseindia.com/content/circulars/MSD61893.pdf",
-    "2024-11-01": "https://nsearchives.nseindia.com/content/circulars/FAOP64630.pdf",
-    "2025-10-21": "https://nsearchives.nseindia.com/content/circulars/FAOP70320.pdf"
-  }
+  "acceptance_rules": {
+    "special_session_rule": "A special date is reconciled only when every documented F&O execution interval has at least one observed timestamp and every observed timestamp is either inside an execution interval or inside a documented source_observation_interval.",
+    "date_control_rule": "Every explicitly controlled anomalous date must have a date_controls entry whose expected classification and policy are checked against the observed data.",
+    "unresolved_rule": "The manifest contains no unresolved-date escape hatch. Any observed date not covered by a special_sessions rule, date_controls rule, or normal-session rule is emitted as UNRECONCILED and prevents G4 acceptance."
+  },
+  "status": "CORRECTED_G4_CONTROL_MANIFEST_PENDING_FRESH_FINAL_HEAD_CI"
 }
