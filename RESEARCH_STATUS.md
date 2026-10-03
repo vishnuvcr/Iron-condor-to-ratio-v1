@@ -423,3 +423,13 @@ The failure-isolation script was also strengthened to test whether each option p
 - Remaining unresolved population: **33,476 rows across 348 dates** with some NIFTY observations; these require timestamp/neighbor and global-key diagnostics.
 - G5 remains **FAIL/OPEN**. G6/G7/G8/G10/G11 remain OPEN; G9 remains PASS; G13/G14 and Phase 2 remain BLOCKED.
 - No exact-match relaxation, interpolation, forward-fill, deletion, holiday reclassification, backtest, optimization, or profitability analysis was introduced.
+
+
+## 2026-10-04 — Explicit G5 research-use waiver
+
+- The user/research decision explicitly accepts the available dataset as the **working research dataset**, while refusing to misrepresent G5 as a 100% timestamp-integrity PASS.
+- G5 state for research continuity is now recorded as **FAIL / WAIVED FOR CONTINUED RESEARCH**. The original failed audit and error log remain unchanged as the audit trail.
+- The **521,069** unmatched observations are retained; the **14 full-date gaps** are retained and are not holiday exclusions; the **33,476 partial-date mismatches** are retained.
+- Prohibited treatments remain prohibited: no interpolation, nearest-timestamp matching, forward-fill, or silent deletion.
+- Any strategy/performance result produced later must disclose the integrity limitation and include sensitivity/robustness analysis showing whether conclusions change when affected observations/dates are excluded.
+- This waiver permits continued **Phase 1 exploratory/data research**, but does **not** waive the independent tester requirement or authorize Phase 2. G13/G14 and Phase 2 remain BLOCKED until the tester explicitly disposes of the remaining gate requirements.
