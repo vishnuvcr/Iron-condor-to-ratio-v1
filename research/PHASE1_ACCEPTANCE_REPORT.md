@@ -90,3 +90,9 @@ The pinned-revision workflow completed successfully on commit 8f094253c2a925b272
 The exact duplicates are conflict-free, but their scale is material (about 27.8% of all audited rows). They will be deterministically removed before production backtesting, with pre/post counts retained in the audit trail. This is a data-quality issue, not evidence of strategy performance.
 
 The acquisition scope has since been narrowed to the exact NIFTY underlying file rather than the earlier wildcard that also captured BANKNIFTY. A fresh validation run is required after that scope correction.
+
+## Deterministic deduplication control — 2026-10-03
+
+A deterministic transformation `scripts/deduplicate_phase1_data.py` has been added. It removes exact duplicate rows only, retains the first occurrence deterministically, rejects conflicting duplicate keys, and records source/output SHA-256 hashes and row counts. The CI workflow now runs this transformation after structural validation. This is a reproducibility control, not an assumption that duplicates are economically meaningful observations.
+
+The workflow was also given a concurrency group and conditional cache-save logic after a cache-reservation race was observed during rapid successive commits (E025).
