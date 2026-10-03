@@ -260,3 +260,5 @@ Updated: 2026-10-03
 - Expanded `data/manifests/phase1_control_sources.json` and the G8/G9 control specifications.
 - No gate result changed: G5 preliminary/open; G6-G8 open; G9 blocked; G10-G11 open; G13/G14 and Phase 2 remain blocked.
 - No backtest, optimization, profitability analysis, or trading conclusion has started.
+
+- New G9 candidate `antony9952/Nifty_option_TBT` exposes bid/ask/depth fields but has a published mixed-schema warning. Added an automated cached candidate-audit workflow with manual dispatch and automatic push/PR triggers. G9 remains BLOCKED until raw-file coverage, NIFTY identity, timestamp quality and quote reconstruction are validated.
