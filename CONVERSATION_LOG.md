@@ -419,3 +419,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - The production scan now requires option volume in the production schema and performs deterministic target-delta contract selection using minimum delta error, then higher volume, then lower strike distance as the frozen tie-break.
 - The scan also records signed-delta, absolute-delta and IV histograms in the evidence artifact.
 - This is an evidence-completeness correction only. G6 remains FAIL / OPEN because historical r/q production inputs are still missing.
+
+
+## 2026-10-04 — Exact-head G6 production evidence attempt
+- Exact developer head: 02702ff384596dd270ca12946e613eeda53d4236.
+- Actions run 37157070947 completed with unit tests passing and the production audit failing closed because data/processed/g6/risk_free.csv and data/processed/g6/dividend_yield.csv are absent.
+- Evidence artifact 11285937357 was produced and is bound to the exact checkout SHA; artifact digest sha256:c9d3748f22da9f83525f7aa4594dafbb69364370764230dae374a487d9f7d78c.
+- This is substantive evidence that the corrected production scanner is reached and fails closed on missing mandatory inputs. It is not G6 PASS evidence.
