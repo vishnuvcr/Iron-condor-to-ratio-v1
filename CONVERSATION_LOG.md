@@ -284,3 +284,12 @@ This file records user-visible project instructions and work decisions, not hidd
 - Broader source screening found `antony9952/Nifty_option_TBT` on Hugging Face. Its published preview contains timestamped bid/ask/depth fields for NSE_FO instrument keys, but the dataset builder reports incompatible schemas across files.
 - Registered the candidate at pinned revision `643b48383839947b5fe3ed9483c9f7c0f167e865` and added `scripts/validate_g9_tbt_candidate.py` plus `.github/workflows/phase1-g9-tbt-candidate.yml` for cached CI acquisition and raw-file audit.
 - G9 remains BLOCKED; the candidate is not accepted until study-window coverage, NIFTY contract identity, timestamp quality and quote reconstruction are validated. No Phase 2 work was introduced.
+
+
+## 2026-10-03 — Tester PR #27 G9 free-data handoff and developer continuation
+- Re-read the tester handoff before continuing. The required order is: raw-file salvage of antony9952/Nifty_option_TBT; investigate ayyararyan/nse-options-pipeline; inspect OptionVault/TickBytes; inspect other NSE option collectors; apply one common validator; then use the NSE licensed route if no free candidate qualifies.
+- Created branch phase-1-g9-free-data-salvage from developer head 5ba04249211b5116657270b6118ea7680b3dc864.
+- Added research/PHASE1_G9_FREE_DATA_SALVAGE.md and registered all current G9 candidates in data/manifests/phase1_sources.json.
+- Public-source review found that the TBT candidate genuinely exposes bid/ask/depth fields but has mixed schemas; ayyararyan/nse-options-pipeline documents bid/ask-bearing raw files but does not track the archive; OptionVault/TickBytes expose samples while describing full datasets as licensed; the NSE collector exposes bid/ask-bearing sample/current schemas but not a complete historical archive.
+- Local direct download of the TBT archive failed at DNS resolution for huggingface.co and was recorded as E058. No proxy quote data were fabricated.
+- G9 remains BLOCKED and no Phase 2 work has started. This log records user-visible decisions/execution only; hidden chain-of-thought is not copied.
