@@ -94,3 +94,10 @@
 ## E050 — final-tip CI execution control
 - A branch-tip CI safeguard was added so push-triggered validation fails closed unless the run is executing on `phase-1-e046-bidirectional-reconciliation`.
 - This is a control improvement, not a data-quality failure. The resulting latest branch-tip CI run is required for final G12 evidence.
+
+
+## E051 — 2026-10-03 — exact-tip automatic CI not independently observable
+- The documentation-only commit 7a0b43b81d6b69165d745527f639de94ee5a62ad did not satisfy the workflow's push-path filter, so it cannot be treated as an Actions execution.
+- To force a current-head execution without changing research logic, the workflow file was touched with an explicit path-trigger verification marker in commit b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512.
+- The branch now points to b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512. GitHub's commit-status endpoint currently reports pending with zero published statuses, and the available GitHub connector does not expose the resulting push-triggered run list.
+- Resolution: do not infer G12 from the trigger attempt. Require an observable Actions run whose checkout SHA equals b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512, then independent tester re-audit. Phase 2 remains blocked.
