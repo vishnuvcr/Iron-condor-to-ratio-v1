@@ -154,3 +154,8 @@ Tester must verify that these additions do not imply data acquisition or gate cl
 - The reconciler now fails if: a controlled anomaly does not match its expected classification; a special execution interval has no observed coverage; an observed timestamp is outside both execution and documented source-observation intervals; or any date remains uncontrolled/unreconciled.
 - E045 is accepted: previous successful CI is historical evidence only because it ran on an older commit. G12 must be re-established on the resulting final Phase 1 head.
 - Phase 2 remains blocked. Tester should independently verify the final-head commit, complete workflow, artifact hash, G4 report and the absence of unresolved/uncontrolled dates before considering G12/G13.
+
+## Final-head preparation after E044 — 2026-10-03
+- Corrected code has been exercised successfully on an ancestor commit, with zero G4 reconciliation failures.
+- This does not close G4/G12 because E045 requires a run whose head SHA equals the resulting final Phase 1 branch head.
+- The final-head run must preserve the exact corrected manifest and reconciler and produce the G4 report showing zero unreconciled dates.
