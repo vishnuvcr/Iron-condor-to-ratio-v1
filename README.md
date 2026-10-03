@@ -47,7 +47,7 @@ PR #8 / `tester/phase-0-fourth-audit` failed Phase 0 on B6 repository-control sy
 `.github/workflows/phase0-integrity.yml` automatically validates required Phase 0 artifacts on pushes and pull requests and provides a manual `workflow_dispatch` entry. This is a control workflow only; it does not initiate Phase 1.
 
 ## Latest correction pass
-PR #7 was the v3 developer correction pass reviewed by the fourth tester; PR #8 is the fourth independent tester gate; PR #9 was the v4 developer correction pass reviewed by the fifth tester. The current developer branch is `phase-0-corrections-v5`, which must receive another independent tester approval before Phase 1 can begin.
+PR #7 was the v3 developer correction pass reviewed by the fourth tester; PR #8 is the fourth independent tester gate; PR #9 was the v4 developer correction pass reviewed by the fifth tester. The current developer branch is `phase-0-corrections-v6` (PR #11), which must receive another independent tester approval before Phase 1 can begin.
 
 ## Slippage control
 The literal-core fallback slippage is fixed by `research/OPERATIONAL_CONVENTIONS.md`. Configurable slippage assumptions are reserved for pre-registered sensitivity variants only and cannot change the literal-core result.
@@ -60,3 +60,6 @@ The exact v5 correction commit `4515b32ecd3d6a17b061f53dd97245c393489166` passed
 
 ## Sixth tester gate
 PR #10 / `tester/phase-0-sixth-audit` independently confirmed the v5 B7/B8 CI evidence, but failed B9 because `research/TESTER_HANDOFF.md` still identified v4 and B10 because the integrity workflow did not positively assert the active current-branch field. The v6 correction pass addresses both blockers; Phase 1 remains blocked.
+
+## Exact CI provenance for v6 correction
+The exact v6 correction commit `fd1ed356bdc12d18e3b3dbfb507c8d5be2510237` passed the Phase 0 Integrity workflow. Auditable workflow run: [#37114577283](https://github.com/vishnuvcr/Iron-condor-to-ratio-v1/actions/runs/37114577283); integrity job/check: #111178768606. The run head SHA exactly matches the tested commit. Phase 1 remains blocked pending another independent tester approval.
