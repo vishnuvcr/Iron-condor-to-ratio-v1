@@ -370,3 +370,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - The observed values were committed to the G6 source manifest; no fabricated placeholder digest was used.
 - G6 cache-integrity regression tests passed and exact-tip G6 CI run 37148353717 succeeded at commit e8fca6a6084a463528643b63dd8f310899c0b3bf, artifact 11282958617.
 - G5 exact-tip CI run 37148384171 is executing at commit 001e498bfc099e9f51df9129e1fdc2e9370b2b3a; no G5 gate advancement has been claimed.
+
+
+## 2026-10-04 — Latest tester re-audit received and developer control synchronization
+- User supplied the independent tester's latest re-audit for exact SHA `db668dd2b89bf691a6481affb3cb2a9060c5fe98`.
+- Tester independently verified G6 Run **37148488127** SUCCESS and artifact **11283345350** with SHA-256 `513f1a1e4d2032d45f797aeda5688d18e83d56f20fa13c4b0ea73d33cffcc661`.
+- Tester accepted the G6 cache-integrity/provenance implementation and closed E079, while explicitly keeping the G6 production gate OPEN.
+- Tester independently verified G5 Run **37148487963** remains IN PROGRESS at the same exact SHA; no G5 PASS is claimed.
+- Developer keeps G7/G8/G10/G11 OPEN and G13/G14/Phase 2 BLOCKED. No Phase 2/backtest/profitability work has started.
