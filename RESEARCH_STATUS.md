@@ -169,3 +169,10 @@ Updated: 2026-10-03
 - Special-session source-observation schedules are pinned to NSE capital-market circulars in addition to F&O execution circulars.
 - Prior run 37125014956 successfully exercised the corrected logic on an ancestor commit and produced 1,254 normal eligible dates, 7 reconciled special sessions, 1 data-gap exclusion, and 0 unreconciled dates; this is diagnostic evidence only because E045 requires final-head execution.
 - Final-head CI is the next required evidence step; no gate is advanced from the prior run.
+
+
+## 2026-10-03 — E046
+- Independent tester re-audit of final-head CI confirmed G12 PASS for head 09c4c2e4b6bc569d42d4743fac5132ad0672f8d8 (run 37125656878, job 111210327724, artifact 11275311823, SHA-256 754a71a1b50f532b49e43be45f24ddc3eab80a4aa56df1f43b23f0030f04aa9c).
+- Tester found the G4 reconciler was not fail-closed for manifest-only dates because it iterated only over observed dates. This violated the repository's one-to-one session-calendar reconciliation contract.
+- Resolution: created corrective branch phase-1-e046-bidirectional-reconciliation; refactored reconciliation into a bidirectional manifest/observed-date join, added unique mapping validation and fail-closed unknown-date handling, and added four regression tests.
+- Impact: G4 is FAIL/OPEN and G12 must be re-established on the corrective branch head. G13/G14 remain blocked. No Phase 2 work or performance analysis has begun.
