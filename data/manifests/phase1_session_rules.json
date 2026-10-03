@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.0",
+  "schema_version": "2.1",
   "timezone": "Asia/Kolkata",
   "study_data_end": "2026-07-02",
   "regular_execution_session": {
@@ -17,18 +17,8 @@
     {
       "date": "2021-11-04",
       "type": "MUHURAT",
-      "execution_intervals": [
-        [
-          "18:15",
-          "19:15"
-        ]
-      ],
-      "source_observation_intervals": [
-        [
-          "17:45",
-          "19:45"
-        ]
-      ],
+      "execution_intervals": [["18:15","19:15"]],
+      "source_observation_intervals": [["17:45","19:45"]],
       "source": "NSE/FAOP/50049",
       "source_evidence": "https://archives.nseindia.com/content/circulars/FAOP50049.pdf",
       "observation_basis": "NSE capital-market Muhurat schedule CMTR50050; underlying-index observations in pre-open/closing windows are non-F&O execution observations.",
@@ -37,18 +27,8 @@
     {
       "date": "2022-10-24",
       "type": "MUHURAT",
-      "execution_intervals": [
-        [
-          "18:15",
-          "19:15"
-        ]
-      ],
-      "source_observation_intervals": [
-        [
-          "17:45",
-          "19:45"
-        ]
-      ],
+      "execution_intervals": [["18:15","19:15"]],
+      "source_observation_intervals": [["17:45","19:45"]],
       "source": "NSE/FAOP/54024",
       "source_evidence": "https://archives.nseindia.com/content/circulars/FAOP54024.pdf",
       "observation_basis": "NSE capital-market Muhurat schedule CMTR54023; underlying-index observations in pre-open/closing windows are non-F&O execution observations.",
@@ -57,46 +37,28 @@
     {
       "date": "2023-11-12",
       "type": "MUHURAT",
-      "execution_intervals": [
-        [
-          "18:15",
-          "19:15"
-        ]
-      ],
-      "source_observation_intervals": [
-        [
-          "17:45",
-          "19:45"
-        ]
-      ],
+      "execution_intervals": [["18:15","19:15"]],
+      "source_observation_intervals": [["17:45","19:45"]],
       "source": "NSE/FAOP/59126",
       "source_evidence": "https://nsearchives.nseindia.com/content/circulars/FAOP59126.pdf",
       "observation_basis": "NSE capital-market Muhurat schedule CMTR59124; underlying-index observations in pre-open/closing windows are non-F&O execution observations.",
       "source_observation_evidence": "https://nsearchives.nseindia.com/content/circulars/CMTR59124.pdf"
     },
     {
+      "date": "2024-01-20",
+      "type": "SPECIAL_LIVE_DR",
+      "execution_intervals": [["09:15","15:30"]],
+      "source_observation_intervals": [["09:00","16:15"]],
+      "source": "NSE/MSD/59999; NSE/MSD/60340; NSE/MSD/60340",
+      "source_evidence": "https://nsearchives.nseindia.com/content/circulars/MSD59999.pdf",
+      "observation_basis": "NSE subsequently confirmed regular live trading in Equity and Equity Derivatives on Saturday 20-Jan-2024. The wider observation interval covers documented pre-open/normal/trade-modification source timestamps; only 09:15-15:30 is eligible for strategy execution.",
+      "source_observation_evidence": "https://nsearchives.nseindia.com/content/circulars/MSD60340.pdf"
+    },
+    {
       "date": "2024-03-02",
       "type": "SPECIAL_LIVE_DR",
-      "execution_intervals": [
-        [
-          "09:15",
-          "10:00"
-        ],
-        [
-          "11:30",
-          "12:30"
-        ]
-      ],
-      "source_observation_intervals": [
-        [
-          "08:45",
-          "10:00"
-        ],
-        [
-          "11:15",
-          "13:00"
-        ]
-      ],
+      "execution_intervals": [["09:15","10:00"],["11:30","12:30"]],
+      "source_observation_intervals": [["08:45","10:00"],["11:15","13:00"]],
       "source": "NSE/MSD/60677",
       "source_evidence": "https://nsearchives.nseindia.com/content/circulars/MSD60677.pdf",
       "observation_basis": "NSE circular documents CM pre-open and closing windows around the two F&O execution sessions.",
@@ -105,26 +67,8 @@
     {
       "date": "2024-05-18",
       "type": "SPECIAL_LIVE_DR",
-      "execution_intervals": [
-        [
-          "09:15",
-          "10:00"
-        ],
-        [
-          "11:30",
-          "12:30"
-        ]
-      ],
-      "source_observation_intervals": [
-        [
-          "08:45",
-          "10:00"
-        ],
-        [
-          "11:15",
-          "13:00"
-        ]
-      ],
+      "execution_intervals": [["09:15","10:00"],["11:30","12:30"]],
+      "source_observation_intervals": [["08:45","10:00"],["11:15","13:00"]],
       "source": "NSE/MSD/61893",
       "source_evidence": "https://nsearchives.nseindia.com/content/circulars/MSD61893.pdf",
       "observation_basis": "NSE circular documents CM pre-open and closing windows around the two F&O execution sessions.",
@@ -133,42 +77,42 @@
     {
       "date": "2024-11-01",
       "type": "MUHURAT",
-      "execution_intervals": [
-        [
-          "18:00",
-          "19:00"
-        ]
-      ],
-      "source_observation_intervals": [
-        [
-          "17:30",
-          "19:30"
-        ]
-      ],
+      "execution_intervals": [["18:00","19:00"]],
+      "source_observation_intervals": [["17:30","19:30"]],
       "source": "NSE/FAOP/64630",
       "source_evidence": "https://nsearchives.nseindia.com/content/circulars/FAOP64630.pdf",
       "observation_basis": "NSE capital-market Muhurat schedule CMTR64628 documents pre-open, normal, closing and trade-modification windows.",
       "source_observation_evidence": "https://nsearchives.nseindia.com/content/circulars/CMTR64628.pdf"
     },
     {
+      "date": "2025-02-01",
+      "type": "SPECIAL_LIVE_BUDGET",
+      "execution_intervals": [["09:15","15:30"]],
+      "source_observation_intervals": [["09:00","16:15"]],
+      "source": "NSE/FAOP/65730; NSE/MSD/66381",
+      "source_evidence": "https://nsearchives.nseindia.com/content/circulars/FAOP65730.pdf",
+      "observation_basis": "NSE confirmed live Equity and F&O trading on Saturday 01-Feb-2025 with normal 09:15-15:30 market timing. Source observations outside the F&O execution window are retained for audit only.",
+      "source_observation_evidence": "https://nsearchives.nseindia.com/content/circulars/MSD66381.pdf"
+    },
+    {
       "date": "2025-10-21",
       "type": "MUHURAT",
-      "execution_intervals": [
-        [
-          "13:45",
-          "14:45"
-        ]
-      ],
-      "source_observation_intervals": [
-        [
-          "13:15",
-          "15:15"
-        ]
-      ],
+      "execution_intervals": [["13:45","14:45"]],
+      "source_observation_intervals": [["13:15","15:15"]],
       "source": "NSE/FAOP/70320",
       "source_evidence": "https://nsearchives.nseindia.com/content/circulars/FAOP70320.pdf",
       "observation_basis": "NSE capital-market Muhurat schedule CMTR70319 documents block-deal, pre-open, normal, closing and trade-modification windows.",
       "source_observation_evidence": "https://nsearchives.nseindia.com/content/circulars/CMTR70319.pdf"
+    },
+    {
+      "date": "2026-02-01",
+      "type": "SPECIAL_LIVE_BUDGET",
+      "execution_intervals": [["09:15","15:30"]],
+      "source_observation_intervals": [["09:00","16:15"]],
+      "source": "NSE/FAOP/72352; NCL/CMPT/72379",
+      "source_evidence": "https://nsearchives.nseindia.com/content/circulars/FAOP72352.pdf",
+      "observation_basis": "NSE confirmed live F&O trading on Sunday 01-Feb-2026 with normal 09:15-15:30 market timing. Source observations outside the F&O execution window are retained for audit only.",
+      "source_observation_evidence": "https://nsearchives.nseindia.com/content/circulars/CMPT72379.pdf"
     }
   ],
   "preopen_note": {
@@ -214,5 +158,5 @@
     "date_control_rule": "Every explicitly controlled anomalous date must have a date_controls entry whose expected classification and policy are checked against the observed data.",
     "unresolved_rule": "The manifest contains no unresolved-date escape hatch. Any observed date not covered by a special_sessions rule, date_controls rule, or normal-session rule is emitted as UNRECONCILED and prevents G4 acceptance."
   },
-  "status": "CORRECTED_G4_CONTROLS_READY_FOR_FINAL_HEAD_CI"
+  "status": "E046_G4_CORRECTIVE_MANIFEST_EXTENDED_FOR_DOCUMENTED_WEEKEND_SESSIONS"
 }
