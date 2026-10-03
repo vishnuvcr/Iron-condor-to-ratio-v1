@@ -19,6 +19,11 @@ on:
       - ".github/workflows/phase1-g6-source-acquisition.yml"
   workflow_dispatch:
     inputs:
+      provenance_bootstrap:
+        description: "One-time non-accepting source-byte digest bootstrap"
+        required: false
+        default: "false"
+        type: string
       expected_commit_sha:
         description: "Exact commit SHA expected in the acquisition artifact"
         required: false
@@ -54,7 +59,7 @@ jobs:
           python-version: "3.11"
       - name: Acquire and hash official G6 sources
         env:
-          G6_PROVENANCE_BOOTSTRAP: "true"
+          G6_PROVENANCE_BOOTSTRAP: ${{ inputs.provenance_bootstrap || 'true' }}
         run: python scripts/phase1_g6_source_acquisition.py
       - name: Verify G6 artifact provenance
         if: always()
