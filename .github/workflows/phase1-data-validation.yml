@@ -39,6 +39,7 @@ jobs:
           key: phase1-hf-${{ hashFiles('data/manifests/phase1_sources.json', 'data/manifests/phase1_acquisition.json') }}
           restore-keys: |
             phase1-hf-
+          save-always: true
 
       - name: Install data dependencies
         run: |
