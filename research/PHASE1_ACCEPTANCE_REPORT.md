@@ -1,32 +1,37 @@
 # Phase 1 Acceptance Report — Interim
 
-Updated: 2026-10-03
+Updated: 2026-10-03 — E053 re-audit / E054
 
 ## Scope
+
 This is an interim evidence report, not production-data acceptance or a profitability result.
 
-## Canonical gate mapping
-All Phase 1 acceptance references use the canonical G1–G14 vocabulary below.
+## Current canonical gate state
 
 | Gate | Meaning | Current status |
 |---|---|---|
 | G1 | Immutable primary dataset / provenance | PASS |
-| G2 | Structural schema validation | PASS on prior pinned acquisition |
-| G3 | Duplicate handling | PASS on prior pinned acquisition |
-| G4 | Timestamp and session quality | OPEN |
-| G5 | Underlying/option alignment | PRELIMINARY |
+| G2 | Structural schema validation | PASS |
+| G3 | Duplicate handling | PASS |
+| G4 | Timestamp and session quality | **PASS — independently verified** |
+| G5 | Underlying/option alignment | PRELIMINARY / OPEN |
 | G6 | Production historical Greeks / IV | OPEN |
 | G7 | Target-delta availability | OPEN |
 | G8 | Historical contract metadata | OPEN |
-| G9 | Historical bid/ask / execution quality | BLOCKED |
+| G9 | Historical bid/ask / execution quality | **BLOCKED** |
 | G10 | Date-specific transaction costs | OPEN |
 | G11 | Market-context datasets | OPEN |
-| G12 | Repaired CI execution | OPEN | Previous independent PASS applies only to superseded head 09c4c2e4b6bc569d42d4743fac5132ad0672f8d8; corrective E046 head requires a fresh Actions run. |
-| G13 | Independent tester approval | FAIL / BLOCKED |
-| G14 | Phase 2 authorization | BLOCKED |
+| G12 | Repaired CI execution | **PASS — independently verified** |
+| G13 | Independent tester approval | **BLOCKED** |
+| G14 | Phase 2 authorization | **BLOCKED** |
 
-**Important:** Older evidence below may contain historical run-specific gate language. Those historical labels are retained as evidence, but the canonical interpretation is the table above.
+## Current decision
 
+**Phase 1 remains IN PROGRESS / NOT APPROVED. Phase 2 remains BLOCKED.**
+
+## E054 re-audit note
+
+Developer PR #21 corrected the stale G4/G12 top-level gate-state problem. Independent re-audit found one remaining current-state defect: the developer README explicit branch field still names phase-1-e046-bidirectional-reconciliation instead of the actual developer branch phase-1-e053-control-sync. This does not invalidate Run #55 G4/G12 evidence, but E054 must be corrected before control-plane synchronization is fully closed.
 ## Primary source
 - Dataset: `thetrademarkk/india-index-options-1m`
 - License documented by the dataset card: CC-BY-NC-4.0.
