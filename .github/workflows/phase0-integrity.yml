@@ -40,4 +40,17 @@ jobs:
           grep -q "fixed literal-core fallback" RESEARCH_PLAN.md
           ! grep -q "Status: BLOCKED BY SECOND TESTER GATE" RESEARCH_PLAN.md
           ! grep -q "| 1 Data | **BLOCKED** | Second tester approval" RESEARCH_STATUS.md
-          ! grep -q "## Current branch\n`phase-0-corrections-v2`" README.md
+          # B7: line-aware stale-branch assertion.
+          # Standard grep does not make \n a cross-line matcher.
+          if awk '/^## Current branch$/ { getline; if ($0 == "`phase-0-corrections-v2`") found=1 } END { exit(found ? 0 : 1) }' README.md; then
+            echo "ERROR: README still identifies phase-0-corrections-v2 as the current branch"
+            exit 1
+          fi
+
+      - name: Record exact CI provenance
+        if: success()
+        run: |
+          set -euo pipefail
+          echo "Phase 0 Integrity passed for exact commit: ${GITHUB_SHA}"
+          echo "Workflow run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          echo "Commit: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
