@@ -98,3 +98,10 @@ Updated: 2026-10-03
 - Synchronized G1 to PASS across the acceptance report and canonical gate matrix.
 - Removed unused hard-coded session constants from the market-quality diagnostic; G4 is governed exclusively by date-specific NSE session metadata.
 - Logged E035. No Phase 2 work or gate advancement occurred.
+
+## 2026-10-03 — Data-gathering pass
+- Added `data/manifests/phase1_data_inventory.json` separating previously CI-acquired primary data from sources still requiring machine-readable acquisition.
+- Primary immutable HF source remains revision `0f4800e`; prior NIFTY-only acquisition evidence covers 268 files and 108,625,497 rows, with 30,363,281 exact duplicates and no conflicting duplicate-key groups. No bid/ask fields were present.
+- Official NSE historical F&O order/trade data remains identified but not acquired because it is a paid/procurement-controlled product.
+- Reopening PR #13 was attempted to obtain a fresh Actions acquisition/audit run; the workflow-run query still returned zero runs. This is recorded as an execution-environment limitation, not a data-validation PASS.
+- G4–G12 remain open/blocked and Phase 2 remains blocked.
