@@ -10,7 +10,7 @@ This matrix is the Phase 1 acceptance checklist. A source-validation PASS does n
 | G2 | Structural schema validation | PASS | 108,625,497 raw rows; 0 hard failures |
 | G3 | Duplicate handling | PASS | 30,363,281 exact duplicates; 0 conflicting duplicate groups; deterministic deduplication |
 | G4 | Timestamp/session quality | **PASS — independently verified** | Exact tip 378a130b6d450b288be140655f9b0b75aad840b3; Run 37135122966; artifact 11278418088; 1,262 observed dates; 13 controls; 10 special sessions; 1 data-gap exclusion; 0 unreconciled; 0 missing manifest-session dates; four E046 regressions passed |
-| G5 | Underlying/option alignment | PRELIMINARY / OPEN | 99.2953% diagnostic timestamp alignment is not production acceptance; decision-time alignment and missingness controls remain open |
+| G5 | Underlying/option alignment | **OPEN — exact-head CI pending** | Dedicated validator now separates session eligibility from exact NIFTY timestamp alignment and reports expiry/day coverage; no interpolation/forward-fill. Independent tester approval still required |
 | G6 | Production historical Greeks / IV | OPEN | Date-aligned r/q and production IV/Greek validation remain incomplete |
 | G7 | Target-delta availability | OPEN | Frozen delta tolerance plus quote/volume/OI availability must be measured on production data |
 | G8 | Historical contract metadata | OPEN | Effective-date NIFTY lot/expiry/contract metadata reconciliation remains incomplete |
