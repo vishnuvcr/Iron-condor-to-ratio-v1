@@ -154,7 +154,8 @@ def expiry_close(exp):
 
 def strict_prior(left_dates, source):
     s=source.sort_values("date").copy()
-    l=pd.DataFrame({"date":pd.to_datetime(left_dates).sort_values().unique()})
+    s["date"]=pd.to_datetime(s["date"],errors="coerce").astype("datetime64[ns]")
+    l=pd.DataFrame({"date":pd.to_datetime(left_dates,errors="coerce").astype("datetime64[ns]").sort_values().unique()})
     out=pd.merge_asof(l,s,on="date",direction="backward",allow_exact_matches=False)
     return out
 
