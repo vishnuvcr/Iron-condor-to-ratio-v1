@@ -68,3 +68,5 @@ jobs:
           name: phase1-g5-failure-isolation
           path: data/validation/phase1_g5_failure_isolation.json
           retention-days: 30
+
+# Exact-tip diagnostic trigger marker: G5 failure isolation evidence.
