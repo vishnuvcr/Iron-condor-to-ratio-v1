@@ -191,3 +191,16 @@
 - Impact: the artifact remains useful as a successful reproduction of the frozen failure, but it cannot be accepted as exact-tip diagnostic evidence.
 - Resolution: changed the workflow to default to immutable `github.sha` for push/PR execution and to assert that exact SHA; manual dispatch may still supply an explicit `expected_commit_sha`. A fresh post-fix run is required.
 - G5 remains FAIL/OPEN; no threshold relaxation or data repair was introduced.
+
+
+## E083 — 2026-10-04 — G5 immutable-tip diagnostic reveals overlapping option ranges
+
+**Detection:** Exact-tip failure-isolation artifact 11285517033.
+
+**Finding:** The diagnostic reproduced the frozen 521,069 missing rows at checkout ee3ab7f2b08f79faa0f15d756aab2379136cefa9 and found 238 overlapping option-file timestamp ranges.
+
+**Impact:** Timestamp-range non-overlap cannot be used as evidence that option observations are globally partition-separated or duplicate-free.
+
+**Resolution:** Treat range overlap as an unresolved diagnostic condition and require a global key-level audit across all NIFTY option files. No acceptance threshold was changed.
+
+**Status:** OPEN as a G5 diagnostic issue; G5 remains FAIL/OPEN.
