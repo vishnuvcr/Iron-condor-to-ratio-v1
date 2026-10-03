@@ -2,7 +2,7 @@
 
 Effective: 2026-10-03 — E053 synchronized
 
-The canonical Phase 1 gate IDs are defined only as follows:
+The canonical Phase 1 gate IDs are authoritative in this document.
 
 | Gate | Meaning |
 |---|---|
@@ -24,7 +24,7 @@ The canonical Phase 1 gate IDs are defined only as follows:
 ## Current tester determination
 
 Independent tester PR #20 independently verified the frozen Run #55 evidence:
-- exact tip `378a130b6d450b288be140655f9b0b75aad840b3`
+- exact developer tip `378a130b6d450b288be140655f9b0b75aad840b3`
 - Actions run `37135122966`
 - job `111238039571`
 - artifact `11278418088`
@@ -49,3 +49,5 @@ This is the developer branch. The README role therefore remains **Developer**. T
 5. After all production gates are resolved, require an independent tester PASS for G13 before G14/Phase 2.
 
 ## Historical handoff/evidence
+
+
