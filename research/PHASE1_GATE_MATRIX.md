@@ -18,7 +18,7 @@ This matrix is the Phase 1 acceptance checklist. A source-validation PASS does n
 | G10 | Date-specific transaction costs | OPEN | Complete date-specific Paytm Money/statutory/exchange cost schedule remains incomplete |
 | G11 | Market-context datasets | OPEN | Required aligned context datasets remain incomplete |
 | G12 | Repaired CI execution | **PASS — independently verified** | Exact tip 378a130b6d450b288be140655f9b0b75aad840b3; Run 37135122966; job 111238039571; artifact 11278418088; digest de60c50a047357d7f89d5602ea42fd832158855779e34169fec2b9beeb02159; all substantive workflow steps succeeded |
-| G13 | Independent tester approval | **BLOCKED** | Tester PR #20 explicitly blocks G13 until G5–G11 are production-accepted |
+| G13 | Independent tester approval | **BLOCKED** | Tester PR #25 closed E055 PASS, while G13 remains BLOCKED because G5–G11 are not yet production-accepted |
 | G14 | Phase 2 authorization | **BLOCKED** | Cannot begin until G1–G13 are accepted and tester explicitly authorizes Phase 2 |
 
 ## Current decision
