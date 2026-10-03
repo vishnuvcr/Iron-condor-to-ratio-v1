@@ -225,3 +225,11 @@ Independent tester PR #30 identified E065 and E066 in the proposed bid/ask-free 
 
 ### 2026-10-04 — E071 G5 validator correction
 The G5 validator had a report-construction field-reference defect found before execution. It was corrected to use the actual `decision_eligible` field. No G5 PASS is claimed; exact-head CI and tester review remain required.
+
+## Current developer status — 2026-10-04
+- Independent tester PR #36: **Phase 1 FAIL / IN PROGRESS**.
+- G5 remains **OPEN** because exact developer head `3225d29902a20c958bf8c9803479e8fbe7601dbf` had no observable Actions run/status, and tester required explicit artifact-to-checkout SHA binding.
+- G5 correction PR #37 adds exact checkout SHA to the evidence artifact and CI verification; manual dispatch can require an expected commit SHA.
+- G6 remains **OPEN**. Correction PR #38 adds cache restore/save to the official-source acquisition workflow; complete r/q and IV/Greek production reconstruction remain pending.
+- G13/G14 and Phase 2 remain **BLOCKED**.
+- No backtest, optimization, profitability analysis, or strategy conclusion has been introduced.
