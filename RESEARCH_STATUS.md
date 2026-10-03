@@ -53,3 +53,5 @@ Updated: 2026-10-03
 - Workflow concurrency/cache-save race mitigation was added after E025.
 - Phase 1 remains IN PROGRESS. Latest CI structural validation passed, but deterministic deduplication initially failed because its script was missing from the committed tree (E026). The missing script has now been added; a fresh CI run is required.
 - No Phase 2 work has started.
+
+- Added `scripts/phase1_market_quality_audit.py` and CI execution for deterministic timestamp-alignment, coverage-gap sampling, and Black-Scholes/IV solver feasibility diagnostics. This does not close G7/G8; production Greeks still require the frozen date-specific r/q and liquidity rules.
