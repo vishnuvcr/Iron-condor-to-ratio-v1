@@ -49,3 +49,10 @@ No production performance dataset is accepted until the validation report record
 ## Independent quote-source escalation
 - **NSE Historical Order & Trade Data (F&O):** official historical order/trade product. NSE documents F&O order data at all order ticks and provides a technical specification; current NSE market-data documentation also distinguishes Level 1 best bid/ask, Level 2 depth, Level 3 depth and tick-by-tick full order book. This is the strongest identified official route for reconstructing historical execution-quality quotes, but it is a paid product and requires procurement/access credentials. See the official NSE historical-data and real-time-data product pages for scope and subscription requirements.
 - **Acceptance status:** candidate/procurement required; not yet acquired, therefore not yet part of the production backtest dataset.
+
+
+## Additional open-source search results
+- GitHub repository darshkale/nse-options-data-pipeline explicitly notes that public NSE bhavcopy lacks bid/ask and advertises a private full dataset with execution modeling; its public repository does not supply the required historical quote data. citeturn1search0
+- GitHub repository SauMStats/nifty-options-data-engine exposes a historical NIFTY OHLCV/OI interface and explicitly assumes bid/ask unavailable and market_price=close_price. It therefore cannot satisfy the frozen literal-core midpoint requirement without a separately supplied quote source. citeturn1search6
+- Commercial 1-minute NIFTY chain archives reviewed also explicitly state no bid/ask fields. citeturn1search5turn1search10
+- NSE's live option-chain schema confirms that bid/ask are distinct fields in current snapshots, but this does not establish historical intraday snapshots. citeturn1search8turn1search12
