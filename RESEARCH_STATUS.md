@@ -336,3 +336,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - G5 workflow push trigger now includes the active correction branch; workflow_dispatch default ref now points to the correction branch for explicit testing.
 - G6 acquisition now reuses existing retained source files on cache/local hits rather than unconditionally downloading every source; G6 workflow also triggers on the correction branch and supports exact manual expected-commit checking.
 - Full G6 r/q production reconstruction and G5 exact-head Actions evidence remain pending independent tester verification.
+
+## 2026-10-04 — Tester PR #40 / G6 cache integrity correction
+- Tester PR #40 confirms G5/G6 OPEN, G9 PASS, and Phase 2 BLOCKED.
+- G6 correction now rejects cache hits unless an immutable expected SHA-256 is explicitly supplied and matches the cached bytes; mismatches or missing digests fail closed.
+- No fabricated or placeholder digest is used as acceptance evidence.
+- G6 still requires full date-aligned r/q, no-lookahead validation, production IV/Greek reconstruction, delta distributions, solver diagnostics, target-delta availability and reproducibility checks.
