@@ -204,3 +204,16 @@
 **Resolution:** Treat range overlap as an unresolved diagnostic condition and require a global key-level audit across all NIFTY option files. No acceptance threshold was changed.
 
 **Status:** OPEN as a G5 diagnostic issue; G5 remains FAIL/OPEN.
+
+
+## E084 — 2026-10-04 — Explicit research-use waiver of G5 acceptance criterion
+
+**Decision:** The research team explicitly accepts the available dataset for continued exploratory research while preserving the substantive G5 failure.
+
+**State:** G5 remains a failed audit criterion; for research continuity it is marked **WAIVED FOR CONTINUED RESEARCH**, not PASS.
+
+**Retained limitation:** 521,069 unmatched observations; 14 full-date gaps; 33,476 partial-date mismatches.
+
+**Controls:** No interpolation, nearest-timestamp matching, forward-fill, or silent deletion. Any later strategy/performance analysis must disclose the limitation and include sensitivity/robustness analysis with affected observations/dates excluded.
+
+**Gate control:** The waiver does not satisfy G13, does not constitute tester approval, and does not authorize Phase 2.
