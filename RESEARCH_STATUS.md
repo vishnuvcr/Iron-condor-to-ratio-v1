@@ -199,3 +199,13 @@ Updated: 2026-10-03
 - The workflow now fails closed on push if the execution branch is not `phase-1-e046-bidirectional-reconciliation`.
 - A protected automatic run is triggered by the workflow change and again by this execution-record commit. The final branch-tip run must be inspected for exact checkout SHA, complete step success, and G4 reconciliation results before G12 is accepted.
 - G13 and Phase 2 remain blocked.
+
+
+## 2026-10-03 — E051 exact-tip CI control
+- Repository control files were re-read before continuation; Phase 1 remains IN PROGRESS and Phase 2 remains BLOCKED.
+- The prior documentation tip 7a0b43b81d6b69165d745527f639de94ee5a62ad was not itself a workflow-path change, so it is not valid exact-tip CI evidence.
+- The workflow was deliberately touched in commit b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512 to force the corrected push trigger while preserving the same validation logic.
+- Current branch tip: b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512.
+- Current GitHub commit status: pending, zero published statuses. The available repository connector does not expose the push-triggered run list for this commit.
+- Therefore G12 is NOT advanced. The required evidence remains an observable Actions run with checkout SHA equal to the exact branch tip, successful G4 reconciliation/artifact, and subsequent independent tester PASS.
+- No Phase 2 engine, optimization, profitability analysis, or strategy conclusion has been started.
