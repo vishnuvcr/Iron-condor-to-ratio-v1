@@ -74,3 +74,11 @@
 - Official exchange notices document those dates as live sessions. The control manifest was extended with dated special-session rules and source references; execution eligibility remains constrained to the documented F&O window.
 - Resolution: manifest schema version 2.1 adds the three documented weekend sessions. Fresh exact-head CI now passes G4 reconciliation with 10 special sessions reconciled, 0 unreconciled dates, and 0 missing manifest-session dates.
 - G4 and G12 are developer-evidence PASS on 4099cd1217f072be961f120ab114034578e19197; G13 remains blocked pending independent tester approval. Phase 2 remains blocked.
+
+
+## 2026-10-03 — E048 manual-dispatch routing safeguard
+- User-provided screenshot showed workflow run #52 manually dispatched from the default `main` workflow entry.
+- Inspection found the `main` workflow definition still had the older Phase 1 default `research_ref=phase-1-data-acquisition-validation` and did not include the E046 bidirectional G4 reconciliation step.
+- This means run #52 can only be accepted as corrective evidence if its manual input explicitly selected `phase-1-e046-bidirectional-reconciliation`; the screenshot alone does not establish that input.
+- Resolution: updated the `main` workflow definition to the E046-corrected workflow, including the bidirectional G4 reconciliation/regression-test steps and default research ref `phase-1-e046-bidirectional-reconciliation`. Main workflow update commit: 097d29c2816614bc7ba45365454b7f0dc270bc5d.
+- No Phase 2 work was started. G13 remains blocked pending independent tester approval.
