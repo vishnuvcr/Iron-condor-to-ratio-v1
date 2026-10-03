@@ -59,7 +59,8 @@ jobs:
           pip install huggingface_hub pandas pyarrow
 
       - name: Syntax-check Phase 1 scripts
-        run: python -m py_compile scripts/validate_phase1_data.py scripts/deduplicate_phase1_data.py scripts/phase1_market_quality_audit.py scripts/phase1_session_outlier_characterization.py scripts/validate_phase1_control_manifests.py
+        run: |
+          python -m py_compile scripts/validate_phase1_data.py scripts/deduplicate_phase1_data.py scripts/phase1_market_quality_audit.py scripts/phase1_session_outlier_characterization.py scripts/validate_phase1_control_manifests.py
           python scripts/validate_phase1_control_manifests.py
 
       - name: Acquire primary candidate data
