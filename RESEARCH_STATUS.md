@@ -4,7 +4,7 @@ Updated: 2026-10-03
 
 | Phase | Status | Gate |
 |---|---|---|
-| 0 Specification/audit | **CORRECTIONS IN PROGRESS — SECOND-GATE DEFECTS ADDRESSED FOR RE-TEST** | Independent tester approval required |
+| 0 Specification/audit | **CORRECTIONS IN PROGRESS — THIRD-GATE DEFECTS ADDRESSED FOR RE-TEST** | Independent tester approval required |
 | 1 Data | **BLOCKED** | Second tester approval |
 | 2 Engine | BLOCKED | Phase 1 |
 | 3 Experiments | BLOCKED | Phase 2 |
@@ -36,3 +36,12 @@ The branch `phase-0-corrections-v2` now adds the missing tracked artifact and fr
 
 ## Current conclusion
 No performance conclusion exists. Phase 1 remains prohibited until the corrected specification passes independent re-test and approval.
+
+## Third independent tester result
+**FAIL — Phase 0 approval not granted.** The third audit confirmed the canonical operational artifact exists, but found five remaining deterministic gaps: IV solver termination, no-arbitrage bounds, tick rounding, explicit future-quote rejection, and strategy-spec/slippage inconsistency.
+
+## Third correction pass
+The branch `phase-0-corrections-v3` resolves B1–B5 and adds a Phase 0 GitHub Actions integrity workflow with automatic push/PR execution and a manual dispatch option. The workflow is repository-control only and does not start Phase 1.
+
+## Gate
+**Phase 1 remains BLOCKED.** Independent tester approval is required before any historical data acquisition or backtest work.
