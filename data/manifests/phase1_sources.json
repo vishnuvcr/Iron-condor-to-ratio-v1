@@ -11,20 +11,7 @@
       {
         "path": "options/NIFTY",
         "granularity": "1min",
-        "fields_expected": [
-          "timestamp",
-          "open",
-          "high",
-          "low",
-          "close",
-          "volume",
-          "open_interest",
-          "trading_day",
-          "symbol",
-          "strike",
-          "option_type",
-          "expiry"
-        ]
+        "fields_expected": ["timestamp","open","high","low","close","volume","open_interest","trading_day","symbol","strike","option_type","expiry"]
       },
       {
         "path": "index/NIFTY",
@@ -40,48 +27,18 @@
     "revision": "main (must be pinned before production acquisition)",
     "license": "other",
     "intraday_range": "2024-present as documented by dataset card",
-    "known_gaps": [
-      "bid/ask not documented",
-      "OI is NaN for Upstox intraday rows"
-    ]
+    "known_gaps": ["bid/ask not documented","OI is NaN for Upstox intraday rows"]
   },
   "official_context_sources": [
-    {
-      "name": "NSE option chain",
-      "url": "https://www.nseindia.com/option-chain"
-    },
-    {
-      "name": "NSE equity derivatives contract specifications",
-      "url": "https://www.nseindia.com/static/products-services/equity-derivatives-contract-specifications"
-    },
-    {
-      "name": "NSE contract information / permitted lot size",
-      "url": "https://www.nseindia.com/static/products-services/equity-derivatives-contract-information"
-    },
-    {
-      "name": "NSE data and reports download",
-      "url": "https://www.nseindia.com/static/products-services/equity-market-data-reports-download"
-    },
-    {
-      "name": "NSE FII/FPI and DII activity",
-      "url": "https://www.nseindia.com/reports/fii-dii"
-    },
-    {
-      "name": "NSE corporate actions",
-      "url": "https://www.nseindia.com/companies-listing/corporate-filings-actions"
-    },
-    {
-      "name": "Paytm Money pricing update",
-      "url": "https://www.paytmmoney.com/blog/all-new-paytm-money-updates-revisions-and-more/"
-    },
-    {
-      "name": "Paytm Money 2023 brokerage update",
-      "url": "https://www.paytmmoney.com/blog/brokerage-charges-increase-from-25th-aug-23-existing-users-will-continue-on-old-brokerage-charges/"
-    },
-    {
-      "name": "Paytm Money October 2024 pricing update",
-      "url": "https://www.paytmmoney.com/blog/paytm-money-pricing-update-revised-charges-effective-1st-october/"
-    }
+    {"name":"NSE option chain","url":"https://www.nseindia.com/option-chain"},
+    {"name":"NSE equity derivatives contract specifications","url":"https://www.nseindia.com/static/products-services/equity-derivatives-contract-specifications"},
+    {"name":"NSE contract information / permitted lot size","url":"https://www.nseindia.com/static/products-services/equity-derivatives-contract-information"},
+    {"name":"NSE data and reports download","url":"https://www.nseindia.com/static/products-services/equity-market-data-reports-download"},
+    {"name":"NSE FII/FPI and DII activity","url":"https://www.nseindia.com/reports/fii-dii"},
+    {"name":"NSE corporate actions","url":"https://www.nseindia.com/companies-listing/corporate-filings-actions"},
+    {"name":"Paytm Money pricing update","url":"https://www.paytmmoney.com/blog/all-new-paytm-money-updates-revisions-and-more/"},
+    {"name":"Paytm Money 2023 brokerage update","url":"https://www.paytmmoney.com/blog/brokerage-charges-increase-from-25th-aug-23-existing-users-will-continue-on-old-brokerage-charges/"},
+    {"name":"Paytm Money October 2024 pricing update","url":"https://www.paytmmoney.com/blog/paytm-money-pricing-update-revised-charges-effective-1st-october/"}
   ],
   "g9_execution_candidates": [
     {
@@ -92,6 +49,42 @@
       "observed_schema": "bid_price,bid_qty,ask_price,ask_qty,depth_level,instrument_key,timestamp",
       "status": "CANDIDATE_REQUIRES_CI_AUDIT",
       "known_issues": "Hugging Face dataset builder reports incompatible schemas across files; study-window coverage and NIFTY contract identity are not established."
+    },
+    {
+      "repo_id": "ayyararyan/nse-options-pipeline",
+      "repo_type": "github_pipeline",
+      "revision": "main (pin exact commit before acquisition)",
+      "url": "https://github.com/ayyararyan/nse-options-pipeline",
+      "observed_schema": "captured_at,symbol,expiry,strike_price,option_type,bid_price,ask_price,bid_qty,ask_qty,open_interest,total_traded_volume,underlying_value",
+      "status": "ARCHIVE_INVESTIGATION_REQUIRED",
+      "known_issues": "NSEI-Data is not tracked in git because it is too large; raw historical archive location, coverage and licensing are unverified."
+    },
+    {
+      "repo_id": "QuantDev-stack/OptionVault",
+      "repo_type": "github_dataset_project",
+      "revision": "main (pin exact commit before acquisition)",
+      "url": "https://github.com/QuantDev-stack/OptionVault",
+      "observed_schema": "public samples include NIFTY option files and market-depth sample paths",
+      "status": "SAMPLE_REVIEW_REQUIRED",
+      "known_issues": "Repository states the complete 300+ GB dataset is licensed; public samples do not establish complete study-window bid/ask coverage."
+    },
+    {
+      "repo_id": "QuantDev-stack/TickBytes",
+      "repo_type": "github_dataset_project",
+      "revision": "main (pin exact commit before acquisition)",
+      "url": "https://github.com/QuantDev-stack/TickBytes",
+      "observed_schema": "public samples cover NIFTY tick/1-sec/1-min paths; documentation describes top-5 bid/ask depth",
+      "status": "SAMPLE_REVIEW_REQUIRED",
+      "known_issues": "Full daily feed is subscription-controlled; public samples do not establish complete study-window coverage."
+    },
+    {
+      "repo_id": "BarathGB007/nse-options-data-collector",
+      "repo_type": "github_collector",
+      "revision": "master (pin exact commit before acquisition)",
+      "url": "https://github.com/BarathGB007/nse-options-data-collector",
+      "observed_schema": "timestamp,symbol,expiry,spot,strike,ce_bid,ce_ask,ce_iv,ce_delta,pe_bid,pe_ask,pe_iv,pe_delta plus OI/volume",
+      "status": "RETAINED_ARCHIVE_INVESTIGATION_REQUIRED",
+      "known_issues": "Public samples/current collection are bid/ask-bearing, but no complete retained 2021-2026 historical archive has been established."
     }
   ]
 }
