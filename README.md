@@ -86,3 +86,7 @@ phase-1-data-acquisition-validation.
 - **Independent tester result:** Phase 1 FAIL. PR #13's repaired audit still lacks independently verifiable Actions execution, and session/Greek/contract/quote/cost/context gates remain open.
 - **E033 resolved at the documentation-control level:** canonical G1–G14 meanings are now defined consistently across Phase 1 control documents. This does not itself make any data gate PASS.
 - [Phase 1 gate matrix](research/PHASE1_GATE_MATRIX.md) now serves as the canonical gate vocabulary.
+- Added [Phase 1 production evidence plan](research/PHASE1_PRODUCTION_EVIDENCE_PLAN.md), defining machine-readable evidence required for G4–G12 after E033 closure.
+- External NSE evidence confirms historical session timing cannot be inferred from today's 15:40 F&O close; date-specific session metadata is required.
+- G12 remains open: GitHub Actions reports zero workflow runs for repaired audit commit 336c8e8ddf5de93f31ef6b114e621747ae956620.
+- E034 records that local execution cannot substitute for CI because this environment has no outbound network resolution.
