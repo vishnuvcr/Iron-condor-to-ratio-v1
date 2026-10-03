@@ -163,3 +163,9 @@ Updated: 2026-10-03
 - Reconciliation now fails on any uncontrolled date, date-control classification mismatch, missing special execution interval coverage, or observation outside documented source windows.
 - G4 is back to OPEN pending fresh final-head CI and independent tester review.
 - G12 is OPEN for final-head evidence. G13/G14 remain blocked.
+
+## 2026-10-03 — E044 implementation frozen for final-head CI
+- Corrected G4 manifest/reconciler/validator now enforce explicit date controls and special-session interval validation.
+- Special-session source-observation schedules are pinned to NSE capital-market circulars in addition to F&O execution circulars.
+- Prior run 37125014956 successfully exercised the corrected logic on an ancestor commit and produced 1,254 normal eligible dates, 7 reconciled special sessions, 1 data-gap exclusion, and 0 unreconciled dates; this is diagnostic evidence only because E045 requires final-head execution.
+- Final-head CI is the next required evidence step; no gate is advanced from the prior run.
