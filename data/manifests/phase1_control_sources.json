@@ -71,5 +71,32 @@
       "url": "https://nsearchives.nseindia.com/web/sites/default/files/inline-files/India_VIX_comp_meth.pdf",
       "use": "documents use of best bid/ask NIFTY option quotes"
     }
+  ],
+  "context_additional_sources": [
+    {
+      "name": "NSE historical index data",
+      "url": "https://www.nseindia.com/reports-indices-historical-index-data",
+      "use": "NIFTY benchmark and timestamp-aligned market context"
+    },
+    {
+      "name": "NSE P/E P/B Dividend Yield history",
+      "url": "https://www.nseindia.com/all-reports",
+      "use": "candidate historical NIFTY dividend-yield q input and context"
+    },
+    {
+      "name": "NSE FII/FPI and DII activity",
+      "url": "https://www.nseindia.com/reports/fii-dii",
+      "use": "daily institutional-flow regime/context variable"
+    },
+    {
+      "name": "BSE historical information products",
+      "url": "https://www.bseindia.com/downloads1/Information_Products_Pricing_Sheet.pdf",
+      "use": "registered source for BSE historical market/corporate data; procurement/access required"
+    },
+    {
+      "name": "NSE historical order/trade layout",
+      "url": "https://nsearchives.nseindia.com/web/sites/default/files/inline-files/Hist_Order_data_layout_1.12.pdf",
+      "use": "technical specification evidence for all-tick historical order/trade data"
+    }
   ]
 }
