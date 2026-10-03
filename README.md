@@ -54,3 +54,6 @@ The literal-core fallback slippage is fixed by `research/OPERATIONAL_CONVENTIONS
 
 ## Fifth tester gate
 PR #9 / `phase-0-corrections-v4` was independently audited on `tester/phase-0-fifth-audit`. The fifth tester failed Phase 0 on B7 (ineffective multiline grep assertion) and B8 (missing independently auditable exact-SHA CI evidence). The v5 correction pass fixes the assertion and requires exact-commit workflow provenance before re-test.
+
+## Exact CI provenance for v5 correction
+The exact v5 correction commit `4515b32ecd3d6a17b061f53dd97245c393489166` passed the Phase 0 Integrity workflow. Auditable references: [workflow run #37114384784](https://github.com/vishnuvcr/Iron-condor-to-ratio-v1/actions/runs/37114384784) and check run #111178229183. This reference is tied to the tested SHA; subsequent audit-record commits do not replace that provenance.
