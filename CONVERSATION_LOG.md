@@ -482,3 +482,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - Exact-head run 37157954305 failed because the E098 entry-point was committed with literal `\\n` text, causing a Python syntax error.
 - Corrected the file to contain actual newline characters and preserved the intended explicit `main()` invocation.
 - No gate advancement; a fresh exact-head run is required.
+
+
+## 2026-10-04 — E100 duplicate RBI entry-point text correction
+- Exact-head run 37158026784 still failed because the previous correction left both literal escaped and real `main()` entry-point blocks in the file.
+- Removed the literal duplicate and verified the exact file tail contains one valid module entry point.
+- No gate advancement; next exact-head run must establish actual RBI extraction.
