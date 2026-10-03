@@ -1,0 +1,91 @@
+name: Phase 1 G6 Source Acquisition Audit
+
+on:
+  push:
+    branches:
+      - "phase-1-g6-greeks-iv-evidence"
+      - "phase-1-g6-cache-provenance-hardening"
+      - "phase-1-g5-g6-reaudit-corrections-20261004"
+    paths:
+      - "scripts/phase1_g6_source_acquisition.py"
+      - "data/manifests/phase1_control_sources.json"
+      - ".github/workflows/phase1-g6-source-acquisition.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "scripts/phase1_g6_source_acquisition.py"
+      - "data/manifests/phase1_control_sources.json"
+      - ".github/workflows/phase1-g6-source-acquisition.yml"
+  workflow_dispatch:
+    inputs:
+      expected_commit_sha:
+        description: "Exact commit SHA expected in the acquisition artifact"
+        required: false
+        default: ""
+        type: string
+
+jobs:
+  g6-source-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assert checked-out commit
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          expected="${{ inputs.expected_commit_sha }}"
+          if [ -n "$expected" ]; then test "$actual" = "$expected"; fi
+          echo "G6 checkout SHA: $actual"
+      - name: Restore G6 source cache
+        id: g6-cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .cache/g6_sources
+            data/raw/g6_sources
+          key: g6-official-sources-${{ hashFiles('data/manifests/phase1_control_sources.json', 'scripts/phase1_g6_source_acquisition.py') }}
+          restore-keys: |
+            g6-official-sources-
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Acquire and hash official G6 sources
+        run: python scripts/phase1_g6_source_acquisition.py
+      - name: Verify G6 artifact provenance
+        if: always()
+        run: |
+          set -euo pipefail
+          if [ -f data/validation/phase1_g6_source_acquisition.json ]; then
+            python - <<'PY'
+            import json, subprocess
+            from pathlib import Path
+            p=Path("data/validation/phase1_g6_source_acquisition.json")
+            report=json.loads(p.read_text())
+            actual=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+            recorded=report.get("execution_provenance",{}).get("checked_out_commit_sha")
+            if recorded != actual:
+                raise SystemExit(f"G6 artifact checkout SHA mismatch: report={recorded} actual={actual}")
+            print(f"G6 artifact checkout SHA verified: {actual}")
+            PY
+          fi
+
+      - name: Save G6 source cache
+        if: ${{ success() && steps.g6-cache-restore.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .cache/g6_sources
+            data/raw/g6_sources
+          key: g6-official-sources-${{ hashFiles('data/manifests/phase1_control_sources.json', 'scripts/phase1_g6_source_acquisition.py') }}
+
+      - name: Upload G6 acquisition evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: g6-source-acquisition
+          path: |
+            data/raw/g6_sources
+            data/validation/phase1_g6_source_acquisition.json
