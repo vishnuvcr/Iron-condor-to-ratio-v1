@@ -26,16 +26,39 @@ def fetch(url: str) -> bytes:
         return response.read()
 
 
-def acquire_one(url: str, destination: Path) -> tuple[str, dict]:
-    """Reuse an existing validated byte-identical source instead of re-downloading."""
+def acquire_one(source: dict, destination: Path) -> tuple[str, dict]:
+    """Accept a cache hit only when an immutable expected digest is configured and matches."""
+    expected_sha256 = source.get("expected_sha256")
     if destination.exists() and destination.is_file() and destination.stat().st_size > 0:
         payload = destination.read_bytes()
-        return "CACHE_HIT_LOCAL", {"path": str(destination), "bytes": len(payload), "sha256": sha256(payload)}
+        actual = sha256(payload)
+        if not expected_sha256:
+            raise RuntimeError("CACHE_PROVENANCE_UNVERIFIED: expected_sha256 is missing")
+        if actual != expected_sha256:
+            raise RuntimeError(
+                f"CACHE_DIGEST_MISMATCH: expected={expected_sha256} actual={actual}"
+            )
+        return "CACHE_HIT_VALIDATED", {
+            "path": str(destination),
+            "bytes": len(payload),
+            "sha256": actual,
+        }
 
-    payload = fetch(url)
+    payload = fetch(source["url"])
+    actual = sha256(payload)
+    if not expected_sha256:
+        raise RuntimeError("SOURCE_PROVENANCE_UNVERIFIED: expected_sha256 is missing")
+    if actual != expected_sha256:
+        raise RuntimeError(
+            f"SOURCE_DIGEST_MISMATCH: expected={expected_sha256} actual={actual}"
+        )
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_bytes(payload)
-    return "ACQUIRED", {"path": str(destination), "bytes": len(payload), "sha256": sha256(payload)}
+    return "ACQUIRED_VALIDATED", {
+        "path": str(destination),
+        "bytes": len(payload),
+        "sha256": actual,
+    }
 
 
 def sha256(data: bytes) -> str:
@@ -63,7 +86,7 @@ def main() -> None:
         }
         try:
             filename = RAW / f"source_{i:02d}.html"
-            mode, meta = acquire_one(url, filename)
+            mode, meta = acquire_one(source, filename)
             rec.update({
                 "status": mode,
                 **meta,
