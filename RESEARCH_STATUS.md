@@ -57,3 +57,9 @@ The branch `phase-0-corrections-v4` synchronizes the active gate to the current 
 
 ## Current developer correction PR
 PR #9 / `phase-0-corrections-v4` is the active developer correction pass for B6. The repository integrity workflow has passed on this branch. A fresh independent tester approval is still required before Phase 1.
+
+## Fifth independent tester result
+**FAIL — Phase 0 approval not granted.** The fifth audit found B7: the stale-v2 branch assertion in the Phase 0 integrity workflow was ineffective because standard grep did not perform a cross-line match, and B8: the claimed v4 workflow pass was not independently auditable from the available commit status/check evidence. Phase 1 remains blocked.
+
+## Fifth correction pass
+The branch `phase-0-corrections-v5` replaces the ineffective multiline grep with a line-aware assertion and adds explicit exact-SHA/run provenance output to the integrity workflow. The correction pass will be validated on its exact resulting commit, with the resulting GitHub Actions run/check reference recorded in the audit records. A fresh independent tester approval is required before Phase 1.
