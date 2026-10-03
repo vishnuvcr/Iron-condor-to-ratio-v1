@@ -293,3 +293,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - Public-source review found that the TBT candidate genuinely exposes bid/ask/depth fields but has mixed schemas; ayyararyan/nse-options-pipeline documents bid/ask-bearing raw files but does not track the archive; OptionVault/TickBytes expose samples while describing full datasets as licensed; the NSE collector exposes bid/ask-bearing sample/current schemas but not a complete historical archive.
 - Local direct download of the TBT archive failed at DNS resolution for huggingface.co and was recorded as E058. No proxy quote data were fabricated.
 - G9 remains BLOCKED and no Phase 2 work has started. This log records user-visible decisions/execution only; hidden chain-of-thought is not copied.
+
+## 2026-10-03 — G9 salvage continuation: exact-head CI check and validator hardening
+- User authorized continuation with “proceed” while preserving the tester gate.
+- Re-read the active README, research status, Phase 1 gate matrix, G9 salvage protocol, error log and conversation log on developer branch `phase-1-g9-free-data-salvage`.
+- Exact developer submission at the start of this step was `d2003df53d07a952aa7434c4c706f396067b6080`; no PR-triggered Actions run was associated with that exact head. No green CI or candidate-data result was claimed.
+- Hardened `scripts/validate_g9_tbt_candidate.py` to classify every raw CSV independently, record SHA-256/bytes/schema/timestamps/contract-identity/duplicate/out-of-order/quote-validity diagnostics, and write an explicit `UNEXECUTED_ACQUISITION` report when acquisition fails. OHLC/LTP is not accepted as bid/ask.
+- Hardened `.github/workflows/phase1-g9-tbt-candidate.yml` with the current G9 branch trigger, PR paths, immutable candidate revision in the cache key, cache restore/save, and `if: always()` audit-artifact retention so acquisition failures remain inspectable.
+- G9 remains BLOCKED; Phase 2/backtesting/performance work remains prohibited pending independent tester approval.
