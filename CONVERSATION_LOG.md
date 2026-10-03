@@ -269,3 +269,12 @@ This file records user-visible project instructions and work decisions, not hidd
 - Developer accepted E055 as a reproducibility/control defect and corrected the malformed SHA without changing any research methodology or gate result.
 - G1–G3 remain PASS; G4 and G12 remain independently PASS on the previously audited exact CI evidence; G5–G8/G10–G11 remain open/preliminary; G9 remains BLOCKED; G13/G14 and Phase 2 remain BLOCKED.
 - No Phase 2/backtesting/optimization/profitability work was introduced. The corrected exact developer head is now submitted for independent re-audit.
+
+
+## 2026-10-03 — Independent tester G9 TBT candidate audit
+- Audited the newly added `phase1-g9-tbt-candidate.yml` workflow and pinned candidate revision `643b48383839947b5fe3ed9483c9f7c0f167e865`.
+- The workflow is correctly defined with `workflow_dispatch`, cached Hugging Face download paths, and artifact upload. The connected GitHub Actions interface does not expose a manual-dispatch operation, so no fresh manual-run claim is made.
+- Public Hugging Face metadata for the pinned revision reports a dataset-generation cast error caused by incompatible schemas across files: the TBT bid/ask/depth schema versus an OHLC/IV/market-stat schema.
+- Tester determination: candidate rejected for production G9. Proceed with licensed NSE Historical F&O Order & Trade acquisition/validation.
+- Found validator-control weakness: the current CSV validator does not actually enforce cross-file schema consistency and does not implement the requested quote-age, spread, depth, or full-study-window acceptance tests.
+- G9 remains BLOCKED; no Phase 2 work authorized.
