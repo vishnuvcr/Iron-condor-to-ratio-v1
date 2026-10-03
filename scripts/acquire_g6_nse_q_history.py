@@ -8,7 +8,7 @@ from __future__ import annotations
 import hashlib, json, time
 from datetime import date, timedelta
 from pathlib import Path
-from urllib.request import Request, urlopen
+import requests
 
 START=date(2021,1,1); END=date(2026,9,30)
 URL="https://www.niftyindices.com/Backpage.aspx/getpepbHistoricaldataDBtoString"
@@ -18,19 +18,21 @@ REPORT=Path("data/validation/phase1_g6_nse_q_acquisition.json")
 def fetch(a,b):
     cinfo={"name":"NIFTY 50","startDate":a.strftime("%d %b %Y"),"endDate":b.strftime("%d %b %Y"),"indexName":"NIFTY 50"}
     cinfo_text=str(cinfo).replace(chr(34),chr(39))
-    payload=json.dumps({"cinfo":cinfo_text}).encode()
-    req=Request(URL,data=payload,headers={
-        "Content-Type":"application/json; charset=utf-8",
-        "Accept":"application/json, text/javascript, */*; q=0.01",
-        "Referer":"https://www.niftyindices.com/reports/historical-data",
-        "Origin":"https://www.niftyindices.com",
-        "User-Agent":"Mozilla/5.0"})
-    with urlopen(req,timeout=120) as r:
-        body=r.read()
-        if body.lstrip().startswith(b"<!DOCTYPE") or b"<html" in body[:1000].lower():
-            raise RuntimeError("NSE_Q_ENDPOINT_RETURNED_HTML")
-        json.loads(body.decode("utf-8"))
-        return body
+    payload={"cinfo":cinfo_text}
+    headers={"Content-Type":"application/json; charset=utf-8","Accept":"application/json, text/javascript, */*; q=0.01","Referer":"https://www.niftyindices.com/reports/historical-data","Origin":"https://www.niftyindices.com","User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/131 Safari/537.36"}
+    session=requests.Session(); session.headers.update(headers)
+    session.get("https://www.niftyindices.com/reports/historical-data",timeout=60)
+    endpoints=["https://www.niftyindices.com/Backpage.aspx/getpepbHistoricaldataDBtoString","https://www.niftyindices.com/BackPage/getpepbHistoricaldataDBtoString"]
+    last=None
+    for endpoint in endpoints:
+        try:
+            r=session.post(endpoint,json=payload,timeout=120)
+            body=r.content
+            if r.status_code==200 and not body.lstrip().startswith(b"<!DOCTYPE") and b"<html" not in body[:1000].lower():
+                json.loads(body.decode("utf-8")); return body
+            last=f"{endpoint}: status={r.status_code} html={body[:40]!r}"
+        except Exception as e: last=f"{endpoint}: {e}"
+    raise RuntimeError("NSE_Q_ENDPOINT_ACCESS_FAILURE:"+str(last))
 def sha(b): return hashlib.sha256(b).hexdigest()
 
 def main():
