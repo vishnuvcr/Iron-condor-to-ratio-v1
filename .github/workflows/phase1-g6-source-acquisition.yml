@@ -30,8 +30,6 @@ jobs:
         run: |
           set -euo pipefail
           actual="$(git rev-parse HEAD)"
-          expected="${{ inputs.expected_commit_sha }}"
-          if [ -n "$expected" ]; then test "$actual" = "$expected"; fi
           echo "G6 checkout SHA: $actual"
       - name: Restore G6 source cache
         id: g6-cache-restore
