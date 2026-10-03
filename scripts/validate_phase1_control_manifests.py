@@ -34,7 +34,7 @@ def main() -> None:
             raise SystemExit(f"phase1_session_rules.json: missing {required}")
     special_dates = {x.get("date") for x in session_rules["special_sessions"]}
     for row in session_rules["special_sessions"]:
-        if not row.get("source_evidence"):
+        if not row.get("source_evidence") or not row.get("source_observation_evidence"):
             raise SystemExit(f"special session {row.get('date')}: missing source_evidence")
         if not row.get("execution_intervals") or not row.get("source_observation_intervals"):
             raise SystemExit(f"special session {row.get('date')}: missing interval controls")
