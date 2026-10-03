@@ -119,5 +119,6 @@
       "url": "https://www.nseix.com/markets/historical-nlt",
       "use": "historical GIFT NIFTY/global-crossing activity context"
     }
-  ]
+  ],
+  "greek_sources": []
 }
