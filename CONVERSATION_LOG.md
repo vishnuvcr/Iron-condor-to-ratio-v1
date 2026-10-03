@@ -346,3 +346,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - During developer pre-execution audit of G5, found that the expiry/day coverage report referenced a non-existent `in_session` column.
 - Corrected both references to `decision_eligible` before any execution/evidence claim and logged E071.
 - G5 remains OPEN pending exact-head CI and tester review; no Phase 2 work introduced.
+
+## 2026-10-04 — Independent tester PR #36 / E073
+- Tester role is now fixed for the independent audit.
+- Tester PR #36 determined Phase 1 FAIL / IN PROGRESS: G5 exact head `3225d29902a20c958bf8c9803479e8fbe7601dbf` had zero workflow runs/statuses; G5 remains OPEN.
+- Tester finding: manual-dispatch evidence must bind the generated artifact to the exact checked-out commit SHA.
+- Developer accepted the finding and created `phase-1-g5-e071-ci-provenance-hardening`. The G5 validator now records the checked-out Git SHA and CI verifies the artifact SHA against the checkout; manual dispatch can require an exact expected SHA.
+- G6 remains OPEN because full historical r/q inputs and production IV/Greek reconstruction are incomplete. No Phase 2 work started.
