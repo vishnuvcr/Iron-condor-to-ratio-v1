@@ -419,3 +419,16 @@ This file records user-visible project instructions and work decisions, not hidd
 - Started fresh immutable-SHA run **37154986733** at head **ee3ab7f2b08f79faa0f15d756aab2379136cefa9**. It is currently in progress.
 - Updated ERROR_LOG (E082), RESEARCH_STATUS, README and this conversation log. G5 remains FAIL/OPEN; G6/G7/G8/G10/G11 remain OPEN; G9 PASS; G13/G14 and Phase 2 remain BLOCKED.
 - No interpolation, nearest matching, forward fill, deletion, holiday reclassification, threshold relaxation, backtest, optimization, profitability analysis, or trading-strategy conclusion was introduced.
+
+
+## 2026-10-04 — Immutable G5 diagnostic completed
+
+- Continued after user authorization to proceed.
+- Polled run **37154986733** until completion.
+- Verified successful job **111296435573** and artifact **11285517033**.
+- Independently downloaded the artifact and verified SHA-256 **292c823060e87e5cf8ff72e5b08fc9662b8adc4c0ef10eacb87207f3ac8cc498**, matching GitHub's artifact digest.
+- Verified diagnostic runtime checkout **ee3ab7f2b08f79faa0f15d756aab2379136cefa9**, matching the immutable Actions head.
+- Verified recomputed missing row count **521,069**, exactly matching the frozen failed G5 evidence.
+- Verified 362 affected dates and 238 overlapping option-file timestamp ranges.
+- Determined that range overlap requires a global option-key audit; no duplicate conclusion or gate relaxation was made.
+- G5 remains FAIL/OPEN and Phase 2 remains BLOCKED pending independent tester re-audit.
