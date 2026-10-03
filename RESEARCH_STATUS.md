@@ -277,3 +277,11 @@ Updated: 2026-10-03
 - G9 validator now audits every acquired raw CSV independently and emits an acquisition-failure report rather than losing the diagnostic when network/DNS acquisition fails.
 - G9 workflow now uses the current salvage branch, immutable candidate revision in cache keys, PR path coverage, cache restore/save, and unconditional audit-artifact upload.
 - G9 remains BLOCKED. No Phase 2/backtest/performance analysis has started.
+
+## 2026-10-03 — E063 bid/ask-free execution methodology proposal
+- Developer formally changed the primary methodology to a proxy-execution model rather than requiring historical bid/ask.
+- Specification: `research/PHASE1_EXECUTION_PROXY_SPEC.md`.
+- Frozen convention: completed 1-minute decision bar -> next eligible 1-minute option-bar open; adverse per-leg slippage at 0/5/10/20/50 bps with date-effective tick floor; date-effective transaction costs; no interpolation or OHLC/LTP-to-bid/ask relabeling.
+- This is a methodology change, not a G9 PASS.
+- G9 remains BLOCKED pending independent tester approval of the revised methodology and validation of the proxy data/execution controls.
+- G13/G14 and Phase 2 remain BLOCKED.
