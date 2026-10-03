@@ -142,7 +142,13 @@ def main():
                     delta = abs(bs_delta(S, K, 0.0, 0.0, T, iv, str(x["option_type"]).upper().startswith("C")))
                     target_checks.append(delta)
 
-\n    session_outliers = [\n        {"day": str(day), "timestamps": int(n)}\n        for day, n in session_counts.items()\n        if int(n) < 300 or int(n) > 390\n    ]\n\n    result = {
+    session_outliers = [
+        {"day": str(day), "timestamps": int(n)}
+        for day, n in session_counts.items()
+        if int(n) < 300 or int(n) > 390
+    ]
+
+    result = {
         "status": "phase1_market_quality_audit_complete",
         "option_files": len(option_files),
         "option_rows_after_key_dedup": total_rows,
@@ -152,6 +158,7 @@ def main():
         },
         "nifty_index_rows": int(len(idx)),
         "nifty_trading_days": int(len(session_counts)),
+        "session_count_outliers": session_outliers,
         "nifty_session_timestamp_count_summary": {
             "median": float(session_counts.median()) if len(session_counts) else None,
             "min": int(session_counts.min()) if len(session_counts) else None,
