@@ -488,3 +488,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - Exact-head run 37158026784 still failed because the previous correction left both literal escaped and real `main()` entry-point blocks in the file.
 - Removed the literal duplicate and verified the exact file tail contains one valid module entry point.
 - No gate advancement; next exact-head run must establish actual RBI extraction.
+
+
+## 2026-10-04 — E101 RBI non-target page handling correction
+- Exact-head run 37158125363 executed the RBI scan but failed because non-target/404 pages returned `None`, while the concurrent collector expected every future result to be a `(record, rows)` tuple.
+- Corrected non-target pages to return an explicit empty-result tuple with provenance status `NO_TARGET`.
+- No data acceptance or gate change occurred.
