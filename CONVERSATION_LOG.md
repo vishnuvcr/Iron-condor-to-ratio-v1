@@ -348,3 +348,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - Added `research/PHASE1_G6_GREEKS_IV_SPEC.md` and registered the sources in the control manifest.
 - Frozen a no-look-ahead rule using only source observations dated strictly before the trading date; missing inputs invalidate the Greek observation rather than being backfilled from the future.
 - G6 remains open; no backtest or profitability analysis has begun.
+
+
+## 2026-10-04 — G6 official-source acquisition automation
+- Continued as Developer within Phase 1 after re-reading the canonical control files.
+- Added official-source acquisition and hashing automation for the G6 RBI/NSE inputs.
+- The workflow has push/PR/manual triggers and unconditional artifact retention.
+- No G6 PASS is claimed; full-period r/q and IV/Greek reconstruction remain required. No Phase 2 work introduced.
