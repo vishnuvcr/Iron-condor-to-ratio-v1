@@ -189,3 +189,12 @@ Because repository control/status files were updated after the prior successful 
 ## E048 routing verification point — 2026-10-03
 - Verify that the main-branch workflow now defaults manual dispatch to `phase-1-e046-bidirectional-reconciliation` and contains the E046 bidirectional reconciliation and regression-test steps.
 - Do not accept manual run #52 as corrective G12 evidence solely from its `main` event branch label. Inspect the workflow's recorded checked-out research ref/commit.
+
+
+## E051 exact-tip execution handoff — 2026-10-03
+- Current corrective branch tip: b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512.
+- The workflow file was touched solely to force a push-path execution after documentation commits had moved the branch tip beyond the previously verified CI head.
+- The workflow retains the E046 bidirectional reconciliation, regression tests, pinned Hugging Face revision, cache controls, and corrective-branch push assertion.
+- Do NOT reuse run 37129894485 as current-head evidence; it tested commit 4099cd1217f072be961f120ab114034578e19197.
+- Current connector-visible status for b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512 is pending with zero published statuses. An observable Actions run is required.
+- After that run is observable, tester must verify exact checkout SHA, all workflow steps, artifact hash/content, G4 zero-unreconciled result, and absence of Phase 2 work before issuing G13.
