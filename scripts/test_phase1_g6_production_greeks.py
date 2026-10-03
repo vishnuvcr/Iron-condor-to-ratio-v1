@@ -1,6 +1,6 @@
 import math
 import numpy as np
-from scripts.phase1_g6_production_greeks import (
+from phase1_g6_production_greeks import (
     bs_price, bs_delta, solve_iv_arrays, strict_prior, expiry_close
 )
 
