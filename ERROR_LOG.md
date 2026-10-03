@@ -19,3 +19,5 @@
 | E024 | 2026-10-03 | 1 | Acquisition pattern index/*NIFTY*.parquet also downloaded BANKNIFTY.parquet, although this study uses NIFTY. | Added unnecessary data and obscured the exact intended source set. | Narrowed both acquisition manifest and workflow to index/NIFTY.parquet. |
 
 | E025 | 2026-10-03 | 1 | Multiple rapid Phase 1 pushes attempted to save the same Hugging Face cache key concurrently; one cache save reported a reservation conflict. | Concurrent runs create avoidable cache races and can waste acquisition time. | Added a workflow concurrency group and conditional cache-save behavior so only the cache-miss run saves the key. |
+
+| E026 | 2026-10-03 | 1 | The Phase 1 CI workflow invoked scripts/deduplicate_phase1_data.py, but that script was absent from the committed branch, so the structural validation passed and deterministic deduplication failed. | Phase 1 production-data preparation could not complete. | Added the missing deterministic deduplication script and re-triggered Phase 1 CI; no data was accepted or backtested during the failed run. |
