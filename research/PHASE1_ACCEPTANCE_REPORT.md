@@ -59,3 +59,11 @@ The next acceptance run must independently execute the repaired audit, character
 
 
 The repaired audit now has a successful, independently inspectable Actions execution. This closes G12 only; it does not close G4–G11 or authorize Phase 2.
+
+
+## G4 reconciliation result — developer evidence
+- Run `37124047220`, job `111205697146`, completed successfully.
+- Artifact `11274239403`, SHA-256 `141abc86ec20be5d34c8c4fcb6735fd04a8da10e4c5e9d7dc15158a5ec7eb48b`.
+- Session reconciliation: 1,254 normal eligible dates; 7 documented special-session dates; 1 pre-registered incomplete-session exclusion (2026-06-03); 0 unreconciled dates.
+- The regular execution window is 09:15–15:30 Asia/Kolkata. Out-of-window source observations are retained and quantified but are not eligible for strategy decisions.
+- G4 is **PASS on developer evidence**, pending independent tester verification.
