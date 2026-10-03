@@ -85,6 +85,7 @@ def main():
     rules = json.loads(RULES.read_text())
     index = pd.read_parquet(INDEX)
     eligible_index, index_diag = build_eligible_index(index, rules)
+    index_timestamps = set(index_diag["timestamp"].tolist())
 
     option_files = sorted((RAW / "options" / "NIFTY").glob("*.parquet"))
     if not option_files:
@@ -124,23 +125,32 @@ def main():
 
         local = df["timestamp"].dt.tz_convert(rules["timezone"])
         df["day"] = local.dt.strftime("%Y-%m-%d")
-        df["in_session"] = df.apply(
-            lambda r: (
-                r["timestamp"] in eligible_index
-            ),
-            axis=1,
-        )
+        # Session eligibility is determined by the date-specific interval alone;
+        # underlying alignment is then tested independently against the NIFTY grid.
+        def session_eligible(ts):
+            local = ts.tz_convert(rules["timezone"])
+            day = local.strftime("%Y-%m-%d")
+            minute = local.hour * 60 + local.minute
+            if day in {r["date"]: r for r in rules["special_sessions"]}:
+                rule = {r["date"]: r for r in rules["special_sessions"]}[day]
+                return in_intervals(minute, rule["execution_intervals"])
+            control = {r["date"]: r for r in rules["date_controls"]}.get(day)
+            if control and control["expected_classification"] == "DATA_GAP_EXCLUDED":
+                return False
+            return mins(rules["regular_execution_session"]["start"]) <= minute <= mins(rules["regular_execution_session"]["end"])
 
-        aligned += int(df["timestamp"].isin(set(index_diag["timestamp"])).sum())
-        in_session += int(df["in_session"].sum())
+        df["decision_eligible"] = df["timestamp"].map(session_eligible)
+        df["aligned_to_nifty"] = df["timestamp"].isin(index_timestamps)
+
+        aligned += int(df["aligned_to_nifty"].sum())
+        in_session += int(df["decision_eligible"].sum())
         in_session_aligned += int(
-            df.loc[df["in_session"], "timestamp"].isin(eligible_index).sum()
+            df.loc[df["decision_eligible"], "aligned_to_nifty"].sum()
         )
-        outside_session += int((~df["in_session"]).sum())
+        outside_session += int((~df["decision_eligible"]).sum())
 
         miss = df.loc[
-            (~df["in_session"])
-            & df["timestamp"].dt.date.notna(),
+            df["decision_eligible"] & ~df["aligned_to_nifty"],
             ["timestamp", "expiry", "strike", "option_type"],
         ]
         # Only retain examples that are not explained by an in-session index timestamp.
@@ -184,10 +194,10 @@ def main():
             "underlying_key": ["timestamp"],
             "timezone": rules["timezone"],
             "decision_eligible_definition": (
-                "A source option timestamp is decision-eligible only when it "
-                "falls inside the date-specific NSE execution interval encoded "
-                "in phase1_session_rules.json and the NIFTY index contains the "
-                "same timestamp."
+                "A source option timestamp is decision-eligible when it falls "
+                "inside the date-specific NSE execution interval encoded in "
+                "phase1_session_rules.json. Alignment is tested separately by "
+                "requiring the exact timestamp to exist in the NIFTY index grid."
             ),
             "outside_session_option_rows_are_retained": True,
             "no_interpolation": True,
