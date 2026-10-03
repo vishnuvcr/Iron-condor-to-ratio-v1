@@ -370,3 +370,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - The observed values were committed to the G6 source manifest; no fabricated placeholder digest was used.
 - G6 cache-integrity regression tests passed and exact-tip G6 CI run 37148353717 succeeded at commit e8fca6a6084a463528643b63dd8f310899c0b3bf, artifact 11282958617.
 - G5 exact-tip CI run 37148384171 is executing at commit 001e498bfc099e9f51df9129e1fdc2e9370b2b3a; no G5 gate advancement has been claimed.
+
+## 2026-10-04 — User authorized continuation / G6 production work
+- User said “ok proceed”. Developer remained in the Developer role and continued under the independent-tester gate.
+- G5 Run 37148487963 was rechecked and remained IN PROGRESS at exact SHA db668dd2b89bf691a6481affb3cb2a9060c5fe98; no G5 PASS was claimed.
+- Created `phase-1-g6-production-greeks-20261004` from the paired SHA so G6 substantive implementation could progress without mutating the currently executing G5 submission.
+- Added the fail-closed G6 production Greek specification, implementation script, and GitHub Actions workflow.
+- A local attempt to acquire official NSE historical q data failed due DNS/network isolation; this was logged as E082. No substitute data or acceptance claim was made.
+- G6 remains OPEN and G13/G14/Phase 2 remain BLOCKED.
