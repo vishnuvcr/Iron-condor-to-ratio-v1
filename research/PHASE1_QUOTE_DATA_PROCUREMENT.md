@@ -99,3 +99,7 @@ A new Hugging Face candidate, `antony9952/Nifty_option_TBT`, was identified. Its
 The repository now contains `scripts/validate_g9_tbt_candidate.py` and `.github/workflows/phase1-g9-tbt-candidate.yml` to acquire the pinned candidate revision through the HF cache and audit file schemas, bid/ask presence, timestamps and observed coverage. This workflow has a manual dispatch control and an automatic push/PR path.
 
 **G9 remains BLOCKED.** The candidate must first demonstrate adequate study-window coverage, NIFTY contract identity/reconciliation, timestamp quality and quote-quality acceptance. It is not an accepted substitute for the official NSE historical Order & Trade route.
+
+
+## 2026-10-03 — G9 free-data salvage continuation
+The prescribed free-data sequence is now recorded in research/PHASE1_G9_FREE_DATA_SALVAGE.md. Current findings: the Hugging Face TBT candidate has genuine bid/ask/depth preview fields but mixed schemas; ayyararyan/nse-options-pipeline documents bid/ask-bearing raw files but does not track its large raw archive; OptionVault/TickBytes expose public samples while describing full datasets as licensed; BarathGB007/nse-options-data-collector exposes bid/ask-bearing current/sample data but not a complete historical archive. These are leads only. G9 remains BLOCKED and the NSE licensed route remains the fallback.
