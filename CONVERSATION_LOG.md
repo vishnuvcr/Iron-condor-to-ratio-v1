@@ -250,3 +250,9 @@ This file records user-visible project instructions and work decisions, not hidd
 
 ## 2026-10-03 — Independent tester Run #55 / E046 final re-audit
 User supplied final corrective CI evidence: branch `phase-1-e046-bidirectional-reconciliation`, exact tip `378a130b6d450b288be140655f9b0b75aad840b3`, run `37135122966` (#55), job `111238039571`, artifact `11278418088`. Tester independently verified the branch SHA, Actions run/job success, all substantive workflow steps, artifact digest, and the E046 regression tests. G4 is independently PASS and G12 is independently PASS. G13 remains BLOCKED because G5–G11 are not all production-accepted. E053 was logged for stale top-level control/status text that has not yet been synchronized with the corrective evidence. No Phase 2 work is authorized.
+## 2026-10-03 — Independent tester E053 re-audit / E054
+- Re-audited developer PR #21 at exact head `4f7186c4d2478bdd83f86f0bb35547f4c8594fbc` on `phase-1-e053-control-sync`.
+- Confirmed canonical G1–G14 status is substantively synchronized: G4/G12 independently PASS; G5–G8/G10–G11 open; G9 blocked; G13/G14 blocked.
+- Found one remaining control-plane defect: README's explicit current-branch field still names the superseded E046 branch.
+- Logged E054 and kept Phase 1 unapproved and Phase 2 blocked. No backtest/optimization/profitability work was started.
+- Tester report: `research/TESTER_REPORT_PHASE1_E053_REAUDIT.md`.
