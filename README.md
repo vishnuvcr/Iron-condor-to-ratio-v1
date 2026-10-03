@@ -225,3 +225,10 @@ Independent tester PR #30 identified E065 and E066 in the proposed bid/ask-free 
 
 ### 2026-10-04 — G6 source acquisition automation
 G6 now has an automated official-source acquisition/hash workflow for the registered RBI/NSE inputs. It retains acquisition evidence on both success and failure but does not itself close G6; complete date-aligned r/q and full production IV/Greek reconstruction remain required.
+
+## Current developer status — 2026-10-04
+- Independent tester PR #36: **Phase 1 FAIL / IN PROGRESS**.
+- G6 remains **OPEN**: complete historical r/q inputs and production IV/Greek reconstruction are still pending.
+- G6 correction PR #38 adds deterministic cache restore/save for official-source acquisition.
+- G5 remains **OPEN** pending exact-head CI evidence and tester review; G13/G14 and Phase 2 remain **BLOCKED**.
+- No backtest, optimization, profitability analysis, or strategy conclusion has been introduced.
