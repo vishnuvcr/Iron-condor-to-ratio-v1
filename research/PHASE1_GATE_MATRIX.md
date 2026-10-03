@@ -9,7 +9,7 @@ This matrix is the Phase 1 acceptance checklist. A source-validation PASS does n
 | G1 | Immutable primary dataset | PASS | HF revision 0f4800e; pinned manifest |
 | G2 | Structural schema validation | PASS | 108,625,497 raw rows; 0 hard failures |
 | G3 | Duplicate handling | PASS | 30,363,281 exact duplicates; 0 conflicting duplicate groups; deterministic dedup implemented |
-| G4 | Timestamp/session quality | FAIL / OPEN | E044: unresolved-date controls were previously ignored and special-session intervals were not validated. Corrected manifest/reconciler now require explicit date controls and interval checks; fresh final-head CI required. |
+| G4 | Timestamp/session quality | **FAIL / OPEN — E046** | Final-head CI is valid, but the reconciler is observed-date driven: a manifest special session with zero observations is never evaluated, and an unrecognised observed date can fall through to the generic normal-session rule. This violates the session-calendar specification's required bidirectional/one-to-one reconciliation. |
 | G5 | Underlying/option alignment | PRELIMINARY PASS | Prior diagnostic alignment 99.2953%; production decision-time quality still open |
 | G6 | Historical Greeks | OPEN | RBI r source and NSE q source identified; complete date-aligned series and production IV/Greek calculation still required |
 | G7 | Target-delta availability | OPEN | Must apply frozen ±0.05 delta tolerance, quote quality and volume/OI filters |
@@ -17,7 +17,7 @@ This matrix is the Phase 1 acceptance checklist. A source-validation PASS does n
 | G9 | Historical bid/ask | BLOCKED | Primary and reviewed alternatives lack historical bid/ask; NSE historical order/trade data is preferred procurement candidate |
 | G10 | Transaction costs | OPEN | Paytm Money brokerage/STT chronology validated; complete date-specific exchange/IPFT/SEBI/GST/stamp/clearing schedule not yet assembled |
 | G11 | Context variables | OPEN | NIFTY/India VIX/FII/DII/GIFT NIFTY/global/BSE/events registered; complete aligned datasets not yet assembled |
-| G12 | Repaired CI execution | OPEN for final head | E045: prior successful runs are not evidence for current head e9fce04. Fresh final-head execution required after E044 correction. |
+| G12 | Repaired CI execution | **PASS — independently verified** | Run 37125656878 / job 111210327724 executed exact final head 09c4c2e4b6bc569d42d4743fac5132ad0672f8d8; artifact 11275311823 SHA-256 754a71a1b50f532b49e43be45f24ddc3eab80a4aa56df1f43b23f0030f04aa9c. |
 | G13 | Independent tester approval | BLOCKED | Required before Phase 2 |
 | G14 | Phase 2 | BLOCKED | Cannot begin until G1–G13 are accepted and tester explicitly PASSes |
 
@@ -32,3 +32,9 @@ This matrix is the Phase 1 acceptance checklist. A source-validation PASS does n
 
 ## Canonical vocabulary control
 This file is the authoritative G1–G14 gate dictionary. No other Phase 1 document may assign a different meaning to these IDs.
+
+
+## Independent tester E046 — 2026-10-03
+- G12 final-head evidence is independently PASS.
+- G4 remains FAIL/OPEN because the reconciler does not test manifest-to-data coverage for missing special-session dates and does not implement the session-calendar specification's exact observed-date-to-canonical-row join.
+- Phase 2 remains BLOCKED.
