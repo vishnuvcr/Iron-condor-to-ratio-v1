@@ -4,7 +4,7 @@ Updated: 2026-10-03
 
 | Phase | Status | Gate |
 |---|---|---|
-| 0 Specification/audit | **CORRECTIONS IN PROGRESS — FOURTH-GATE DEFECTS ADDRESSED FOR RE-TEST** | Current independent tester approval required |
+| 0 Specification/audit | **CORRECTIONS IN PROGRESS — SIXTH-GATE DEFECTS ADDRESSED FOR RE-TEST** | Current independent tester approval required |
 | 1 Data | **BLOCKED** | Current independent tester approval for Phase 0 |
 | 2 Engine | BLOCKED | Phase 1 |
 | 3 Experiments | BLOCKED | Phase 2 |
@@ -66,3 +66,9 @@ The branch `phase-0-corrections-v5` replaces the ineffective multiline grep with
 
 ## Exact v5 CI provenance
 The corrected v5 commit `4515b32ecd3d6a17b061f53dd97245c393489166` passed the Phase 0 Integrity workflow. Workflow run: [#37114384784](https://github.com/vishnuvcr/Iron-condor-to-ratio-v1/actions/runs/37114384784). Check run: #111178229183. Phase 1 remains blocked pending independent tester approval.
+
+## Sixth independent tester result
+**FAIL — Phase 0 approval not granted.** B9 found `research/TESTER_HANDOFF.md` stale at v4; B10 found the integrity workflow lacked a positive assertion that the active README current-branch field is `phase-0-corrections-v5`. The sixth audit independently confirmed the v5 B7/B8 CI evidence. Phase 1 remains blocked.
+
+## Sixth correction pass
+The branch `phase-0-corrections-v6` synchronizes `research/TESTER_HANDOFF.md` to v6 / PR #11 and adds a positive active-current-branch assertion to `.github/workflows/phase0-integrity.yml`. The resulting exact commit must pass CI; exact SHA/run/check provenance will then be recorded. Another independent tester approval is required before Phase 1.
