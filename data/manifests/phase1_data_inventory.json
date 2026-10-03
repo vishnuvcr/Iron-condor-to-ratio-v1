@@ -1,0 +1,63 @@
+{
+  "updated": "2026-10-03",
+  "purpose": "Phase 1 gathered-data inventory and acquisition provenance",
+  "primary_market_data": {
+    "source": "thetrademarkk/india-index-options-1m",
+    "revision": "0f4800e",
+    "license": "cc-by-nc-4.0",
+    "structures": [
+      "index/NIFTY.parquet",
+      "options/NIFTY/*.parquet"
+    ],
+    "documented_schema": [
+      "timestamp",
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "open_interest",
+      "trading_day",
+      "symbol",
+      "strike",
+      "option_type",
+      "expiry"
+    ],
+    "documented_timestamp_timezone": "Asia/Kolkata",
+    "documented_coverage": "approximately 2021-2026",
+    "observed_prior_ci_inventory": {
+      "files": 268,
+      "rows": 108625497,
+      "exact_duplicate_rows": 30363281,
+      "conflicting_duplicate_key_groups": 0,
+      "bid_ask_fields": false,
+      "index_sha256": "613864738250107807354c17c7092986960220ac3062b830c65cc5f9ecfcf7"
+    },
+    "source_page": "https://huggingface.co/datasets/thetrademarkk/india-index-options-1m"
+  },
+  "official_sources": {
+    "nse_historical_order_trade": "https://betanseapi.nseindia.com/static/market-data/eod-historical-data-subscription",
+    "nse_historical_order_trade_spec": "https://nsearchives.nseindia.com/web/sites/default/files/inline-files/Hist_Order_Trade_Data_1.14.pdf",
+    "nse_derivatives_reports": "https://www.nseindia.com/all-reports-derivatives",
+    "nse_contract_price_volume": "https://www.nseindia.com/report-detail/fo_eq_security",
+    "nse_historical_reports": "https://www.nseindia.com/resources/historical-reports-capital-market-daily-monthly-archives",
+    "nse_fii_dii": "https://www.nseindia.com/reports/fii-dii",
+    "nse_india_vix": "https://www.nseindia.com/static/products-services/indices-indiavix-index",
+    "rbi_91d_tbill": "https://www.rbi.org.in/scripts/WSSView.aspx?Id=26722"
+  },
+  "broker_cost_sources": {
+    "paytm_money_2023": "https://www.paytmmoney.com/blog/brokerage-charges-increase-from-25th-aug-23-existing-users-will-continue-on-old-brokerage-charges/",
+    "paytm_money_2024": "https://www.paytmmoney.com/blog/paytm-money-pricing-update-revised-charges-effective-1st-october/",
+    "paytm_money_2025": "https://www.paytmmoney.com/blog/all-new-paytm-money-updates-revisions-and-more/"
+  },
+  "acquisition_state": {
+    "primary_source_bulk_acquisition": "previously executed successfully in GitHub Actions; raw files are not committed to Git",
+    "latest_repaired_audit_execution": "not independently executed; associated workflow-run query returned zero runs",
+    "official_nse_order_trade_data": "not acquired; paid procurement/access required",
+    "date_aligned_r_q": "not yet materialized as production dataset",
+    "date_aligned_cost_schedule": "not yet materialized as production dataset",
+    "historical_contract_master": "not yet materialized as production dataset",
+    "aligned_context_datasets": "not yet materialized as production dataset"
+  },
+  "interpretation": "This inventory separates data already evidenced by prior CI acquisition from source references that still require machine-readable acquisition. It does not close G4-G12 or authorize Phase 2."
+}
