@@ -69,3 +69,9 @@ Uploaded transcript: What If the Iron Condor Starts Trending Ratio Spread Strate
 - The tester report is `research/TESTER_REPORT_PHASE0_FIFTH.md` on `tester/phase-0-fifth-audit`; E015 and fifth-gate status were recorded there.
 - Developer created `phase-0-corrections-v5` and replaced the B7 assertion with a line-aware awk check. The workflow also records the exact SHA and GitHub Actions run URL on successful completion.
 - Phase 1 remains blocked pending exact-commit CI provenance and a fresh independent tester approval.
+
+## 2026-10-03 — v5 exact CI provenance
+- The exact v5 correction commit `4515b32ecd3d6a17b061f53dd97245c393489166` passed the Phase 0 Integrity workflow.
+- Auditable GitHub Actions workflow run: #37114384784; check run: #111178229183.
+- The successful run explicitly executed the line-aware B7 assertion and the exact-CI-provenance step.
+- Subsequent README/status/error-log commits record this reference without changing the SHA that was tested; Phase 1 remains blocked pending fresh independent tester approval.
