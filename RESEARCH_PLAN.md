@@ -108,3 +108,7 @@ The frozen proxy convention is:
 The 10-bps scenario is the primary scenario; 0 bps is a diagnostic lower bound and 20/50 bps are stress sensitivities.
 
 This change supersedes the prior mandatory historical bid/ask requirement for the primary backtest. It does **not** authorize Phase 2: independent tester approval is required before Phase 2.
+
+
+## 2026-10-03 — Tester approval of bid/ask avoidance
+The independent tester approved the explicit methodology change at developer PR #31 exact head `8b99cb3b2b537c5b085c09729c27bb3957285ae8`. Historical bid/ask is no longer mandatory for the primary backtest. The accepted execution model is the frozen proxy specification in `research/PHASE1_EXECUTION_PROXY_SPEC.md`. This approval does not authorize Phase 2 because the remaining Phase 1 gates are incomplete.
