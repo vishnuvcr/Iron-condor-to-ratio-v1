@@ -33,3 +33,6 @@
 | E031 | 2026-10-03 | 1 | Broader historical-data search found additional NIFTY 1-minute OHLCV/OI archives, but the reviewed public/commercial descriptions also explicitly lack bid/ask. | These sources do not resolve the frozen quote-based execution requirement. | Registered them as non-qualifying alternatives and elevated official NSE Historical Order & Trade Data to the preferred quote-source procurement candidate. |
 
 | E032 | 2026-10-03 | 1 | Historical rate/cost sources are available from official RBI/NSE/Paytm Money publications, but a complete machine-readable date-aligned series has not yet been assembled. | Production Greeks and net P&L costs could otherwise be approximated with contemporary values, introducing look-ahead or cost-model bias. | Registered official source chronology and kept production acceptance open until the complete historical series is acquired and validated. |
+
+
+| E033 | 2026-10-03 | 1 | Phase 1 documents reused G1–G10 for different requirements, making gate statements ambiguous. | Tester results could be interpreted against the wrong acceptance criterion, undermining reproducibility and independent approval. | Established one canonical G1–G14 vocabulary and propagated it through the Phase 1 specification, acceptance report, gate matrix and tester handoff. A fresh independent audit is required before Phase 1 approval. |
