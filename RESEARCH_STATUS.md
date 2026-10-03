@@ -4,32 +4,29 @@ Updated: 2026-10-03
 
 | Phase | Status | Gate |
 |---|---|---|
-| 0 Specification/audit | **COMPLETE** | Tester handoff ready |
-| 1 Data | **BLOCKED** | Independent tester report required |
+| 0 Specification/audit | **CORRECTIONS IN PROGRESS** | Second independent tester approval required |
+| 1 Data | **BLOCKED** | Second tester approval |
 | 2 Engine | BLOCKED | Phase 1 |
 | 3 Experiments | BLOCKED | Phase 2 |
 | 4 Statistics | BLOCKED | Phase 3 |
 | 5 Interpretation | BLOCKED | Phase 4 |
 | 6 Manuscript/release | BLOCKED | Phase 5 |
 
-## Phase 0 completed
-- Developer role confirmed.
-- Target repository audited; it was empty.
-- Uploaded YouTube transcript converted into a source-derived deterministic rule specification.
-- Research questions, aims, objectives, methodology and statistical analysis plan established.
-- Literature and data-source review completed at scoping level.
-- Intraday option-chain/Greek data requirement identified as essential.
-- Tester handoff created.
-- Errors and repository controls established.
-- Phase 0 merged to main.
+## First tester result
+Phase 0 received **FAIL / corrections required**. The tester confirmed source fidelity but identified unresolved delta semantics, trigger sampling, strike selection, entry timing, execution/fill sequencing, expiry policy, Paytm Money historical cost verification and unit-test invariants.
 
-## Current blocking item
-The project instructions require an independent tester report before the developer advances to Phase 1. Therefore no data acquisition, backtest engine, optimization or performance claim has been started.
+## Developer corrections completed on this branch
+- Added `research/OPERATIONAL_CONVENTIONS.md`.
+- Formalized signed-vs-absolute delta handling and combined short-delta arithmetic.
+- Fixed canonical trigger sampling to one-minute observations.
+- Defined deterministic target-strike selection and maximum delta error.
+- Defined entry timing as prior-session setup with next-session execution for the literal core.
+- Defined trigger-to-fill sequencing and no-look-ahead constraints.
+- Defined bid/ask leg-by-leg fills with documented fallback slippage.
+- Defined literal-core forced expiry close and excluded discretionary profit-taking.
+- Added date-specific Paytm Money cost verification requirements.
+- Added state-machine and unit-test invariants.
+- Updated the research plan with a mandatory second-tester gate.
 
-## Important source limitation
-The video demonstrates selected months and explicitly says the examples are selective rather than representative of every month. The future backtest must therefore use a broad, predefined sample rather than selected examples.
-
-## Phase 0 evidence
-- research/STRATEGY_SPEC.md
-- research/LITERATURE_AND_DATA_REVIEW.md
-- research/TESTER_HANDOFF.md
+## Current conclusion
+No performance conclusion exists. Phase 1 remains prohibited until the corrected specification passes a second independent tester review.
