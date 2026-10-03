@@ -23,7 +23,7 @@ The canonical Phase 1 gate IDs are authoritative in this document.
 
 ## Current tester determination
 
-Independent tester PR #20 independently verified the frozen Run #55 evidence:
+Independent tester PR #25 independently closed E055 PASS on the developer exact head; the underlying Run #55 G4/G12 evidence remains independently verified. The tester's substantive G13 blocker remains G5–G11 production acceptance.
 - exact developer tip `378a130b6d450b288be140655f9b0b75aad840b3`
 - Actions run `37135122966`
 - job `111238039571`
@@ -34,11 +34,11 @@ Independent tester PR #20 independently verified the frozen Run #55 evidence:
 - G13: BLOCKED
 - G14 / Phase 2: BLOCKED
 
-The tester's G13 blocker is substantive: G5–G11 are not all production-accepted, particularly G9 historical bid/ask/execution quality.
+The tester's G13 blocker remains substantive: G5–G11 are not all production-accepted, particularly G9 historical bid/ask/execution quality.
 
 ## Developer control-plane note
 
-This is the developer branch. The README role therefore remains **Developer**. The independent tester's role and result are represented by PR #20 and `research/TESTER_REPORT_PHASE1_E046_FINAL_REAUDIT.md`; they are not converted into a Tester role label on the developer branch.
+This is the developer branch. The README role therefore remains **Developer**. The independent tester's current E055 result is represented by PR #25 and its tester report; it is not converted into a Tester role label on the developer branch.
 
 ## Required next checks
 
