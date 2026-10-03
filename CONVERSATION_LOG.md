@@ -95,3 +95,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - Validated official Paytm Money brokerage/STT chronology and official NSE historical lot-size/expiry circulars.
 - Updated Phase 1 tester handoff with these source-validation results.
 - Logged E032 because source existence is established but the complete date-aligned machine-readable series is not yet assembled.
+
+
+## 2026-10-03 — First independent Phase 1 tester FAIL and E033 normalization
+- Independent tester audited PR #13 and recorded Phase 1 FAIL.
+- Repaired CI execution remains unverified; the prior successful run cannot validate repaired scripts.
+- Tester identified E033: G1–G10 were not canonical across Phase 1 documents.
+- Developer accepted the finding and normalized G1–G14 across the Phase 1 gate matrix, data specification, acceptance report and tester handoff.
+- No Phase 2 work, backtest, optimization or profitability claim was introduced.
