@@ -3,13 +3,13 @@
 Research project to reproduce and independently backtest the YouTube strategy “What If the Iron Condor Starts Trending? Ratio Spread Strategy”.
 
 ## Current role
-Developer.
+Tester.
 
 ## Current phase
 **Phase 1 — data acquisition and validation: IN PROGRESS. Phase 0 is APPROVED.**
 
 ## Gate
-Phase 1 is active but not yet approved for Phase 2. The independent tester gate remains mandatory.
+Phase 1 is **FAIL / IN PROGRESS** after independent tester re-audit E046. G12 final-head CI is independently verified, but G4 remains OPEN. Phase 2 is BLOCKED and the independent tester gate remains mandatory.
 
 ## Research files
 - [Research plan](RESEARCH_PLAN.md)
@@ -138,3 +138,12 @@ The G4 implementation has now been corrected: explicit date controls replace the
 
 ### E044 correction frozen — final-head CI pending
 The G4 correction is implemented and has successfully executed on an ancestor commit. The independent tester's E045 requirement is being honored: that run is not being treated as final evidence. The next CI execution will be tied to the final Phase 1 branch head after all methodology/control changes are frozen.
+
+
+## Latest independent tester re-audit — E046
+- Final developer head independently verified: `09c4c2e4b6bc569d42d4743fac5132ad0672f8d8`.
+- Final-head CI: run `37125656878`, job `111210327724`, artifact `11275311823`, SHA-256 `754a71a1b50f532b49e43be45f24ddc3eab80a4aa56df1f43b23f0030f04aa9c` — independently verified SUCCESS.
+- G12: PASS on independent verification.
+- G4: FAIL / OPEN — E046. The reconciler cannot detect a special-session date that is completely missing from the data and does not enforce the required one-to-one canonical session-calendar mapping for every observed date.
+- No Phase 2/backtest/optimization/profitability work is authorized.
+- Tester report: [Phase 1 G4 final-head re-audit](research/TESTER_REPORT_PHASE1_G4_FINAL_REAUDIT.md).
