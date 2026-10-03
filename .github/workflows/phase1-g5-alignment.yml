@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - "phase-1-g5-underlying-option-alignment"
+      - "phase-1-g5-e071-ci-provenance-hardening"
+      - "phase-1-g5-g6-reaudit-corrections-20261004"
     paths:
       - "scripts/phase1_g5_alignment_audit.py"
       - "data/manifests/phase1_session_rules.json"
@@ -20,7 +22,7 @@ on:
       research_ref:
         description: "Research branch/ref to validate"
         required: false
-        default: "phase-1-g5-underlying-option-alignment"
+        default: "phase-1-g5-g6-reaudit-corrections-20261004"
         type: string
       expected_commit_sha:
         description: "Exact commit SHA expected in the generated evidence artifact (recommended for manual runs)"
@@ -46,6 +48,9 @@ jobs:
           echo "Research ref: ${{ inputs.research_ref || github.head_ref || github.ref }}"
           echo "Checked-out commit: $(git rev-parse HEAD)"
           test -f scripts/phase1_g5_alignment_audit.py
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            test "${GITHUB_REF_NAME}" = "phase-1-g5-g6-reaudit-corrections-20261004" || test "${GITHUB_REF_NAME}" = "phase-1-g5-e071-ci-provenance-hardening" || test "${GITHUB_REF_NAME}" = "phase-1-g5-underlying-option-alignment"
+          fi
           actual_sha="$(git rev-parse HEAD)"
           expected_sha="${{ inputs.expected_commit_sha }}"
           if [ -n "$expected_sha" ]; then test "$actual_sha" = "$expected_sha"; fi
