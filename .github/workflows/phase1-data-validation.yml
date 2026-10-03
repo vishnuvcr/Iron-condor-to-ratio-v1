@@ -1,5 +1,9 @@
 name: Phase 1 Data Acquisition and Validation
 
+concurrency:
+  group: phase1-data-validation
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -33,6 +37,7 @@ jobs:
           python-version: "3.11"
 
       - name: Cache Hugging Face source data
+        id: hf-cache-restore
         uses: actions/cache/restore@v4
         with:
           path: .cache/huggingface
@@ -65,7 +70,7 @@ jobs:
 
       - name: Save Hugging Face source data cache
         uses: actions/cache/save@v4
-        if: always()
+        if: ${{ success() && steps.hf-cache-restore.outputs.cache-hit != 'true' }}
         with:
           path: .cache/huggingface
           key: phase1-hf-${{ hashFiles('data/manifests/phase1_sources.json', 'data/manifests/phase1_acquisition.json') }}
