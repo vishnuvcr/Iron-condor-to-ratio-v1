@@ -180,3 +180,6 @@
 
 
 | E085 | 2026-10-04 | 1 / G6 acquisition | Developer added an official-NSE q acquisition script and regression test, but the GitHub connector safety layer blocked the workflow-file mutation that would invoke the new acquisition stage automatically. | The acquisition code exists, but automatic CI execution of that new stage cannot yet be claimed from this interaction. | Retain the script/test as a controlled branch change; do not claim execution or G6 evidence. Reattempt workflow integration through a safer repository-control path. |
+
+
+| E086 | 2026-10-04 | 1 / G5 | Exact-tip G5 alignment audit Run 37148487963 failed at the substantive alignment stage on commit db668dd2b89bf691a6481affb3cb2a9060c5fe98. Artifact provenance/check-out binding succeeded, but the validator did not meet its acceptance condition. | G5 cannot be accepted and Phase 1 remains blocked. | Preserve the failed artifact as evidence. Do not relax the 100% exact-timestamp alignment rule. Next developer action is diagnostic isolation of the failed alignment population and corrective methodology only if justified by pre-registered rules; independent tester review remains mandatory. |
