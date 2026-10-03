@@ -84,3 +84,12 @@ These sources are retained as search evidence, not as accepted G9 data. The offi
 Hugging Face screening identified additional NIFTY option datasets, including `rissin/nse-options-intraday` and `artist-23/nifty-options-data`. The former combines daily NSE F&O history with 1-minute Upstox candles and does not establish historical bid/ask; the latter exposes OHLC/IV/OI-style fields but does not document bid/ask. The primary `thetrademarkk/india-index-options-1m` schema likewise remains OHLCV(+OI) without historical bid/ask.
 
 These are useful corroborative/data-engineering sources but do not satisfy the frozen G9 execution-price requirement. G9 therefore remains BLOCKED.
+
+## 2026-10-03 — official NSE procurement re-verification
+- NSE's current Paid End of the day / Historical Data page explicitly lists **End of the day/Historical Order & Trade data** for CM, F&O, CD and COM, with F&O sample files and a technical specification.
+- NSE's data-availability material states that Historical Order & Trade data are available from **January 2008** for F&O, making the product temporally suitable for the 2021-2026 study window.
+- NSE's current specification documents effective-date format changes in FAO historical data; the reconstruction implementation must therefore select the correct parser/version by effective date rather than assuming one fixed record width.
+- The published tariff confirms that Historical Order & Trade data are subscription-controlled/paid.
+- **G9 remains BLOCKED:** no licensed F&O historical files have been acquired into the repository and no reconstruction/quote-quality validation has been executed.
+- Close-price substitution remains prohibited under the frozen literal-core midpoint rule.
+
