@@ -355,3 +355,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Added the fail-closed G6 production Greek specification, implementation script, and dedicated GitHub Actions workflow.
 - The specification covers strict no-lookahead r/q selection, Black-Scholes IV, signed/absolute delta, solver diagnostics, target-delta availability, expiry/date coverage and checksums.
 - G6 remains OPEN; G13/G14 and Phase 2 remain BLOCKED.
+
+
+## 2026-10-04 — G6 production continuation
+- G6 production branch: phase-1-g6-production-greeks-20261004.
+- Corrected E084: reference-data coverage is now measured against unique trading dates observed in production NIFTY option bars, rather than against the q reference table itself.
+- Public-source audit confirms the official NSE Indices historical interface exposes daily P/E/P/B/Dividend Yield, and a public technical reference documents the underlying historical valuation endpoint and its 365-day pagination constraint. RBI WSS independently exposes the required 91-Day Treasury Bill (Primary) Yield field. These are acquisition leads only; no substitute q/r values have been accepted.
+- G6 remains OPEN; production IV/delta reconstruction is not yet complete and independent tester approval remains mandatory.
