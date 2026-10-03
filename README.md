@@ -3,13 +3,26 @@
 Research project to reproduce and independently backtest the YouTube strategy “What If the Iron Condor Starts Trending? Ratio Spread Strategy”.
 
 ## Current role
-Developer.
-
+Developer (developer branch). The independent tester operates through a separate tester branch/PR and must independently authorize Phase 1.
 ## Current phase
 **Phase 1 — data acquisition and validation: IN PROGRESS. Phase 0 is APPROVED.**
 
 ## Gate
-Phase 1 is active but not yet approved for Phase 2. The independent tester gate remains mandatory.
+Phase 1 is **IN PROGRESS / NOT APPROVED**. Independent tester PR #20 independently verified G4 and G12 on the frozen exact-tip CI evidence, but G13 remains BLOCKED because G5–G11 are not yet production-accepted. Phase 2 remains BLOCKED.
+
+### Latest independently verified evidence
+- Developer exact tip audited: `378a130b6d450b288be140655f9b0b75aad840b3`
+- GitHub Actions run #55: `37135122966`
+- Job: `111238039571`
+- Artifact: `11278418088`
+- Artifact SHA-256: `de60c50a047357d7f89d5602ea42fd832158855779e34169fec2b9beeb02159`
+- G4: **PASS — independently verified**
+- G12: **PASS — independently verified**
+- G9: **BLOCKED** pending acquisition/validation of historical bid/ask or sufficient order-level reconstruction data.
+- G13/G14: **BLOCKED**
+- No backtest engine, optimization, profitability result, or trading-strategy conclusion has been introduced.
+- Historical evidence sections below are append-only records; the gate table above is the current control state.
+
 
 ## Research files
 - [Research plan](RESEARCH_PLAN.md)
@@ -165,3 +178,7 @@ The current commit-status endpoint reports pending with zero published statuses,
 ## E052 — 2026-10-03 — co-commit exact-tip execution control
 - To prevent documentation-only commits from moving the research head after a workflow-trigger commit, the final control/documentation update is being co-committed with the workflow marker.
 - This commit is intended to be the exact current-head candidate for automatic Phase 1 CI. No G12 PASS is claimed until an observable Actions run proves the checkout SHA and completes all validation steps.
+
+
+## E053 control-plane synchronization — 2026-10-03
+The independent tester's Run #55 re-audit identified stale top-level Phase 1 status text. This developer branch synchronizes the canonical current-state sections while retaining older run-specific evidence as historical records. The developer role remains correctly identified as Developer on this branch; tester status is represented by the independent tester report/PR rather than by changing the developer branch's role label.
