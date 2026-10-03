@@ -89,3 +89,8 @@
 - Because run #52 occurred before the E048 correction to the default-branch workflow, its green result cannot establish execution of the E046-corrected reconciliation workflow.
 - Required resolution: a fresh manual run after commit `097d29c2816614bc7ba45365454b7f0dc270bc5d`, with logs proving checkout of `phase-1-e046-bidirectional-reconciliation` and the exact resulting commit.
 - Phase 2 remains blocked; no performance/trading conclusion has been produced.
+
+
+## E050 — final-tip CI execution control
+- A branch-tip CI safeguard was added so push-triggered validation fails closed unless the run is executing on `phase-1-e046-bidirectional-reconciliation`.
+- This is a control improvement, not a data-quality failure. The resulting latest branch-tip CI run is required for final G12 evidence.
