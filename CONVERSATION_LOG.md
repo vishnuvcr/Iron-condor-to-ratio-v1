@@ -183,3 +183,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - Pre-registered a normal-session eligibility rule: 09:15–15:30 IST, with a minimum of 300 observed timestamps; incomplete non-special dates are excluded from trading while raw data are retained.
 - Fresh run `37124047220` reconciled 1,254 normal dates, 7 special dates and one excluded data-gap date (2026-06-03), with zero unreconciled dates.
 - G4 is now PASS on developer evidence; independent tester approval remains mandatory.
+
+## 2026-10-03 — Independent tester E044/E045 accepted
+- Independent tester completed a code-level re-audit and returned Phase 1 FAIL / IN PROGRESS and Phase 2 BLOCKED.
+- E044: data/manifests/phase1_session_rules.json retained unresolved dates while scripts/phase1_session_reconciliation.py ignored that field; special-session labels did not validate actual documented intervals.
+- E045: successful run 37124047220 tested commit dd5447f, while the developer branch had advanced to e9fce04; therefore prior CI could not validate the current head.
+- Developer accepted both findings without gate advancement.
+- Corrected G4 controls now use explicit date_controls; no unresolved-date escape hatch exists. Special sessions now contain F&O execution intervals and documented source-observation intervals, and the reconciler checks both interval coverage and uncontrolled timestamps.
+- G4/G12 remain open pending a fresh final-head CI execution and independent tester approval.
