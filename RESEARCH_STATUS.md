@@ -290,3 +290,9 @@ Updated: 2026-10-03
 - Corrected formula rendering in `research/PHASE1_EXECUTION_PROXY_SPEC.md`.
 - The slippage methodology itself is unchanged: adverse 0/5/10/20/50-bps scenarios with an effective-date one-tick floor.
 - This is a documentation/control correction only. G9 remains blocked pending independent tester approval of the methodology change; Phase 2 remains blocked.
+
+## 2026-10-03 — Tester audit of bid/ask-free methodology
+- Tester found E065: missing-next-bar/order-state treatment is not fully deterministic.
+- Tester found E066: sell-side slippage formula can produce zero although zero/negative prices are declared invalid.
+- Methodology change is NOT YET APPROVED.
+- G9 remains BLOCKED; G13/G14 and Phase 2 remain BLOCKED.
