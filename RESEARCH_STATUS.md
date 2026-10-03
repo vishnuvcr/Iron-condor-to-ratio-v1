@@ -4,51 +4,37 @@ Updated: 2026-10-03
 
 | Phase | Status | Gate |
 |---|---|---|
-| 0 Specification/audit | **COMPLETE** | Tester handoff ready |
-| 1 Data | **IN PROGRESS** | Phase 0 approved; Phase 1 validation gates apply |
-| 2 Engine | BLOCKED | Phase 1 |
+| 0 Specification/audit | COMPLETE | Seventh independent tester PASS |
+| 1 Data | IN PROGRESS | Pinned-source validation and acceptance gates |
+| 2 Engine | BLOCKED | Phase 1 independent tester approval |
 | 3 Experiments | BLOCKED | Phase 2 |
 | 4 Statistics | BLOCKED | Phase 3 |
 | 5 Interpretation | BLOCKED | Phase 4 |
 | 6 Manuscript/release | BLOCKED | Phase 5 |
 
-## Phase 0 completed
-- Developer role confirmed.
-- Target repository audited; it was empty.
-- Uploaded YouTube transcript converted into a source-derived deterministic rule specification.
-- Research questions, aims, objectives, methodology and statistical analysis plan established.
-- Literature and data-source review completed at scoping level.
-- Intraday option-chain/Greek data requirement identified as essential.
-- Tester handoff created.
-- Errors and repository controls established.
-- Phase 0 merged to main.
+## Phase 1 current state
+- Primary source: thetrademarkk/india-index-options-1m.
+- Source revision is pinned to immutable Hugging Face commit 0f4800e.
+- Prior structural acquisition on mutable main downloaded 269 parquet files and passed corrected structural validation; it remains historical evidence only.
+- Production workflow now uses the pinned revision and separate cache restore/save steps.
+- Historical bid/ask is not documented in the primary source; execution is currently classified as degraded unless an independent historical quote source is validated.
+- NSE contract-rule changes and Paytm Money date/cohort-dependent costs have been externally reconciled at source-review level.
+- Interim acceptance report: research/PHASE1_ACCEPTANCE_REPORT.md.
+- No backtest engine, optimization, or profitability conclusion has started.
 
-## Phase 0 gate passed
-The seventh independent tester approved Phase 0 via tester report `research/TESTER_REPORT_PHASE0_SEVENTH.md` and tester PR #12. Phase 1 is now unblocked.
+## Open Phase 1 gates
+1. Re-run structural validation against the pinned revision and record immutable file provenance.
+2. Quantify timestamp/coverage gaps, missing bars and stale observations.
+3. Quantify underlying/option timestamp alignment.
+4. Reconstruct Greeks under the frozen Phase 0 IV/Black-Scholes contract and report solver success/failure.
+5. Quantify target-delta strike availability under the frozen ±0.05 tolerance and liquidity rules.
+6. Reconcile historical expiry, lot-size and tick-size metadata against effective-date NSE references.
+7. Reconcile date-specific Paytm Money brokerage and statutory/exchange charges.
+8. Collect and align contextual regime variables: NIFTY, India VIX, FII/FPI, DII, GIFT NIFTY/overnight, global risk/volatility, NSE/BSE and relevant events.
+9. Obtain independent tester PASS for the final Phase 1 branch.
 
-## Phase 1 current work
-- Created `phase-1-data-acquisition-validation`.
-- Registered primary and secondary intraday NIFTY option candidates.
-- Added reproducible acquisition and validation manifests.
-- Added automated GitHub Actions acquisition/validation using the repository `HF_TOKEN` secret and cache.
-- Added market-context and date-specific cost-source registers.
-- No backtest engine, optimization or performance claim has started.
-
-## Important source limitation
-The video demonstrates selected months and explicitly says the examples are selective rather than representative of every month. The future backtest must therefore use a broad, predefined sample rather than selected examples.
-
-## Phase 0 evidence
-- research/STRATEGY_SPEC.md
-- research/LITERATURE_AND_DATA_REVIEW.md
-- research/TESTER_HANDOFF.md
-
-## Phase 1 initial findings
-The current source sweep identified thetrademarkk/india-index-options-1m as the primary open candidate because its documented NIFTY data contain 1-minute OHLCV, OI, strike, option type and expiry across a multi-year span. Its documented schema does not include historical bid/ask, so quote execution remains a validation gap. A secondary rissin/nse-options-intraday dataset covers 2024 onward but documents unavailable intraday OI and no bid/ask. Official NSE sources will provide contract metadata, daily reference data, India VIX, FII/DII, corporate actions and reconciliation inputs.
-
-## Phase 1 workflow evidence
-- Exact validation commit: 5f701e329c7888e5ccd5cfe70cea0f5c14e452ac.
-- GitHub Actions run: 37116084761; job: 111183065244; conclusion: success.
-- Validation artifact: 11271990517; SHA-256: 67fd3898800131d736a5652d1ece3c112c4b5b0489ffe07468f5865fb850d789.
-- Acquisition downloaded 269 source parquet files before validation.
-- The corrected validator passed after distinguishing index and option schemas, exact duplicate rows, and conflicting duplicate keys.
-- Structural pass is not production acceptance: historical bid/ask, target-delta coverage, Greek reconstruction quality, historical contract metadata reconciliation, and date-specific Paytm Money/statutory costs remain open gates.
+## Phase 1 evidence
+- Prior structural validation commit: 5f701e329c7888e5ccd5cfe70cea0f5c14e452ac.
+- Prior successful run: 37116084761; job 111183065244.
+- Prior artifact: 11271990517; SHA-256 67fd3898800131d736a5652d1ece3c112c4b5b0489ffe07468f5865fb850d789.
+- Current corrected workflow run: 37116328987.
