@@ -126,3 +126,7 @@ Run `37122653828` reached the Phase 1 branch but failed in syntax/control-manife
 
 ### Latest Phase 1 execution — G12 PASS on developer evidence
 Successful run `37122686454` on `phase-1-data-acquisition-validation` completed all Phase 1 workflow steps. Artifact `11274027306` was verified. Fresh data evidence: 108,625,497 raw rows, 0 hard-failure files, 30,363,281 exact duplicates removed, 77,776,166 option rows after key dedup, 99.2953% option/NIFTY timestamp alignment, and 286 session-count diagnostic outliers. G12 is now PASS on developer evidence; G13/G14 remain blocked.
+
+
+### G4 session reconciliation — PASS on developer evidence
+Fresh CI run `37124047220` reconciled the NIFTY observation dates against dated session controls: 1,254 normal eligible dates, 7 documented special sessions, and one pre-registered data-gap exclusion (2026-06-03), with zero unreconciled dates. Strategy execution will use only the regular 09:15–15:30 IST F&O window except explicitly documented special sessions; excluded raw dates remain retained for audit. G4 still requires independent tester verification.
