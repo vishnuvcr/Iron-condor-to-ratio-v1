@@ -362,3 +362,11 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Corrected E084: reference-data coverage is now measured against unique trading dates observed in production NIFTY option bars, rather than against the q reference table itself.
 - Public-source audit confirms the official NSE Indices historical interface exposes daily P/E/P/B/Dividend Yield, and a public technical reference documents the underlying historical valuation endpoint and its 365-day pagination constraint. RBI WSS independently exposes the required 91-Day Treasury Bill (Primary) Yield field. These are acquisition leads only; no substitute q/r values have been accepted.
 - G6 remains OPEN; production IV/delta reconstruction is not yet complete and independent tester approval remains mandatory.
+
+
+## 2026-10-04 — E089 G6 production correction
+- Independent tester PR #45 determined G6 FAIL / OPEN on developer head c5f28327c13efd9b93bd4ca5a809dfc39b447c3d. E088 is accepted without reinterpretation.
+- The previous implementation was a scaffold rather than a completed historical Greek reconstruction.
+- The correction now performs timestamp-level production reconstruction with exact contemporaneous NIFTY joins, strictly-prior r/q selection, study-window enforcement, 15:30 IST expiry timing, deterministic Brent IV solving, signed/absolute deltas, target-delta diagnostics, populated failure counters, checksums and exact-checkout provenance.
+- G6 remains FAIL / OPEN because complete historical risk_free.csv and dividend_yield.csv inputs are not yet accepted and independent tester approval is still required.
+- G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH; G13/G14 and Phase 2 remain BLOCKED.
