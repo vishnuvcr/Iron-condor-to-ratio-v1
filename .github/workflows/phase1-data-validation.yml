@@ -19,6 +19,8 @@ on:
     paths:
       - "data/manifests/**"
       - "scripts/validate_phase1_data.py"
+      - "scripts/deduplicate_phase1_data.py"
+      - "scripts/phase1_market_quality_audit.py"
       - ".github/workflows/phase1-data-validation.yml"
   workflow_dispatch:
 
@@ -81,6 +83,9 @@ jobs:
 
       - name: Deterministically deduplicate exact rows
         run: python scripts/deduplicate_phase1_data.py
+
+      - name: Run Phase 1 market-quality and Greek feasibility audit
+        run: python scripts/phase1_market_quality_audit.py
 
       - name: Upload validation report
         if: always()
