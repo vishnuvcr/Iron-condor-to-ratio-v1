@@ -5,7 +5,7 @@
   "primary_candidate": {
     "repo_id": "thetrademarkk/india-index-options-1m",
     "repo_type": "dataset",
-    "revision": "main (must be pinned to an immutable dataset commit before production acquisition)",
+    "revision": "0f4800e (immutable Hugging Face dataset commit; selected from dataset commit history)",
     "license": "cc-by-nc-4.0",
     "tracks": [
       {"path": "options/NIFTY", "granularity": "1min", "fields_expected": ["timestamp","open","high","low","close","volume","open_interest","trading_day","symbol","strike","option_type","expiry"]},
