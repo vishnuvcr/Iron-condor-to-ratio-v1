@@ -175,3 +175,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - Artifact `11274027306` was downloaded and inspected; digest `329eb437e42745f5613e7c41bdf33313977b09d49492513a190d3c1216f01980`.
 - Fresh results confirmed structural validation, deterministic deduplication, market-quality audit, and session-outlier characterization all execute successfully.
 - G12 is now PASS on developer evidence; Phase 2 remains blocked pending resolution of remaining Phase 1 gates and independent tester approval.
+
+
+## 2026-10-03 — G4 session reconciliation
+- Reviewed the fresh session artifact and found the 286 prior outliers were heterogeneous rather than a single failure mode.
+- Pinned official NSE F&O special-session references for 2021-11-04, 2022-10-24, 2023-11-12, 2024-03-02, 2024-05-18, 2024-11-01 and 2025-10-21.
+- Pre-registered a normal-session eligibility rule: 09:15–15:30 IST, with a minimum of 300 observed timestamps; incomplete non-special dates are excluded from trading while raw data are retained.
+- Fresh run `37124047220` reconciled 1,254 normal dates, 7 special dates and one excluded data-gap date (2026-06-03), with zero unreconciled dates.
+- G4 is now PASS on developer evidence; independent tester approval remains mandatory.
