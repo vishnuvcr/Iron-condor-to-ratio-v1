@@ -408,3 +408,14 @@ This file records user-visible project instructions and work decisions, not hidd
 - Started exact-tip G5 failure-isolation CI run 37154125183 / job 111293869429 at checkout d6deadca7024eb88fa6c30dd0e2faff435f5ba80.
 - CI confirmed checkout, cache restore, dependency installation and pinned-source acquisition successfully; full raw diagnostic is still running.
 - No partial diagnostic output is being treated as a result and G5 remains FAIL/OPEN.
+
+
+## 2026-10-04 — Developer continuation after user “Ok proceed”
+- Continued the open G5 failure-isolation task without advancing Phase 2.
+- Observed diagnostic run **37154125183** / job **111293869429** complete successfully and reproduced the frozen **521,069** missing exact NIFTY alignments.
+- Artifact inspection found a provenance defect: the diagnostic runtime checkout was **52b5b807c8274d7fb315bfc155d2cde2bb29c924**, while the Actions event head was **d6deadca7024eb88fa6c30dd0e2faff435f5ba80**. The run therefore remains reproduction evidence only.
+- Root cause was mutable `github.ref` checkout while branch-status commits were added during the run.
+- Corrected the failure-isolation workflow in commit **ee3ab7f2b08f79faa0f15d756aab2379136cefa9** to bind push/PR checkout and exact-SHA assertion to immutable `github.sha`; manual dispatch retains explicit expected-SHA support.
+- Started fresh immutable-SHA run **37154986733** at head **ee3ab7f2b08f79faa0f15d756aab2379136cefa9**. It is currently in progress.
+- Updated ERROR_LOG (E082), RESEARCH_STATUS, README and this conversation log. G5 remains FAIL/OPEN; G6/G7/G8/G10/G11 remain OPEN; G9 PASS; G13/G14 and Phase 2 remain BLOCKED.
+- No interpolation, nearest matching, forward fill, deletion, holiday reclassification, threshold relaxation, backtest, optimization, profitability analysis, or trading-strategy conclusion was introduced.
