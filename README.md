@@ -35,3 +35,10 @@ No performance conclusion is justified yet. Phase 0 established a reproducible s
 
 ## Branch
 Phase 0 branch: phase-0-specification.
+
+
+## Latest developer continuation — 2026-10-04
+- Paired G5 exact-tip Run 37148487963 remains **in progress** at the substantive alignment audit; G5 is not marked PASS.
+- G6 production work continues on `phase-1-g6-production-greeks-20261004`; developer PR #41 is open as a draft for independent review.
+- E084 was corrected: G6 reference-data coverage is now measured against actual NIFTY option-data trading dates, not the q reference table.
+- G6 remains **OPEN**. G13/G14 and Phase 2 remain **BLOCKED**.
