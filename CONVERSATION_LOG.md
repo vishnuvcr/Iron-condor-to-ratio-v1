@@ -191,3 +191,7 @@ This file records user-visible project instructions and work decisions, not hidd
 - Developer accepted both findings without gate advancement.
 - Corrected G4 controls now use explicit date_controls; no unresolved-date escape hatch exists. Special sessions now contain F&O execution intervals and documented source-observation intervals, and the reconciler checks both interval coverage and uncontrolled timestamps.
 - G4/G12 remain open pending a fresh final-head CI execution and independent tester approval.
+
+
+## 2026-10-03 — Independent tester final-head re-audit E046
+User reported E044/E045 corrections and exact final-head CI run. Tester independently verified the developer branch head `09c4c2e4b6bc569d42d4743fac5132ad0672f8d8`, Actions run `37125656878`, job `111210327724`, successful conclusion, and artifact `11275311823` with matching SHA-256 `754a71a1b50f532b49e43be45f24ddc3eab80a4aa56df1f43b23f0030f04aa9c`. G12 PASS is independently established. The tester then identified E046: the corrected G4 reconciler is still driven only by observed dates, so a special-session date with zero observations is silently omitted rather than reconciled/failed; the implementation also does not perform the required one-to-one canonical session join for every observed date. G4 therefore remains FAIL/OPEN, G13/G14 remain blocked, and no Phase 2 work is authorized. Tester report: `research/TESTER_REPORT_PHASE1_G4_FINAL_REAUDIT.md`.
