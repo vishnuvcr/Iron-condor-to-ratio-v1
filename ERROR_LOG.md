@@ -17,3 +17,5 @@
 
 | E023 | 2026-10-03 | 1 | Pinned-source audit found 30,363,281 exact duplicate option rows across 138 of 267 option files (109,112,358 total rows); no conflicting duplicate keys were found. | The duplicate volume is material and must not be treated as an insignificant quality flag. | Require deterministic exact-row deduplication before production backtest use; preserve original counts and dedup counts in the data audit. |
 | E024 | 2026-10-03 | 1 | Acquisition pattern index/*NIFTY*.parquet also downloaded BANKNIFTY.parquet, although this study uses NIFTY. | Added unnecessary data and obscured the exact intended source set. | Narrowed both acquisition manifest and workflow to index/NIFTY.parquet. |
+
+| E025 | 2026-10-03 | 1 | Multiple rapid Phase 1 pushes attempted to save the same Hugging Face cache key concurrently; one cache save reported a reservation conflict. | Concurrent runs create avoidable cache races and can waste acquisition time. | Added a workflow concurrency group and conditional cache-save behavior so only the cache-miss run saves the key. |
