@@ -51,3 +51,18 @@ This is the developer branch. The README role therefore remains **Developer**. T
 ## Historical handoff/evidence
 
 
+
+## 2026-10-03 — Tester exact-head audit of developer PR #28
+Developer exact head audited: 4698fa62b45fc62ae6c543c168bccdfd3de1d5fc.
+
+Tester determination:
+- G9: BLOCKED.
+- G13: BLOCKED.
+- G14: BLOCKED.
+- Phase 2: BLOCKED.
+
+Required corrections before G9 reconsideration:
+1. Assert deterministic checkout of the exact intended PR/push/manual SHA.
+2. Convert the G9 acceptance contract into fail-closed machine-readable tests.
+3. Obtain an independently observable exact-head Actions run and inspect its raw-file artifact.
+4. Preserve the no-OHLC/LTP-substitution rule and UNEXECUTED_ACQUISITION behavior.
