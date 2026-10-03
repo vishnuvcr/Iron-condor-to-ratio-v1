@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import hashlib,json,re,time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date
 from pathlib import Path
 import pandas as pd, requests
 
 START=date(2021,1,1); END=date(2026,9,30)
-ID_START=25000; ID_END=27900
+ID_START=24000; ID_END=27900
 BASE="https://www.rbi.org.in/scripts/WSSView.aspx?Id={}"
 RAW=Path("data/raw/g6_sources/rbi_wss")
 OUT=Path("data/processed/g6/risk_free.csv")
@@ -32,23 +33,24 @@ def extract(html,sid):
                 if m: rows.append({"date":d,"yield_pct":float(m.group()),"source_id":sid})
     return rows
 
+def fetch_one(sid):
+    u=BASE.format(sid)
+    try:
+        r=requests.get(u,headers={"User-Agent":"Iron-condor-to-ratio-v1-research/1.0"},timeout=10)
+        if r.status_code!=200 or b"91-Day Treasury Bill (Primary) Yield" not in r.content: return None
+        b=r.content; (RAW/f"wss_{sid}.html").write_bytes(b)
+        rr=extract(r.text,sid)
+        return {"id":sid,"url":u,"bytes":len(b),"sha256":sha(b),"rows":len(rr)},rr
+    except Exception as e:
+        return {"id":sid,"url":u,"error":str(e)},[]
+
 def main():
     RAW.mkdir(parents=True,exist_ok=True); OUT.parent.mkdir(parents=True,exist_ok=True); REPORT.parent.mkdir(parents=True,exist_ok=True)
-    s=requests.Session(); s.headers.update({"User-Agent":"Iron-condor-to-ratio-v1-research/1.0"})
-    pages=[]; allrows=[]; hits=0
-    for sid in range(ID_START,ID_END+1):
-        u=BASE.format(sid)
-        try:
-            r=s.get(u,timeout=20)
-            if r.status_code!=200 or b"91-Day Treasury Bill (Primary) Yield" not in r.content: continue
-            b=r.content; hits+=1
-            (RAW/f"wss_{sid}.html").write_bytes(b)
-            rr=extract(r.text,sid)
-            pages.append({"id":sid,"url":u,"bytes":len(b),"sha256":sha(b),"rows":len(rr)})
-            allrows.extend(rr)
-        except Exception as e:
-            pages.append({"id":sid,"url":u,"error":str(e)})
-        if sid%50==0: time.sleep(.25)
+    pages=[]; allrows=[]
+    with ThreadPoolExecutor(max_workers=20) as ex:
+        futures=[ex.submit(fetch_one,sid) for sid in range(ID_START,ID_END+1)]
+        for fut in as_completed(futures):
+            rec,rr=fut.result(); pages.append(rec); allrows.extend(rr)
     df=pd.DataFrame(allrows)
     if df.empty: raise RuntimeError("RBI_NO_91D_TBILL_ROWS")
     df["date"]=pd.to_datetime(df["date"],errors="coerce").dt.date
@@ -59,6 +61,5 @@ def main():
     df=df.drop_duplicates("date",keep="first")[["date","yield_pct"]]
     df.to_csv(OUT,index=False)
     REPORT.write_text(json.dumps({"status":"ACQUISITION_COMPLETE","study_start":str(START),"study_end":str(END),
-      "source_pages_with_target":hits,"rows":len(df),"min_date":str(df.date.min()),"max_date":str(df.date.max()),
+      "source_pages_with_target":sum(1 for x in pages if x and x.get("rows",0)>0),"rows":len(df),"min_date":str(df.date.min()),"max_date":str(df.date.max()),
       "output_sha256":sha(OUT.read_bytes()),"pages":pages},indent=2,default=str))
-if __name__=="__main__": main()
