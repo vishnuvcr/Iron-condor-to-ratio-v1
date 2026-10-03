@@ -402,3 +402,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - The correction now performs timestamp-level production reconstruction with exact contemporaneous NIFTY joins, strictly-prior r/q selection, study-window enforcement, 15:30 IST expiry timing, deterministic Brent IV solving, signed/absolute deltas, target-delta diagnostics, populated failure counters, checksums and exact-checkout provenance.
 - G6 remains FAIL / OPEN because complete historical risk_free.csv and dividend_yield.csv inputs are not yet accepted and independent tester approval is still required.
 - G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH; G13/G14 and Phase 2 remain BLOCKED.
+
+
+## 2026-10-04 — E090 CI harness correction
+- Exact-tip G6 run 37156880805 failed during test collection because the test imported scripts.phase1_g6_production_greeks while scripts is not a package.
+- Corrected the test import path and logged E090. No G6 gate advancement occurred.
+- A fresh push-triggered exact-head run is required before any substantive production-scan conclusion.
