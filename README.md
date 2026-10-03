@@ -50,3 +50,9 @@ No performance conclusion is justified yet. Phase 0 established a reproducible s
 
 ## Current conclusion
 No performance conclusion is justified yet. Phase 1 has only established the acquisition/validation framework and candidate sources; no strategy P&L has been computed.
+
+
+## Latest Phase 1 evidence
+Structural acquisition/validation is green on commit 5f701e329c7888e5ccd5cfe70cea0f5c14e452ac (GitHub Actions run 37116084761, job 111183065244). The run acquired 269 parquet files and produced validation artifact 11271990517. This is a structural data-quality pass only; it is not a trading-result or profitability claim.
+
+**Open Phase 1 gates:** historical quote/bid-ask availability, target-delta strike coverage, Greek reconstruction success and provenance, historical contract metadata reconciliation, and date-specific Paytm Money/statutory costs.
