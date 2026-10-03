@@ -433,3 +433,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - Extended the G6 workflow to execute the existing official NSE Indices NIFTY 50 P/E/P/B/dividend-yield acquisition and convert its double-parsed response into `data/processed/g6/dividend_yield.csv` before the production scan.
 - The production pipeline therefore now has a concrete primary-source acquisition path for both mandatory r and q inputs. No secondary proxy has been substituted.
 - G6 remains FAIL / OPEN pending exact-head CI acquisition results and independent tester review.
+
+
+## 2026-10-04 — E092 workflow wiring correction
+- Run 37157227269 executed head e76c40a but did not contain the intended r/q acquisition steps because the earlier workflow edit changed only the trigger path list.
+- No acquisition was attempted in that run; the production scan therefore failed on the already-known missing r/q inputs.
+- Corrected the workflow at head 7177aa7dfeecc667cb3dd9471347d3538ba9a467 to execute both official acquisition scripts before the production scan, install requests/lxml, and cache the retained official-source material.
+- No gate advancement occurred; a fresh exact-head run is required.
