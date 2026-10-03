@@ -340,3 +340,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - No Phase 2/backtest/optimization/profitability work was introduced.
 
 - After opening developer PR #34, the available Actions run lookup returned zero PR-triggered runs for exact head `990f450a52e50bb9b62f2444aa015b5989087cf3`. Logged E069; no G5 result is claimed. The workflow retains automatic push/PR/manual triggers for repository-side execution.
+
+
+## 2026-10-04 — E071 G5 validator correction
+- During developer pre-execution audit of G5, found that the expiry/day coverage report referenced a non-existent `in_session` column.
+- Corrected both references to `decision_eligible` before any execution/evidence claim and logged E071.
+- G5 remains OPEN pending exact-head CI and tester review; no Phase 2 work introduced.
