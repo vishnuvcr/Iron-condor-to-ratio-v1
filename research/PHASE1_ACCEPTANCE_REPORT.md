@@ -67,3 +67,26 @@ The next technical step is to validate the pinned revision and generate the full
 ## External source notes
 
 The public source review supports the source schema, license, historical revision history, NSE contract changes, and Paytm Money pricing changes. These external findings are documented as source evidence, not as strategy-performance evidence.
+
+## Pinned-source structural audit result — 2026-10-03
+
+The pinned-revision workflow completed successfully on commit 8f094253c2a925b2727c2ffef0a39fa72e23d609.
+
+- Workflow run: 37116400642
+- Job: 111183955555
+- Artifact: 11271442031
+- Artifact SHA-256: 137396eab20370bbbf2285cbc684f7db1e1693d0b3a88f7c64f77a2e8ea967d0
+- Files audited: 269 (267 option files + 2 index files under the earlier broad acquisition pattern)
+- Total rows audited: 109,112,358
+- Hard-failure files: 0
+- Files with quality flags: 138
+- Exact duplicate rows: 30,363,281
+- Conflicting duplicate-key groups: 0
+- Nonpositive closes: 0
+- Historical bid/ask columns observed: none
+- Source timestamps: IST documented by the dataset; validator converted them to UTC for structural checks
+- Observed span in the audited files: 2021-05-07 through 2026-07-02 UTC representation
+
+The exact duplicates are conflict-free, but their scale is material (about 27.8% of all audited rows). They will be deterministically removed before production backtesting, with pre/post counts retained in the audit trail. This is a data-quality issue, not evidence of strategy performance.
+
+The acquisition scope has since been narrowed to the exact NIFTY underlying file rather than the earlier wildcard that also captured BANKNIFTY. A fresh validation run is required after that scope correction.
