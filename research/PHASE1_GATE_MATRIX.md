@@ -9,7 +9,7 @@ This matrix is the Phase 1 acceptance checklist. A source-validation PASS does n
 | G1 | Immutable primary dataset | PASS | HF revision 0f4800e; pinned manifest |
 | G2 | Structural schema validation | PASS | 108,625,497 raw rows; 0 hard failures |
 | G3 | Duplicate handling | PASS | 30,363,281 exact duplicates; 0 conflicting duplicate groups; deterministic dedup implemented |
-| G4 | Timestamp/session quality | OPEN | Prior audit found 1,262 NIFTY dates with 6–420 timestamps/day; repaired diagnostic must execute and anomalies reconciled to historical sessions |
+| G4 | Timestamp/session quality | PASS on developer evidence | Successful run 37124047220: 1,254 normal eligible dates, 7 documented special-session dates, 1 pre-registered DATA_GAP_EXCLUDED date (2026-06-03), 0 unreconciled dates. Artifact 11274239403. Independent tester verification remains required |
 | G5 | Underlying/option alignment | PRELIMINARY PASS | Prior diagnostic alignment 99.2953%; production decision-time quality still open |
 | G6 | Historical Greeks | OPEN | RBI r source and NSE q source identified; complete date-aligned series and production IV/Greek calculation still required |
 | G7 | Target-delta availability | OPEN | Must apply frozen ±0.05 delta tolerance, quote quality and volume/OI filters |
