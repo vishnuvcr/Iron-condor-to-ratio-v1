@@ -71,7 +71,10 @@ jobs:
           rows=[]
           for ch in raw["chunks"]:
               outer=json.loads(ch["payload"])
-              inner=outer.get("d","[]")
+              if isinstance(outer,dict):
+                  inner=outer.get("d",[])
+              else:
+                  inner=outer
               rows.extend(json.loads(inner) if isinstance(inner,str) else inner)
           out=pd.DataFrame(rows)
           if out.empty: raise SystemExit("NSE Q returned no rows")
