@@ -113,3 +113,9 @@ New control artifacts for independent review:
 - `scripts/validate_phase1_control_manifests.py` — control-plane manifest validator.
 
 Tester must verify that these additions do not imply data acquisition or gate closure. In particular, G9 remains BLOCKED until historical bid/ask or sufficient order-level data are actually acquired and reconstructed; G12 remains OPEN until the repaired workflow executes successfully in GitHub Actions.
+
+
+## E035 verification point
+- Verify the acceptance report now agrees with the canonical G1 PASS state.
+- Verify the market-quality diagnostic contains no hard-coded historical session boundaries; G4 must rely on the date-specific session calendar.
+- Treat E035 as a control correction only. G4–G12 remain independently unresolved until production evidence is executed.
