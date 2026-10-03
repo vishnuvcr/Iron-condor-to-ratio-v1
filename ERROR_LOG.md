@@ -138,3 +138,9 @@
 - Impact: the previous G9 acceptance contract is no longer the correct mandatory criterion for the primary execution model, but the change must not be interpreted as evidence of historical executable fills.
 - Resolution: added `research/PHASE1_EXECUTION_PROXY_SPEC.md` and updated `RESEARCH_PLAN.md` to freeze completed-1-minute decision / next-eligible-minute-open execution, adverse 0/5/10/20/50-bps per-leg slippage with an effective-date tick floor, date-effective transaction costs, and explicit missing-execution handling.
 - Independent tester approval is required before Phase 2. No Phase 2 work has started.
+
+## E064 — 2026-10-03 — execution-proxy specification formula rendering
+- The initial `PHASE1_EXECUTION_PROXY_SPEC.md` commit rendered backslash-based formula escapes incorrectly because source-string escaping converted LaTeX sequences into tabs/brackets.
+- Impact: the mathematical definition of the slippage function was not rendered reliably in the research control document.
+- Resolution: replaced the formulas with plain-text/code-block notation and re-read the corrected specification. No methodology values changed.
+- The corrected developer head is submitted for independent tester review. Phase 2 remains blocked.
