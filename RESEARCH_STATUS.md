@@ -252,3 +252,10 @@ Updated: 2026-10-03
 - This is a reproducibility/control correction only; no methodology or gate result changed.
 - Current developer branch remains `phase-1-e054-readme-branch-provenance`; the resulting exact developer head is submitted for independent tester re-audit.
 - G1–G3 remain PASS; G4/G12 remain independently PASS; G5–G8/G10–G11 remain open/preliminary; G9 remains BLOCKED; G13/G14 and Phase 2 remain BLOCKED. No Phase 2/backtest/optimization/profitability work has started.
+
+## 2026-10-03 — G5–G11 substantive source audit
+- Added `research/PHASE1_G5_G11_SOURCE_AUDIT_20261003.md`.
+- Re-verified official RBI 91-day Treasury Bill Primary Yield sources, NSE NIFTY contract transitions through 2025, NSE Historical Order & Trade availability/schema/tariff evidence, Paytm Money brokerage/STT chronology, India VIX, NIFTY historical index data, FII/FPI-DII and GIFT NIFTY/NSE IX context.
+- Expanded `data/manifests/phase1_control_sources.json` and the G8/G9 control specifications.
+- No gate result changed: G5 preliminary/open; G6-G8 open; G9 blocked; G10-G11 open; G13/G14 and Phase 2 remain blocked.
+- No backtest, optimization, profitability analysis, or trading conclusion has started.
