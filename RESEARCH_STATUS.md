@@ -4,7 +4,7 @@ Updated: 2026-10-03
 
 | Phase | Status | Gate |
 |---|---|---|
-| 0 Specification/audit | **CORRECTIONS IN PROGRESS** | Second independent tester approval required |
+| 0 Specification/audit | **CORRECTIONS IN PROGRESS — SECOND-GATE DEFECTS ADDRESSED FOR RE-TEST** | Independent tester approval required |
 | 1 Data | **BLOCKED** | Second tester approval |
 | 2 Engine | BLOCKED | Phase 1 |
 | 3 Experiments | BLOCKED | Phase 2 |
@@ -28,5 +28,11 @@ Phase 0 received **FAIL / corrections required**. The tester confirmed source fi
 - Added state-machine and unit-test invariants.
 - Updated the research plan with a mandatory second-tester gate.
 
+## Second independent tester result
+**FAIL — second gate not approved.** The tester found the canonical operational-conventions artifact missing from PR #3 and identified remaining numerical reproducibility gaps.
+
+## Current developer correction
+The branch `phase-0-corrections-v2` now adds the missing tracked artifact and freezes IV/Black-Scholes, slippage, strike selection, data-quality filters, threshold inequalities, direction classification, and historical contract-metadata rules.
+
 ## Current conclusion
-No performance conclusion exists. Phase 1 remains prohibited until the corrected specification passes a second independent tester review.
+No performance conclusion exists. Phase 1 remains prohibited until the corrected specification passes independent re-test and approval.
