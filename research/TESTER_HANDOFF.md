@@ -41,3 +41,21 @@ Independently audit the final Phase 1 branch before any Phase 2 backtest-engine 
 
 ## Acceptance
 Phase 1 can advance only if the independent tester records PASS for the final branch and identifies no unresolved methodological or reproducibility blocker. A PASS is not a profitability claim.
+
+## Phase 1 tester handoff — latest evidence
+### What is independently reproducible
+- Pinned primary source revision: 0f4800e.
+- Structural validation: 108,625,497 raw rows; 0 hard-failure files; 0 conflicting duplicate-key groups.
+- Exact duplicate rows: 30,363,281; deterministic deduplication is required and implemented.
+- Prior successful diagnostic run: 596,005 IV/Greek solver observations with r=q=0; this is solver smoke testing only.
+### Outstanding acceptance items
+1. Execute the repaired Phase 1 CI workflow and verify the new syntax gate, market-quality audit, and session-outlier characterization on the pinned source.
+2. Verify date-specific r/q reconstruction and production delta target availability under the frozen rules.
+3. Verify historical contract/lot/tick metadata against effective-date NSE sources.
+4. Verify date-specific Paytm Money brokerage/statutory cost schedules.
+5. Decide the historical quote-data route. The primary source has no bid/ask; NSE's official historical order/trade product is the strongest identified route, but is paid and not yet acquired.
+6. Confirm contextual data alignment (NIFTY, India VIX, FII/FPI, DII, GIFT NIFTY/overnight, global volatility/equity, BSE, corporate actions/news where applicable).
+7. Review all Phase 1 errors E020–E030 and confirm controls prevent recurrence.
+8. Issue an independent PASS/FAIL report before any Phase 2 work.
+### Gate rule
+Phase 2 remains BLOCKED until an independent tester explicitly approves the completed Phase 1 branch. A methodology/data-quality pass is not a profitability claim.
