@@ -39,3 +39,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - No bid/ask fields were present in the primary source.
 - The earlier acquisition pattern also captured BANKNIFTY.parquet; this was logged as E024 and narrowed to the exact NIFTY index file.
 - Fresh validation is required after the scope correction.
+
+## 2026-10-03 — Scoped validation and deduplication control
+- The NIFTY-only scoped run 37116565802 completed successfully on commit 00a64fb3c1fd936482058d4b3680c8f807c32b8e.
+- Artifact 11272166110 SHA-256: f2663b0ac6a055bd3fc2f344fc14f38a785b47d02285203df261a7ecb0e9d5cf.
+- Scoped audit: 268 files (267 option + 1 NIFTY index), 108,625,497 rows, zero hard failures, zero conflicting duplicate groups, 30,363,281 exact duplicate rows.
+- No bid/ask columns were observed.
+- Added deterministic exact-row deduplication and CI execution. Added workflow concurrency/cache-save race mitigation after E025.
+- Phase 1 remains active; tester approval is still required before Phase 2.
