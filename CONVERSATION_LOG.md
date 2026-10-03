@@ -316,3 +316,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - Corrected the specification using explicit plain-text/code-block equations and logged E064.
 - No methodology parameter changed.
 - The corrected exact developer head remains subject to independent tester review; G9/G13/G14/Phase 2 remain blocked.
+
+## 2026-10-03 — Independent tester audit of bid/ask-free methodology
+- Tester audited the corrected execution-proxy specification at developer head 010e40bdba5c92ba9f109e720e30e2f6a7125cfd.
+- Positive controls were confirmed: explicit methodology change, completed-bar decisions, next-bar-open proxy fills, 0/5/10/20/50-bps sensitivity, date-effective costs, and no OHLC/LTP-to-bid/ask relabeling.
+- E065: missing-next-bar treatment does not fully define the order/state transition.
+- E066: sell-side slippage formula conflicts with the invalid non-positive-price rule.
+- Tester determination: methodology change not yet approved; G9/G13/G14/Phase 2 remain blocked.
