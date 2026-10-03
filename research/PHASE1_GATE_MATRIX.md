@@ -64,3 +64,17 @@ Tester PR #39 found G5/G6 control defects while explicitly preserving G9 PASS. T
 
 ## 2026-10-04 — G5 substantive failure isolation
 Independent tester re-audit of exact-tip G5 run 37148487963 confirmed a substantive alignment failure: 521,069 missing exact timestamps among 77,727,743 decision-eligible rows (99.3296229%), across 362 expiry/day groups. The failed artifact is preserved as immutable evidence. G5 is therefore **FAIL / OPEN**, not merely pending CI provenance. The new developer branch `phase-1-g5-failure-isolation-20261004` diagnoses the failure population without changing the 100% exact-match rule. The tester's cross-file deduplication concern is included as a required control.
+
+
+## 2026-10-04 — G5 research-use waiver
+
+The research team has explicitly authorized continued **exploratory/research use** of the available primary dataset despite the substantive G5 failure. This is a **research-use waiver, not a G5 PASS**.
+
+- Dataset accepted as the working research dataset: **YES**.
+- G5 exact-alignment criterion: **FAIL / WAIVED FOR CONTINUED RESEARCH**.
+- 521,069 unmatched observations remain retained and documented.
+- The 14 full-date gaps remain retained and are not reclassified as holidays.
+- The 33,476 partial-date mismatches remain retained.
+- No interpolation, nearest-timestamp matching, forward-fill, or silent deletion is permitted.
+- Any later performance/strategy result must disclose this integrity limitation and include robustness/sensitivity analysis for affected observations/dates.
+- This waiver does **not** satisfy G13 and does **not** authorize Phase 2. Independent tester approval remains mandatory under the project control plane.
