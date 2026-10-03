@@ -252,3 +252,10 @@ Updated: 2026-10-03
 - This is a reproducibility/control correction only; no methodology or gate result changed.
 - Current developer branch remains `phase-1-e054-readme-branch-provenance`; the resulting exact developer head is submitted for independent tester re-audit.
 - G1–G3 remain PASS; G4/G12 remain independently PASS; G5–G8/G10–G11 remain open/preliminary; G9 remains BLOCKED; G13/G14 and Phase 2 remain BLOCKED. No Phase 2/backtest/optimization/profitability work has started.
+
+
+## 2026-10-03 — G9 TBT candidate screening
+- Independent tester rejected `antony9952/Nifty_option_TBT` for production G9 because the pinned Hugging Face revision reports incompatible CSV schemas and a dataset-generation cast error.
+- The candidate remains retained as rejected evidence. No production G9 PASS is claimed.
+- The licensed NSE Historical F&O Order & Trade route is now the required production acquisition path.
+- Manual G9 workflow execution could not be independently dispatched through the connected GitHub Actions interface; no fresh execution is claimed.
