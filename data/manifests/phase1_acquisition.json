@@ -3,7 +3,7 @@
   "repo_type": "dataset",
   "required_patterns": [
     "options/NIFTY/*.parquet",
-    "index/*NIFTY*.parquet"
+    "index/NIFTY.parquet"
   ],
   "validation_script": "scripts/validate_phase1_data.py",
   "cache_directory": ".cache/huggingface",
