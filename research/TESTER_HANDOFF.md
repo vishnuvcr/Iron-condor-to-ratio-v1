@@ -203,3 +203,10 @@ Because repository control/status files were updated after the prior successful 
 ## E052 — 2026-10-03 — co-commit exact-tip execution control
 - To prevent documentation-only commits from moving the research head after a workflow-trigger commit, the final control/documentation update is being co-committed with the workflow marker.
 - This commit is intended to be the exact current-head candidate for automatic Phase 1 CI. No G12 PASS is claimed until an observable Actions run proves the checkout SHA and completes all validation steps.
+
+
+## Independent tester Run #55 — 2026-10-03
+- G4 PASS independently verified on exact tip `378a130b6d450b288be140655f9b0b75aad840b3` via run `37135122966` / job `111238039571` / artifact `11278418088`.
+- G12 PASS independently verified.
+- G13 remains BLOCKED until G5–G11 are production-accepted and the tester can issue a Phase 1 approval.
+- E053 is open for stale top-level README/gate/acceptance/handoff status text.
