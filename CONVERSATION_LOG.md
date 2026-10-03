@@ -138,3 +138,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - Reopened PR #13 to attempt a fresh automated acquisition/audit execution; the workflow-run API still returned zero runs. Logged E036 and did not claim a new download or validation result.
 - Added `data/manifests/phase1_data_inventory.json` so gathered data and outstanding procurement items are explicitly separated.
 - NSE historical F&O order/trade data remains the required quote/execution procurement blocker. No close-price substitution was made.
+
+
+## 2026-10-03 — Independent tester data-gathering audit
+- Tester independently audited developer head `833d8a0b7195418bdc98d04976841963b6bacfc2`.
+- Confirmed the new Phase 1 inventory is conservative and separates prior evidenced acquisition from outstanding machine-readable acquisition.
+- Confirmed E036: the workflow-run query for PR #13 head returned zero runs; no fresh acquisition/validation claim was accepted.
+- Identified E037: the workflow syntax-check `run:` value is not a block scalar, so its indented second command is folded into the `py_compile` invocation.
+- Tester verdict: Phase 1 FAIL/IN PROGRESS; Phase 2 BLOCKED. No Phase 2 work or performance conclusion accepted.
