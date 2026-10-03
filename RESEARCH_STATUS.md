@@ -119,3 +119,7 @@ Updated: 2026-10-03
 - GitHub Actions workflow-run lookup returned zero runs for that commit.
 - Logged E038. This confirms the current GitHub connector cannot independently cause the required Actions execution in this repository/session.
 - G12 remains FAIL/OPEN; G13/G14 remain blocked; no Phase 2 work started.
+
+
+## 2026-10-03
+2026-10-03 — G12 UI correction: The Phase 1 workflow was not present on main, which explains the missing Run workflow control. The workflow was added unchanged to main at commit 25f43daf258add201adf0efc67ea9d58c682ed38. G12 remains unexecuted until a dispatch is actually initiated; no Phase 2 work has begun.
