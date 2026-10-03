@@ -311,3 +311,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - G5 remains OPEN pending an exact-head Actions run and independent tester re-audit. No Phase 2/backtest/profitability work has started.
 
 - After PR #34 creation, the available GitHub Actions run lookup returned zero PR-triggered runs for exact head `990f450a52e50bb9b62f2444aa015b5989087cf3`; logged E069. This is an execution-observability limitation, not a G5 data result. G5 remains OPEN.
+
+
+## 2026-10-03 — G6 Greeks/IV evidence step
+- Developer opened `phase-1-g6-greeks-iv-evidence` without advancing Phase 2.
+- Added `research/PHASE1_G6_GREEKS_IV_SPEC.md` and registered RBI 91-day Treasury-bill primary yield plus NSE Indices historical NIFTY dividend-yield sources in `data/manifests/phase1_control_sources.json`.
+- Frozen no-look-ahead timing: source inputs must be dated strictly before the option's trading date; missing historical inputs invalidate the observation rather than using future values.
+- G6 remains OPEN because the complete date-aligned r/q datasets and full production IV/Greek reconstruction have not yet been executed.
