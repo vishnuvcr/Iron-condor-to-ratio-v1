@@ -6,10 +6,10 @@ Research project to reproduce and independently backtest the YouTube strategy �
 Developer.
 
 ## Current phase
-**Phase 0 numerical/repository correction pass — awaiting independent re-test.**
+**Phase 0 third-gate correction pass — awaiting independent re-test.**
 
 ## Gate
-**Phase 1 remains blocked.** The first independent tester failed Phase 0 and required corrections. The second independent tester failed PR #3. The developer has addressed the reported repository-integrity and numerical-reproducibility defects on `phase-0-corrections-v2`; no downstream research has started.
+**Phase 1 remains blocked.** The first independent tester failed Phase 0 and required corrections. The second independent tester failed PR #3. The developer has addressed the reported repository-integrity and numerical-reproducibility defects on `phase-0-corrections-v3`; no downstream research has started.
 
 ## Source strategy
 The uploaded transcript is the primary strategy source. It specifies a monthly Iron Condor using short call/put near 0.30 delta and long call/put near 0.10 delta; transition when either short IC leg reaches approximately 0.10 delta; directional ratio spreads; continuation and reversal delta triggers; and discretionary profit-taking/expiry-day discussion.
@@ -39,3 +39,9 @@ The strategy requires intraday option data. Daily NSE reports alone cannot repro
 
 ## Current conclusion
 No performance conclusion, profitability claim or trading strategy conclusion is justified yet. Phase 1 is prohibited until the corrected specification passes independent tester approval.
+
+## Third tester gate
+PR #6 / `tester/phase-0-third-audit` failed Phase 0. The reported B1–B5 defects are addressed on `phase-0-corrections-v3` and a new independent tester review is required.
+
+## Automation control
+`.github/workflows/phase0-integrity.yml` automatically validates required Phase 0 artifacts on pushes and pull requests and provides a manual `workflow_dispatch` entry. This is a control workflow only; it does not initiate Phase 1.
