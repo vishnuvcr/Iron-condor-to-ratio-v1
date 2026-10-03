@@ -146,3 +146,11 @@ Updated: 2026-10-03
 - Fresh evidence: 268 files, 108,625,497 raw rows, 0 hard failures, 30,363,281 exact duplicates removed deterministically, 77,776,166 option rows after key dedup, 99.2953047% option/NIFTY timestamp alignment, 286 session-count diagnostic outliers among 1,262 dates.
 - G12 is now PASS on developer evidence.
 - G4 remains OPEN; G5 remains PRELIMINARY; G6–G8, G10–G11 remain OPEN; G9 remains BLOCKED; G13 remains BLOCKED pending independent tester PASS; G14 remains BLOCKED.
+
+
+## 2026-10-03 — G4 session reconciliation
+- Added dated NSE session controls and a pre-registered incomplete-session exclusion rule.
+- Successful run `37124047220` / job `111205697146`; artifact `11274239403`.
+- Reconciliation result: 1,254 normal eligible dates, 7 documented special sessions, 1 data-gap exclusion on 2026-06-03, 0 unreconciled dates.
+- G4 is PASS on developer evidence; independent tester verification remains required.
+- G9 remains BLOCKED; G6/G7/G8/G10/G11 remain OPEN; G13/G14 remain blocked.
