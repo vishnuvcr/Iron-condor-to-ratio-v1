@@ -9,7 +9,7 @@ This matrix is the Phase 1 acceptance checklist. A source-validation PASS does n
 | G1 | Immutable primary dataset | PASS | HF revision 0f4800e; pinned manifest |
 | G2 | Structural schema validation | PASS | 108,625,497 raw rows; 0 hard failures |
 | G3 | Duplicate handling | PASS | 30,363,281 exact duplicates; 0 conflicting duplicate groups; deterministic dedup implemented |
-| G4 | Timestamp/session quality | PASS on developer evidence | Successful run 37124047220: 1,254 normal eligible dates, 7 documented special-session dates, 1 pre-registered DATA_GAP_EXCLUDED date (2026-06-03), 0 unreconciled dates. Artifact 11274239403. Independent tester verification remains required |
+| G4 | Timestamp/session quality | FAIL / OPEN | E044: unresolved-date controls were previously ignored and special-session intervals were not validated. Corrected manifest/reconciler now require explicit date controls and interval checks; fresh final-head CI required. |
 | G5 | Underlying/option alignment | PRELIMINARY PASS | Prior diagnostic alignment 99.2953%; production decision-time quality still open |
 | G6 | Historical Greeks | OPEN | RBI r source and NSE q source identified; complete date-aligned series and production IV/Greek calculation still required |
 | G7 | Target-delta availability | OPEN | Must apply frozen ±0.05 delta tolerance, quote quality and volume/OI filters |
@@ -17,7 +17,7 @@ This matrix is the Phase 1 acceptance checklist. A source-validation PASS does n
 | G9 | Historical bid/ask | BLOCKED | Primary and reviewed alternatives lack historical bid/ask; NSE historical order/trade data is preferred procurement candidate |
 | G10 | Transaction costs | OPEN | Paytm Money brokerage/STT chronology validated; complete date-specific exchange/IPFT/SEBI/GST/stamp/clearing schedule not yet assembled |
 | G11 | Context variables | OPEN | NIFTY/India VIX/FII/DII/GIFT NIFTY/global/BSE/events registered; complete aligned datasets not yet assembled |
-| G12 | Repaired CI execution | PASS | Successful run 37122686454; job/check 111201763817; artifact 11274027306; SHA-256 329eb437e42745f5613e7c41bdf33313977b09d49492513a190d3c1216f01980 |
+| G12 | Repaired CI execution | OPEN for final head | E045: prior successful runs are not evidence for current head e9fce04. Fresh final-head execution required after E044 correction. |
 | G13 | Independent tester approval | BLOCKED | Required before Phase 2 |
 | G14 | Phase 2 | BLOCKED | Cannot begin until G1–G13 are accepted and tester explicitly PASSes |
 
