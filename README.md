@@ -57,3 +57,6 @@ PR #9 / `phase-0-corrections-v4` was independently audited on `tester/phase-0-fi
 
 ## Exact CI provenance for v5 correction
 The exact v5 correction commit `4515b32ecd3d6a17b061f53dd97245c393489166` passed the Phase 0 Integrity workflow. Auditable references: [workflow run #37114384784](https://github.com/vishnuvcr/Iron-condor-to-ratio-v1/actions/runs/37114384784) and check run #111178229183. This reference is tied to the tested SHA; subsequent audit-record commits do not replace that provenance.
+
+## Sixth tester gate
+PR #10 / `phase-0-corrections-v5` passed the substantive B7/B8 recheck, including exact CI provenance, but the sixth tester failed Phase 0 on B9 (stale v4 current-branch value in TESTER_HANDOFF.md) and B10 (workflow lacks a positive v5 active-current-branch assertion). See [sixth tester report](research/TESTER_REPORT_PHASE0_SIXTH.md). Phase 1 remains blocked.
