@@ -1,0 +1,66 @@
+name: Phase 1 Data Acquisition and Validation
+
+on:
+  push:
+    branches:
+      - "phase-1-data-acquisition-validation"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  acquire-validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache Hugging Face source data
+        uses: actions/cache@v4
+        with:
+          path: .cache/huggingface
+          key: phase1-hf-${{ hashFiles('data/manifests/phase1_sources.json', 'data/manifests/phase1_acquisition.json') }}
+          restore-keys: |
+            phase1-hf-
+
+      - name: Install data dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install huggingface_hub pandas pyarrow
+
+      - name: Acquire primary candidate data
+        run: |
+          set -euo pipefail
+          test -n "${HF_TOKEN}" || { echo "HF_TOKEN secret is required for Phase 1 acquisition"; exit 1; }
+          python - <<'PY'
+          import os
+          from huggingface_hub import snapshot_download
+          snapshot_download(
+              repo_id="thetrademarkk/india-index-options-1m",
+              repo_type="dataset",
+              revision="main",
+              local_dir="data/raw",
+              cache_dir=".cache/huggingface",
+              token=os.environ["HF_TOKEN"],
+              allow_patterns=["options/NIFTY/*.parquet", "index/*NIFTY*.parquet"],
+          )
+          PY
+
+      - name: Validate downloaded data
+        run: python scripts/validate_phase1_data.py
+
+      - name: Upload validation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase1-validation-report
+          path: data/validation/phase1_validation_report.json
+          retention-days: 30
