@@ -21,7 +21,7 @@ All Phase 1 acceptance references use the canonical G1–G14 vocabulary below.
 | G9 | Historical bid/ask / execution quality | BLOCKED |
 | G10 | Date-specific transaction costs | OPEN |
 | G11 | Market-context datasets | OPEN |
-| G12 | Repaired CI execution | PASS | Fresh successful Actions run 37122686454 / job 111201763817; artifact 11274027306 |
+| G12 | Repaired CI execution | OPEN | Previous independent PASS applies only to superseded head 09c4c2e4b6bc569d42d4743fac5132ad0672f8d8; corrective E046 head requires a fresh Actions run. |
 | G13 | Independent tester approval | FAIL / BLOCKED |
 | G14 | Phase 2 authorization | BLOCKED |
 
