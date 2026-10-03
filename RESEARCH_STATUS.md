@@ -285,3 +285,8 @@ Updated: 2026-10-03
 - This is a methodology change, not a G9 PASS.
 - G9 remains BLOCKED pending independent tester approval of the revised methodology and validation of the proxy data/execution controls.
 - G13/G14 and Phase 2 remain BLOCKED.
+
+## 2026-10-03 — E064 documentation correction
+- Corrected formula rendering in `research/PHASE1_EXECUTION_PROXY_SPEC.md`.
+- The slippage methodology itself is unchanged: adverse 0/5/10/20/50-bps scenarios with an effective-date one-tick floor.
+- This is a documentation/control correction only. G9 remains blocked pending independent tester approval of the methodology change; Phase 2 remains blocked.
