@@ -154,3 +154,9 @@ See research/PHASE1_GATE_MATRIX.md, research/PHASE1_ACCEPTANCE_REPORT.md, resear
 
 ## E048 manual-dispatch safeguard — 2026-10-03
 The default-branch Actions workflow was updated to expose the E046-corrected Phase 1 workflow for manual dispatch. Main workflow commit: `097d29c2816614bc7ba45365454b7f0dc270bc5d`. Manual run #52 shown in the user screenshot is not accepted as corrective evidence unless its explicit `research_ref` selected the E046 branch.
+
+
+## E051 — exact-tip CI evidence remains pending
+The corrective branch now points to b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512. The workflow file was touched only to force a push-path execution after documentation commits had advanced the branch beyond the previously verified run 37129894485 on commit 4099cd1217f072be961f120ab114034578e19197.
+
+The current commit-status endpoint reports pending with zero published statuses, and the available repository connector does not expose the push-triggered run list. Accordingly, no current-head G12 PASS is claimed. Phase 2 remains BLOCKED until an observable Actions run proves the exact checkout SHA and the independent tester records G13 PASS.
