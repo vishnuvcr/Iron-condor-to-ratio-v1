@@ -157,3 +157,5 @@
 
 
 | E071 | 2026-10-04 | 1 / G5 | Static audit of the G5 validator found the expiry/day coverage section referenced a non-existent `in_session` column instead of the separately computed `decision_eligible` flag. | A production run would fail during report construction rather than produce valid expiry/day coverage evidence. | Corrected the two references to use `decision_eligible`; no data result was claimed before the correction. Exact-head CI evidence remains pending. |
+
+| E073 | 2026-10-04 | 1 | Independent tester PR #36 found G5 manual-dispatch evidence did not bind the generated artifact explicitly to the checked-out commit SHA. | A manually selected research ref could produce an artifact whose provenance was not machine-bound to the exact checkout, weakening reproducibility. | Hardened the G5 validator to record `git rev-parse HEAD` in the evidence artifact and the workflow to verify the artifact SHA against the checkout; manual dispatch now accepts an optional exact expected commit SHA and fails closed on mismatch. G5 remains OPEN pending an observable exact-head run and independent tester re-audit. |
