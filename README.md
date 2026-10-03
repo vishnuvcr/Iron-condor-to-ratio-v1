@@ -6,10 +6,10 @@ Research project to reproduce and independently backtest the YouTube strategy �
 Developer.
 
 ## Current phase
-**Phase 0 correction pass — COMPLETE FOR SECOND TESTER REVIEW.**
+**Phase 0 numerical/repository correction pass — awaiting independent re-test.**
 
 ## Gate
-**Phase 1 remains blocked.** The first independent tester failed Phase 0 and required corrections. The corrected specification is now awaiting a second independent tester review.
+**Phase 1 remains blocked.** The first independent tester failed Phase 0 and required corrections. The second independent tester failed PR #3. The developer has addressed the reported repository-integrity and numerical-reproducibility defects on `phase-0-corrections-v2`; no downstream research has started.
 
 ## Source strategy
 The uploaded transcript is the primary strategy source. It specifies a monthly Iron Condor using short call/put near 0.30 delta and long call/put near 0.10 delta; transition when either short IC leg reaches approximately 0.10 delta; directional ratio spreads; continuation and reversal delta triggers; and discretionary profit-taking/expiry-day discussion.
@@ -34,5 +34,8 @@ The correction branch freezes explicit research implementation conventions for d
 ## Data policy
 The strategy requires intraday option data. Daily NSE reports alone cannot reproduce the delta triggers. Phase 1 will require documented intraday NIFTY option data, coverage, timestamps, contract continuity, Greek methodology, licensing and quote quality.
 
+## Current branch
+`phase-0-corrections-v2`
+
 ## Current conclusion
-No performance conclusion is justified. Phase 1 is prohibited until the corrected specification passes a second independent tester review.
+No performance conclusion, profitability claim or trading strategy conclusion is justified yet. Phase 1 is prohibited until the corrected specification passes independent tester approval.
