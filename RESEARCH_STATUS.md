@@ -262,3 +262,11 @@ Updated: 2026-10-03
 - No backtest, optimization, profitability analysis, or trading conclusion has started.
 
 - New G9 candidate `antony9952/Nifty_option_TBT` exposes bid/ask/depth fields but has a published mixed-schema warning. Added an automated cached candidate-audit workflow with manual dispatch and automatic push/PR triggers. G9 remains BLOCKED until raw-file coverage, NIFTY identity, timestamp quality and quote reconstruction are validated.
+
+
+## 2026-10-03 — Tester-prescribed G9 free-data salvage
+- Tester PR #27 formally handed off the next G9 acquisition order: salvage antony9952/Nifty_option_TBT, investigate ayyararyan/nse-options-pipeline, inspect OptionVault/TickBytes, inspect retained archives from other NSE option collectors, apply one common validator, then use NSE Historical F&O Order & Trade if no free source qualifies.
+- Created research/PHASE1_G9_FREE_DATA_SALVAGE.md and expanded data/manifests/phase1_sources.json with the candidate set and acceptance contract.
+- Web/source review confirms ayyararyan/nse-options-pipeline documents bid/ask-bearing NSEI-Data files but does not track the raw archive; OptionVault and TickBytes distinguish public samples from licensed full datasets; BarathGB007/nse-options-data-collector has bid/ask-bearing current/sample schemas but does not establish a complete historical archive.
+- A local attempt to retrieve the 378 MB antony9952/Nifty_option_TBT archive failed because the runtime could not resolve huggingface.co; this is logged as E058. No inferred quote data were created.
+- G9 remains BLOCKED. G13/G14 and Phase 2 remain BLOCKED.
