@@ -66,3 +66,11 @@
 - Developer created phase-1-e046-bidirectional-reconciliation from the exact previously tested head 09c4c2e4b6bc569d42d4743fac5132ad0672f8d8.
 - The corrective implementation adds bidirectional reconciliation and regression tests for missing special dates, unknown observed dates, duplicate mappings and interval failures.
 - Phase 2 remains blocked pending fresh final-head CI and independent tester PASS.
+
+
+## 2026-10-03 — E047 corrective manifest completion
+- Fresh exact-head CI run 37129894485 executed commit 4099cd1217f072be961f120ab114034578e19197 on the E046 corrective branch.
+- The first exact-head rerun (37129371003) exposed three genuine NSE weekend live-trading dates absent from the control manifest: 2024-01-20, 2025-02-01, and 2026-02-01. The reconciler correctly failed closed with 3 unreconciled dates.
+- Official exchange notices document those dates as live sessions. The control manifest was extended with dated special-session rules and source references; execution eligibility remains constrained to the documented F&O window.
+- Resolution: manifest schema version 2.1 adds the three documented weekend sessions. Fresh exact-head CI now passes G4 reconciliation with 10 special sessions reconciled, 0 unreconciled dates, and 0 missing manifest-session dates.
+- G4 and G12 are developer-evidence PASS on 4099cd1217f072be961f120ab114034578e19197; G13 remains blocked pending independent tester approval. Phase 2 remains blocked.
