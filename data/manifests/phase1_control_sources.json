@@ -126,35 +126,35 @@
       "url": "https://www.rbi.org.in/scripts/WSSView.aspx?Id=26722",
       "field": "91-Day Treasury Bill (Primary) Yield",
       "source_identity": "Stable RBI WSS page identifier 26722",
-      "expected_sha256": null
+      "expected_sha256": "6cc282aecb2a8d4dae72f05a2c1a1ce8d762def294c1c2ca3fcbd34d036030d9"
     },
     {
       "name": "RBI WSS snapshot 26962",
       "url": "https://www.rbi.org.in/scripts/WSSView.aspx?Id=26962",
       "field": "91-Day Treasury Bill (Primary) Yield",
       "source_identity": "Stable RBI WSS page identifier 26962",
-      "expected_sha256": null
+      "expected_sha256": "d3958f5db7784eaac61951643cb3b558c7400412efe81822c108bd626c6f711d"
     },
     {
       "name": "RBI WSS snapshot 27637",
       "url": "https://www.rbi.org.in/scripts/WSSView.aspx?Id=27637",
       "field": "91-Day Treasury Bill (Primary) Yield",
       "source_identity": "Stable RBI WSS page identifier 27637",
-      "expected_sha256": null
+      "expected_sha256": "7797f60ced3835d611b713e38207968809296a8d05fd48ddb7580a6fb60c48a4"
     },
     {
       "name": "RBI WSS snapshot 27727",
       "url": "https://www.rbi.org.in/scripts/WSSView.aspx?Id=27727",
       "field": "91-Day Treasury Bill (Primary) Yield",
       "source_identity": "Stable RBI WSS page identifier 27727",
-      "expected_sha256": null
+      "expected_sha256": "3cb7786a94c252e9a8525c61b2193cd71f5e166e0c1044789bc0b6dab2edca1b"
     },
     {
       "name": "NSE Indices historical P/E P/B Dividend Yield reports",
       "url": "https://www.niftyindices.com/reports",
       "field": "Div Yield",
       "source_identity": "NSE Indices Historical Data report endpoint",
-      "expected_sha256": null
+      "expected_sha256": "1eaf3a540f4e3829a8280650781380dcc1e04a8f1486c9cacb684b0a6677e11f"
     }
   ]
 }
