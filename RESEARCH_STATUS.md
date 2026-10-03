@@ -342,3 +342,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - G6 correction now rejects cache hits unless an immutable expected SHA-256 is explicitly supplied and matches the cached bytes; mismatches or missing digests fail closed.
 - No fabricated or placeholder digest is used as acceptance evidence.
 - G6 still requires full date-aligned r/q, no-lookahead validation, production IV/Greek reconstruction, delta distributions, solver diagnostics, target-delta availability and reproducibility checks.
+
+## 2026-10-04 — G6 provenance bootstrap and exact-tip CI evidence
+- A one-time non-accepting bootstrap run acquired five registered source pages and produced observed SHA-256 digests; those exact observed digests were committed to `data/manifests/phase1_control_sources.json`.
+- The G6 cache-integrity regression tests passed in CI.
+- Exact-tip G6 run **37148353717** succeeded at developer commit `e8fca6a6084a463528643b63dd8f310899c0b3bf`; artifact **11282958617**, digest `sha256:bdb21f11285b16535f3ea6338bbf9bff3afe717f6ef727575642f0aaba4d6d11`.
+- This is acquisition/provenance evidence only and does not close G6 substantive requirements.
+- Exact-tip G5 run **37148384171** is currently executing at commit `001e498bfc099e9f51df9129e1fdc2e9370b2b3a`; no G5 result is claimed until completion and independent review.
