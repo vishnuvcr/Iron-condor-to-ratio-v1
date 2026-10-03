@@ -74,3 +74,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - The primary historical dataset still lacks documented bid/ask, so no close-price substitution was accepted for the frozen midpoint rule.
 - Repaired market-quality audit commit: 336c8e8ddf5de93f31ef6b114e621747ae956620.
 - Pull request #13 was created to trigger the PR validation path, but no Actions status was emitted. Logged E030 and kept Phase 1 acceptance blocked rather than treating the old run as validation of the repaired code.
+
+
+## 2026-10-03 — E029 control verification
+- Added a fail-fast py_compile step to Phase 1 CI before acquisition.
+- Independently compiled the repaired session-outlier code block; syntax check passed.
+- This is not treated as a substitute for full pinned-data CI execution.
