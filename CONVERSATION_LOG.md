@@ -340,3 +340,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - No Phase 2/backtest/optimization/profitability work was introduced.
 
 - After opening developer PR #34, the available Actions run lookup returned zero PR-triggered runs for exact head `990f450a52e50bb9b62f2444aa015b5989087cf3`. Logged E069; no G5 result is claimed. The workflow retains automatic push/PR/manual triggers for repository-side execution.
+
+
+## 2026-10-03 — G6 source/methodology step
+- Continued Phase 1 work while G5 remains open pending exact-head CI evidence.
+- Reviewed official RBI WSS and NSE Indices historical-report sources for the risk-free and dividend-yield inputs required by the frozen Black-Scholes reconstruction.
+- Added `research/PHASE1_G6_GREEKS_IV_SPEC.md` and registered the sources in the control manifest.
+- Frozen a no-look-ahead rule using only source observations dated strictly before the trading date; missing inputs invalidate the Greek observation rather than being backfilled from the future.
+- G6 remains open; no backtest or profitability analysis has begun.
