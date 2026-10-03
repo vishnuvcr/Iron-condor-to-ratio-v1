@@ -47,3 +47,14 @@ The previous top-level table incorrectly exposed superseded E044/E045/E046 state
 
 ## 2026-10-03 — E058 / Tester PR #27 G9 free-data salvage continuation
 The tester handoff PR #27 is now the controlling next-step evidence for G9. Free-data candidates are being investigated in the prescribed order; no candidate is production-accepted yet. G9 remains **BLOCKED**. The local Hugging Face download attempt failed due to DNS/network isolation and was logged as E058; no inferred quote data were created. Phase 2 remains blocked.
+
+## 2026-10-03 — explicit execution-proxy methodology change
+The developer has formally proposed replacing the mandatory historical bid/ask requirement for the primary backtest with the frozen proxy-execution model in `research/PHASE1_EXECUTION_PROXY_SPEC.md`.
+
+**Current gate state remains unchanged pending tester approval:**
+- G9: **BLOCKED — methodology change pending independent tester review**
+- G13: **BLOCKED**
+- G14: **BLOCKED**
+- Phase 2: **BLOCKED**
+
+The proxy model does not relabel OHLC/LTP as bid/ask. It uses completed-bar decisions, next eligible option-bar open fills, adverse 0/5/10/20/50-bps per-leg slippage with an effective-date tick floor, and date-effective transaction costs. This methodology must be independently reviewed before Phase 2 can be authorized.
