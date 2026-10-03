@@ -16,7 +16,7 @@
     {
       "name": "NSE historical F&O order/trade data",
       "url": "https://betanseapi.nseindia.com/static/market-data/eod-historical-data-subscription",
-      "use": "historical execution/quote-data procurement candidate"
+      "use": "historical execution/quote-data procurement candidate; F&O Historical Order & Trade product"
     }
   ],
   "contract_sources": [
@@ -34,6 +34,11 @@
       "name": "NSE Circular 111/2025",
       "url": "https://nsearchives.nseindia.com/content/circulars/FAOP68747.pdf",
       "effective_rule": "NIFTY weekly/monthly/quarterly/half-yearly expiry revised to Tuesday, with transition treatment"
+    },
+    {
+      "name": "NSE Circular 176/2025",
+      "url": "https://nsearchives.nseindia.com/content/circulars/FAOP70616.pdf",
+      "effective_rule": "NIFTY lot size 75 to 65; effective 2025-10-28 EOD with contract-specific transition treatment"
     }
   ],
   "risk_free_sources": [
@@ -41,6 +46,12 @@
       "name": "RBI Weekly Statistical Supplement",
       "url": "https://www.rbi.org.in/scripts/WSSView.aspx?Id=26722",
       "field": "91-Day Treasury Bill (Primary) Yield"
+    },
+    {
+      "name": "RBI Weekly Statistical Supplement — 91-Day Treasury Bill Primary Yield",
+      "url": "https://www.rbi.org.in/scripts/WSSView.aspx?Id=27637",
+      "field": "91-Day Treasury Bill (Primary) Yield",
+      "use": "date-aligned historical risk-free candidate"
     }
   ],
   "paytm_money_sources": [
@@ -97,6 +108,16 @@
       "name": "NSE historical order/trade layout",
       "url": "https://nsearchives.nseindia.com/web/sites/default/files/inline-files/Hist_Order_data_layout_1.12.pdf",
       "use": "technical specification evidence for all-tick historical order/trade data"
+    },
+    {
+      "name": "NSE IX / GIFT NIFTY",
+      "url": "https://www.nseix.com/",
+      "use": "overnight/global-crossing context; historical-data procurement/availability must be validated before production use"
+    },
+    {
+      "name": "NSE IX Historical NLT/Block Trade",
+      "url": "https://www.nseix.com/markets/historical-nlt",
+      "use": "historical GIFT NIFTY/global-crossing activity context"
     }
   ]
 }
