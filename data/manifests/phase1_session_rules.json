@@ -31,7 +31,8 @@
       ],
       "source": "NSE/FAOP/50049",
       "source_evidence": "https://archives.nseindia.com/content/circulars/FAOP50049.pdf",
-      "observation_basis": "NSE capital-market Muhurat schedule CMTR50050; underlying-index observations in pre-open/closing windows are non-F&O execution observations."
+      "observation_basis": "NSE capital-market Muhurat schedule CMTR50050; underlying-index observations in pre-open/closing windows are non-F&O execution observations.",
+      "source_observation_evidence": "https://archives.nseindia.com/content/circulars/CMTR50050.pdf"
     },
     {
       "date": "2022-10-24",
@@ -50,7 +51,8 @@
       ],
       "source": "NSE/FAOP/54024",
       "source_evidence": "https://archives.nseindia.com/content/circulars/FAOP54024.pdf",
-      "observation_basis": "NSE capital-market Muhurat schedule CMTR54023; underlying-index observations in pre-open/closing windows are non-F&O execution observations."
+      "observation_basis": "NSE capital-market Muhurat schedule CMTR54023; underlying-index observations in pre-open/closing windows are non-F&O execution observations.",
+      "source_observation_evidence": "https://archives.nseindia.com/content/circulars/CMTR54023.pdf"
     },
     {
       "date": "2023-11-12",
@@ -69,7 +71,8 @@
       ],
       "source": "NSE/FAOP/59126",
       "source_evidence": "https://nsearchives.nseindia.com/content/circulars/FAOP59126.pdf",
-      "observation_basis": "NSE capital-market Muhurat schedule CMTR59124; underlying-index observations in pre-open/closing windows are non-F&O execution observations."
+      "observation_basis": "NSE capital-market Muhurat schedule CMTR59124; underlying-index observations in pre-open/closing windows are non-F&O execution observations.",
+      "source_observation_evidence": "https://nsearchives.nseindia.com/content/circulars/CMTR59124.pdf"
     },
     {
       "date": "2024-03-02",
@@ -96,7 +99,8 @@
       ],
       "source": "NSE/MSD/60677",
       "source_evidence": "https://nsearchives.nseindia.com/content/circulars/MSD60677.pdf",
-      "observation_basis": "NSE circular documents CM pre-open and closing windows around the two F&O execution sessions."
+      "observation_basis": "NSE circular documents CM pre-open and closing windows around the two F&O execution sessions.",
+      "source_observation_evidence": "https://nsearchives.nseindia.com/content/circulars/MSD60677.pdf"
     },
     {
       "date": "2024-05-18",
@@ -123,7 +127,8 @@
       ],
       "source": "NSE/MSD/61893",
       "source_evidence": "https://nsearchives.nseindia.com/content/circulars/MSD61893.pdf",
-      "observation_basis": "NSE circular documents CM pre-open and closing windows around the two F&O execution sessions."
+      "observation_basis": "NSE circular documents CM pre-open and closing windows around the two F&O execution sessions.",
+      "source_observation_evidence": "https://nsearchives.nseindia.com/content/circulars/MSD61893.pdf"
     },
     {
       "date": "2024-11-01",
@@ -142,7 +147,8 @@
       ],
       "source": "NSE/FAOP/64630",
       "source_evidence": "https://nsearchives.nseindia.com/content/circulars/FAOP64630.pdf",
-      "observation_basis": "NSE capital-market Muhurat schedule CMTR64628 documents pre-open, normal, closing and trade-modification windows."
+      "observation_basis": "NSE capital-market Muhurat schedule CMTR64628 documents pre-open, normal, closing and trade-modification windows.",
+      "source_observation_evidence": "https://nsearchives.nseindia.com/content/circulars/CMTR64628.pdf"
     },
     {
       "date": "2025-10-21",
@@ -161,7 +167,8 @@
       ],
       "source": "NSE/FAOP/70320",
       "source_evidence": "https://nsearchives.nseindia.com/content/circulars/FAOP70320.pdf",
-      "observation_basis": "NSE capital-market Muhurat schedule CMTR70319 documents block-deal, pre-open, normal, closing and trade-modification windows."
+      "observation_basis": "NSE capital-market Muhurat schedule CMTR70319 documents block-deal, pre-open, normal, closing and trade-modification windows.",
+      "source_observation_evidence": "https://nsearchives.nseindia.com/content/circulars/CMTR70319.pdf"
     }
   ],
   "preopen_note": {
@@ -207,5 +214,5 @@
     "date_control_rule": "Every explicitly controlled anomalous date must have a date_controls entry whose expected classification and policy are checked against the observed data.",
     "unresolved_rule": "The manifest contains no unresolved-date escape hatch. Any observed date not covered by a special_sessions rule, date_controls rule, or normal-session rule is emitted as UNRECONCILED and prevents G4 acceptance."
   },
-  "status": "CORRECTED_G4_CONTROL_MANIFEST_PENDING_FRESH_FINAL_HEAD_CI"
+  "status": "CORRECTED_G4_CONTROLS_READY_FOR_FINAL_HEAD_CI"
 }
