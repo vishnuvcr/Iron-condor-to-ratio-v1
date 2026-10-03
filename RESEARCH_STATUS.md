@@ -311,3 +311,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - G5 remains OPEN pending an exact-head Actions run and independent tester re-audit. No Phase 2/backtest/profitability work has started.
 
 - After PR #34 creation, the available GitHub Actions run lookup returned zero PR-triggered runs for exact head `990f450a52e50bb9b62f2444aa015b5989087cf3`; logged E069. This is an execution-observability limitation, not a G5 data result. G5 remains OPEN.
+
+
+## 2026-10-04 — E071 G5 validator correction
+- Static audit found a report-construction defect in the G5 expiry/day coverage section.
+- Corrected `in_session` references to the actual `decision_eligible` field at commit `7039818d199566dd18c4d884797d43f3851bfc78`.
+- No G5 PASS is claimed; exact-head CI evidence and independent tester review remain required.
