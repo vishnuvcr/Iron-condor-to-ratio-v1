@@ -292,3 +292,7 @@ Immutable G4/G5 artifact comparison now establishes that **14 affected dates hav
 The four later full-date G5 gaps were independently reconciled against NSE holiday schedules and external NIFTY history. **2025-10-10, 2026-05-25, 2026-05-26 and 2026-05-29 are not supported as exchange-holiday exclusions**; they are unresolved primary NIFTY-source coverage gaps. The 14 full-date gaps remain diagnostic failures and are not deleted or reclassified.
 
 See [G5 failure-isolation external reconciliation](research/PHASE1_G5_FAILURE_ISOLATION_EXTERNAL_RECON_20261004.md). The failure-isolation diagnostic now explicitly distinguishes row counts from unique timestamp counts. **G5 remains FAIL/OPEN and the 100% exact-timestamp acceptance rule is unchanged.**
+
+
+## Current G5 status — 2026-10-04
+The G5 gate remains **FAIL / OPEN**. Failure-isolation run **37154125183** successfully reproduced the frozen **521,069** missing exact NIFTY timestamp alignments, but its artifact was generated from a mutable branch-tip checkout rather than the immutable Actions event SHA. That evidence is retained for diagnostic reproduction only. The failure-isolation workflow has now been corrected to checkout and assert `github.sha` for push/PR runs. A fresh exact-SHA diagnostic run and independent tester re-audit are required before G5 can change state. G6/G7/G8/G10/G11 remain OPEN, G9 remains independently PASS under the frozen proxy methodology, and G13/G14 plus Phase 2 remain BLOCKED. No backtest, optimization, profitability result, or trading strategy conclusion is authorized.
