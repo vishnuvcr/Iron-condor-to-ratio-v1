@@ -82,3 +82,10 @@
 - This means run #52 can only be accepted as corrective evidence if its manual input explicitly selected `phase-1-e046-bidirectional-reconciliation`; the screenshot alone does not establish that input.
 - Resolution: updated the `main` workflow definition to the E046-corrected workflow, including the bidirectional G4 reconciliation/regression-test steps and default research ref `phase-1-e046-bidirectional-reconciliation`. Main workflow update commit: 097d29c2816614bc7ba45365454b7f0dc270bc5d.
 - No Phase 2 work was started. G13 remains blocked pending independent tester approval.
+
+
+## E049 — Run #52 is stale for corrective G12 evidence
+- User screenshot confirms manual Phase 1 run #52 completed green on `main`.
+- Because run #52 occurred before the E048 correction to the default-branch workflow, its green result cannot establish execution of the E046-corrected reconciliation workflow.
+- Required resolution: a fresh manual run after commit `097d29c2816614bc7ba45365454b7f0dc270bc5d`, with logs proving checkout of `phase-1-e046-bidirectional-reconciliation` and the exact resulting commit.
+- Phase 2 remains blocked; no performance/trading conclusion has been produced.
