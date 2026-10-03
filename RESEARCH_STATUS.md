@@ -349,3 +349,13 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Exact-tip G6 run **37148353717** succeeded at developer commit `e8fca6a6084a463528643b63dd8f310899c0b3bf`; artifact **11282958617**, digest `sha256:bdb21f11285b16535f3ea6338bbf9bff3afe717f6ef727575642f0aaba4d6d11`.
 - This is acquisition/provenance evidence only and does not close G6 substantive requirements.
 - Exact-tip G5 run **37148384171** is currently executing at commit `001e498bfc099e9f51df9129e1fdc2e9370b2b3a`; no G5 result is claimed until completion and independent review.
+
+
+## 2026-10-04 — Latest independent tester re-audit / paired exact-tip submission
+- Final paired developer SHA: `db668dd2b89bf691a6481affb3cb2a9060c5fe98`.
+- G6 Run **37148488127** independently verified **SUCCESS** at the exact SHA. Artifact **11283345350**, SHA-256 `513f1a1e4d2032d45f797aeda5688d18e83d56f20fa13c4b0ea73d33cffcc661`.
+- G6 cache-integrity/provenance implementation is accepted; E079 is closed. G6 production gate remains OPEN.
+- G6 substantive next work: complete date-aligned r/q acquisition and no-lookahead controls, production IV/signed-and-absolute-delta reconstruction, solver diagnostics, target-delta availability, expiry/date coverage, and production checksum/evidence package.
+- G5 Run **37148487963** is still IN PROGRESS at the same exact SHA; no G5 PASS is claimed until completion, artifact provenance, and independent tester re-audit.
+- G7/G8/G10/G11 remain OPEN. G13/G14 and Phase 2 remain BLOCKED.
+- No backtest, optimization, profitability conclusion, or trading-strategy conclusion has been started or authorized.
