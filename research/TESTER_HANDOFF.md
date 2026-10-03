@@ -159,3 +159,9 @@ Tester must verify that these additions do not imply data acquisition or gate cl
 - Corrected code has been exercised successfully on an ancestor commit, with zero G4 reconciliation failures.
 - This does not close G4/G12 because E045 requires a run whose head SHA equals the resulting final Phase 1 branch head.
 - The final-head run must preserve the exact corrected manifest and reconciler and produce the G4 report showing zero unreconciled dates.
+
+
+### E046 corrective status — 2026-10-03
+Independent tester PR #18 identified a fail-closed defect in G4: manifest-only special-session dates were not processed. The corrective branch phase-1-e046-bidirectional-reconciliation adds two-way manifest/data reconciliation and regression tests.
+
+The previously verified final-head CI remains valid only for its exact superseded head; it is not reused as evidence for the corrective branch. Phase 2 remains blocked until a new corrective-head CI run and independent tester PASS.
