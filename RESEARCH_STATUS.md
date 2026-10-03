@@ -36,3 +36,15 @@ The branch `phase-0-corrections-v2` now adds the missing tracked artifact and fr
 
 ## Current conclusion
 No performance conclusion exists. Phase 1 remains prohibited until the corrected specification passes independent re-test and approval.
+
+## Third independent tester result
+**FAIL — Phase 0 approval not granted.** PR #5 fixed the missing operational-conventions artifact, but the tester found remaining reproducibility blockers: IV solver termination, no-arbitrage bounds, tick rounding, explicit future-quote rejection, and a fallback-slippage wording inconsistency.
+
+## Current gate
+Phase 1 remains **BLOCKED**. No historical data acquisition, backtest engine, optimization or performance conclusion may begin until a subsequent tester retest passes.
+
+## Tester branch
+`tester/phase-0-third-audit`
+
+## Third tester report
+`research/TESTER_REPORT_PHASE0_THIRD.md`
