@@ -28,13 +28,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.expected_commit_sha || github.ref }}
+          ref: ${{ github.event.inputs.expected_commit_sha || github.sha }}
       - name: Assert exact checkout
         run: |
           set -euo pipefail
           actual="$(git rev-parse HEAD)"
           echo "G5 isolation checkout: $actual"
-          expected="${{ github.event.inputs.expected_commit_sha }}"
+          expected="${{ github.event.inputs.expected_commit_sha || github.sha }}"
           if [ -n "$expected" ]; then test "$actual" = "$expected"; fi
       - uses: actions/setup-python@v5
         with:
@@ -70,3 +70,5 @@ jobs:
           retention-days: 30
 
 # Exact-tip diagnostic trigger marker: G5 failure isolation evidence.
+
+# Exact-SHA checkout control: push/PR runs bind to the immutable workflow event SHA, not the mutable branch tip.
