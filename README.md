@@ -110,3 +110,7 @@ The independent Phase 1 tester recorded **FAIL / IN PROGRESS** and kept Phase 2 
 
 ### G12 autonomous execution attempt — 2026-10-03
 The corrected workflow was committed with an execution-trigger marker (`70baca4a23649ec58cb30e2e91a6747f3f2d8267`) to test whether a repository-side push could initiate Actions. GitHub returned zero workflow runs for that commit. G12 therefore remains FAIL/OPEN; no Phase 2 advancement is permitted.
+
+
+## 2026-10-03
+2026-10-03 — G12 UI correction: The Phase 1 workflow was added unchanged to the default branch so GitHub can expose the manual workflow-dispatch control. This does not merge the Phase 1 research branch or authorize Phase 2. Actual G12 execution remains pending dispatch.
