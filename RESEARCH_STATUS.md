@@ -154,3 +154,10 @@ Updated: 2026-10-03
 - Reconciliation result: 1,254 normal eligible dates, 7 documented special sessions, 1 data-gap exclusion on 2026-06-03, 0 unreconciled dates.
 - G4 is PASS on developer evidence; independent tester verification remains required.
 - G9 remains BLOCKED; G6/G7/G8/G10/G11 remain OPEN; G13/G14 remain blocked.
+
+
+## 2026-10-03 — Independent G4/G12 re-audit
+- Fresh run 37124047220 / job 111205697146 / artifact 11274239403 is independently verified as successful.
+- G4 was not accepted: E044 found explicit unresolved dates in phase1_session_rules.json that phase1_session_reconciliation.py ignores, allowing an internally contradictory zero-unresolved result. Special-session interval compliance is also not directly checked.
+- E045: the successful run tested dd5447fba974560020084146d6e1101e656a034c, while the current Phase 1 head is e9fce044ee34f24c3d7ef2422454d57f5af85ab5, nine commits ahead with session-rule/reconciliation changes. Final G12 therefore remains open pending a final-head rerun.
+- Phase 1 remains FAIL/IN PROGRESS; Phase 2 remains BLOCKED.
