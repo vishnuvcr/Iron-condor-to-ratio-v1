@@ -112,7 +112,7 @@
 
 
 ## E054 — 2026-10-03 — README current-branch provenance mismatch
-- Independent tester PR #22 audited developer PR #21 at exact head `4f7186c4d2478bdd83f86f0bb35547f9b0b75f9b0b75aad840b3` and found a stale README branch identifier.
+- Independent tester PR #22 audited developer PR #21 at exact head `4f7186c4d2478bdd83f86f0bb35547f4c8594fbc` and found a stale README branch identifier.
 - The README identified `phase-1-e046-bidirectional-reconciliation` even though PR #21 was the developer branch `phase-1-e053-control-sync`.
 - Impact: current branch provenance was ambiguous even though G4/G12 evidence remained valid.
 - Resolution: created `phase-1-e054-readme-branch-provenance` from the audited PR #21 head and corrected the README branch identifier. This is a control-plane correction only; no research methodology or gate result changed.
