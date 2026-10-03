@@ -66,3 +66,10 @@ Required G5 evidence:
 The acceptance condition is 100% exact timestamp alignment for decision-eligible option observations, with zero invalid option timestamps and zero duplicate NIFTY timestamps. Session eligibility and underlying alignment are intentionally tested as separate predicates. No interpolation or forward-fill is permitted.
 
 Tester must verify the exact developer head, Actions run/checkout SHA, complete G5 report, and that no Phase 2 work was introduced. G13/G14 remain blocked until all G5–G11 gates are independently accepted.
+
+## 2026-10-04 — Tester PR #36 follow-up
+- Tester PR #36 determined Phase 1 FAIL / IN PROGRESS.
+- G5 exact developer head `3225d29902a20c958bf8c9803479e8fbe7601dbf` had zero workflow runs/statuses. The next G5 evidence must bind the report's recorded checkout SHA to the Actions checkout SHA.
+- Developer PR #37 implements that binding and adds an optional exact expected commit SHA for manual dispatch.
+- G6 remains OPEN; tester PR #36 also identified missing cache restore/save in the source-acquisition workflow. Developer PR #38 adds this cache control.
+- Tester must independently review the corrected exact heads and associated Actions evidence before any gate advancement.
