@@ -118,3 +118,7 @@ The corrected workflow was committed with an execution-trigger marker (`70baca4a
 
 ### G12 run #32 — branch-target correction
 Manual run #32 was dispatched on `main` and failed after 22 seconds. The dispatch workflow has now been corrected so manual execution defaults to `phase-1-data-acquisition-validation`, where the Phase 1 scripts and manifests reside. G12 remains unaccepted until a real run succeeds and produces verifiable artifacts.
+
+
+### G12 execution evidence — E041
+Run `37122653828` reached the Phase 1 branch but failed in syntax/control-manifest validation because `scripts/validate_phase1_control_manifests.py` was missing from that branch. The validator has been restored unchanged at commit `68b39d91035bcb79c192cac80f20fd29ed6e709d`. G12 remains open pending the next execution.
