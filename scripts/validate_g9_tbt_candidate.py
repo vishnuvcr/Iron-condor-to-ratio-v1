@@ -1,135 +1,117 @@
-"""Validate the Hugging Face NIFTY option TBT candidate for G9.
-
-This is a candidate-data audit only. It does not accept the dataset as production
-execution evidence. In particular, instrument identity, full study-window coverage,
-contract-master reconciliation, and exchange provenance still require validation.
-"""
-
+"""Conservative raw-file-level audit for the G9 TBT candidate."""
 from __future__ import annotations
-
-import csv
-import json
+import csv, hashlib, json, os
+from datetime import datetime, timezone
 from pathlib import Path
-
 from huggingface_hub import snapshot_download
 
-ROOT = Path(__file__).resolve().parents[1]
-CACHE = ROOT / ".cache" / "huggingface_g9_tbt"
-OUT = ROOT / "data" / "validation" / "g9_tbt_candidate_report.json"
+ROOT=Path(__file__).resolve().parents[1]
+CACHE=ROOT/".cache"/"huggingface_g9_tbt"
+HF_CACHE=ROOT/".cache"/"huggingface"
+OUT=ROOT/"data"/"validation"/"g9_tbt_candidate_report.json"
+REPO_ID="antony9952/Nifty_option_TBT"
+REVISION="643b48383839947b5fe3ed9483c9f7c0f167e865"
+TS=("timestamp","received_timestamp","feed_timestamp","datetime","date")
+INST=("instrument_key","instrument_token","symbol","tradingsymbol","contract")
+BID=("bid_price","best_bid","bid")
+ASK=("ask_price","best_ask","ask")
+BQ=("bid_qty","best_bid_qty","bid_quantity")
+AQ=("ask_qty","best_ask_qty","ask_quantity")
 
-REPO_ID = "antony9952/Nifty_option_TBT"
-REVISION = "643b48383839947b5fe3ed9483c9f7c0f167e865"
+def first(row, fields):
+    for f in fields:
+        if row.get(f) not in (None,""): return str(row[f])
+    return None
 
+def sha256(path):
+    h=hashlib.sha256()
+    with path.open("rb") as f:
+        for c in iter(lambda:f.read(1048576),b""): h.update(c)
+    return h.hexdigest()
 
-def inspect_csv(path: Path) -> dict:
-    row_count = 0
-    schema = None
-    schema_changes = []
-    min_ts = None
-    max_ts = None
-    bidask_rows = 0
-    non_bidask_rows = 0
-    instrument_keys = set()
-    sample_dates = set()
+def dtparse(v):
+    if not v: return None
+    try:
+        x=datetime.fromisoformat(v.strip().replace("Z","+00:00"))
+        return x
+    except ValueError: return None
 
-    with path.open("r", encoding="utf-8", errors="replace", newline="") as fh:
-        reader = csv.DictReader(fh)
-        schema = tuple(reader.fieldnames or ())
-        for row in reader:
-            row_count += 1
-            current = tuple(reader.fieldnames or ())
-            if current != schema and current not in schema_changes:
-                schema_changes.append(current)
+def inspect(path):
+    out={"file":str(path.relative_to(ROOT)),"bytes":path.stat().st_size,
+         "sha256":sha256(path),"schema_class":"UNKNOWN","columns":[],"rows":0,
+         "rows_with_bid_and_ask":0,"rows_with_bid_ask_qty":0,
+         "rows_without_bid_or_ask":0,"invalid_or_crossed_quotes":0,
+         "negative_quote_values":0,"parseable_timestamps":0,
+         "unparseable_timestamps":0,"naive_timestamps":0,
+         "min_timestamp":None,"max_timestamp":None,"observed_dates":[],
+         "unique_instrument_count":0,"contract_identity_fields_present":[],
+         "missing_contract_identity_rows":0,"out_of_order_rows":0,
+         "duplicate_row_count":0,"error":None}
+    dates=set(); inst=set(); seen=set(); prev=None
+    try:
+        with path.open("r",encoding="utf-8",errors="replace",newline="") as fh:
+            reader=csv.DictReader(fh); cols=tuple(reader.fieldnames or ())
+            out["columns"]=list(cols); low={c.lower() for c in cols}
+            hb=any(x in low for x in BID); ha=any(x in low for x in ASK)
+            depth=any(x in low for x in ("depth_level","bid_qty","ask_qty"))
+            ohlc=any(x in low for x in ("open","high","low","close","ltp"))
+            out["schema_class"]="TBT_BID_ASK_DEPTH" if hb and ha and depth else ("BID_ASK" if hb and ha else ("OHLC_LTP_NO_BID_ASK" if ohlc else "OTHER"))
+            out["contract_identity_fields_present"]=[x for x in ("expiry","expiry_date","strike","strike_price","option_type","instrument_key","symbol","tradingsymbol") if x in cols]
+            for row in reader:
+                out["rows"]+=1
+                raw=json.dumps(row,sort_keys=True,ensure_ascii=False,separators=(",",":"))
+                if raw in seen: out["duplicate_row_count"]+=1
+                else: seen.add(raw)
+                d=dtparse(first(row,TS))
+                if d is None: out["unparseable_timestamps"]+=1
+                else:
+                    out["parseable_timestamps"]+=1
+                    if d.tzinfo is None: out["naive_timestamps"]+=1
+                    dates.add(d.date().isoformat())
+                    iso=d.isoformat()
+                    if out["min_timestamp"] is None or iso<out["min_timestamp"]: out["min_timestamp"]=iso
+                    if out["max_timestamp"] is None or iso>out["max_timestamp"]: out["max_timestamp"]=iso
+                    if prev is not None and d<prev: out["out_of_order_rows"]+=1
+                    prev=d
+                iv=first(row,INST)
+                if iv: inst.add(iv)
+                if any(first(row,(f,)) is None for f in ("expiry","expiry_date")) or any(first(row,(f,)) is None for f in ("strike","strike_price")) or first(row,("option_type",)) is None:
+                    out["missing_contract_identity_rows"]+=1
+                b,a=first(row,BID),first(row,ASK)
+                if b is None or a is None: out["rows_without_bid_or_ask"]+=1
+                else:
+                    try:
+                        bf,af=float(b),float(a); out["rows_with_bid_and_ask"]+=1
+                        if bf<0 or af<0: out["negative_quote_values"]+=1
+                        if bf>af: out["invalid_or_crossed_quotes"]+=1
+                    except ValueError: out["invalid_or_crossed_quotes"]+=1
+                if first(row,BQ) is not None and first(row,AQ) is not None: out["rows_with_bid_ask_qty"]+=1
+    except Exception as e: out["error"]=f"{type(e).__name__}: {e}"
+    out["unique_instrument_count"]=len(inst); out["instrument_keys"]=sorted(inst)[:1000]; out["observed_dates"]=sorted(dates)
+    return out
 
-            ts = row.get("timestamp") or row.get("received_timestamp") or row.get("feed_timestamp")
-            if ts:
-                if min_ts is None or ts < min_ts:
-                    min_ts = ts
-                if max_ts is None or ts > max_ts:
-                    max_ts = ts
-                sample_dates.add(str(ts)[:10])
+def write(x):
+    OUT.parent.mkdir(parents=True,exist_ok=True); OUT.write_text(json.dumps(x,indent=2,sort_keys=True),encoding="utf-8")
 
-            if row.get("bid_price") not in (None, "") and row.get("ask_price") not in (None, ""):
-                bidask_rows += 1
-            else:
-                non_bidask_rows += 1
+def main():
+    result={"status":"UNEXECUTED_ACQUISITION","production_acceptance":"BLOCKED","repository":REPO_ID,"revision":REVISION,
+            "acquisition_started_at_utc":datetime.now(timezone.utc).isoformat(),
+            "raw_file_reports":[],"blockers":["Every retained raw file must be independently classified.","Full study-window coverage, NIFTY identity, contract reconciliation and licensing remain unproven.","Quote age, validity and deterministic no-leakage execution reconstruction remain unproven."]}
+    try:
+        local=snapshot_download(repo_id=REPO_ID,repo_type="dataset",revision=REVISION,local_dir=CACHE,cache_dir=HF_CACHE,token=os.environ.get("HF_TOKEN"),allow_patterns=["*.csv"])
+        files=sorted(Path(local).rglob("*.csv"))
+        if not files:
+            result["status"]="ACQUISITION_COMPLETED_NO_RAW_CSV"; result["acquisition_error"]="No CSV files acquired"; write(result); raise SystemExit(result["acquisition_error"])
+        reports=[inspect(p) for p in files]
+        result.update(status="RAW_FILE_AUDIT_COMPLETE",file_count=len(reports),total_bytes=sum(x["bytes"] for x in reports),
+                      total_rows=sum(x["rows"] for x in reports),files_with_bid_ask=sum(x["rows_with_bid_and_ask"]>0 for x in reports),
+                      files_with_depth_bid_ask=sum(x["schema_class"]=="TBT_BID_ASK_DEPTH" for x in reports),
+                      observed_dates=sorted({d for x in reports for d in x["observed_dates"]}),raw_file_reports=reports)
+        write(result)
+        print(json.dumps({k:result[k] for k in ("status","file_count","total_rows","files_with_bid_ask","files_with_depth_bid_ask","production_acceptance")},indent=2))
+    except SystemExit: raise
+    except Exception as e:
+        result.update(status="UNEXECUTED_ACQUISITION",acquisition_error=f"{type(e).__name__}: {e}",network_or_environment_limitation=True)
+        write(result); raise SystemExit(f"G9 acquisition unexecuted: {type(e).__name__}: {e}")
 
-            key = row.get("instrument_key")
-            if key:
-                instrument_keys.add(key)
-
-    return {
-        "file": str(path.relative_to(ROOT)),
-        "rows": row_count,
-        "columns": list(schema or ()),
-        "bid_ask_columns_present": "bid_price" in (schema or ()) and "ask_price" in (schema or ()),
-        "rows_with_bid_and_ask": bidask_rows,
-        "rows_without_bid_and_ask": non_bidask_rows,
-        "min_timestamp_text": min_ts,
-        "max_timestamp_text": max_ts,
-        "unique_observed_dates": sorted(sample_dates),
-        "unique_instrument_keys": len(instrument_keys),
-        "schema_changes_detected": [list(x) for x in schema_changes],
-    }
-
-
-def main() -> None:
-    token = None
-    import os
-    token = os.environ.get("HF_TOKEN")
-
-    local = snapshot_download(
-        repo_id=REPO_ID,
-        repo_type="dataset",
-        revision=REVISION,
-        local_dir=CACHE,
-        cache_dir=ROOT / ".cache" / "huggingface",
-        token=token,
-        allow_patterns=["*.csv"],
-    )
-
-    files = sorted(Path(local).rglob("*.csv"))
-    if not files:
-        raise SystemExit("G9 TBT candidate: no CSV files acquired")
-
-    reports = [inspect_csv(p) for p in files]
-    bidask_files = [r for r in reports if r["bid_ask_columns_present"]]
-    all_dates = sorted({d for r in reports for d in r["unique_observed_dates"]})
-    total_rows = sum(r["rows"] for r in reports)
-
-    result = {
-        "status": "candidate_audit_complete",
-        "repository": REPO_ID,
-        "revision": REVISION,
-        "file_count": len(reports),
-        "total_rows": total_rows,
-        "files_with_bid_ask_columns": len(bidask_files),
-        "observed_dates": all_dates,
-        "reports": reports,
-        "production_acceptance": "BLOCKED",
-        "blockers": [
-            "candidate contains/advertises incompatible schemas across files",
-            "instrument identity must be mapped to NIFTY contracts",
-            "full 2021-2026 study-window coverage is not established",
-            "historical exchange provenance and licensing must be independently validated",
-            "quote timestamp/age/spread/depth quality rules remain to be tested",
-        ],
-    }
-
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(result, indent=2), encoding="utf-8")
-
-    if not bidask_files:
-        raise SystemExit("G9 TBT candidate audit: no bid/ask-bearing file found")
-    print(json.dumps({
-        "status": result["status"],
-        "files": len(reports),
-        "rows": total_rows,
-        "bidask_files": len(bidask_files),
-        "observed_dates": all_dates,
-        "production_acceptance": "BLOCKED",
-    }, indent=2))
-
-
-if __name__ == "__main__":
-    main()
+if __name__=="__main__": main()
