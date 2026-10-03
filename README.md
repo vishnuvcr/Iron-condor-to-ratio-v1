@@ -251,3 +251,7 @@ Tester PR #40 found a G6 cache-integrity defect. The developer corrected the cac
 - The pipeline requires historical r/q inputs and refuses to manufacture missing coverage, future data, interpolation, or proxy values.
 - A local official-NSE q-data acquisition attempt was blocked by environment DNS isolation and logged as E082; this is not treated as research evidence.
 - G6 remains OPEN; G5 remains independently tracked on its exact-tip submission; G13/G14 and Phase 2 remain BLOCKED.
+
+
+## 2026-10-04 — G6 production branch update
+The G6 production branch now includes a fail-closed production Greek evidence scaffold and corrected E084 coverage logic. Coverage is derived from actual NIFTY option-bar dates rather than the reference q table. Official-source acquisition leads have been documented, but no substitute rate/dividend data have been accepted and G6 remains OPEN. The paired G5 exact-tip audit on run 37148487963 is still executing independently.
