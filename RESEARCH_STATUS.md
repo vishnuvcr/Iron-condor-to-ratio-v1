@@ -55,8 +55,8 @@ The branch `phase-0-corrections-v4` synchronizes the active gate to the current 
 ## Current gate
 **Phase 1 remains BLOCKED.** The current Phase 0 correction pass must receive independent tester approval before any historical data acquisition, backtesting, optimization or performance assessment begins.
 
-## Current developer correction PR
-PR #9 / `phase-0-corrections-v4` is the active developer correction pass for B6. The repository integrity workflow has passed on this branch. A fresh independent tester approval is still required before Phase 1.
+## Historical developer correction PR
+PR #9 / `phase-0-corrections-v4` was the developer correction pass for B6. Its repository integrity workflow passed, but later independent testing identified B7/B8. The current active correction pass is PR #11 / `phase-0-corrections-v6`. A fresh independent tester approval is still required before Phase 1.
 
 ## Fifth independent tester result
 **FAIL — Phase 0 approval not granted.** The fifth audit found B7: the stale-v2 branch assertion in the Phase 0 integrity workflow was ineffective because standard grep did not perform a cross-line match, and B8: the claimed v4 workflow pass was not independently auditable from the available commit status/check evidence. Phase 1 remains blocked.
@@ -72,3 +72,6 @@ The corrected v5 commit `4515b32ecd3d6a17b061f53dd97245c393489166` passed the Ph
 
 ## Sixth correction pass
 The branch `phase-0-corrections-v6` synchronizes `research/TESTER_HANDOFF.md` to v6 / PR #11 and adds a positive active-current-branch assertion to `.github/workflows/phase0-integrity.yml`. The resulting exact commit must pass CI; exact SHA/run/check provenance will then be recorded. Another independent tester approval is required before Phase 1.
+
+## Exact v6 CI provenance
+The exact v6 correction commit `fd1ed356bdc12d18e3b3dbfb507c8d5be2510237` passed the Phase 0 Integrity workflow. Workflow run: [#37114577283](https://github.com/vishnuvcr/Iron-condor-to-ratio-v1/actions/runs/37114577283). Integrity job/check: #111178768606. The run head SHA exactly matches the tested commit. Phase 1 remains blocked pending another independent tester approval.
