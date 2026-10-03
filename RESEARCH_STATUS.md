@@ -4,8 +4,8 @@ Updated: 2026-10-03
 
 | Phase | Status | Gate |
 |---|---|---|
-| 0 Specification/audit | **CORRECTIONS IN PROGRESS — THIRD-GATE DEFECTS ADDRESSED FOR RE-TEST** | Independent tester approval required |
-| 1 Data | **BLOCKED** | Second tester approval |
+| 0 Specification/audit | **CORRECTIONS IN PROGRESS — FOURTH-GATE DEFECTS ADDRESSED FOR RE-TEST** | Current independent tester approval required |
+| 1 Data | **BLOCKED** | Current independent tester approval for Phase 0 |
 | 2 Engine | BLOCKED | Phase 1 |
 | 3 Experiments | BLOCKED | Phase 2 |
 | 4 Statistics | BLOCKED | Phase 3 |
@@ -41,7 +41,16 @@ No performance conclusion exists. Phase 1 remains prohibited until the corrected
 **FAIL — Phase 0 approval not granted.** The third audit confirmed the canonical operational artifact exists, but found five remaining deterministic gaps: IV solver termination, no-arbitrage bounds, tick rounding, explicit future-quote rejection, and strategy-spec/slippage inconsistency.
 
 ## Third correction pass
-The branch `phase-0-corrections-v3` resolves B1–B5 and adds a Phase 0 GitHub Actions integrity workflow with automatic push/PR execution and a manual dispatch option. The workflow is repository-control only and does not start Phase 1.
+The branch `phase-0-corrections-v3` resolved B1–B5 and added the Phase 0 GitHub Actions integrity workflow. A fourth independent tester then failed B6 because the live plan/status/README records still contained stale gate wording and the Phase 2 slippage wording did not explicitly restrict configurability to sensitivity variants.
 
 ## Gate
 **Phase 1 remains BLOCKED.** Independent tester approval is required before any historical data acquisition or backtest work.
+
+## Fourth independent tester result
+**FAIL — Phase 0 approval not granted.** B1–B5 were confirmed resolved. B6 identified stale/inconsistent active gate records and ambiguous Phase 2 slippage wording. Phase 1 remains prohibited.
+
+## Fourth correction pass
+The branch `phase-0-corrections-v4` synchronizes the active gate to the current independent tester approval model, makes the literal-core slippage assumption fixed while restricting alternatives to pre-registered sensitivity variants, updates the active branch/state references, and strengthens the Phase 0 integrity checks. Another independent tester gate is required before Phase 1.
+
+## Current gate
+**Phase 1 remains BLOCKED.** The current Phase 0 correction pass must receive independent tester approval before any historical data acquisition, backtesting, optimization or performance assessment begins.
