@@ -18,6 +18,7 @@ from urllib.request import Request, urlopen
 MANIFEST = Path("data/manifests/phase1_control_sources.json")
 RAW = Path("data/raw/g6_sources")
 OUT = Path("data/validation/phase1_g6_source_acquisition.json")
+BOOTSTRAP_OUT = Path("data/validation/phase1_g6_provenance_bootstrap.json")
 
 
 def fetch(url: str) -> bytes:
@@ -26,13 +27,15 @@ def fetch(url: str) -> bytes:
         return response.read()
 
 
-def acquire_one(source: dict, destination: Path) -> tuple[str, dict]:
+def acquire_one(source: dict, destination: Path, bootstrap: bool = False) -> tuple[str, dict]:
     """Accept a cache hit only when an immutable expected digest is configured and matches."""
     expected_sha256 = source.get("expected_sha256")
     if destination.exists() and destination.is_file() and destination.stat().st_size > 0:
         payload = destination.read_bytes()
         actual = sha256(payload)
         if not expected_sha256:
+            if bootstrap:
+                return "PROVENANCE_BOOTSTRAP_CANDIDATE", {"path": str(destination), "bytes": len(payload), "sha256": actual}
             raise RuntimeError("CACHE_PROVENANCE_UNVERIFIED: expected_sha256 is missing")
         if actual != expected_sha256:
             raise RuntimeError(
@@ -47,6 +50,10 @@ def acquire_one(source: dict, destination: Path) -> tuple[str, dict]:
     payload = fetch(source["url"])
     actual = sha256(payload)
     if not expected_sha256:
+        if bootstrap:
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(payload)
+            return "PROVENANCE_BOOTSTRAP_CANDIDATE", {"path": str(destination), "bytes": len(payload), "sha256": actual}
         raise RuntimeError("SOURCE_PROVENANCE_UNVERIFIED: expected_sha256 is missing")
     if actual != expected_sha256:
         raise RuntimeError(
@@ -68,6 +75,7 @@ def sha256(data: bytes) -> str:
 def main() -> None:
     manifest = json.loads(MANIFEST.read_text())
     sources = manifest.get("greek_sources", [])
+    bootstrap = os.environ.get("G6_PROVENANCE_BOOTSTRAP", "").lower() == "true"
     if not sources:
         raise SystemExit("No greek_sources in control manifest")
 
@@ -86,7 +94,7 @@ def main() -> None:
         }
         try:
             filename = RAW / f"source_{i:02d}.html"
-            mode, meta = acquire_one(source, filename)
+            mode, meta = acquire_one(source, filename, bootstrap=bootstrap)
             rec.update({
                 "status": mode,
                 **meta,
@@ -102,6 +110,15 @@ def main() -> None:
         time.sleep(0.25)
 
     checkout_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+    if bootstrap:
+        BOOTSTRAP_OUT.parent.mkdir(parents=True, exist_ok=True)
+        BOOTSTRAP_OUT.write_text(json.dumps({
+            "status": "PROVENANCE_BOOTSTRAP_ONLY",
+            "warning": "Candidate digests are not acceptance evidence until independently reviewed and committed to the manifest.",
+            "checked_out_commit_sha": checkout_sha,
+            "candidates": records,
+        }, indent=2))
+
     report = {
         "execution_provenance": {
             "checked_out_commit_sha": checkout_sha,
