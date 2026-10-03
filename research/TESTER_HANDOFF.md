@@ -66,3 +66,7 @@ Phase 2 remains BLOCKED until an independent tester explicitly approves the comp
 - **Paytm Money:** official publications confirm the major brokerage/STT transition dates; the complete statutory/exchange charge schedule remains open.
 - **NIFTY contracts:** official NSE circulars confirm effective-date lot-size and expiry changes; production contract metadata remains to be reconciled from effective-date contract files.
 - **Quote data:** remains the principal unresolved data-source issue. NSE historical order/trade data is the preferred procurement candidate.
+
+
+## First independent Phase 1 tester result
+**FAIL — do not start Phase 2.** The current branch has not met all production-data acceptance gates. In particular, the repaired CI has no independently verifiable successful execution, historical bid/ask is unresolved, production r/q/Greeks and target-delta availability are open, session anomalies require reconciliation, effective-date contract metadata/cost schedules/context datasets are incomplete, and B033 identifies inconsistent G1–G14 numbering across Phase 1 control documents. A fresh tester PASS is required after corrections.
