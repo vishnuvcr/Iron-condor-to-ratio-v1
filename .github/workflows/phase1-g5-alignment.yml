@@ -61,6 +61,12 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Record exact workflow provenance marker
+        run: |
+          set -euo pipefail
+          echo "G5 workflow commit: $(git rev-parse HEAD)"
+          echo "G5 workflow ref: ${GITHUB_REF_NAME}"
+
       - name: Syntax-check G5 validator
         run: |
           python -m py_compile scripts/phase1_g5_alignment_audit.py
