@@ -64,3 +64,6 @@ def main():
       "source_pages_with_target":sum(1 for x in pages if x and x.get("rows",0)>0),"rows":len(df),"min_date":str(df.date.min()),"max_date":str(df.date.max()),
       "output_sha256":sha(OUT.read_bytes()),"pages":pages},indent=2,default=str))
 \n\nif __name__=="__main__":\n    main()\n
+
+if __name__=="__main__":
+    main()
