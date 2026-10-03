@@ -159,3 +159,10 @@ Tester must verify that these additions do not imply data acquisition or gate cl
 - Corrected code has been exercised successfully on an ancestor commit, with zero G4 reconciliation failures.
 - This does not close G4/G12 because E045 requires a run whose head SHA equals the resulting final Phase 1 branch head.
 - The final-head run must preserve the exact corrected manifest and reconciler and produce the G4 report showing zero unreconciled dates.
+
+
+## E046 final-head re-audit — 2026-10-03
+- Independently verified final-head G12 evidence: run `37125656878`, job `111210327724`, head `09c4c2e4b6bc569d42d4743fac5132ad0672f8d8`, artifact `11275311823`, SHA-256 `754a71a1b50f532b49e43be45f24ddc3eab80a4aa56df1f43b23f0030f04aa9c`.
+- E046 remains open against G4. The reconciler only visits observed dates; a declared special-session date with no observations disappears from the report instead of becoming a controlled data-gap/unreconciled condition. The observed-date path also does not implement the required one-to-one canonical session calendar join.
+- Required developer correction: enforce bidirectional session-calendar coverage, fail on unmapped observed dates, and add regression tests for missing special dates, unknown observed dates, duplicate mappings, and interval-coverage failures.
+- Phase 2 remains blocked pending a fresh corrected-head CI run and an independent tester re-audit.
