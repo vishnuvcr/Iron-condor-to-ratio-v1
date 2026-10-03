@@ -28,3 +28,7 @@ This matrix is the Phase 1 acceptance checklist. A source-validation PASS does n
 3. Historical lot size, expiry day and tick/contract rules must use effective-date metadata.
 4. No Phase 2 engine, optimization, profitability result or strategy conclusion may be accepted before the independent tester PASS.
 5. Any future methodology change must update RESEARCH_PLAN.md only if the planned research itself changes; ordinary execution errors belong in ERROR_LOG.md.
+
+
+## Canonical vocabulary control
+This file is the authoritative G1–G14 gate dictionary. No other Phase 1 document may assign a different meaning to these IDs.
