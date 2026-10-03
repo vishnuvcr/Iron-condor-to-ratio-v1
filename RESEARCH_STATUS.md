@@ -317,3 +317,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Static audit found a report-construction defect in the G5 expiry/day coverage section.
 - Corrected `in_session` references to the actual `decision_eligible` field at commit `7039818d199566dd18c4d884797d43f3851bfc78`.
 - No G5 PASS is claimed; exact-head CI evidence and independent tester review remain required.
+
+## 2026-10-04 — Tester PR #36 and E073 G5 provenance correction
+- Independent tester PR #36 returned Phase 1 FAIL / IN PROGRESS.
+- G5 exact head `3225d29902a20c958bf8c9803479e8fbe7601dbf` had zero observable workflow runs/statuses; no G5 acceptance was claimed.
+- Tester also required manual-dispatch artifact provenance to bind explicitly to the checked-out commit.
+- Developer correction branch `phase-1-g5-e071-ci-provenance-hardening` records the checkout SHA inside `phase1_g5_alignment_report.json` and verifies it in CI; manual dispatch accepts an optional exact expected commit SHA.
+- G5 remains OPEN. G13/G14 and Phase 2 remain BLOCKED.
