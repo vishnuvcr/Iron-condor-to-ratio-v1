@@ -10,7 +10,7 @@ All Phase 1 acceptance references use the canonical G1–G14 vocabulary below.
 
 | Gate | Meaning | Current status |
 |---|---|---|
-| G1 | Immutable primary dataset / provenance | PARTIAL |
+| G1 | Immutable primary dataset / provenance | PASS |
 | G2 | Structural schema validation | PASS on prior pinned acquisition |
 | G3 | Duplicate handling | PASS on prior pinned acquisition |
 | G4 | Timestamp and session quality | OPEN |
