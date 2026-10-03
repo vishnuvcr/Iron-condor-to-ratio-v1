@@ -168,3 +168,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - Actual CI evidence became available through the GitHub check-run endpoint.
 - Run `37122653828`, job `111201667259`: checkout, Python setup, cache restore, and dependency installation passed; syntax-check failed because `scripts/validate_phase1_control_manifests.py` was absent from the Phase 1 branch.
 - Developer restored the exact existing validator from main to the Phase 1 branch at `68b39d91035bcb79c192cac80f20fd29ed6e709d`.
+
+
+## 2026-10-03 — G12 successfully executed
+- Final corrected Phase 1 CI run `37122686454` completed successfully end-to-end.
+- Artifact `11274027306` was downloaded and inspected; digest `329eb437e42745f5613e7c41bdf33313977b09d49492513a190d3c1216f01980`.
+- Fresh results confirmed structural validation, deterministic deduplication, market-quality audit, and session-outlier characterization all execute successfully.
+- G12 is now PASS on developer evidence; Phase 2 remains blocked pending resolution of remaining Phase 1 gates and independent tester approval.
