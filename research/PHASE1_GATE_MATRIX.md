@@ -17,7 +17,7 @@ This matrix is the Phase 1 acceptance checklist. A source-validation PASS does n
 | G9 | Historical bid/ask | BLOCKED | Primary and reviewed alternatives lack historical bid/ask; NSE historical order/trade data is preferred procurement candidate |
 | G10 | Transaction costs | OPEN | Paytm Money brokerage/STT chronology validated; complete date-specific exchange/IPFT/SEBI/GST/stamp/clearing schedule not yet assembled |
 | G11 | Context variables | OPEN | NIFTY/India VIX/FII/DII/GIFT NIFTY/global/BSE/events registered; complete aligned datasets not yet assembled |
-| G12 | Repaired CI execution | OPEN | E029 repaired; API-created commits did not emit a new Actions status in this environment |
+| G12 | Repaired CI execution | PASS | Successful run 37122686454; job/check 111201763817; artifact 11274027306; SHA-256 329eb437e42745f5613e7c41bdf33313977b09d49492513a190d3c1216f01980 |
 | G13 | Independent tester approval | BLOCKED | Required before Phase 2 |
 | G14 | Phase 2 | BLOCKED | Cannot begin until G1–G13 are accepted and tester explicitly PASSes |
 
