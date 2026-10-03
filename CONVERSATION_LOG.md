@@ -153,3 +153,7 @@ This file records user-visible project instructions and work decisions, not hidd
 - Developer corrected E037 and then attempted a repository-side workflow push trigger using commit `70baca4a23649ec58cb30e2e91a6747f3f2d8267`.
 - GitHub Actions still returned zero workflow runs for that commit.
 - Logged E038. No claim of G12 execution or acceptance was made.
+
+
+## 2026-10-03
+2026-10-03 — User provided screenshot showing no Run workflow button. Repository inspection confirmed the Phase 1 workflow existed on the feature branch but not main. Developer added the same workflow file to main with workflow_dispatch unchanged (commit 25f43daf258add201adf0efc67ea9d58c682ed38) so GitHub can expose manual dispatch. No Phase 1 acceptance or Phase 2 advancement claimed.
