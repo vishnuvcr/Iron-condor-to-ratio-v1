@@ -270,3 +270,10 @@ Updated: 2026-10-03
 - Web/source review confirms ayyararyan/nse-options-pipeline documents bid/ask-bearing NSEI-Data files but does not track the raw archive; OptionVault and TickBytes distinguish public samples from licensed full datasets; BarathGB007/nse-options-data-collector has bid/ask-bearing current/sample schemas but does not establish a complete historical archive.
 - A local attempt to retrieve the 378 MB antony9952/Nifty_option_TBT archive failed because the runtime could not resolve huggingface.co; this is logged as E058. No inferred quote data were created.
 - G9 remains BLOCKED. G13/G14 and Phase 2 remain BLOCKED.
+
+## 2026-10-03 — G9 exact-head CI and raw-file validator hardening
+- Developer submission before this continuation: `d2003df53d07a952aa7434c4c706f396067b6080`.
+- Exact-head PR workflow lookup returned no run. This is recorded as an execution/connector limitation; it is not evidence against the candidate dataset.
+- G9 validator now audits every acquired raw CSV independently and emits an acquisition-failure report rather than losing the diagnostic when network/DNS acquisition fails.
+- G9 workflow now uses the current salvage branch, immutable candidate revision in cache keys, PR path coverage, cache restore/save, and unconditional audit-artifact upload.
+- G9 remains BLOCKED. No Phase 2/backtest/performance analysis has started.
