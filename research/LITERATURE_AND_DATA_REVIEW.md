@@ -34,3 +34,18 @@ The primary performance backtest must use real historical NIFTY option prices wi
 - Corporate/action relevance to index data.
 - Whether the selected data source includes reliable Greeks or only prices/OI.
 - Licensing/redistribution constraints for cached data.
+
+
+## Phase 1 literature extension — 2026-10-03
+
+### Direct ratio-spread evidence
+- Vashisht (2012), *Ratio Spread with Calls—Creating a Zero Downside Risk Strategy in Stock Market*, reports a 42-month NIFTY call-ratio-spread study. This is directly relevant to the instrument/structure family, but it is not evidence for the present transition rules, and its risk/execution assumptions must be independently audited. citeturn5search0turn5search8
+- Wiley's option-spread literature describes ratio spreads as structures with more short than long options and highlights the asymmetric/unlimited tail risk on the short side beyond the sold strike. This supports explicit tail-risk and margin analysis in the present study. citeturn5search7turn5search12
+
+### Indian index-option microstructure / volatility context
+- Bhat et al. (2024), *The asymmetry in day and night option returns: Evidence from an emerging market*, reports different overnight and intraday return behaviour in NIFTY option strategies and interprets the evidence as consistent with compensation for overnight risk. This is relevant to the study's separate treatment of setup timing and overnight-to-session execution, but it does not establish profitability of the present strategy. citeturn5search9turn5search11
+- A 2026 SSRN study by Sumin Pillai evaluates NIFTY short-volatility strategies over 119 monthly expiry cycles with explicit frictions and reports that transaction costs and tail risk materially affect net results. It is a preprint/working paper and should be treated as contextual rather than definitive evidence. Its methodology reinforces the need for explicit costs, slippage, tail-loss and margin analysis in this project. citeturn5search1turn5search2
+- Another 2026 working-paper study of NIFTY delta-neutral strategies reports positive gross results but explicitly identifies the absence of transaction costs as a limitation. This contrast reinforces the project's pre-registered net-of-friction analysis. citeturn5search6
+
+### Research implication
+The literature establishes that ratio spreads and NIFTY option strategies have been studied, but it does not establish the YouTube strategy's transition logic, parameter values, or net profitability. The present study therefore remains a reproducibility/backtest question rather than a literature-confirmation exercise.
