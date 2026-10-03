@@ -275,3 +275,7 @@ This file records user-visible project instructions and work decisions, not hidd
 - Conducted a substantive official-source audit rather than documentation-only work. Verified RBI 91-day Treasury Bill Primary Yield availability, NSE NIFTY lot-size/expiry transitions through 2025, official NSE F&O Historical Order & Trade availability and schema/version documentation, Paytm Money brokerage/STT chronology, India VIX, NIFTY historical index data, FII/FPI-DII and GIFT NIFTY/NSE IX context.
 - Added `research/PHASE1_G5_G11_SOURCE_AUDIT_20261003.md` and expanded the control-source manifest and G8/G9 specifications.
 - G5–G11 statuses remain unchanged because production datasets/reconstruction are still incomplete; G9 remains BLOCKED. No Phase 2/backtest/optimization/profitability work was introduced.
+## 2026-10-03 — E057 current tester provenance synchronization
+- During canonical control review after E055 PASS, developer-side files still referenced tester PR #20 as the current tester record.
+- Corrected current tester provenance to PR #25 and recorded E057 in ERROR_LOG.md.
+- Gate states did not change: G1–G3 PASS; G4/G12 independently PASS; G5 preliminary/open; G6–G8/G10–G11 open; G9 blocked; G13/G14 and Phase 2 blocked.
