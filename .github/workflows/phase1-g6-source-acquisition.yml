@@ -39,6 +39,24 @@ jobs:
           python-version: "3.11"
       - name: Acquire and hash official G6 sources
         run: python scripts/phase1_g6_source_acquisition.py
+      - name: Verify G6 artifact provenance
+        if: always()
+        run: |
+          set -euo pipefail
+          if [ -f data/validation/phase1_g6_source_acquisition.json ]; then
+            python - <<'PY'
+            import json, subprocess
+            from pathlib import Path
+            p=Path("data/validation/phase1_g6_source_acquisition.json")
+            report=json.loads(p.read_text())
+            actual=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+            recorded=report.get("execution_provenance",{}).get("checked_out_commit_sha")
+            if recorded != actual:
+                raise SystemExit(f"G6 artifact checkout SHA mismatch: report={recorded} actual={actual}")
+            print(f"G6 artifact checkout SHA verified: {actual}")
+            PY
+          fi
+
       - name: Save G6 source cache
         if: ${{ success() && steps.g6-cache-restore.outputs.cache-hit != 'true' }}
         uses: actions/cache/save@v4
