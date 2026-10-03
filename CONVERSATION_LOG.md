@@ -214,3 +214,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - User provided a GitHub Actions screenshot showing the Phase 1 workflow on `phase-1-e046-bidirectional-reconciliation`, with the workflow_dispatch “Run workflow” control visible.
 - The latest visible successful run corresponds to the E047 corrective execution already independently identified as run 37129894485 on commit 4099cd1217f072be961f120ab114034578e19197.
 - This screenshot is retained as corroborating UI evidence only. It does not replace repository/API verification of the current branch tip after subsequent documentation commits.
+
+
+## 2026-10-03 — E048 manual-dispatch routing correction
+- User said “Ok proceed” and supplied an Actions screenshot showing manual run #52 queued on `main`.
+- Inspected the repository workflow definitions. The `main` workflow was still the older definition with default `research_ref=phase-1-data-acquisition-validation` and without E046 bidirectional reconciliation.
+- Updated `main` to the E046-corrected Phase 1 workflow. Main commit: 097d29c2816614bc7ba45365454b7f0dc270bc5d.
+- Run #52 is treated as unverified for the E046 corrective gate unless its manual input selected the corrective branch. No Phase 2 work was started.
