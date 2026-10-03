@@ -47,7 +47,7 @@ PR #8 / `tester/phase-0-fourth-audit` failed Phase 0 on B6 repository-control sy
 `.github/workflows/phase0-integrity.yml` automatically validates required Phase 0 artifacts on pushes and pull requests and provides a manual `workflow_dispatch` entry. This is a control workflow only; it does not initiate Phase 1.
 
 ## Latest correction pass
-PR #7 was the v3 developer correction pass reviewed by the fourth tester; PR #8 is the fourth independent tester gate. The current developer branch is `phase-0-corrections-v4`, which must receive another independent tester approval before Phase 1 can begin.
+PR #7 was the v3 developer correction pass reviewed by the fourth tester; PR #8 is the fourth independent tester gate. PR #9 is the current v4 developer correction pass. The current developer branch is `phase-0-corrections-v4`, which must receive another independent tester approval before Phase 1 can begin.
 
 ## Slippage control
 The literal-core fallback slippage is fixed by `research/OPERATIONAL_CONVENTIONS.md`. Configurable slippage assumptions are reserved for pre-registered sensitivity variants only and cannot change the literal-core result.
