@@ -349,3 +349,32 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Exact-tip G6 run **37148353717** succeeded at developer commit `e8fca6a6084a463528643b63dd8f310899c0b3bf`; artifact **11282958617**, digest `sha256:bdb21f11285b16535f3ea6338bbf9bff3afe717f6ef727575642f0aaba4d6d11`.
 - This is acquisition/provenance evidence only and does not close G6 substantive requirements.
 - Exact-tip G5 run **37148384171** is currently executing at commit `001e498bfc099e9f51df9129e1fdc2e9370b2b3a`; no G5 result is claimed until completion and independent review.
+
+
+## 2026-10-04 — E086 G5 substantive failure and failure isolation
+
+Independent tester re-audit confirmed the exact-tip G5 artifact from checkout `db668dd2b89bf691a6481affb3cb2a9060c5fe98`:
+- Run 37148487963 / job 111277213347 / artifact 11284131045.
+- Artifact SHA-256: `30381036630380820693858817bea51be4fae82896e01eb98cf09dba61fd95fb`.
+- Raw option rows: 108,139,447.
+- Decision-eligible rows: 77,727,743.
+- Exact-aligned decision rows: 77,206,674.
+- Missing exact alignments: 521,069.
+- Alignment: 99.3296229%.
+- Affected expiry/day groups: 362.
+- Provenance assertion passed; failure is substantive alignment, not CI provenance.
+
+The tester also identified that duplicate diagnostics are observational pre-dedup counts and that the production validator deduplicates within each parquet file rather than performing an explicitly global option-key pass. This is now part of the diagnostic scope.
+
+Developer created `phase-1-g5-failure-isolation-20261004` from the failed exact-tip SHA and added:
+- `research/PHASE1_G5_FAILURE_ISOLATION_SPEC.md`;
+- `scripts/phase1_g5_failure_isolation.py`;
+- `.github/workflows/phase1-g5-failure-isolation.yml`.
+
+The diagnostic branch will classify evidence into underlying-source gaps, option timestamp irregularity, session-calendar classification, cross-file partition/duplicate effects, and broader dataset discontinuities. It will not relax the 100% exact-timestamp rule or delete failed observations.
+
+G5 remains **FAIL/OPEN**. G6/G7/G8/G10/G11 remain OPEN; G9 remains PASS; G13/G14 and Phase 2 remain BLOCKED.
+
+## G6 implementation provenance — 2026-10-04
+
+The exact commit containing the new official-NSE NIFTY 50 valuation acquisition implementation is **`4319b612c3859581b01797798b6ef526abaf7ffe`** on branch `phase-1-g6-production-greeks-20261004`. It adds `scripts/acquire_g6_nse_q_history.py` and its test. This is implementation provenance only; automatic workflow invocation and substantive G6 production acceptance remain pending independent verification.
