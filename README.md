@@ -45,3 +45,6 @@ PR #6 / `tester/phase-0-third-audit` failed Phase 0. The reported B1–B5 defect
 
 ## Automation control
 `.github/workflows/phase0-integrity.yml` automatically validates required Phase 0 artifacts on pushes and pull requests and provides a manual `workflow_dispatch` entry. This is a control workflow only; it does not initiate Phase 1.
+
+## Fourth tester gate
+PR #7 / phase-0-corrections-v3 passed the numerical B1–B5 re-check, but the fourth tester failed the repository-control gate because current status/plan/README records remain stale or inconsistent. Phase 1 remains blocked.
