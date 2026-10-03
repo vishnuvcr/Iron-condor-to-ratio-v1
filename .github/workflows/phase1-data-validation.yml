@@ -144,3 +144,4 @@ jobs:
           retention-days: 30
 
 # E046 corrective execution marker: bidirectional reconciliation, regression tests, and documentation are frozen before exact-head CI evidence.
+# E050 path-trigger verification marker: this workflow file is intentionally touched so the exact corrective branch tip receives a fresh automatic push execution.
