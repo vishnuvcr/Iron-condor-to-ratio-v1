@@ -233,3 +233,11 @@ This file records user-visible project instructions and work decisions, not hidd
 - Added a push-time assertion requiring automatic Phase 1 execution on `phase-1-e046-bidirectional-reconciliation`.
 - CI safeguard commit: `59e025ff0050fb30d2a43928aad02f3a63277a0b`.
 - The push trigger automatically initiates the corrected Phase 1 workflow. The final evidence target will be the latest resulting branch-tip run after this execution record is committed.
+
+
+## 2026-10-03 — E051 exact-tip CI control
+- Re-read the repository status/control files before continuing.
+- Detected that the documentation commit 7a0b43b81d6b69165d745527f639de94ee5a62ad was outside the workflow's push-path filter, so it could not serve as exact-tip CI evidence.
+- Touched the workflow only with a path-trigger verification marker and committed b6e8ff93edfd2d3e5f1797d0d1d2ed186189d512.
+- Current connector-visible commit status is pending with zero published statuses; no G12 advancement is claimed.
+- Phase 2 remains blocked pending observable exact-tip Actions evidence and independent tester approval.
