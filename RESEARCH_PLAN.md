@@ -25,7 +25,7 @@ Can the YouTube-described transition strategy—monthly 30Δ/10Δ Iron Condor tr
 - Report statistical uncertainty and limitations.
 
 ## Phase 0 — Specification and audit
-Status: IN PROGRESS
+Status: APPROVED — independently tester-gated before Phase 1
 - Capture source transcript and citation.
 - Separate explicit rules from ambiguous/discretionary statements.
 - Define research questions, aims, objectives, methodology and statistical plan.
@@ -36,8 +36,9 @@ Status: IN PROGRESS
 Exit criterion: reproducible specification, data-source decision framework and tester handoff.
 
 ## Phase 1 — Data acquisition and validation
-Status: BLOCKED BY TESTER GATE
+Status: IN PROGRESS — G13/Phase 2 remains blocked
 - Obtain historical NIFTY index and option-chain intraday data.
+- Current evidence: G4 and G12 are independently PASS; G5–G8, G10–G11 remain open/preliminary and G9 remains blocked pending historical execution-quality data.
 - Cache source-derived data in repository-compatible storage or documented artifact storage.
 - Validate timestamps, expiries, strikes, OHLC, OI and Greeks.
 - Detect missing bars, stale quotes, crossed markets and contract errors.
@@ -86,3 +87,7 @@ For continuation, the combined short-leg delta is described as falling from abou
 For reversal, the combined short-leg delta is described as rising to about 1.20–1.30, after which the ratio is exited and the opposite-side ratio is created. See lines 505–543.
 
 The video also discusses profit-taking and expiry-day decisions in a discretionary manner. Those will be isolated from the deterministic core backtest rather than silently hard-coded.
+
+
+## 2026-10-03 — E053 status correction
+Research-plan phase statuses were synchronized with the independent tester's current determination. Phase 0 is approved; Phase 1 remains active for substantive data-gate work; G13 and Phase 2 remain blocked. This is a status correction only and does not alter the proposed research phases or methodology.
