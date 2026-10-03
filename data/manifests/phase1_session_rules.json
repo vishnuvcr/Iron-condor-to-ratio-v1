@@ -19,14 +19,14 @@
       "type": "MUHURAT",
       "start": "18:15",
       "end": "19:15",
-      "source": "NSE F&O Muhurat circular chain; source document to be pinned in final calendar"
+      "source": "NSE/FAOP/50049"
     },
     {
       "date": "2022-10-24",
       "type": "MUHURAT",
       "start": "18:15",
       "end": "19:15",
-      "source": "NSE F&O Muhurat circular chain; source document to be pinned in final calendar"
+      "source": "NSE/FAOP/54024"
     },
     {
       "date": "2023-11-12",
@@ -108,5 +108,14 @@
     "exclusion_rule": "For a non-special observed date, if fewer than 300 unique timestamps fall inside the eligible regular-session window, classify the date as DATA_GAP_EXCLUDED and do not permit strategy trading on that date. Retain all raw rows and the exclusion reason in the audit output.",
     "rationale": "The frozen research requires decision-time observations during the regular F&O execution window. This rule prevents fabrication or forward-filling of a materially incomplete session while preserving the source evidence.",
     "pre_registered": true
+  },
+  "source_evidence": {
+    "2021-11-04": "https://archives.nseindia.com/content/circulars/FAOP50049.pdf",
+    "2022-10-24": "https://archives.nseindia.com/content/circulars/FAOP54024.pdf",
+    "2023-11-12": "https://nsearchives.nseindia.com/content/circulars/FAOP59126.pdf",
+    "2024-03-02": "https://nsearchives.nseindia.com/content/circulars/MSD60677.pdf",
+    "2024-05-18": "https://nsearchives.nseindia.com/content/circulars/MSD61893.pdf",
+    "2024-11-01": "https://nsearchives.nseindia.com/content/circulars/FAOP64630.pdf",
+    "2025-10-21": "https://nsearchives.nseindia.com/content/circulars/FAOP70320.pdf"
   }
 }
