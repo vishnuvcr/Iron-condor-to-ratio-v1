@@ -244,3 +244,11 @@ Tester PR #40 found a G6 cache-integrity defect. The developer corrected the cac
 - G6 source provenance bootstrap produced real observed SHA-256 values, which are now committed to the manifest; no placeholder digests remain.
 - G6 exact-tip CI run **37148353717** succeeded at commit `e8fca6a6084a463528643b63dd8f310899c0b3bf`, with artifact **11282958617**. This does not constitute G6 PASS because substantive r/q and IV/Greek reconstruction remain incomplete.
 - G5 exact-tip CI run **37148384171** is executing at commit `001e498bfc099e9f51df9129e1fdc2e9370b2b3a`; G5 remains OPEN pending completion and tester re-audit.
+
+## 2026-10-04 — Latest independent tester re-audit
+- Paired developer SHA: `db668dd2b89bf691a6481affb3cb2a9060c5fe98`.
+- G6 Run **37148488127**: **SUCCESS**; artifact **11283345350**; SHA-256 `513f1a1e4d2032d45f797aeda5688d18e83d56f20fa13c4b0ea73d33cffcc661`.
+- G6 cache-integrity/provenance implementation is independently accepted; the **G6 production gate remains OPEN** pending substantive r/q and IV/Greek reconstruction evidence.
+- G5 Run **37148487963** remains **IN PROGRESS** at the same exact SHA; no G5 PASS is claimed.
+- G7/G8/G10/G11 remain OPEN; G13/G14 and Phase 2 remain BLOCKED.
+- No backtest, optimization, profitability conclusion, or trading-strategy conclusion has started.
