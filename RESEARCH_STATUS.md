@@ -20,6 +20,7 @@ Updated: 2026-10-03
 - Historical bid/ask is not documented in the primary source; execution is currently classified as degraded unless an independent historical quote source is validated.
 - NSE contract-rule changes and Paytm Money date/cohort-dependent costs have been externally reconciled at source-review level.
 - Interim acceptance report: research/PHASE1_ACCEPTANCE_REPORT.md.
+- Independent tester PR #25 closed E055 PASS; this does not close G13 because G5–G11 remain incomplete.
 - No backtest engine, optimization, or profitability conclusion has started.
 
 ## Open Phase 1 gates
