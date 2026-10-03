@@ -1,0 +1,34 @@
+name: Phase 0 Integrity
+
+on:
+  push:
+    branches:
+      - main
+      - "phase-0-corrections*"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify required Phase 0 artifacts
+        run: |
+          set -euo pipefail
+          test -f research/OPERATIONAL_CONVENTIONS.md
+          test -f research/STRATEGY_SPEC.md
+          test -f RESEARCH_PLAN.md
+          test -f RESEARCH_STATUS.md
+          test -f ERROR_LOG.md
+          test -f CONVERSATION_LOG.md
+          test -f README.md
+          grep -q "max(2 \* tick_size, 0.005 \* reference_price)" research/OPERATIONAL_CONVENTIONS.md
+          grep -q "literal-core fallback slippage is fixed" research/STRATEGY_SPEC.md
+          grep -q "quote_timestamp <= decision_timestamp" research/OPERATIONAL_CONVENTIONS.md
+          grep -q "Root absolute tolerance: 1e-10" research/OPERATIONAL_CONVENTIONS.md
+          grep -q "Call lower bound" research/OPERATIONAL_CONVENTIONS.md
+          grep -q "Buy fill = ceil(n)\*tick_size" research/OPERATIONAL_CONVENTIONS.md
+          grep -q "Phase 1" RESEARCH_STATUS.md
