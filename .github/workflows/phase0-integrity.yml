@@ -40,6 +40,8 @@ jobs:
           grep -q "fixed literal-core fallback" RESEARCH_PLAN.md
           ! grep -q "Status: BLOCKED BY SECOND TESTER GATE" RESEARCH_PLAN.md
           ! grep -q "| 1 Data | **BLOCKED** | Second tester approval" RESEARCH_STATUS.md
+          # B10: positively assert the active README current-branch field.
+          awk '/^## Current branch$/ { getline; if ($0 == "`phase-0-corrections-v6`") found=1 } END { if (found != 1) { print "ERROR: README active current branch is not phase-0-corrections-v6"; exit 1 } }' README.md
           # B7: line-aware stale-branch assertion.
           # Standard grep does not make \n a cross-line matcher.
           if awk '/^## Current branch$/ { getline; if ($0 == "`phase-0-corrections-v2`") found=1 } END { exit(found ? 0 : 1) }' README.md; then
