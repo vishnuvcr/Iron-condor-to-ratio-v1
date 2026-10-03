@@ -125,3 +125,5 @@ jobs:
           name: phase1-validation-report
           path: data/validation/*.json
           retention-days: 30
+
+# Final-head G4/E044 execution marker: all Phase 1 methodology and control changes are frozen before this run.
