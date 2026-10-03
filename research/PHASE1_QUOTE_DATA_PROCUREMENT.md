@@ -67,3 +67,14 @@ This does **not** close G9. No licensed historical order/trade files have yet be
 ## Current evidence status
 
 **BLOCKED — procurement/access and validation required.**
+
+
+## 2026-10-03 — broader G9 source screen
+
+Additional public-source screening found several technically interesting but non-qualifying alternatives:
+- GitHub NIFTY option pipelines that expose or model bid/ask fields but do not provide a validated complete historical bid/ask archive.
+- GitHub projects using 2024 Kaggle/live 2026 data explicitly state bid/ask is unavailable and use close/market-price proxies.
+- A public NSE-options analytics pipeline documents bid/ask columns in its input schema, but its raw market-data directory is not tracked in the repository.
+- Commercial/subscription-style repositories advertise tick/Level-2 NIFTY option data, but access, licensing, historical coverage and reproducibility are not established for this study.
+
+These sources are retained as search evidence, not as accepted G9 data. The official NSE Historical Order & Trade product remains the preferred acquisition route because its specification exposes all-order-tick F&O data with order price/side/activity and linked trade identifiers. G9 remains BLOCKED until licensed raw data are actually acquired and reconstructed.
