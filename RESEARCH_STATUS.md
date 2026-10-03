@@ -154,3 +154,12 @@ Updated: 2026-10-03
 - Reconciliation result: 1,254 normal eligible dates, 7 documented special sessions, 1 data-gap exclusion on 2026-06-03, 0 unreconciled dates.
 - G4 is PASS on developer evidence; independent tester verification remains required.
 - G9 remains BLOCKED; G6/G7/G8/G10/G11 remain OPEN; G13/G14 remain blocked.
+
+## 2026-10-03 — E044/E045 correction
+- Independent tester re-audit: Phase 1 FAIL / IN PROGRESS; Phase 2 BLOCKED.
+- E044 accepted: unresolved-date manifest entries were not consumed and special-session intervals were not actually validated.
+- E045 accepted: run 37124047220 was not on the current branch head, so it cannot be final-head CI evidence.
+- Replaced unresolved_dates with explicit date_controls and formal special-session execution_intervals + source_observation_intervals.
+- Reconciliation now fails on any uncontrolled date, date-control classification mismatch, missing special execution interval coverage, or observation outside documented source windows.
+- G4 is back to OPEN pending fresh final-head CI and independent tester review.
+- G12 is OPEN for final-head evidence. G13/G14 remain blocked.
