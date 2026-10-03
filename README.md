@@ -71,3 +71,5 @@ phase-1-data-acquisition-validation.
 
 - Phase 1 quote-data escalation: official NSE Historical Order & Trade Data is registered as the preferred procurement candidate for historical order-level quote reconstruction; access is paid and not yet acquired.
 - PR #13 was opened for the repaired CI path, but no new Actions status was emitted in this environment; therefore Phase 1 acceptance remains blocked and no repaired-run result is claimed.
+
+- E029 control improvement: Phase 1 CI now performs a fail-fast Python syntax check before data acquisition.
