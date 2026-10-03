@@ -119,5 +119,25 @@
       "url": "https://www.nseix.com/markets/historical-nlt",
       "use": "historical GIFT NIFTY/global-crossing activity context"
     }
+  ],
+  "greek_sources": [
+    {
+      "name": "RBI Weekly Statistical Supplement — 91-Day Treasury Bill Primary Yield",
+      "url": "https://www.rbi.org.in/scripts/WSSView.aspx?Id=26722",
+      "field": "91-Day Treasury Bill (Primary) Yield",
+      "use": "historical risk-free input; use latest source observation strictly before trading date"
+    },
+    {
+      "name": "NSE Indices Historical Data",
+      "url": "https://www.niftyindices.com/reports",
+      "field": "P/E, P/B, Div Yield",
+      "use": "historical NIFTY dividend-yield input; use latest source observation strictly before trading date"
+    },
+    {
+      "name": "NSE NIFTY 50 Underlying Information",
+      "url": "https://www.nseindia.com/static/products-services/equity-derivatives-underlying-information-nifty-50",
+      "field": "daily P/E and annual dividend yield",
+      "use": "provider/reference validation for NIFTY index valuation fields"
+    }
   ]
 }
