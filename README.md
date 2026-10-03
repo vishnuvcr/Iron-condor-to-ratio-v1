@@ -200,3 +200,6 @@ The primary backtest methodology has been explicitly changed so historical bid/a
 The frozen model uses completed 1-minute decision bars and fills at the next eligible option bar open, with adverse per-leg slippage scenarios of 0/5/10/20/50 bps and an effective-date tick-size floor. Brokerage and statutory/exchange costs remain date-effective and separate. Missing execution bars are not interpolated, and OHLC/LTP are never relabeled as bid/ask.
 
 This changes the interpretation of the research from historical executable-fill validation to **proxy-execution backtesting under explicit sensitivity assumptions**. G9 is **BLOCKED pending independent tester approval of the methodology**; G13/G14 and Phase 2 remain BLOCKED.
+
+### E064 — execution-proxy specification documentation correction
+The execution-proxy specification initially rendered mathematical escape sequences incorrectly. The equations were corrected without changing the frozen slippage parameters or execution convention. See `research/PHASE1_EXECUTION_PROXY_SPEC.md`. This correction does not advance any gate.
