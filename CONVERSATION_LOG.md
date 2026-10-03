@@ -387,3 +387,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - Continued G6 on branch phase-1-g6-production-greeks-20261004 without advancing any gate.
 - Public-source audit confirmed official NSE Indices historical P/E/P/B/Dividend Yield availability and RBI WSS exposure of the required 91-Day Treasury Bill (Primary) Yield field. No proxy r/q values were substituted.
 - Identified and corrected E084: G6 reference-data coverage was initially defined from the q table itself; it is now defined from actual option-data trading dates. G6 remains OPEN.
+
+
+## 2026-10-04 — G6 official NSE q acquisition implementation
+- Public-source review identified the official NSE Indices historical valuation endpoint and its documented 365-day pagination limit.
+- Added `scripts/acquire_g6_nse_q_history.py` to the G6 production branch. It requests NIFTY 50 P/E/P/B/dividend-yield data in <=365-day chunks, retains response bytes and records SHA-256 hashes, and fails closed on acquisition errors.
+- Added `scripts/test_g6_nse_q_history.py` to validate the acquisition artifact structure.
+- The connector safety layer blocked the subsequent workflow-file mutation that would invoke this stage automatically; logged E085. No CI execution or G6 acceptance claim was made.
