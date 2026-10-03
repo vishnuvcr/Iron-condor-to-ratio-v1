@@ -34,9 +34,13 @@ def main():
         d=t.tz_convert(rules["timezone"]).strftime("%Y-%m-%d"); byday.setdefault(d,[]).append(t)
     for d in byday: byday[d].sort()
     files=sorted((RAW/"options"/"NIFTY").glob("*.parquet"))
-    ranges=[]
+    ranges=[]; expiry_partition=[]
     for p in files:
-        lo,hi=file_range(p); ranges.append({"file":str(p.relative_to(RAW)),"min":str(lo),"max":str(hi)})
+        lo,hi=file_range(p)
+        ranges.append({"file":str(p.relative_to(RAW)),"min":str(lo),"max":str(hi)})
+        vals=pd.read_parquet(p,columns=["expiry"])["expiry"].dropna().astype(str).unique().tolist()
+        stem=p.stem
+        expiry_partition.append({"file":str(p.relative_to(RAW)),"filename_expiry":stem,"unique_expiry_values":vals,"partition_matches_filename":(len(vals)==1 and vals[0]==stem)})
     ranges.sort(key=lambda z:z["min"]); overlaps=[]
     for a,b in zip(ranges,ranges[1:]):
         if a["max"]>=b["min"]: overlaps.append({"a":a["file"],"b":b["file"],"a_max":a["max"],"b_min":b["min"]})
@@ -63,7 +67,7 @@ def main():
          "recomputed_missing_rows":total,"affected_date_count":len(dates),"affected_dates":dates,
          "missing_timestamp_frequency_top100":sorted(freq.items(),key=lambda x:(-x[1],x[0]))[:100],
          "timestamp_diagnostics":seconds,"examples":examples,
-         "option_file_timestamp_ranges":ranges,"overlapping_option_file_ranges":overlaps,
+         "option_file_timestamp_ranges":ranges,"overlapping_option_file_ranges":overlaps,"expiry_partition_checks":expiry_partition,"all_files_single_expiry_matching_filename":all(x["partition_matches_filename"] for x in expiry_partition),
          "classification_notes":{"underlying_source_gap":"Requires within-day NIFTY coverage and neighbor-gap evidence; absence alone is not classified as a source gap.","option_source_timestamp_irregularity":"Seconds/microseconds and neighbor distances are reported; no correction is applied.","session_calendar":"Eligibility is recomputed only from phase1_session_rules.json.","cross_file_duplicates":"Non-overlap of timestamp ranges establishes partition separation; overlap requires global key audit.","dataset_discontinuity":"Large clusters are retained, not excluded."},
          "acceptance":{"diagnostic_only":True,"exact_timestamp_requirement":1.0,"no_interpolation":True,"no_forward_fill":True}}
     OUT.parent.mkdir(parents=True,exist_ok=True); OUT.write_text(json.dumps(out,indent=2))
