@@ -67,3 +67,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - Logged E029 and repaired scripts/phase1_market_quality_audit.py in commit 336c8e8ddf5de93f31ef6b114e621747ae956620.
 - Independent public-source review confirms the NSE live option-chain exposes bid/ask, but the primary historical Hugging Face source does not document historical bid/ask. Commercial 1-minute NIFTY chain archives likewise document OHLCV/OI without bid/ask. This remains a production execution-data gap, not a reason to silently substitute close for midpoint.
 - No Phase 2 work started; Phase 1 tester gate remains required.
+
+
+## 2026-10-03 — Phase 1 quote-source escalation and CI trigger constraint
+- Web review found official NSE Historical Order & Trade Data for F&O as a procurement candidate; NSE documentation describes F&O order ticks and separate Level 1/2/3/tick-by-tick market-data products. This is registered as the preferred route for historical execution-quality quote reconstruction.
+- The primary historical dataset still lacks documented bid/ask, so no close-price substitution was accepted for the frozen midpoint rule.
+- Repaired market-quality audit commit: 336c8e8ddf5de93f31ef6b114e621747ae956620.
+- Pull request #13 was created to trigger the PR validation path, but no Actions status was emitted. Logged E030 and kept Phase 1 acceptance blocked rather than treating the old run as validation of the repaired code.
