@@ -42,3 +42,14 @@ This file is the authoritative G1–G14 gate dictionary. No other Phase 1 docume
 | G12 | Repaired CI execution | OPEN for corrective head | Previous final-head run 37125656878 remains valid for the superseded head 09c4c2e4b6bc569d42d4743fac5132ad0672f8d8. This corrective branch requires a new final-head execution. |
 
 Phase 2 remains BLOCKED.
+
+
+## E046/E047 current gate state — 2026-10-03
+| Gate | Current state | Current evidence / blocker |
+|---|---|---|
+| G4 | PASS — developer evidence | Exact corrective-head run 37129894485 / job 111222750604; artifact 11275819920; 0 unreconciled and 0 missing manifest-session dates. |
+| G12 | PASS — developer evidence | Exact corrective head 4099cd1217f072be961f120ab114034578e19197 executed successfully through all Phase 1 CI steps. |
+| G13 | BLOCKED | Independent tester must re-audit the exact corrective head and record PASS/FAIL. |
+| G14 | BLOCKED | Phase 2 cannot begin until G13 PASS and all Phase 1 gates are accepted. |
+
+E047 is resolved as a control-manifest completion issue. The three newly controlled weekend sessions are 2024-01-20, 2025-02-01 and 2026-02-01. No gate beyond G4/G12 is advanced by this evidence.
