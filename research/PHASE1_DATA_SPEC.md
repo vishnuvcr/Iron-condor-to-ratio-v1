@@ -55,3 +55,18 @@ The phase will collect India VIX, NIFTY benchmark returns, FII/FPI and DII activ
 
 ## Data retention
 Large raw datasets are retained outside ordinary Git history through reproducible cache/artifact mechanisms when licensing permits. Git stores manifests, checksums, schema summaries, validation reports and exact acquisition instructions.
+
+## Historical contract-rule checkpoints
+Phase 1 must not apply current NIFTY contract rules retroactively.
+
+- NSE Circular 128/2024 states the NIFTY lot size was revised from 25 to 75 for new index derivatives introduced from 20 November 2024 onward.
+- NSE Circular 33/2025 changed NIFTY expiry day from Thursday to Monday effective 4 April 2025 for contracts created under that circular; this was subsequently superseded/modified in June 2025.
+- NSE Circular 111/2025 changed NIFTY weekly and monthly/quarterly/half-yearly expiry to Tuesday, with the transition applying to new contracts and specified existing long-dated contracts from the 2025 transition dates.
+- Therefore the validator must use the historical contract master/effective contract metadata for every contract rather than infer expiry weekday or lot size from today's specification.
+
+## Primary official references
+- NSE Contract Information: https://www.nseindia.com/static/products-services/equity-derivatives-contract-information
+- NSE Contract Specifications: https://www.nseindia.com/static/products-services/equity-derivatives-contract-specifications
+- NSE Circular 128/2024: https://nsearchives.nseindia.com/content/circulars/FAOP64625.pdf
+- NSE Circular 103/2025: https://nsearchives.nseindia.com/content/circulars/FAOP68589.pdf
+- NSE Circular 111/2025: https://nsearchives.nseindia.com/content/circulars/FAOP68747.pdf
