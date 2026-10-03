@@ -1,0 +1,52 @@
+{
+  "status": "PRELIMINARY_DIAGNOSTIC_FROM_FROZEN_ARTIFACTS",
+  "source_artifacts": {
+    "g5_run": 37148487963,
+    "g5_job": 111277213347,
+    "g5_artifact": 11284131045,
+    "g5_artifact_sha256": "30381036630380820693858817bea51be4fae82896e01eb98cf09dba61fd95fb",
+    "g4_artifact": 11278418088,
+    "g4_artifact_sha256": "de60c50a047357d7f89d5602ea42fd832158855779e34169fec2b9beeb02159"
+  },
+  "frozen_g5_counts": {
+    "decision_eligible_rows": 77727743,
+    "exact_aligned_rows": 77206674,
+    "missing_exact_alignments": 521069,
+    "alignment_fraction": 0.9932962288638691
+  },
+  "date_level_reconciliation": {
+    "affected_dates": 362,
+    "no_nifty_observed_date_and_all_decision_rows_missing": {
+      "date_count": 14,
+      "missing_rows": 487593,
+      "fraction_of_missing": 0.9357551495099498
+    },
+    "nifty_observed_date_with_partial_missing": {
+      "date_count": 348,
+      "missing_rows": 33476,
+      "fraction_of_missing": 0.06424485049005026
+    }
+  },
+  "fully_missing_underlying_dates": [
+    "2021-05-07",
+    "2021-05-10",
+    "2021-05-11",
+    "2021-05-12",
+    "2021-05-14",
+    "2021-05-17",
+    "2021-05-18",
+    "2021-05-19",
+    "2021-05-20",
+    "2021-05-21",
+    "2025-10-10",
+    "2026-05-25",
+    "2026-05-26",
+    "2026-05-29"
+  ],
+  "interpretation": {
+    "full_date_gaps": "The 14 dates are absent from the independently accepted G4 NIFTY observed-date reconciliation while option rows are present. All decision-eligible option rows on those dates fail exact alignment. This is evidence of a primary underlying-source date gap/discontinuity at date level, not a session-calendar exclusion.",
+    "partial_dates": "The 348 dates have NIFTY observations but some decision-eligible option timestamps are absent from the NIFTY grid. Exact mechanism remains unresolved from the frozen aggregate artifacts and requires raw-data diagnostic CI.",
+    "cross_file_partition": "The frozen G5 artifact contains 267 unique expiry-dated filenames. This is suggestive but not sufficient proof that every row expiry equals its filename; the diagnostic branch now checks that condition and requires a global key audit if it fails.",
+    "rule": "No rows are deleted or reclassified for acceptance. The 100% exact timestamp requirement remains unchanged."
+  }
+}
