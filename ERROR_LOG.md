@@ -183,3 +183,6 @@
 - Impact: treating these dates as holidays would silently remove genuine market-day observations and bias the alignment gate.
 - Resolution: classify them as unresolved primary NIFTY-source coverage gaps pending raw-source reconstruction. Keep the 100% exact-timestamp rule unchanged.
 - Diagnostic terminology was corrected to distinguish row counts from unique timestamp counts.
+
+
+| E082 | 2026-10-04 | 1 / G5 | Independent tester re-audit found a documentation arithmetic error in E087: 487,593 / 521,069 equals 93.57551495%, not 93.5762%. The exact-tip diagnostic also confirmed 238 timestamp-range overlap pairs across 267 option files. | The percentage discrepancy weakens audit precision; the range overlaps mean per-file deduplication cannot establish global key uniqueness. | Correct percentage to 93.5755% in the tester report and require a non-accepting global cross-file frozen-key audit. No G5 threshold or data treatment changed. G5 remains FAIL/OPEN. |
