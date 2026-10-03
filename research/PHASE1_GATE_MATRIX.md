@@ -60,3 +60,15 @@ Tester PR #32 independently re-audited developer PR #31 exact head `8b99cb3b2b53
 
 ## 2026-10-04 — Tester PR #39 correction set
 Tester PR #39 found G5/G6 control defects while explicitly preserving G9 PASS. The developer correction branch `phase-1-g5-g6-reaudit-corrections-20261004` fixes the G5 push-trigger coverage and G6 cache reuse path. These corrections do not advance G5/G6 without independent re-audit and observable exact-head evidence.
+
+
+## 2026-10-04 — Tester re-audit: paired exact-tip G5/G6 evidence
+The independent tester re-audited the paired submission at exact developer SHA `db668dd2b89bf691a6481affb3cb2a9060c5fe98`.
+
+- G6 Run **37148488127**: **SUCCESS**, exact SHA bound, cache restored, cache-provenance tests passed, source acquisition passed, artifact **11283345350**, artifact SHA-256 `513f1a1e4d2032d45f797aeda5688d18e83d56f20fa13c4b0ea73d33cffcc661`.
+- G6 cache-integrity implementation/provenance sub-requirement is independently **PASS**; E079 is closed at implementation/evidence level.
+- G6 production gate remains **OPEN** pending date-aligned r/q, no-lookahead selection, IV/Greek reconstruction, solver diagnostics, target-delta availability, expiry/date coverage and production checksum evidence.
+- G5 Run **37148487963** is independently confirmed **IN PROGRESS** at the same exact SHA. Its alignment audit and artifact-provenance/upload steps are not complete; therefore G5 remains **OPEN**.
+- G7/G8/G10/G11 remain OPEN; G13/G14 and Phase 2 remain BLOCKED.
+
+The current gate table above remains authoritative; this entry is append-only evidence and does not advance any gate without independent acceptance.
