@@ -353,3 +353,9 @@ This file records user-visible project instructions and work decisions, not hidd
 - Tester finding: manual-dispatch evidence must bind the generated artifact to the exact checked-out commit SHA.
 - Developer accepted the finding and created `phase-1-g5-e071-ci-provenance-hardening`. The G5 validator now records the checked-out Git SHA and CI verifies the artifact SHA against the checkout; manual dispatch can require an exact expected SHA.
 - G6 remains OPEN because full historical r/q inputs and production IV/Greek reconstruction are incomplete. No Phase 2 work started.
+
+## 2026-10-04 — Tester PR #39 and developer corrective response
+- User supplied independent tester PR #39: G5/G6 remain FAIL/OPEN; G9 remains PASS; Phase 2 remains blocked.
+- Developer reviewed the reported G5 trigger, G6 cache-reuse, G9 wording, and project-control findings.
+- Created `phase-1-g5-g6-reaudit-corrections-20261004`.
+- Corrected G5 push triggers and G6 acquisition cache reuse; synchronized control documentation. No Phase 2 work has begun.
