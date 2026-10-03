@@ -157,3 +157,8 @@ This file records user-visible project instructions and work decisions, not hidd
 
 ## 2026-10-03
 2026-10-03 — User provided screenshot showing no Run workflow button. Repository inspection confirmed the Phase 1 workflow existed on the feature branch but not main. Developer added the same workflow file to main with workflow_dispatch unchanged (commit 25f43daf258add201adf0efc67ea9d58c682ed38) so GitHub can expose manual dispatch. No Phase 1 acceptance or Phase 2 advancement claimed.
+
+
+## 2026-10-03 — Manual run #32 diagnosis
+- User screenshot showed `Phase 1 Data Acquisition and Validation #32`, event `Manually`, branch `main`, failed after 22 seconds.
+- Developer diagnosed the branch mismatch and changed the workflow so manual dispatch defaults to the Phase 1 research branch via `research_ref` while preserving normal push behavior.
