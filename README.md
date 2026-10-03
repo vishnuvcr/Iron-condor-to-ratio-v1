@@ -269,3 +269,8 @@ The G6 production branch now includes a fail-closed production Greek evidence sc
 - Exact-tip G6 run 37156880805 failed during test collection because the test imported scripts.phase1_g6_production_greeks while scripts is not a package.
 - Corrected the test import path and logged E090. No G6 gate advancement occurred.
 - A fresh push-triggered exact-head run is required before any substantive production-scan conclusion.
+
+
+## 2026-10-04 — E091 pandas datetime compatibility correction
+- Exact-tip run 37156932044 passed 6/7 G6 tests and failed only the strict-prior regression because pandas 3.x used different datetime units on the two merge keys.
+- Both sides are now normalized to datetime64[ns]. E091 is logged. No gate advancement occurred.
