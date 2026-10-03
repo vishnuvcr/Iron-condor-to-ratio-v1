@@ -27,3 +27,10 @@ Uploaded transcript: What If the Iron Condor Starts Trending Ratio Spread Strate
 - Neither candidate documents historical bid/ask; this is recorded as E019 and remains a validation gap.
 - Official NSE sources were registered for contract metadata, daily reference data, India VIX, FII/DII, corporate actions and reconciliation. Paytm Money brokerage/cost sources were registered with date/cohort-specific treatment.
 - Added Phase 1 acquisition manifests, validator, automated GitHub Actions workflow and market-context registry.
+
+## 2026-10-03 — Phase 1 structural validation result
+- First acquisition run downloaded 269 parquet files but failed the initial validator because its rules were too coarse (E020).
+- The validator was rewritten to distinguish index and option schemas, exact duplicates, and conflicting duplicate keys.
+- Exact commit 5f701e329c7888e5ccd5cfe70cea0f5c14e452ac passed GitHub Actions run 37116084761 / job 111183065244.
+- Validation artifact 11271990517 has SHA-256 67fd3898800131d736a5652d1ece3c112c4b5b0489ffe07468f5865fb850d789.
+- Structural validation is now green, but Phase 1 is not complete: bid/ask availability, target-delta strike coverage, Greek reconstruction, historical contract metadata reconciliation, and date-specific Paytm Money/statutory costs remain to be validated.
