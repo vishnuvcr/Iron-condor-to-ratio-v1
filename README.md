@@ -53,6 +53,9 @@ The current workflow pins the source to 0f4800e and uses separate cache restore/
 ## Latest Phase 1 CI incident
 The latest run passed structural validation but initially failed at deterministic deduplication because the referenced script was missing from the committed tree (E026). The missing `scripts/deduplicate_phase1_data.py` has now been added. Phase 1 remains open pending a fresh CI run and the remaining data-quality, execution, cost, context, and independent-tester gates.
 
+### Latest data-quality finding
+Run 21 completed the structural, deterministic-deduplication, and diagnostic market-quality stages. Option timestamps matched NIFTY timestamps for 99.2953% of post-key-dedup option rows. However, NIFTY daily timestamp counts range from 6 to 420 across 1,262 dates; these session outliers are now an explicit acceptance blocker (E028) and will be characterized before production use.
+
 ## Branch
 phase-1-data-acquisition-validation.
 
