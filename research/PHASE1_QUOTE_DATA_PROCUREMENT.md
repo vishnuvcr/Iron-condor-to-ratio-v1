@@ -103,3 +103,18 @@ The repository now contains `scripts/validate_g9_tbt_candidate.py` and `.github/
 
 ## 2026-10-03 — G9 free-data salvage continuation
 The prescribed free-data sequence is now recorded in research/PHASE1_G9_FREE_DATA_SALVAGE.md. Current findings: the Hugging Face TBT candidate has genuine bid/ask/depth preview fields but mixed schemas; ayyararyan/nse-options-pipeline documents bid/ask-bearing raw files but does not track its large raw archive; OptionVault/TickBytes expose public samples while describing full datasets as licensed; BarathGB007/nse-options-data-collector exposes bid/ask-bearing current/sample data but not a complete historical archive. These are leads only. G9 remains BLOCKED and the NSE licensed route remains the fallback.
+
+## 2026-10-03 — methodology change: bid/ask no longer mandatory
+The primary research methodology has been formally changed. Historical bid/ask is no longer required for the primary backtest.
+
+The replacement execution convention is defined in `research/PHASE1_EXECUTION_PROXY_SPEC.md`:
+- decisions use completed 1-minute bars;
+- base fill is the next eligible 1-minute option bar open;
+- adverse per-leg slippage is applied at 0/5/10/20/50 bps with an effective-date tick-size floor;
+- brokerage/statutory/exchange costs remain date-effective and separate;
+- missing next-bar execution is never interpolated or silently filled.
+
+This does **not** convert OHLC/LTP into bid/ask and does not permit historical executable-price claims.
+
+The previous bid/ask procurement path remains useful for future validation, but it is no longer a mandatory blocker for the primary backtest. Independent tester approval of this methodology change is required before Phase 2.
+
