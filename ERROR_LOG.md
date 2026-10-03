@@ -194,3 +194,6 @@
 
 
 | E090 | 2026-10-04 | 1 / G6 CI | Corrective G6 unit tests imported scripts.phase1_g6_production_greeks, but scripts is not a Python package in the repository; exact-tip CI failed during test collection before production evidence generation. | The substantive G6 correction could not be exercised by CI and no evidence artifact was produced on that run. | Changed the test to import the module from the scripts execution path. No gate advanced; a fresh exact-head CI run is required. |
+
+
+| E091 | 2026-10-04 | 1 / G6 CI | Exact-tip G6 run 37156932044 passed 6/7 tests but the strict-prior regression test failed because pandas 3.x preserved different datetime units on the left and right merge keys. | The no-lookahead join could not be CI-verified. | Normalized both strict-prior join keys to datetime64[ns]. No methodology relaxation or gate advancement. |
