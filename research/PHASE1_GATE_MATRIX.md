@@ -78,3 +78,13 @@ A dedicated G6 production branch was created from the paired exact-tip submissio
 - Actions run 37157070947 completed with unit tests passing and the production audit failing closed because data/processed/g6/risk_free.csv and data/processed/g6/dividend_yield.csv are absent.
 - Evidence artifact 11285937357 was produced and is bound to the exact checkout SHA; artifact digest sha256:c9d3748f22da9f83525f7aa4594dafbb69364370764230dae374a487d9f7d78c.
 - This is substantive evidence that the corrected production scanner is reached and fails closed on missing mandatory inputs. It is not G6 PASS evidence.
+
+
+## 2026-10-04 — Final G6 primary r acquisition result
+- Exact developer head: `fcba8794002b9f129a20dd1e4d19f32c3a97bab5`.
+- Final Actions run: `37158613890`; job `111307127681`.
+- Official NSE NIFTY 50 dividend-yield acquisition completed successfully with **1,425 rows**.
+- RBI acquisition executed across three official hostnames (`www.rbi.org.in`, `rbi.org.in`, `wss.rbi.org.in`) over the bounded WSS ID range and returned **zero parseable 91-Day Treasury Bill (Primary) Yield observations** to the runner. The step therefore failed closed with `RBI_NO_91D_TBILL_ROWS`.
+- RBI public WSS/DBIE availability is independently corroborated externally, but the machine-readable primary series could not be retrieved by this CI execution environment. No secondary mirror has been substituted into production.
+- **G6 remains FAIL / OPEN.** This is the final planned blind primary-host retry. A secondary RBI mirror may be investigated only as a separately labelled cross-check/provisional source and cannot silently convert G6 to PASS.
+- G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH; G13/G14 and Phase 2 remain BLOCKED.
