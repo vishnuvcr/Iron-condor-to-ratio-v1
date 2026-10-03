@@ -67,3 +67,12 @@ The repaired audit now has a successful, independently inspectable Actions execu
 - Session reconciliation: 1,254 normal eligible dates; 7 documented special-session dates; 1 pre-registered incomplete-session exclusion (2026-06-03); 0 unreconciled dates.
 - The regular execution window is 09:15–15:30 Asia/Kolkata. Out-of-window source observations are retained and quantified but are not eligible for strategy decisions.
 - G4 is **PASS on developer evidence**, pending independent tester verification.
+
+
+## E046 corrective re-audit status — 2026-10-03
+
+Independent tester PR #18 identified E046: the G4 reconciler only iterated dates present in the observed NIFTY dataset, so a special-session date declared by the authoritative manifest but absent from the data could never become UNRECONCILED. The tester also required the one-to-one observed-date/session mapping specified by PHASE1_SESSION_CALENDAR_SPEC.md.
+
+The developer accepted E046 without advancing any gate. Corrective branch: phase-1-e046-bidirectional-reconciliation. The implementation now performs manifest/data and data/manifest reconciliation, validates duplicate/overlapping mappings, and includes four regression tests.
+
+Current state: G4 FAIL/OPEN; G12 OPEN for the corrective head; G13 BLOCKED; Phase 2 BLOCKED.
