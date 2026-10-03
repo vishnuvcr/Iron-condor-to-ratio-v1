@@ -33,7 +33,7 @@ This is an interim evidence report, not production-data acceptance or a profitab
 - Artifact SHA-256: `de60c50a047357d7f89d5602ea42fd832158855779e34169fec2b9beeb02159`
 - G4 independent result: PASS
 - G12 independent result: PASS
-- G13 independent result: BLOCKED because G5–G11 remain incomplete
+- G13 independent result: BLOCKED because G5–G11 remain incomplete; E055 was independently closed PASS in tester PR #25
 - Phase 2: BLOCKED
 
 ## Current decision
