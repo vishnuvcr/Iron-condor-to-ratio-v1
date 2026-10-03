@@ -1,5 +1,6 @@
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 import pandas as pd
@@ -74,6 +75,10 @@ def build_eligible_index(index_df, rules):
     if not eligible:
         return set(), x
     return set(pd.concat(eligible).tolist()), x
+
+
+def current_git_sha():
+    return subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
 
 
 def main():
@@ -183,6 +188,10 @@ def main():
             )
 
     report = {
+        "execution_provenance": {
+            "checked_out_commit_sha": current_git_sha(),
+            "workflow_artifact_binding": "Report generated from the exact Git checkout used by this CI job; tester must compare this SHA with the workflow run checkout SHA and requested research ref."
+        },
         "status": "PASS_CANDIDATE" if (
             invalid_timestamp == 0
             and in_session > 0
