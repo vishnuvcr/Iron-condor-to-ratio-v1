@@ -63,3 +63,11 @@ Tester PR #39 found G5/G6 control defects while explicitly preserving G9 PASS. T
 
 ## 2026-10-04 — G6 substantive reconstruction implementation
 A dedicated G6 production branch was created from the paired exact-tip submission. The new pipeline is fail-closed and does not advance G6: mandatory date-aligned r/q inputs, production IV/Greek reconstruction, diagnostics, target-delta availability and checksum evidence remain outstanding. G5's paired Actions run remains a separate in-progress submission at the original exact SHA. G13/G14 and Phase 2 remain BLOCKED.
+
+
+## 2026-10-04 — E089 G6 production correction
+- Independent tester PR #45 determined G6 FAIL / OPEN on developer head c5f28327c13efd9b93bd4ca5a809dfc39b447c3d. E088 is accepted without reinterpretation.
+- The previous implementation was a scaffold rather than a completed historical Greek reconstruction.
+- The correction now performs timestamp-level production reconstruction with exact contemporaneous NIFTY joins, strictly-prior r/q selection, study-window enforcement, 15:30 IST expiry timing, deterministic Brent IV solving, signed/absolute deltas, target-delta diagnostics, populated failure counters, checksums and exact-checkout provenance.
+- G6 remains FAIL / OPEN because complete historical risk_free.csv and dividend_yield.csv inputs are not yet accepted and independent tester approval is still required.
+- G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH; G13/G14 and Phase 2 remain BLOCKED.
