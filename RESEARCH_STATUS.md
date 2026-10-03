@@ -66,3 +66,6 @@ The branch `phase-0-corrections-v5` replaces the ineffective multiline grep with
 
 ## Exact v5 CI provenance
 The corrected v5 commit `4515b32ecd3d6a17b061f53dd97245c393489166` passed the Phase 0 Integrity workflow. Workflow run: [#37114384784](https://github.com/vishnuvcr/Iron-condor-to-ratio-v1/actions/runs/37114384784). Check run: #111178229183. Phase 1 remains blocked pending independent tester approval.
+
+## Sixth independent tester result
+**FAIL — Phase 0 approval not granted.** The sixth audit independently verified B7 and B8 as resolved, including exact SHA/run/check provenance. It found B9: `research/TESTER_HANDOFF.md` still names v4 as the current developer correction branch, and B10: the integrity workflow lacks a positive assertion that the active README current-branch field is v5. Phase 1 remains blocked.
