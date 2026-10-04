@@ -82,3 +82,12 @@ Tester branch: `tester/phase-1-g6-conditional-acceptance-20261004`
 Developer assessment head: `e9d319e7f2e902f77696fc4dbd029fa93cbbce7f`
 
 The tester must review PR #49's findings and the immutable completed G6 artifact, then decide whether the numerical result can be conditionally accepted despite D1-D3 evidence-retention gaps. The tester must not infer missing artifact fields or relabel a normal PASS. Verdict must be PASS, FAIL, or CONDITIONAL PASS WITH CONDITIONS. Until that verdict exists, G6/G13/G14/Phase 2 remain blocked.
+
+
+## 2026-10-04 — Pragmatic progression policy
+
+The independent tester branch records the project-owner waiver that the historical G6 aggregate is accepted for research progression with deferred audit. Developer work may continue through later phases without waiting for another intermediate formal gate, provided material failures remain blocking and all assumptions, costs, slippage, limitations, provenance and reproducibility risks remain explicit.
+
+The tester will consolidate independent audits at milestone/final acceptance. The deferred checklist remains: data provenance/coverage, mathematical and sign correctness, look-ahead/execution chronology, transaction costs/brokerage/slippage, backtest correctness, regime/statistical methodology, robustness, reproducibility, and manuscript/code/status consistency.
+
+Phase 2 developer work is now authorized under this progression policy. This does not retroactively change the historical G6 gate wording.
