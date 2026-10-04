@@ -244,7 +244,13 @@ def main():
         iv_bins=np.linspace(0.0,3.0,121); iv_hist=np.zeros(120,dtype=np.int64)
         files=sorted(OPT_ROOT.glob("*.parquet"))
         if not files: raise RuntimeError("OPTION_INPUTS_MISSING")
+        all_files=files
+        files=[fp for i,fp in enumerate(all_files) if i % SHARD_COUNT == SHARD_INDEX]
+        counters["option_files_total"]=len(all_files)
         counters["option_files"]=len(files)
+        counters["shard_index"]=SHARD_INDEX
+        counters["shard_count"]=SHARD_COUNT
+        counters["option_files_processed"]=len(files)
         for fp in files:
             pf=pq.ParquetFile(fp)
             cols=pf.schema.names
