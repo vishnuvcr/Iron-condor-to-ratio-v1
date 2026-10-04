@@ -671,3 +671,13 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Previous G6 evidence is explicitly rejected for the corrected code.
 - **G6: FAIL / OPEN. G13/G14 and Phase 2: BLOCKED.**
 - Next gate transition requires fresh exact-head CI followed by a fresh isolated tester audit.
+
+
+## 2026-10-04 — Tester G6 conditional-acceptance decision
+- Independent tester audited the developer conditional-acceptance proposal and issued **CONDITIONAL PASS WITH CONDITIONS**.
+- Scope is deliberately limited to retaining the prior completed numerical G6 result as provisional research evidence; it is not a formal G6 PASS.
+- Prior immutable evidence: run `37191768801`, exact checkout `1a9eab7389b972c05362271ee9fb23092aa7354d`, aggregate SHA-256 `80512999956437e2acfdbcea2d4a6a6ebfb659267691ef033dcf7b19f55c3ae6`.
+- D1 (IV iteration/residual), D2 (expiry/date coverage), and D3 (explicit future-input/no-lookahead counters) remain limitations of the old artifact.
+- Corrected remediation implementation exists, but fresh exact-head Actions evidence was not independently observed; therefore **G6 remains OPEN**, G13/G14 and Phase 2 remain BLOCKED.
+- Fresh exact-head CI followed by a fresh isolated tester audit is mandatory before formal G6 closure.
+- Report: `research/TESTER_G6_CONDITIONAL_ACCEPTANCE_AUDIT_20261004.md`.
