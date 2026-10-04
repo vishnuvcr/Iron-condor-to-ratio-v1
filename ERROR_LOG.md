@@ -350,3 +350,11 @@
 - Cause: E120 introduced 8-way workflow sharding without wiring `G6_SHARD_INDEX` / `G6_SHARD_COUNT` into the production Python module.
 - Correction: E121 reads and validates both environment variables and writes shard-specific evidence files; default remains single-shard-compatible.
 - No research conclusion or gate advancement is permitted from the failed artifact.
+
+
+### E122 — G6 exhaustive shard runtime saturation (2026-10-04)
+- **Status:** OPEN / under investigation.
+- E121 corrected the undefined shard configuration and the eight shards entered the exhaustive IV/Greek scan.
+- All eight shard jobs remained in the production scan step for an extended period without terminal status, while the exact-head validation run remained queued behind them.
+- No production result is accepted from this run until all shards terminate and aggregation completes.
+- This is being treated as a bounded CI/runtime issue, not as evidence that the mathematical method passed or failed.
