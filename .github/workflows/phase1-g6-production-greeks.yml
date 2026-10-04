@@ -111,3 +111,4 @@ jobs:
 # E104 exact-head revalidation trigger: cache/provenance and no-lookahead corrections.
 
 # E105 exact-head revalidation trigger: bounded RBI acquisition runtime correction.
+# E105 exact-head revalidation trigger: prioritize known official RBI WSS pages before fallback scan.
