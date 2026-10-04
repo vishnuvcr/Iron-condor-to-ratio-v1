@@ -442,3 +442,10 @@
 ### E136 — GitHub branch-creation connector parameter misuse (2026-10-04)
 - **Status:** Corrected; no repository mutation occurred from the failed call.
 - The first tester-branch creation request used incorrect connector parameter names. The branch was subsequently created correctly from the frozen developer SHA.
+
+
+### E137 — G6 remediation exact-head Actions trigger not observable (2026-10-04)
+- **Status:** OPEN / execution-environment blocker.
+- The corrected remediation head `e43acf88e10b4af13af54fe11d0c0a3cec5295ec` has the G6 workflow push trigger explicitly enabled for `phase-1-g6-evidence-remediation-20261004`, but the GitHub connector reports zero workflow runs for the commit. The connector exposes no workflow-dispatch action.
+- No prior-run artifact is being reused as evidence for the corrected code.
+- Resolution: retain the remediation branch and G6 FAIL/OPEN; continue repository-native execution attempts when available. A fresh exact-head Actions run is mandatory before tester re-audit.
