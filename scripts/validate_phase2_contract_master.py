@@ -30,7 +30,8 @@ def main():
         raise SystemExit("PHASE2_CONTRACT_MASTER_NONPOSITIVE_RULE_FAILURE")
     if (df["contract_start"]>=df["contract_end"]).any():
         raise SystemExit("PHASE2_CONTRACT_MASTER_INTERVAL_FAILURE")
-    if (df["expiry_close_ts"]<df["expiry"]).any():
+    expiry_close_day = df["expiry_close_ts"].dt.tz_localize(None).dt.normalize()
+    if (expiry_close_day < df["expiry"]).any():
         raise SystemExit("PHASE2_CONTRACT_MASTER_EXPIRY_CLOSE_FAILURE")
     if df["source_reference"].isna().any() or df["source_effective_date"].isna().any():
         raise SystemExit("PHASE2_CONTRACT_MASTER_PROVENANCE_FAILURE")
