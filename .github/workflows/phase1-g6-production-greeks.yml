@@ -170,6 +170,8 @@ jobs:
           ref: ${{ github.event.inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with: {python-version: '3.11'}
+      - name: Install aggregate dependencies
+        run: python -m pip install numpy
       - name: Assert immutable checkout
         run: |
           set -euo pipefail
