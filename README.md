@@ -519,3 +519,7 @@ No production P&L or profitability claim has been made yet. The remaining materi
 The Phase 2 production workflow now has valid GitHub Actions expressions, matching scenario artifact names, and a fail-closed assertion for all five slippage scenarios. Historical monthly NIFTY contract metadata is reconstructed deterministically from the pinned expiry-partitioned option source plus official NSE lot-size chronology. See [contract-master provenance](research/PHASE2_CONTRACT_MASTER_PROVENANCE.md).
 
 No production P&L is claimed until the exact-head workflow succeeds and the independent tester audits the resulting artifacts.
+
+## 2026-10-04 — Exact-head production execution pending
+
+Developer head `9e08a2882715b144cfe815f3c7d1382e848c9d18` contains the E146/E147 workflow corrections and E148 historical monthly contract reconstruction. Repository inspection is clean, but the available GitHub connector currently exposes zero Actions runs for this exact head. Consequently, no production P&L or profitability result is reported. See [Phase 2 contract provenance](research/PHASE2_CONTRACT_MASTER_PROVENANCE.md) and [Phase 2 milestone report](research/PHASE2_MILESTONE_REPORT_20261004.md).
