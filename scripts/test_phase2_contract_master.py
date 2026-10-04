@@ -44,7 +44,7 @@ def test_special_session_gap_observation_is_rejected():
     expiry = pd.Timestamp("2024-03-02")
     with tempfile.TemporaryDirectory() as td:
         p = __import__("pathlib").Path(td) / "rules.json"
-        p.write_text(json.dumps({"regular_execution_session":{"start":"09:15","end":"15:30"},
+        p.write_text(json.dumps({"study_data_end":"2026-07-02","regular_execution_session":{"start":"09:15","end":"15:30"},
                                  "special_sessions":[{"date":"2024-03-02","execution_intervals":[["09:15","10:00"],["11:30","12:30"]]}]}))
         original = m.SESSION_RULES
         try:
