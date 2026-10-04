@@ -240,6 +240,7 @@ def main() -> None:
         "status": "PHASE2_MONTHLY_CONTRACT_MASTER_RECONSTRUCTED",
         "study_start": str(STUDY_START),
         "study_end": str(STUDY_END),
+        "study_horizon_source": "data/manifests/phase1_session_rules.json:study_data_end",
         "monthly_expiries": len(monthly_expiries),
         "contracts": len(out),
         "lot_sizes": sorted(out["lot_size"].unique().tolist()),
