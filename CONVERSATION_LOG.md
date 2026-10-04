@@ -547,3 +547,10 @@ User explicitly required automatic handover to the tester branch and instructed 
 - The Reserve Bank Innovation Hub repository provides an immutable mirror at commit `0db4ddb88c3119347e809af78c93beb4d1c874d4`; its processor documents the 91-day sheet and `implicit_yield` column.
 - Developer replaced the broad WSS-ID scan with this pinned source, cache/provenance validation, Git blob SHA-1 verification, and conservative auction-date strict-prior semantics.
 - This is a source-methodology correction within G6, not Phase 2 authorization. A fresh exact-head CI run and automatic tester handover remain mandatory.
+
+
+## 2026-10-04 — E107/E108 provenance verifier correction
+- Fresh G6 CI reached the new RBI Bulletin source but failed the immutable blob check.
+- Independent diagnosis showed the source bytes were not the problem; the verifier constructed the Git blob header incorrectly because the Python source contained two backslashes rather than a NUL escape.
+- Developer corrected the verifier, then directly re-read the committed source to confirm `h.update(f"blob {len(b)}\\0".encode())` semantics are now correct.
+- No gate was advanced. Fresh exact-head CI remains mandatory.
