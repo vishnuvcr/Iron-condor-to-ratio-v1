@@ -470,3 +470,9 @@ The 32-shard exhaustive scan completed without shard failures, but developer aud
 - Scientific model unchanged; evidence now records IV iteration/residual distributions, expiry/date coverage, and explicit strict-prior/future-input audit results.
 - Fresh exact-head CI and independent tester re-audit are required before G6 approval.
 - [Tester G6 audit report](research/TESTER_G6_FINAL_AUDIT_20261004.md) is retained on the isolated tester branch/PR #49.
+
+
+## 2026-10-04 — E137 execution-environment status
+- The remediation workflow explicitly includes this branch in its push trigger, but the GitHub connector exposes no workflow-dispatch operation and reports no Actions run for corrected heads `e43acf88e10b4af13af54fe11d0c0a3cec5295ec` or `33fd3c798faa6104987f9440ba1d38a75e38eba3`.
+- The previous G6 run is **not** reused for the corrected code.
+- G6 remains **FAIL / OPEN** from tester PR #49; G13/G14 and Phase 2 remain blocked until a fresh exact-head run and independent tester re-audit.
