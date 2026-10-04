@@ -865,3 +865,15 @@ Developer remediation:
 - production workflow uploads the impact scan and fails closed when affected contract groups exist.
 
 Production profitability remains blocked until the independent tester verifies this remediation and the impact scan quantitatively closes the E150 materiality question.
+
+
+## 2026-10-04 — E151 remediation complete / tester handoff
+
+E151 remediation is implemented at developer head 1501165689bf6f879628f34fab1fe787e1759697:
+- explicit execution-interval membership;
+- fail-closed session horizon at 2026-07-02;
+- exclusion of out-of-horizon expiries;
+- deterministic old-vs-corrected E150/E151 impact scan;
+- production workflow gate requiring zero affected contract groups before production inference.
+
+Fresh isolated tester branch: tester/phase-2-e151-remediation-audit-20261004. Production acceptance remains deferred pending independent audit and quantitative E150 impact closure.
