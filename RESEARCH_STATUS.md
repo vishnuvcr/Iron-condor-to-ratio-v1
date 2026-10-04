@@ -664,3 +664,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Corrected evidence now includes IV iteration/residual histograms, explicit expiry/date coverage, and explicit strict-prior/future-input audit counters; aggregation is fail-closed on their absence or inconsistency.
 - Fresh exact-head CI is required. A fresh isolated tester branch must be created from the resulting developer head after CI completion.
 - G13/G14 and Phase 2 remain BLOCKED.
+
+
+## 2026-10-04 — E137 exact-head execution blocker
+- Remediation source/control changes are committed, but no fresh Actions run is observable for the remediation head because the available GitHub connector exposes no workflow-dispatch operation and API-created trigger events are not producing a run here.
+- Previous G6 evidence is explicitly rejected for the corrected code.
+- **G6: FAIL / OPEN. G13/G14 and Phase 2: BLOCKED.**
+- Next gate transition requires fresh exact-head CI followed by a fresh isolated tester audit.
