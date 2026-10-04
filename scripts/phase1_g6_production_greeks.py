@@ -153,13 +153,6 @@ def solve_iv_arrays(s,k,t,r,q,premium,kind):
         iv[i]=root; iters[i]=its; residual[i]=res; code[i]=6
     return iv,iters,residual,code
 
-@njit(cache=True)
-def bs_delta_arrays(s,k,t,r,q,sigma,kind):
-    n=len(s)
-    out=np.full(n,np.nan)
-    for i in range(n):
-        out[i]=bs_delta(s[i],k[i],t[i],r[i],q[i],sigma[i],kind[i])
-    return out
 
 def sha256_file(p:Path)->str:
     h=hashlib.sha256()
