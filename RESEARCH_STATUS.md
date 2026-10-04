@@ -678,3 +678,11 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Added `research/G6_CONDITIONAL_ACCEPTANCE_PROPOSAL_20261004.md` defining D1-D3 evidence limitations and requiring an explicit independent tester verdict.
 - A fresh isolated tester branch `tester/phase-1-g6-conditional-acceptance-20261004` was created from developer remediation head `e9d319e7f2e902f77696fc4dbd029fa93cbbce7f` for independent assessment.
 - Until tester verdict, G6 remains FAIL/OPEN and G13/G14/Phase 2 remain blocked. The old aggregate artifact is not relabelled as containing evidence it lacks.
+
+
+## 2026-10-04 — G6 conditional-acceptance tester gate completed
+- Independent tester verdict recorded as **CONDITIONAL PASS WITH CONDITIONS** on PR #49.
+- This retains the prior reconciled numerical G6 result as provisional research evidence only; it does **not** constitute formal G6 PASS.
+- D1–D3 remain limitations of the historical artifact.
+- The corrected D1–D3 implementation requires a fresh exact-head GitHub Actions execution followed by a fresh isolated tester audit.
+- This status update is the developer execution handoff; no scientific model change is introduced.
