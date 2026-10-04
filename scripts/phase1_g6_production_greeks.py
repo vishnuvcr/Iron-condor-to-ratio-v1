@@ -112,6 +112,21 @@ def _brent_one(s,k,t,r,q,premium,kind,lo,hi,xtol,maxiter):
     return math.nan,maxiter,abs(fb)
 
 @njit(cache=True,parallel=False)
+def bs_delta_arrays(s,k,t,r,q,sigma,kind):
+    n=len(s)
+    out=np.empty(n,dtype=np.float64)
+    inv_sqrt_2pi=1.0/math.sqrt(2.0)
+    for i in range(n):
+        if s[i]<=0 or k[i]<=0 or t[i]<=0 or sigma[i]<=0:
+            out[i]=math.nan
+            continue
+        d1=(math.log(s[i]/k[i])+(r[i]-q[i]+0.5*sigma[i]*sigma[i])*t[i])/(sigma[i]*math.sqrt(t[i]))
+        cdf=0.5*(1.0+math.erf(d1*inv_sqrt_2pi))
+        disc=math.exp(-q[i]*t[i])
+        out[i]=disc*cdf if kind[i]==1 else -disc*(1.0-cdf)
+    return out
+
+@njit(cache=True,parallel=False)
 def solve_iv_arrays(s,k,t,r,q,premium,kind):
     n=len(s)
     iv=np.full(n,np.nan); iters=np.zeros(n,np.int32); residual=np.full(n,np.nan); code=np.zeros(n,np.int8)
@@ -262,13 +277,10 @@ def main():
                 if good.any():
                     gd=df.loc[valid].iloc[np.flatnonzero(good)].copy()
                     gd["iv"]=iv[good]
-                    s_arr=gd["underlying"].to_numpy(dtype=float); k_arr=gd["strike"].to_numpy(dtype=float)
-                    t_arr=gd["t"].to_numpy(dtype=float); r_arr=gd["r"].to_numpy(dtype=float); q_arr=gd["q"].to_numpy(dtype=float)
-                    v_arr=gd["iv"].to_numpy(dtype=float)
-                    z=(np.log(s_arr/k_arr)+(r_arr-q_arr+0.5*v_arr*v_arr)*t_arr)/(v_arr*np.sqrt(t_arr))
-                    cdf=0.5*(1.0+np.vectorize(math.erf)(z/np.sqrt(2.0)))
-                    disc=np.exp(-q_arr*t_arr)
-                    gd["signed_delta"]=np.where(kind[valid.to_numpy()][good]==1,disc*cdf,-disc*(1.0-cdf))
+                    gd["signed_delta"]=bs_delta_arrays(gd["underlying"].to_numpy(dtype=float),gd["strike"].to_numpy(dtype=float),
+                                                          gd["t"].to_numpy(dtype=float),gd["r"].to_numpy(dtype=float),
+                                                          gd["q"].to_numpy(dtype=float),gd["iv"].to_numpy(dtype=float),
+                                                          kind[valid.to_numpy()][good])
                     gd["abs_delta"]=gd["signed_delta"].abs()
                     delta_hist += np.histogram(gd["signed_delta"].clip(-0.999999,0.999999),bins=delta_bins)[0]
                     abs_hist += np.histogram(gd["abs_delta"].clip(0,0.999999),bins=abs_bins)[0]
