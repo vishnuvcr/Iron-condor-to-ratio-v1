@@ -114,3 +114,5 @@ jobs:
 # E107 exact-head PR validation: checkout and assert pull-request head SHA.
 
 # E106 exact-head revalidation trigger: immutable RBI Bulletin Table 26 risk-free source.
+
+# E107 exact-head revalidation trigger: diagnose pinned RBI Bulletin blob mismatch.
