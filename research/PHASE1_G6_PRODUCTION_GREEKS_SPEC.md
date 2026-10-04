@@ -135,3 +135,8 @@ The production evidence must report this limitation explicitly. No same-day, for
 - Production risk-free input is the 91-day Government of India Treasury-bill implicit auction yield from RBI Bulletin Table 26, acquired from the immutable Reserve Bank Innovation Hub mirror commit `0db4ddb88c3119347e809af78c93beb4d1c874d4` and verified against Git blob SHA-1 `ff603b132a2aa2aee8b1bc08d0d1e68879af2ea7`.
 - The RBI Bulletin documents the 91-day T-bill auction series as a weekly official government-securities-market series; its auction date is used conservatively as the eligibility date and same-day use is prohibited by strict-prior joining. citeturn10search4turn10search0
 - RBI WSS pages remain a secondary reconciliation/control source and are not silently substituted for the production series.
+
+
+## E110 underlying-source materialization
+- G6 production requires the contemporaneous NIFTY 1-minute underlying parquet used by the independently audited dataset path. It is acquired from Hugging Face revision `92e0288` with expected SHA-256 `613864738250107807354c17c7092986960220ac3062b830c65cc5f9ec16fcf7` and cached locally before the fail-closed production scan. citeturn11search2turn11search4
+- This is a research-data source, not an exchange-primary source; official exchange validation remains a separate provenance limitation. No synthetic underlying or substitute series is permitted.
