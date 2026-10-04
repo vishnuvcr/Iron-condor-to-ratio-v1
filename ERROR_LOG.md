@@ -536,3 +536,11 @@
 - The corrected workflow contains push, pull-request and manual-dispatch paths, but this environment cannot invoke workflow_dispatch directly.
 - No prior artifact is reused as fresh evidence.
 - **Status:** production execution pending externally observable exact-head CI; no scientific result is claimed.
+
+
+### E150 — post-session expiry-close contamination (2026-10-04)
+- **Severity:** MATERIAL CHRONOLOGY / POTENTIAL TRADE-TIMING DEFECT; corrected before declaring any profitability result final.
+- The reconstructed contract-master builder previously selected the latest raw observation on the expiry date, which could allow a post-F&O-session observation to extend expiry_close_ts.
+- Corrected the builder to derive the expiry-day execution cutoff from the date-specific F&O session rules and to accept only expiry-day observations at or before that cutoff.
+- Added a regression test proving a valid 15:30 observation remains the expiry close when a later 15:31 observation is present.
+- **Policy outcome:** no full five-scenario rerun is required at this stage. Existing Phase 2 P&L/profitability evidence remains non-final until the consolidated audit assesses whether the corrected boundary can affect the tested window/results.
