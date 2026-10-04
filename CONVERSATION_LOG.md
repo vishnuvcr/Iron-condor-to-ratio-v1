@@ -668,3 +668,12 @@ Tester identified malformed Actions interpolation and artifact-name mismatch. De
 Tester identified E150: expiry_close_ts could be extended by post-session observations in the reconstructed contract master. User authorized a narrower remediation path: fix E150, add a regression test, do not rerun the full five-scenario historical backtest yet, continue research/statistical/manuscript work without treating existing P&L as final, and perform a consolidated final audit including E150 impact.
 
 Developer corrected the contract-master builder and added the 15:30/15:31 regression test. No production result is relabelled or finalized. If the final audit finds material E150 sensitivity, affected production scenarios must be rerun before the final profitability/trading-strategy conclusion.
+
+
+## 2026-10-04 — Independent tester E150 final audit
+- Audited developer head a60c785215558f90eab32be5babde2af9a55ff31.
+- Confirmed the ordinary 15:30/15:31 E150 boundary fix and regression test.
+- Confirmed E150 remains potentially material because expiry_close_ts directly controls forced-close timing.
+- Exact raw expiry-day impact could not be quantified from the repository content surface; no production result was accepted.
+- Found E151: special-session multi-interval gap timestamps are not tested for interval membership because the implementation uses the maximum interval endpoint.
+- Tester verdict: conditional pass for continued development; production acceptance deferred.
