@@ -91,21 +91,45 @@ def timestamp_in_execution_interval(timestamp: pd.Timestamp, expiry: pd.Timestam
     return False
 
 
-def expiry_execution_close_ts(expiry: pd.Timestamp) -> pd.Timestamp:
-    """Return the last strategy-execution minute allowed on the expiry date."""
+def execution_intervals_for_date(expiry: pd.Timestamp) -> list[tuple[pd.Timestamp, pd.Timestamp]]:
+    """Return explicitly permitted F&O execution intervals for an expiry date."""
     if not SESSION_RULES.exists():
         raise SystemExit("PHASE2_SESSION_RULES_MISSING_FOR_EXPIRY_CLOSE")
-    intervals = execution_intervals_for_date(expiry)
-    hh, mm = map(int, intervals[-1][1].split(":"))
-    return pd.Timestamp(expiry).tz_localize("Asia/Kolkata") + pd.Timedelta(hours=hh, minutes=mm)
+    rules = json.loads(SESSION_RULES.read_text())
+    d = pd.Timestamp(expiry).date().isoformat()
+    horizon = pd.Timestamp(rules["study_data_end"]).date()
+    if pd.Timestamp(expiry).date() > horizon:
+        raise SystemExit(f"PHASE2_SESSION_RULE_HORIZON_EXCEEDED:{d}>{horizon}")
+    special = {x["date"]: x for x in rules.get("special_sessions", [])}
+    raw = special[d]["execution_intervals"] if d in special else [[rules["regular_execution_session"]["start"], rules["regular_execution_session"]["end"]]]
+    base = pd.Timestamp(expiry).tz_localize("Asia/Kolkata")
+    intervals = []
+    for start, end in raw:
+        sh, sm = map(int, start.split(":"))
+        eh, em = map(int, end.split(":"))
+        intervals.append((base + pd.Timedelta(hours=sh, minutes=sm),
+                          base + pd.Timedelta(hours=eh, minutes=em)))
+    if not intervals:
+        raise SystemExit(f"PHASE2_EXPIRY_EXECUTION_INTERVAL_MISSING:{d}")
+    return intervals
+
+
+def expiry_timestamp_is_executable(timestamp: pd.Timestamp, expiry: pd.Timestamp) -> bool:
+    if timestamp.normalize() != expiry:
+        return False
+    return any(start <= timestamp <= end for start, end in execution_intervals_for_date(expiry))
+
+
+def expiry_execution_close_ts(expiry: pd.Timestamp) -> pd.Timestamp:
+    """Return the latest endpoint of explicitly permitted execution intervals."""
+    return max(end for _, end in execution_intervals_for_date(expiry))
 
 
 def update_expiry_close_ts(current: pd.Timestamp, row_timestamp: pd.Timestamp, expiry: pd.Timestamp) -> pd.Timestamp:
-    if timestamp_in_execution_interval(row_timestamp, expiry):
+    if expiry_timestamp_is_executable(row_timestamp, expiry):
         if pd.isna(current) or row_timestamp > current:
             return row_timestamp
     return current
-
 
 def list_files() -> list[Path]:
     files = sorted(RAW_ROOT.glob("*.parquet"))
@@ -222,7 +246,7 @@ def main() -> None:
         "tick_sizes": sorted(out["tick_size"].unique().tolist()),
         "source_files": len(files),
         "source_sha256": {str(p): sha256(p) for p in files},
-        "method": "deterministic reconstruction from pinned NIFTY 1-minute option bars plus official NSE lot-size circular chronology; expiry-close bounded by date-specific F&O execution-session close",
+        "method": "deterministic reconstruction from pinned NIFTY 1-minute option bars plus official NSE lot-size chronology; expiry-close requires interval membership and is bounded by the session-rule data horizon",
         "source_references": SOURCE_REFS,
         "output_sha256": sha256(OUT),
     }
