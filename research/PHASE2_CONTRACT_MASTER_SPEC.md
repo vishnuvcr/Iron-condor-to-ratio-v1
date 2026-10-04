@@ -101,3 +101,12 @@ An exact historical NSE contract file, if later obtained, supersedes the reconst
 ## E150 — expiry-close boundary control
 
 The reconstructed expiry_close_ts is not the latest raw timestamp observed on the expiry date. It is the latest observed option timestamp on that date that is at or before the date-specific F&O execution-session close in phase1_session_rules.json. Post-session observations remain source data for audit but cannot extend the execution boundary. A regression test explicitly proves that a 15:31 observation cannot extend a normal 15:30 expiry close.
+
+
+## E151 — disjoint special-session interval membership and horizon control
+
+For expiry-day observations, eligibility is determined by interval membership, not by comparison with the maximum special-session endpoint. This prevents observations in a non-trading gap between disjoint execution intervals from becoming expiry_close_ts.
+
+The contract-master study horizon is now derived from the session-control manifest's study_data_end rather than a separate later hard-coded date. The current session-control evidence horizon is 2026-07-02; dates beyond that horizon are not claimed by this contract-master build until the session manifest is extended and independently validated.
+
+The production workflow includes an E150/E151 impact scan. Any affected expiry/contract groups require affected scenario reruns before final profitability inference.
