@@ -140,3 +140,8 @@ The production evidence must report this limitation explicitly. No same-day, for
 ## E110 underlying-source materialization
 - G6 production requires the contemporaneous NIFTY 1-minute underlying parquet used by the independently audited dataset path. It is acquired from Hugging Face revision `92e0288` with expected SHA-256 `613864738250107807354c17c7092986960220ac3062b830c65cc5f9ec16fcf7` and cached locally before the fail-closed production scan. citeturn11search2turn11search4
 - This is a research-data source, not an exchange-primary source; official exchange validation remains a separate provenance limitation. No synthetic underlying or substitute series is permitted.
+
+
+## E112 option-input materialization
+- G6 production requires the NIFTY option parquet inputs used by the exact option-bar decision process. These are acquired from Hugging Face dataset revision `0f4800e` under `options/NIFTY`, with per-file SHA-256 values captured in `data/raw/options/NIFTY/hf_manifest.json`.
+- Missing, mismatched, or incomplete option files fail closed. No interpolation, synthetic option bars, or silent file omission is permitted. The dataset itself is a research-data source and does not replace exchange-primary validation.
