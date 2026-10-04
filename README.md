@@ -401,3 +401,7 @@ The exact-head G6 validation run `37171349785` remained in official RBI acquisit
 
 ## 2026-10-04 — E106 structured RBI risk-free source
 G6 production risk-free acquisition has been redesigned around RBI Bulletin Table 26: the 91-day Government of India Treasury-bill implicit auction yield. The source is pinned to immutable Reserve Bank Innovation Hub commit `0db4ddb88c3119347e809af78c93beb4d1c874d4` / Git blob SHA-1 `ff603b132a2aa2aee8b1bc08d0d1e68879af2ea7`, with cache/provenance validation and conservative auction-date strict-prior semantics. RBI WSS remains a reconciliation/control source. G6 remains OPEN/FAIL pending exact-head CI and independent tester re-audit; G5 remains FAIL/waived, G9 PASS, G13/G14 and Phase 2 BLOCKED.
+
+
+## 2026-10-04 — E107/E108 source-verifier correction
+The first RBI Bulletin provenance validation failed because the Git blob verifier itself encoded the header incorrectly. The developer corrected the NUL-byte construction and verified the committed source line directly. The pinned RBI Bulletin commit/blob identity is unchanged. G6 remains OPEN/FAIL pending fresh exact-head CI and independent tester re-audit; no gate was advanced.
