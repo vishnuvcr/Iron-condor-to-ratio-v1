@@ -604,3 +604,9 @@
 - Root causes: `execution_intervals_for_date()` unconditionally called `tz_localize()` on an already-aware expiry; two regression fixtures omitted required `study_data_end` and therefore raised `KeyError` before exercising chronology behavior.
 - Resolution: normalize expiry as Asia/Kolkata by localizing naive values and converting aware values; add the required study horizon to both fixtures.
 - The failed run is retained as immutable negative evidence. A fresh exact-head run is required; no downstream impact scan or production scenario was allowed to execute.
+
+
+### E160 — incomplete regular-session test fixture (2026-10-04)
+- **Status:** OPEN / TEST FIXTURE DEFECT; no impact scan or production scenario executed from the failing run.
+- Fresh run `37210607051` on SHA `28162c1c7c34b7d322d33396eb3c34e9b61296bf` reached the chronology suite and failed one test because `regular_execution_session` supplied only `end`, while `execution_intervals_for_date()` correctly requires `start` and `end`.
+- Resolution: completed the fixture with `start=09:15`; enabled a fresh CI branch trigger. E159's aware/naive expiry fix passed the other six chronology tests.
