@@ -86,7 +86,7 @@ def main() -> None:
             df = df[
                 df["timestamp"].between(study_start, study_end)
                 & df["expiry"].notna()
-                & (df["expiry"] <= pd.Timestamp(rules["study_data_end"]).date())
+                & (df["expiry"].dt.date <= pd.Timestamp(rules["study_data_end"]).date())
                 & df["strike"].notna()
                 & df["option_type"].isin(["CE", "PE"])
                 & (df["timestamp"].dt.normalize() == df["expiry"])
@@ -98,19 +98,25 @@ def main() -> None:
                 key = (exp.date().isoformat(), float(row.strike), str(row.option_type))
                 rec = groups.setdefault(key, {
                     "expiry": exp,
-                    "old_close": pd.NaT,
+                    "original_e150_close": pd.NaT,
+                    "intermediate_pre_e151_close": pd.NaT,
                     "corrected_close": pd.NaT,
                     "old_candidate_count": 0,
                     "gap_candidate_count": 0,
                     "post_session_count": 0,
                 })
-                # Reproduce the pre-E151 semantics: accept any expiry-day
-                # observation up to the latest interval endpoint, regardless
-                # of membership in an interval.
+                # Original E150 defect: latest raw expiry-day observation,
+                # including observations after the executable session.
+                rec["old_candidate_count"] += 1
+                if pd.isna(rec["original_e150_close"]) or row.timestamp > rec["original_e150_close"]:
+                    rec["original_e150_close"] = row.timestamp
+
+                # Intermediate pre-E151 semantics: any expiry-day observation
+                # through the latest permitted interval endpoint, regardless
+                # of membership in a disjoint interval.
                 if row.timestamp <= max_endpoint:
-                    rec["old_candidate_count"] += 1
-                    if pd.isna(rec["old_close"]) or row.timestamp > rec["old_close"]:
-                        rec["old_close"] = row.timestamp
+                    if pd.isna(rec["intermediate_pre_e151_close"]) or row.timestamp > rec["intermediate_pre_e151_close"]:
+                        rec["intermediate_pre_e151_close"] = row.timestamp
                 if executable(row.timestamp, exp, intervals):
                     if pd.isna(rec["corrected_close"]) or row.timestamp > rec["corrected_close"]:
                         rec["corrected_close"] = row.timestamp
@@ -120,26 +126,44 @@ def main() -> None:
                     rec["post_session_count"] += 1
 
     affected = []
-    classification_counts = {"changed": 0, "old_only": 0, "corrected_only": 0}
+    classification_counts = {"original_vs_corrected_changed": 0, "original_only": 0, "corrected_only": 0}
+    intermediate_classification_counts = {"changed": 0, "old_only": 0, "corrected_only": 0}
     for key, rec in groups.items():
-        old_close = rec["old_close"]
+        original_close = rec["original_e150_close"]
+        intermediate_close = rec["intermediate_pre_e151_close"]
         corrected_close = rec["corrected_close"]
-        old_present = pd.notna(old_close)
+        original_present = pd.notna(original_close)
         corrected_present = pd.notna(corrected_close)
-        category = classify_close_impact(old_close, corrected_close)
+        if original_present and corrected_present:
+            if as_ist(original_close) != as_ist(corrected_close):
+                category = "original_vs_corrected_changed"
+                classification_counts[category] += 1
+            else:
+                category = None
+        elif original_present:
+            category = "original_only"
+            classification_counts[category] += 1
+        elif corrected_present:
+            category = "corrected_only"
+            classification_counts[category] += 1
+        else:
+            category = None
+
+        if pd.notna(intermediate_close) or corrected_present:
+            intermediate_category = classify_close_impact(intermediate_close, corrected_close)
+            if intermediate_category:
+                intermediate_classification_counts[intermediate_category] += 1
+
         if category is None:
             continue
-        if category == "changed"
-            extension_seconds = (old_close - corrected_close).total_seconds()
-        elif category == "old_only":
-            extension_seconds = None
-        else:
-            extension_seconds = None
+        extension_seconds = ((original_close - corrected_close).total_seconds()
+                             if original_present and corrected_present else None)
         classification_counts[category] += 1
         affected.append({
             "contract_id": f"{key[0]}|{key[1]:.4f}|{key[2]}",
             "classification": category,
-            "old_expiry_close_ts": str(old_close) if old_present else None,
+            "original_e150_expiry_close_ts": str(original_close) if original_present else None,
+            "intermediate_pre_e151_expiry_close_ts": str(intermediate_close) if pd.notna(intermediate_close) else None,
             "corrected_expiry_close_ts": str(corrected_close) if corrected_present else None,
             "extension_seconds": extension_seconds,
             "gap_candidate_count": int(rec["gap_candidate_count"]),
@@ -152,10 +176,12 @@ def main() -> None:
         "source_files": len(files),
         "contracts_scanned": len(groups),
         "affected_contract_groups": len(affected),
+        "original_vs_corrected_affected_contract_groups": len(affected),
         "affected_classification_counts": classification_counts,
+        "intermediate_vs_corrected_classification_counts": intermediate_classification_counts,
         "affected_expiry_dates": sorted({x["contract_id"].split("|")[0] for x in affected}),
         "special_gap_affected_groups": sum(1 for x in affected if x["gap_candidate_count"] > 0),
-        "max_extension_seconds": max((x["extension_seconds"] for x in affected), default=0.0),
+        "max_extension_seconds": max((x["extension_seconds"] for x in affected if x["extension_seconds"] is not None), default=0.0),
         "examples": affected[:20],
         "interpretation": "Zero affected groups supports a non-material E150/E151 chronology assessment at the contract-close layer. Any changed, old-only, or corrected-only group is affected and requires affected production scenario reruns before final profitability inference.",
     }
