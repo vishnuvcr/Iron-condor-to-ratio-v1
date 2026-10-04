@@ -517,3 +517,7 @@ This file records user-visible project instructions and work decisions, not hidd
 - Tester determination: **G6 FAIL / OPEN**. The source is not accepted as a production r input without immutable full-file provenance, coverage/duplicate audit, and reconciliation to primary RBI WSS observations.
 - No Phase 2 authorization. G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH.
 - Tester report: `research/TESTER_REPORT_G6_SECONDARY_R_CROSSCHECK_20261004.md`; PR #46 targets this developer branch and is intentionally not merged as a gate-advancement mechanism.
+
+
+## 2026-10-04 — Automatic developer-to-tester handover and E104 correction
+User explicitly required automatic handover to the tester branch and instructed that research must not stop at a tester failure. Developer created tester PR #47 from exact head 2dd4506e5173052c58573a94f9a3368f1a7d3190. Tester independently returned FAIL/OPEN, identifying RBI cache reuse and no-lookahead semantics defects. Developer corrected both without advancing any gate, added regression coverage, and will automatically re-handover from the corrected exact head after CI evidence.
