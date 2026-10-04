@@ -73,3 +73,11 @@ Tester must verify the exact developer head, Actions run/checkout SHA, complete 
 - Developer PR #37 implements that binding and adds an optional exact expected commit SHA for manual dispatch.
 - G6 remains OPEN; tester PR #36 also identified missing cache restore/save in the source-acquisition workflow. Developer PR #38 adds this cache control.
 - Tester must independently review the corrected exact heads and associated Actions evidence before any gate advancement.
+
+
+## 2026-10-04 — Tester PR handoff: G6 final audit
+- Exact developer head audited: `1a9eab7389b972c05362271ee9fb23092aa7354d`.
+- Actions run: `37191768801`; aggregate artifact: `11299929192`; SHA-256: `80512999956437e2acfdbcea2d4a6a6ebfb659267691ef033dcf7b19f55c3ae6`.
+- **G6: FAIL / OPEN.** The production math/data-path checks reconcile, but the mandatory evidence package omits IV iteration/residual summaries, explicit expiry/date coverage, and explicit future-input/no-lookahead counters.
+- Required remediation is documented in `research/TESTER_G6_FINAL_AUDIT_20261004.md`.
+- G13/G14 and Phase 2 remain blocked.
