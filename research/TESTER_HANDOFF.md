@@ -128,3 +128,18 @@ Fresh isolated tester branch: tester/phase-2-e152-final-audit-v2-20261004.
 The remediation PR is #54. The workflow now triggers on the remediation branch, includes the new regression tests in path filters, and executes the E150/E151 impact scan once before fail-closed production validation.
 
 Tester must treat only this exact developer SHA and artifacts generated from it as authoritative.
+
+
+## E153–E156 fresh exact-head handoff — 2026-10-04
+
+Prior exact-head freeze is superseded. The next tester must use the exact developer SHA produced by this handoff commit.
+
+PR #55 remediates E153–E156:
+- impact scan syntax repaired;
+- regression tests call the public execution predicate;
+- original E150 latest-raw expiry-day close is restored;
+- intermediate pre-E151 endpoint-bounded close and corrected interval-member close are both retained;
+- study-horizon comparison is local-calendar-date safe;
+- source SHA-256 inventory and report-content hash are recorded.
+
+Fresh tester branch must be created from the final handoff SHA and must independently verify source semantics, syntax/tests, the three-way chronology, pinned-data scan, provenance, and exact-head CI. Any original-vs-corrected affected group requires affected production scenario reruns. No E150 closure or profitability inference is permitted from earlier artifacts.
