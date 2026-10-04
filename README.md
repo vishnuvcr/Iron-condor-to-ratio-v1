@@ -497,3 +497,9 @@ Phase 2 deterministic engine work is now active. [Research plan](RESEARCH_PLAN.m
 Phase 2 is active on `phase-2-backtest-engine-20261004`. PR #53 contains the deterministic engine, proxy execution, cost resolution, event/fill ledgers and regression suite. See [Phase 2 specification](research/PHASE2_ENGINE_SPEC.md), [data contract](research/PHASE2_DATA_CONTRACT.md), and [literature review](research/LITERATURE_REVIEW.md).
 
 The Phase 2 validation workflow is configured with PR and manual triggers, but no exact-head Actions status is observable through the current GitHub connector. No CI pass is claimed.
+
+## 2026-10-04 — Phase 2 cost-model milestone
+
+The engine now uses a dated, fail-closed cost layer with historical NSE option slabs, Paytm Money brokerage cohort assumptions, STT, SEBI, stamp duty and GST. The initial rate-conversion defect was caught before production results and corrected with unit tests; see ERROR_LOG.md E141.
+
+Phase 3 preparation is documented in research/PHASE3_STATISTICAL_ANALYSIS_PLAN.md and market-context requirements in research/PHASE2_CONTEXT_DATA_SPEC.md. These are analysis preparations, not performance results.
