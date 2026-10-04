@@ -120,3 +120,12 @@ RBI public WSS pages independently expose the required 91-Day Treasury Bill (Pri
 - RBI public WSS/DBIE availability is independently corroborated externally, but the machine-readable primary series could not be retrieved by this CI execution environment. No secondary mirror has been substituted into production.
 - **G6 remains FAIL / OPEN.** This is the final planned blind primary-host retry. A secondary RBI mirror may be investigated only as a separately labelled cross-check/provisional source and cannot silently convert G6 to PASS.
 - G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH; G13/G14 and Phase 2 remain BLOCKED.
+
+
+## 2026-10-04 — no-lookahead semantics clarification
+
+The RBI WSS production schema currently preserves the source's labelled observation date. A publication/availability timestamp is not reliably exposed by the retained WSS page and therefore is **not invented**.
+
+For production eligibility, the labelled observation date is treated as a conservative **eligibility date**, not as a claim about the exact publication timestamp. The join is strictly prior to the trading date (`allow_exact_matches=False`), so a rate labelled for the trading date can never be used on that date. This convention is conservative whenever the source cannot become available before its labelled observation date; if an actual publication/availability date is later established, it may only reduce eligibility, never expand it.
+
+The production evidence must report this limitation explicitly. No same-day, forward-filled, interpolated, or future observation is permitted.
