@@ -643,3 +643,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - The prior exact-head run provided a definitive 30-minute timeout failure, not complete evidence.
 - The production calculation remains exhaustive; only deterministic file-index partitioning changed from 8 to 32 shards to keep each bounded job tractable.
 - Fresh exact-head CI evidence is required before tester handover.
+
+
+### E126 status — fresh G6 validation required
+- Final-head run exposed a report-finalization defect after a complete shard scan; no evidence was accepted.
+- SHA-256 helper corrected and regression coverage added.
+- G6 remains OPEN; Phase 2 remains BLOCKED.
+- Next automatic run from the corrected developer head is the only candidate for tester handover.
