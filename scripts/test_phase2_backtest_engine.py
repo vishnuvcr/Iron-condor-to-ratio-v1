@@ -3,7 +3,7 @@ from datetime import date
 import pandas as pd
 
 from phase2_backtest_engine import (
-    BacktestEngine, ChargeRule, CostSchedule, EngineConfig, adverse_fill, normalize_bars
+    BacktestEngine, ChargeRule, CostSchedule, EngineConfig, adverse_fill, normalize_bars, choose_expiry
 )
 
 def cost_schedule():
@@ -143,3 +143,12 @@ def test_first_monthly_entry_is_consumed_when_targets_missing():
     entry_events = result["events"][result["event_type"].isin(["ENTER_IRON_CONDOR","MONTHLY_ENTRY_SKIPPED"])]
     assert len(entry_events) == 1
     assert not (entry_events["event_type"] == "ENTER_IRON_CONDOR").any()
+
+
+def test_expiry_minimum_dte_is_inclusive():
+    snap = pd.DataFrame([{
+        "expiry": pd.Timestamp("2025-10-21"),
+        "session_eligible": True,
+    }])
+    chosen = choose_expiry(snap, pd.Timestamp("2025-10-01"), 20)
+    assert chosen == pd.Timestamp("2025-10-21")
