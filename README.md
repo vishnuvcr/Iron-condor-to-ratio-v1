@@ -449,3 +449,7 @@ The production G6 scan now processes every pinned option row in exact 250,000-ro
 
 ## 2026-10-04 — E120 exhaustive G6 sharding
 The single-job G6 scan was computationally impractical despite exact batching and parallel IV roots. The production evidence path is now 8 deterministic, exhaustive option-file shards plus a fail-closed aggregator. Every row remains included exactly once; no sampling or approximation is introduced. G6 remains OPEN/FAIL pending fresh exact-head CI and independent tester re-audit.
+
+
+## 2026-10-04 — E121 G6 shard configuration correction
+The first E120 sharded execution failed because the production module referenced undefined shard configuration variables. The developer added validated `G6_SHARD_INDEX`/`G6_SHARD_COUNT` configuration, shard-specific evidence filenames, and regression coverage. No mathematical/data rule changed. G6 remains OPEN/FAIL pending fresh exact-head CI and independent tester re-audit; G5 remains FAIL/waived, G9 PASS, G13/G14 and Phase 2 BLOCKED.
