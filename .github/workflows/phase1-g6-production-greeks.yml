@@ -14,6 +14,7 @@ on:
       - "scripts/acquire_g6_rbi_risk_free.py"
       - "scripts/acquire_g6_nifty_underlying.py"
       - "scripts/acquire_g6_nifty_options.py"
+      - "scripts/aggregate_g6_production_greeks.py"
   pull_request:
     branches: [main]
     paths:
