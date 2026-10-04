@@ -656,3 +656,13 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - The 32 exhaustive shards completed successfully on the preceding head, but that head is non-authoritative because the aggregate job was still configured for 8 shards.
 - E131 corrected the aggregate configuration to 32.
 - A fresh exact-head run is mandatory before tester handover.
+
+
+## 2026-10-04 — Independent G6 final audit
+- Tester branch: `tester/phase-1-g6-final-audit-20261004`.
+- Exact developer head audited: `1a9eab7389b972c05362271ee9fb23092aa7354d`.
+- Actions run: `37191768801`; aggregate artifact: `11299929192`; aggregate SHA-256: `80512999956437e2acfdbcea2d4a6a6ebfb659267691ef033dcf7b19f55c3ae6`.
+- CI completion is clean: 32 shard artifacts plus aggregate, no failed scan jobs in the authoritative first-page job listing; aggregate itself enforces all 32 shard files and complete file partition.
+- Independent mathematical/data-path checks passed, but G6 is **FAIL / OPEN** because mandatory evidence fields are incomplete: IV iteration/residual evidence, explicit expiry/date coverage, and explicit future-input/no-lookahead evidence.
+- G13/G14 and Phase 2 remain BLOCKED.
+- Full tester report: `research/TESTER_G6_FINAL_AUDIT_20261004.md`.
