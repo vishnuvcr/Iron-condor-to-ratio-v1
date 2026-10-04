@@ -554,3 +554,9 @@ User explicitly required automatic handover to the tester branch and instructed 
 - Independent diagnosis showed the source bytes were not the problem; the verifier constructed the Git blob header incorrectly because the Python source contained two backslashes rather than a NUL escape.
 - Developer corrected the verifier, then directly re-read the committed source to confirm `h.update(f"blob {len(b)}\\0".encode())` semantics are now correct.
 - No gate was advanced. Fresh exact-head CI remains mandatory.
+
+
+## 2026-10-04 — E109 parser correction
+- The corrected Git blob verifier passed; RBI Bulletin acquisition then failed on a pandas `NaT` comparison from blank Excel cells.
+- Developer hardened the parser to coerce invalid dates to missing and explicitly skip `NaT`.
+- No gate advancement; fresh exact-head CI remains required.
