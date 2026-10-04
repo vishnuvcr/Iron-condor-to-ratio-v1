@@ -630,3 +630,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - E123 dividend-coverage evidence correction is implemented.
 - E124 adds the aggregate script to automatic push/PR validation paths.
 - The current exact-head run predating these corrections is non-authoritative; the next head will require a fresh complete run before tester handover.
+
+
+### E125 status — latest-head-only G6 validation
+- Added workflow concurrency so superseded G6 runs cannot remain authoritative.
+- Tester branch `tester/phase-1-g6-reaudit-20261004` exists from the pre-concurrency developer head and is currently preliminary FAIL/OPEN only; it cannot approve the later developer head.
+- A fresh tester branch will be created from the final exact developer head after CI completion.
