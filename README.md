@@ -542,3 +542,10 @@ Under the owner-authorized lenient gate, Phase 3 methodology and manuscript stru
 E151 has been corrected: expiry-day timestamps must belong to an allowed execution interval, including on disjoint special-session days. The contract-master horizon is now tied to the documented session-data horizon of 2026-07-02.
 
 An automated E150/E151 impact scan is included in the production workflow. No production P&L is relabelled or finalized; final inference remains blocked until the impact question is quantitatively closed and independently audited.
+
+
+## 2026-10-04 — E151 remediation
+
+The independent E150 audit found a second chronology defect: special sessions with disjoint execution intervals were being treated as a single endpoint rather than explicit interval membership. The remediation now rejects timestamps inside non-trading gaps and fails closed beyond the session-rule evidence horizon of 2026-07-02.
+
+A deterministic old-vs-corrected E150/E151 impact scan is now part of the production workflow. Any affected contract group blocks production inference and requires affected scenario reruns. No profitability/trading-strategy conclusion is final.
