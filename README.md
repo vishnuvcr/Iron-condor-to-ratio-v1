@@ -409,3 +409,7 @@ The first RBI Bulletin provenance validation failed because the Git blob verifie
 
 ## 2026-10-04 — E109 RBI Bulletin parser correction
 Immutable RBI Bulletin provenance validation passed, after which CI exposed a blank-cell/`NaT` parser edge case. The date parser was hardened to coerce invalid cells to missing and skip them. G6 remains OPEN/FAIL pending fresh exact-head CI and independent tester re-audit.
+
+
+## 2026-10-04 — E110/E111 G6 underlying materialization
+The G6 production artifact correctly failed closed because the contemporaneous NIFTY underlying parquet was missing from the workflow workspace. The developer added pinned acquisition of the independently audited HF NIFTY file (revision `92e0288`, SHA-256 `613864738250107807354c17c7092986960220ac3062b830c65cc5f9ec16fcf7`), cache validation, HF_TOKEN support, and corrected workflow cache/path triggers. G6 remains OPEN/FAIL pending fresh exact-head CI and independent tester re-audit.
