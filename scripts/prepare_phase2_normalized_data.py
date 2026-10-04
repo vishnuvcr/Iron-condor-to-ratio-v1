@@ -57,6 +57,9 @@ def load_contract_master() -> pd.DataFrame:
         master[c] = pd.to_numeric(master[c], errors="coerce")
     for c in ["expiry", "contract_start", "contract_end", "expiry_close_ts", "source_effective_date"]:
         master[c] = pd.to_datetime(master[c], errors="coerce")
+    for c in ["contract_start", "contract_end", "expiry_close_ts"]:
+        if getattr(master[c].dt, "tz", None) is not None:
+            master[c] = master[c].dt.tz_convert("Asia/Kolkata").dt.tz_localize(None)
     if master["contract_id"].duplicated().any():
         raise RuntimeError("PHASE2_CONTRACT_MASTER_DUPLICATE")
     return master
@@ -87,7 +90,7 @@ def session_mask(ts: pd.Series, rules: dict) -> pd.Series:
     start_h, start_m = map(int, regular["start"].split(":"))
     end_h, end_m = map(int, regular["end"].split(":"))
     regular_mask = (
-        local.dt.weekday < 5
+        (local.dt.weekday < 5)
         & (minute >= start_h * 60 + start_m)
         & (minute <= end_h * 60 + end_m)
     )
@@ -116,7 +119,7 @@ def session_mask(ts: pd.Series, rules: dict) -> pd.Series:
 
 def prepare_one(raw_path: Path, master: pd.DataFrame, underlying: pd.DataFrame, r: pd.DataFrame, q: pd.DataFrame, rules: dict, output: Path) -> dict:
     pf = pq.ParquetFile(raw_path)
-    required = {"timestamp", "expiry", "strike", "option_type", "close", "volume"}
+    required = {"timestamp", "expiry", "strike", "option_type", "open", "close", "volume"}
     missing = required - set(pf.schema.names)
     if missing:
         raise RuntimeError(f"PHASE2_OPTION_SCHEMA_FAILURE:{raw_path.name}:{sorted(missing)}")
@@ -198,10 +201,9 @@ def prepare_one(raw_path: Path, master: pd.DataFrame, underlying: pd.DataFrame, 
 
         df["abs_delta"] = df["signed_delta"].abs()
         df["session_eligible"] = session_mask(df["timestamp"], rules)
-        df["execution_eligible"] = df["session_eligible"] & df["open"].notna() if "open" in df else df["session_eligible"]
-        if "open" not in df:
-            df["open"] = np.nan
+        if "open" not in df.columns:
             raise RuntimeError(f"PHASE2_OPTION_OPEN_MISSING:{raw_path.name}")
+        df["execution_eligible"] = df["session_eligible"] & df["open"].notna()
 
         keep = [
             "timestamp","expiry","strike","option_type","open","close","volume",
