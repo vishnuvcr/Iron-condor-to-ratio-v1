@@ -96,3 +96,24 @@ Phase 2 developer work is now authorized under this progression policy. This doe
 ## 2026-10-04 — Phase 2 milestone handoff
 
 Phase 2 is active under the owner progression waiver. The dedicated developer milestone handoff is `research/PHASE2_TESTER_HANDOFF_20261004.md`. The tester should independently audit the state machine, chronology/no-lookahead, atomic execution, slippage, date-specific cost resolution and reproducibility before final acceptance. Intermediate audit timing does not authorize omission of material defects.
+
+
+## E152 fresh-gate handoff — 2026-10-04
+
+Developer remediation head will be frozen after this handoff update.
+
+Blocking tester findings at prior head:
+1. expiry dates were timezone-naive while option timestamps were Asia/Kolkata-aware in expiry interval predicates;
+2. the E150 impact scan did not classify old-only or corrected-only close states as affected.
+
+Required independent checks at the next gate:
+- verify all expiry/timestamp comparisons are timezone-consistent or explicitly calendar-date based;
+- execute aware and naive regression tests and inspect the source for any remaining direct aware/naive comparisons;
+- verify impact classification for changed, old-only, and corrected-only groups;
+- run the impact scan over the pinned source and independently verify source-file count, source hashes, study horizon, contract-group count, and output hash;
+- if affected groups > 0, verify affected production scenarios are rerun from the corrected exact head;
+- if zero, preserve and independently verify the immutable zero-impact artifact;
+- verify exact developer SHA in any CI artifact; do not reuse pre-remediation artifacts;
+- re-audit E146–E151 and confirm no regression in fail-closed workflow behavior.
+
+Production acceptance remains BLOCKED until this gate passes. No profitability, tradability, or strategy conclusion is authorized.
