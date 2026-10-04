@@ -490,3 +490,10 @@ The 32-shard exhaustive scan completed without shard failures, but developer aud
 The project owner accepted the historical G6 aggregate for research progression with deferred audit. G6 D1–D3 remain explicit limitations and are not retroactively claimed as satisfied. Intermediate evidence-completeness gates may be audited at milestone/final review, while material mathematical, look-ahead, data-quality, cost/slippage, logical and reproducibility failures remain blocking.
 
 Phase 2 deterministic engine work is now active. [Research plan](RESEARCH_PLAN.md) · [Status](RESEARCH_STATUS.md) · [Tester handoff](research/TESTER_HANDOFF.md) · [Literature review](research/LITERATURE_REVIEW.md) · [Error log](ERROR_LOG.md).
+
+
+## 2026-10-04 — Phase 2 engine milestone
+
+Phase 2 is active on `phase-2-backtest-engine-20261004`. PR #53 contains the deterministic engine, proxy execution, cost resolution, event/fill ledgers and regression suite. See [Phase 2 specification](research/PHASE2_ENGINE_SPEC.md), [data contract](research/PHASE2_DATA_CONTRACT.md), and [literature review](research/LITERATURE_REVIEW.md).
+
+The Phase 2 validation workflow is configured with PR and manual triggers, but no exact-head Actions status is observable through the current GitHub connector. No CI pass is claimed.
