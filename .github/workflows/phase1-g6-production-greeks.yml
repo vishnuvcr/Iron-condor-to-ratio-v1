@@ -35,18 +35,22 @@ on:
         type: string
 
 jobs:
-  g6-production-evidence:
+  prepare:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+    permissions: {contents: read}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
-        with: {python-version: "3.11"}
+        with: {python-version: '3.11'}
+      - name: Assert immutable checkout
+        run: |
+          set -euo pipefail
+          actual=$(git rev-parse HEAD)
+          expected='${{ github.event.inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }}'
+          test -z "$expected" || test "$actual" = "$expected"
       - name: Restore G6 official-source cache
-        id: g6-data-cache
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -55,57 +59,40 @@ jobs:
             data/raw/options/NIFTY
             data/processed/g6
           key: g6-rq-20261004-${{ hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','scripts/acquire_g6_nifty_underlying.py','scripts/acquire_g6_nifty_options.py','data/manifests/phase1_control_sources.json') }}
-          restore-keys: |
-            g6-rq-20261004-
+          restore-keys: g6-rq-20261004-
       - name: Install production dependencies
         run: python -m pip install pandas pyarrow numba pytest requests lxml openpyxl
-      - name: Assert immutable checkout
-        run: |
-          set -euo pipefail
-          actual="$(git rev-parse HEAD)"
-          expected="${{ github.event.inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }}"
-          if [ -n "$expected" ]; then test "$actual" = "$expected"; fi
-          echo "G6 exact checkout SHA: $actual"
-
       - name: Acquire pinned audited NIFTY options
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python scripts/acquire_g6_nifty_options.py
-
       - name: Acquire pinned audited NIFTY underlying
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: python scripts/acquire_g6_nifty_underlying.py
-
       - name: Acquire official NSE dividend-yield history
         run: |
           python scripts/acquire_g6_nse_q_history.py
           python - <<'PY'
           import json,pandas as pd
           from pathlib import Path
-          raw=json.loads(Path("data/processed/g6/nse_nifty50_pepb_raw.json").read_text())
+          raw=json.loads(Path('data/processed/g6/nse_nifty50_pepb_raw.json').read_text())
           rows=[]
-          for ch in raw["chunks"]:
-              outer=json.loads(ch["payload"])
-              if isinstance(outer,dict):
-                  inner=outer.get("d",[])
-              else:
-                  inner=outer
+          for ch in raw['chunks']:
+              outer=json.loads(ch['payload'])
+              inner=outer.get('d',[]) if isinstance(outer,dict) else outer
               rows.extend(json.loads(inner) if isinstance(inner,str) else inner)
           out=pd.DataFrame(rows)
-          if out.empty: raise SystemExit("NSE Q returned no rows")
-          out["date"]=pd.to_datetime(out["DATE"],errors="coerce").dt.date
-          out["div_yield_pct"]=pd.to_numeric(out["divYield"],errors="coerce")
-          out=out[["date","div_yield_pct"]].dropna().drop_duplicates("date")
-          out.to_csv("data/processed/g6/dividend_yield.csv",index=False)
-          print("NSE dividend-yield rows:",len(out))
+          if out.empty: raise SystemExit('NSE Q returned no rows')
+          out['date']=pd.to_datetime(out['DATE'],errors='coerce').dt.date
+          out['div_yield_pct']=pd.to_numeric(out['divYield'],errors='coerce')
+          out=out[['date','div_yield_pct']].dropna().drop_duplicates('date')
+          out.to_csv('data/processed/g6/dividend_yield.csv',index=False)
+          print('NSE dividend-yield rows:',len(out))
           PY
-
       - name: Acquire official RBI 91-day Treasury-bill primary yield
         run: python scripts/acquire_g6_rbi_risk_free.py
-
       - name: Save G6 official-source cache
-        if: ${{ always() && hashFiles('data/raw/g6_sources/**','data/processed/g6/risk_free.csv','data/processed/g6/dividend_yield.csv') != '' }}
         uses: actions/cache/save@v4
         with:
           path: |
@@ -116,46 +103,81 @@ jobs:
           key: g6-rq-20261004-${{ hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','scripts/acquire_g6_nifty_underlying.py','scripts/acquire_g6_nifty_options.py','data/manifests/phase1_control_sources.json') }}
       - name: Run deterministic G6 solver tests
         run: pytest -q scripts/test_phase1_g6_production_greeks.py
-      - name: Run fail-closed G6 production evidence audit
+
+  scan:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0,1,2,3,4,5,6,7]
+    runs-on: ubuntu-latest
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Assert immutable checkout
+        run: |
+          set -euo pipefail
+          actual=$(git rev-parse HEAD)
+          expected='${{ github.event.inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }}'
+          test -z "$expected" || test "$actual" = "$expected"
+      - name: Restore G6 official-source cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            data/raw/g6_sources
+            data/raw/index
+            data/raw/options/NIFTY
+            data/processed/g6
+          key: g6-rq-20261004-${{ hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','scripts/acquire_g6_nifty_underlying.py','scripts/acquire_g6_nifty_options.py','data/manifests/phase1_control_sources.json') }}
+          restore-keys: g6-rq-20261004-
+      - name: Install production dependencies
+        run: python -m pip install pandas pyarrow numba requests lxml openpyxl
+      - name: Run exhaustive G6 shard
+        env:
+          G6_SHARD_INDEX: ${{ matrix.shard }}
+          G6_SHARD_COUNT: 8
         timeout-minutes: 30
         run: python scripts/phase1_g6_production_greeks.py
-      - name: Upload G6 production evidence
-        if: always()
+      - name: Upload G6 shard evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase1-g6-shard-${{ matrix.shard }}
+          path: data/validation/phase1_g6_production_greeks_shard_*.json
+          retention-days: 30
+
+  aggregate:
+    needs: scan
+    runs-on: ubuntu-latest
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Assert immutable checkout
+        run: |
+          set -euo pipefail
+          actual=$(git rev-parse HEAD)
+          expected='${{ github.event.inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }}'
+          test -z "$expected" || test "$actual" = "$expected"
+      - name: Download all shard evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: phase1-g6-shard-*
+          path: data/validation
+          merge-multiple: true
+      - name: Aggregate exhaustive G6 evidence
+        env:
+          G6_SHARD_COUNT: 8
+        run: python scripts/aggregate_g6_production_greeks.py
+      - name: Upload aggregated G6 production evidence
         uses: actions/upload-artifact@v4
         with:
           name: phase1-g6-production-greeks
           path: data/validation/phase1_g6_production_greeks_report.json
           retention-days: 30
-
-# E104 exact-head revalidation trigger: cache/provenance and no-lookahead corrections.
-
-# E105 exact-head revalidation trigger: bounded RBI acquisition runtime correction.
-# E107 exact-head PR validation: checkout and assert pull-request head SHA.
-
-# E106 exact-head revalidation trigger: immutable RBI Bulletin Table 26 risk-free source.
-
-# E107 exact-head revalidation trigger: diagnose pinned RBI Bulletin blob mismatch.
-
-# E108 exact-head revalidation trigger: corrected Git blob verifier.
-
-# E109 exact-head revalidation trigger: NaT-safe RBI Bulletin parser.
-
-# E111 exact-head revalidation trigger: pinned NIFTY underlying materialization.
-
-# E113 exact-head revalidation trigger: pinned NIFTY option materialization and cache.
-
-# E114 exact-head revalidation trigger: supported HF option tree listing.
-
-# E115 exact-head revalidation trigger: canonical target delta keys.
-
-# E115 exact-head revalidation trigger: normalized target-delta diagnostic keys.
-
-# E116 exact-head revalidation trigger: Numba-vectorized delta calculation.
-
-# E116 exact-head revalidation trigger: bounded production scan runtime.
-
-# E117 exact-head revalidation trigger: repaired deterministic delta regression.
-
-# E118 exact-head revalidation trigger: parallel independent IV roots.
-
-# E119 exact-head revalidation trigger: exact 250k-row Arrow batching.
