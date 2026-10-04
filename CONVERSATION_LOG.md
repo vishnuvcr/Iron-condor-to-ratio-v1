@@ -691,3 +691,11 @@ Developer corrected interval membership, aligned the contract-master horizon to 
 - Tester finding: the E150 impact scan vectorized filter compared Asia/Kolkata-aware `timestamp` values with timezone-naive `expiry` values, potentially removing valid expiry-day rows before chronology reconstruction.
 - Developer response: created isolated remediation branch `phase-2-e157-remediation-20261004`; replaced the predicate with explicit Asia/Kolkata local-calendar-date comparison; added vectorized regression tests for naive expiry, aware expiry and mismatched dates; recorded E157 in the error log, README and tester handoff.
 - Current research state: E150 OPEN, Phase 2 production BLOCKED, no profitability/trading-strategy conclusion authorized. Fresh tester gate required from the immutable remediation head.
+
+
+## 2026-10-04 — E157 execution attempt and E158
+- Execution order was issued against immutable E157 baseline `636ebdfdf89a97461709c7d4097f89a04e7228a3`.
+- Created execution descendant `32d9421a449fd12933e88dcf37c78f3f16b93a7b` from that baseline. Only CI orchestration changed: the execution branch is included in the Phase 2 push trigger and the E150/E151/E157 regression file is explicitly executed before the impact scan.
+- Opened PR #57 to bind the execution path to the exact head.
+- GitHub reports zero Actions runs/statuses for the exact SHA. Direct clone from the runtime failed because external DNS/network access is unavailable.
+- E158 recorded as an execution-environment limitation. No previous artifact was reused; no quantitative impact result or profitability conclusion was fabricated.
