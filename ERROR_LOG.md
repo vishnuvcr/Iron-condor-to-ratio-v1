@@ -395,3 +395,11 @@
 - The production script writes structured failure reports, but the workflow did not preserve them on failure, preventing independent diagnosis.
 - Added `if: always()` evidence printing and artifact upload for shard reports.
 - No data rows are to be skipped or simplified to avoid this failure.
+
+
+### E126 — G6 SHA-256 helper unbound-variable defect (2026-10-04)
+- **Status:** CORRECTED; fresh exact-head validation required.
+- Final-head shard 15 completed its full 3,421,493-row scan and failed while constructing the report because `sha256_file()` used an unbound lambda default variable.
+- This defect was exposed by the terminal evidence artifact, not by a partial scan.
+- Corrected to explicit chunk iteration and added a deterministic regression test.
+- No mathematical/data-quality conclusion was drawn from the failed run.
