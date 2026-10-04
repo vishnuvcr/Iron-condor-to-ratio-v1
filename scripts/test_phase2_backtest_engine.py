@@ -127,3 +127,19 @@ def test_static_ic_mode_never_transitions():
     result=engine.run()
     assert (result["events"]["event_type"]=="ENTER_IRON_CONDOR").any()
     assert not (result["events"]["event_type"]=="TRANSITION_TO_RATIO").any()
+
+
+def test_first_monthly_entry_is_consumed_when_targets_missing():
+    df = fixture()
+    t0 = pd.Timestamp("2025-10-01 09:15:00", tz="Asia/Kolkata")
+    # Remove one IC target only at the first decision bar.
+    df = df[~((df["timestamp"] == t0) & (df["option_type"] == "PE") & (df["strike"] == 21000))]
+    engine = BacktestEngine(
+        df,
+        cost_schedule(),
+        EngineConfig(entry_min_dte_days=1,slippage_bps=0),
+    )
+    result = engine.run()
+    entry_events = result["events"][result["event_type"].isin(["ENTER_IRON_CONDOR","MONTHLY_ENTRY_SKIPPED"])]
+    assert len(entry_events) == 1
+    assert not (entry_events["event_type"] == "ENTER_IRON_CONDOR").any()
