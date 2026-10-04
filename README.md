@@ -441,3 +441,7 @@ The bounded G6 run failed deterministic testing because one regression test refe
 
 ## 2026-10-04 — E118 G6 IV solver performance correction
 The G6 production scan was computationally dominated by serial independent IV roots. The exact same Brent equations, bounds, tolerances and fail-closed rules are now executed with Numba parallel row-level scheduling. No sampling or approximation was introduced. G6 remains OPEN/FAIL pending fresh exact-head CI.
+
+
+## 2026-10-04 — E119 exact chunked G6 reconstruction
+The production G6 scan now processes every pinned option row in exact 250,000-row Arrow batches instead of loading each file wholesale. This is an execution/memory correction only: no sampling, row omission, interpolation, or mathematical shortcut was introduced. G6 remains OPEN/FAIL pending fresh exact-head CI.
