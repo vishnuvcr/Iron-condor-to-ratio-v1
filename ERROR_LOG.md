@@ -305,3 +305,6 @@
 
 | E107 | 2026-10-04 | 1 / G6 | Fresh CI reported an immutable RBI Bulletin blob mismatch even though the pinned commit/tree identified the expected blob and the downloaded byte count matched. | The diagnostic revealed the verifier constructed the Git blob header with a literal backslash sequence rather than a NUL byte, creating a false mismatch. | Corrected the verifier to use the actual `\\0` Python escape (NUL byte) and retained the pinned commit/blob identity. Fresh exact-head CI required. |
 | E108 | 2026-10-04 | 1 / G6 | Developer correction of E107 required a second source-level escaping fix after inspection showed the verifier still contained two backslashes. | Initial remediation was syntactically valid but semantically still wrong for Git blob hashing. | Replaced the two-backslash source sequence with a single `\\0` escape and verified the committed source line directly. Fresh CI required; no gate advancement. |
+
+
+| E109 | 2026-10-04 | 1 / G6 | RBI Bulletin Excel parsing reached the pinned source successfully but a blank/metadata cell produced pandas `NaT`, which then failed comparison against `datetime.date`. | Date parser did not explicitly treat `NaT` as missing. | Changed date parsing to `errors="coerce"`, explicitly reject `pd.isna(v)`, then return the date. No source/provenance rule changed. |
