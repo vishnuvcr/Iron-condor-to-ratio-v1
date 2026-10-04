@@ -580,3 +580,10 @@ User explicitly required automatic handover to the tester branch and instructed 
 - HF rejected the option file-list request because the request mixed unsupported `expand`/pagination parameters with the recursive tree endpoint.
 - Developer corrected the listing request to recursive tree only, preserving pinned revision and per-file hash validation.
 - No gate advancement; fresh exact-head CI remains mandatory.
+
+
+## 2026-10-04 — E115 target-key correction
+- Production G6 reached the Greek-selection stage after all data inputs were present.
+- Failure was a `KeyError` caused solely by inconsistent float string formatting for target deltas.
+- Developer standardized target keys to two decimals and added a regression test.
+- No gate advancement; fresh exact-head CI and tester handover remain mandatory.
