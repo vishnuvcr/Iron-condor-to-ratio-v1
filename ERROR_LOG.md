@@ -544,3 +544,11 @@
 - Corrected the builder to derive the expiry-day execution cutoff from the date-specific F&O session rules and to accept only expiry-day observations at or before that cutoff.
 - Added a regression test proving a valid 15:30 observation remains the expiry close when a later 15:31 observation is present.
 - **Policy outcome:** no full five-scenario rerun is required at this stage. Existing Phase 2 P&L/profitability evidence remains non-final until the consolidated audit assesses whether the corrected boundary can affect the tested window/results.
+
+
+### E151 — special-session expiry-close interval-membership defect (2026-10-04)
+- **Status:** OPEN / tester finding; no production result affected or accepted.
+- The E150 remediation compares expiry-day observations against the maximum endpoint of a special session's execution intervals.
+- For a special day with disjoint execution intervals, an observation in a non-execution gap can satisfy `timestamp <= max_interval_end` and be selected as expiry_close_ts.
+- This is a generic chronology-control defect. Current audit evidence does not establish that a qualifying monthly expiry in the study sample is affected.
+- Resolution: require expiry-day timestamps to belong to an allowed execution interval, add an in-gap regression test, regenerate the contract master, and independently verify the affected-data question.
