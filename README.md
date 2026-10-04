@@ -417,3 +417,7 @@ The G6 production artifact correctly failed closed because the contemporaneous N
 
 ## 2026-10-04 — E112/E113 G6 option-input materialization
 The G6 production scan now has pinned acquisition for the required NIFTY option-chain parquet files from the audited HF dataset, with per-file SHA-256 validation, provenance manifest, HF_TOKEN support, and cache persistence. The prior artifact had failed closed solely because option inputs were absent. G6 remains OPEN/FAIL pending fresh exact-head CI and independent tester re-audit.
+
+
+## 2026-10-04 — E114 HF option-listing correction
+The pinned NIFTY option acquisition initially failed at Hugging Face file listing due to an unsupported tree API parameter combination. The listing call was corrected to the documented recursive form; per-file SHA-256 validation remains mandatory. G6 remains OPEN/FAIL pending fresh exact-head CI.
