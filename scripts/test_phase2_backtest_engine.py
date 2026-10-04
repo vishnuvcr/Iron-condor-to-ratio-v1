@@ -3,7 +3,7 @@ from datetime import date
 import pandas as pd
 
 from phase2_backtest_engine import (
-    BacktestEngine, ChargeRule, CostSchedule, EngineConfig, adverse_fill
+    BacktestEngine, ChargeRule, CostSchedule, EngineConfig, adverse_fill, normalize_bars
 )
 
 def cost_schedule():
@@ -107,3 +107,12 @@ if __name__=="__main__":
                test_missing_next_bar_fails_group_without_partial_fill,test_costs_are_required,test_transition_missing_target_is_consumed]:
         fn()
     print("phase2 engine tests passed")
+
+
+def test_naive_timestamps_are_interpreted_as_ist():
+    df = fixture()
+    df["timestamp"] = df["timestamp"].dt.tz_localize(None)
+    df["expiry_close_ts"] = df["expiry_close_ts"].dt.tz_localize(None)
+    out = normalize_bars(df)
+    assert str(out.loc[0, "timestamp"]) == "2025-10-01 09:15:00+05:30"
+    assert str(out.loc[0, "expiry_close_ts"].utcoffset()) == "5:30:00"
