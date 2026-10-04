@@ -76,3 +76,8 @@ Additional mandatory checks:
 - Static IC benchmark mode must use the same execution/cost layer.
 - Production workflow must cache normalized data across matrix jobs and produce deterministic scenario artifacts.
 - No CI success may be inferred where the connector exposes no exact-head run.
+
+## 2026-10-04 — E146/E147 remediation handoff
+Developer corrected E146 malformed GitHub Actions expressions and E147 scenario-artifact naming mismatch. The analysis job now asserts all five scenario artifacts (0/5/10/20/50 bps) before statistical processing.
+
+Fresh tester audit is required on the exact post-remediation head. Production execution must still wait for authoritative historical NIFTY contract-master validation.
