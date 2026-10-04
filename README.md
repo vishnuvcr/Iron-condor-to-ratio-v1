@@ -421,3 +421,7 @@ The G6 production scan now has pinned acquisition for the required NIFTY option-
 
 ## 2026-10-04 — E114 HF option-listing correction
 The pinned NIFTY option acquisition initially failed at Hugging Face file listing due to an unsupported tree API parameter combination. The listing call was corrected to the documented recursive form; per-file SHA-256 validation remains mandatory. G6 remains OPEN/FAIL pending fresh exact-head CI.
+
+
+## 2026-10-04 — E115 target-key correction
+G6 production now reaches Greek selection with all required data inputs, but the latest scan exposed a target-delta diagnostic key-format bug (`0.3` versus `0.30`). The developer standardized the keys and added regression coverage. G6 remains OPEN/FAIL pending fresh exact-head CI and independent tester re-audit.
