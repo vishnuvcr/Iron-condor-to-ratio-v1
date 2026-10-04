@@ -562,3 +562,11 @@
 - The contract builder previously declared study end 2026-09-30 while the inspected session-rule manifest documented study_data_end 2026-07-02. Corrected the builder to align its study horizon with the documented session-rule evidence horizon and fail closed beyond it.
 - Added deterministic E150/E151 old-vs-corrected impact scanning. Production workflow now uploads the scan and fails closed if affected contract groups are detected, preventing final production inference without an affected rerun.
 - **Status:** remediation implemented; independent tester re-audit required.
+
+
+### E152 — timezone mismatch invalidates E151 expiry predicates and impact scan (2026-10-04)
+- **Status:** OPEN / MATERIAL / PRODUCTION-BLOCKING.
+- Expiry values are timezone-naive while observations are Asia/Kolkata-aware. Direct equality in the E151 executable predicate therefore rejects valid expiry timestamps.
+- The impact scan can consequently misclassify valid corrected closes and cannot support a zero-impact conclusion.
+- Secondary defect: groups with old close present but corrected close missing are omitted from the affected list.
+- Resolution: normalize expiry to Asia/Kolkata or compare calendar dates consistently; treat any old/corrected close mismatch including missing-side cases as affected; rerun chronology tests and impact scan.
