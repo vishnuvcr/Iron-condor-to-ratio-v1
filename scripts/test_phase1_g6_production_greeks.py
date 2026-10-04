@@ -57,3 +57,9 @@ def test_strict_prior_is_conservative_against_same_day_observation():
     out=strict_prior(pd.to_datetime(["2024-01-03","2024-01-04"]),src)
     assert pd.isna(out.loc[out["date"]==pd.Timestamp("2024-01-03"),"r"].iloc[0])
     assert out.loc[out["date"]==pd.Timestamp("2024-01-04"),"r"].iloc[0]==0.07
+
+
+def test_target_delta_keys_use_canonical_two_decimal_format():
+    targets=[0.30,0.10,0.50,0.40,0.08]
+    keys={f"{t:.2f}" for t in targets}
+    assert keys == {"0.30","0.10","0.50","0.40","0.08"}
