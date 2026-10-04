@@ -599,3 +599,10 @@ User explicitly required automatic handover to the tester branch and instructed 
 - The full G6 scan was materially processing the complete option set but did not finish within a practical window.
 - Developer added a 30-minute CI timeout to prevent the research gate from becoming unbounded.
 - The existing run is not treated as a PASS; fresh exact-head evidence remains mandatory.
+
+
+## 2026-10-04 — E117 test-contract correction
+- The 30-minute bounded run exposed a stale test rather than a production data/model failure.
+- The test referenced `load_module` and `bs_delta_arrays`, neither defined in the current solver.
+- Developer added the vectorized delta primitive and aligned the regression test with the production module API.
+- No gate advancement.
