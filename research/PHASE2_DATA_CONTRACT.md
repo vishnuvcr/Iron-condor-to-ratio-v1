@@ -1,6 +1,6 @@
 # Phase 2 Normalized Data Contract
 
-The engine does not silently infer missing production features. A Phase 2 integration run must provide the normalized columns in `research/PHASE2_ENGINE_SPEC.md`.
+The engine does not silently infer missing production features. A Phase 2 integration run must provide the normalized columns in `research/PHASE2_ENGINE_SPEC.md`, including the date-specific `expiry_close_ts`.
 
 ## Required provenance
 
@@ -32,3 +32,4 @@ No negative/zero execution opens.
 Historical `tick_size` and `lot_size` must be effective-date values.
 No future-dated Greek or cost input.
 Missing bars remain missing.
+
