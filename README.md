@@ -458,3 +458,7 @@ The first E120 sharded execution failed because the production module referenced
 ### Latest G6 status — E121
 - **G6: OPEN / IN PROGRESS.** E120's exhaustive 8-shard implementation failed closed before production scanning because shard variables were undefined. E121 corrected this; exact-head CI revalidation is required before tester handover.
 - G5 remains **FAIL / WAIVED FOR CONTINUED RESEARCH** and G9 remains **PASS**. G13/G14 and Phase 2 remain blocked.
+
+
+## 2026-10-04 — E131 G6 aggregation alignment
+The 32-shard exhaustive scan completed without shard failures, but developer audit found the aggregate job was still configured for 8 shards. E131 corrected the aggregator to consume all 32 shards. The preceding scan is not accepted as G6 evidence; fresh exact-head CI and independent tester audit remain mandatory.
