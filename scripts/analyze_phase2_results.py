@@ -107,7 +107,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
 
     summaries = []
-    for d in sorted(root.glob("slippage-*bps")):
+    for d in sorted(root.glob("phase2-backtest-*/slippage-*bps")):
         if not d.is_dir():
             continue
         result = summarize(d)
