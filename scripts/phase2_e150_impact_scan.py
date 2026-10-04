@@ -36,8 +36,15 @@ def interval_bounds(expiry: pd.Timestamp, rules: dict) -> list[tuple[pd.Timestam
     return out
 
 
+def as_ist(value: pd.Timestamp) -> pd.Timestamp:
+    ts = pd.Timestamp(value)
+    return ts.tz_localize("Asia/Kolkata") if ts.tzinfo is None else ts.tz_convert("Asia/Kolkata")
+
+
 def executable(ts: pd.Timestamp, expiry: pd.Timestamp, intervals: list[tuple[pd.Timestamp, pd.Timestamp]]) -> bool:
-    return ts.normalize() == expiry and any(start <= ts <= end for start, end in intervals)
+    ts = as_ist(ts)
+    expiry = as_ist(expiry)
+    return ts.normalize() == expiry.normalize() and any(start <= ts <= end for start, end in intervals)
 
 
 def main() -> None:
@@ -99,16 +106,35 @@ def main() -> None:
                     rec["post_session_count"] += 1
 
     affected = []
+    classification_counts = {"changed": 0, "old_only": 0, "corrected_only": 0}
     for key, rec in groups.items():
-        if pd.notna(rec["old_close"]) and pd.notna(rec["corrected_close"]) and rec["old_close"] != rec["corrected_close"]:
-            affected.append({
-                "contract_id": f"{key[0]}|{key[1]:.4f}|{key[2]}",
-                "old_expiry_close_ts": str(rec["old_close"]),
-                "corrected_expiry_close_ts": str(rec["corrected_close"]),
-                "extension_seconds": (rec["old_close"] - rec["corrected_close"]).total_seconds(),
-                "gap_candidate_count": int(rec["gap_candidate_count"]),
-                "post_session_count": int(rec["post_session_count"]),
-            })
+        old_close = rec["old_close"]
+        corrected_close = rec["corrected_close"]
+        old_present = pd.notna(old_close)
+        corrected_present = pd.notna(corrected_close)
+        if not old_present and not corrected_present:
+            continue
+        if old_present and corrected_present and old_close == corrected_close:
+            continue
+        if old_present and corrected_present:
+            category = "changed"
+            extension_seconds = (old_close - corrected_close).total_seconds()
+        elif old_present:
+            category = "old_only"
+            extension_seconds = None
+        else:
+            category = "corrected_only"
+            extension_seconds = None
+        classification_counts[category] += 1
+        affected.append({
+            "contract_id": f"{key[0]}|{key[1]:.4f}|{key[2]}",
+            "classification": category,
+            "old_expiry_close_ts": str(old_close) if old_present else None,
+            "corrected_expiry_close_ts": str(corrected_close) if corrected_present else None,
+            "extension_seconds": extension_seconds,
+            "gap_candidate_count": int(rec["gap_candidate_count"]),
+            "post_session_count": int(rec["post_session_count"]),
+        })
 
     result = {
         "status": "COMPLETE",
@@ -116,11 +142,12 @@ def main() -> None:
         "source_files": len(files),
         "contracts_scanned": len(groups),
         "affected_contract_groups": len(affected),
+        "affected_classification_counts": classification_counts,
         "affected_expiry_dates": sorted({x["contract_id"].split("|")[0] for x in affected}),
         "special_gap_affected_groups": sum(1 for x in affected if x["gap_candidate_count"] > 0),
         "max_extension_seconds": max((x["extension_seconds"] for x in affected), default=0.0),
         "examples": affected[:20],
-        "interpretation": "Zero affected groups supports a non-material E150/E151 chronology assessment at the contract-close layer. Any affected group requires affected production scenario reruns before final profitability inference.",
+        "interpretation": "Zero affected groups supports a non-material E150/E151 chronology assessment at the contract-close layer. Any changed, old-only, or corrected-only group is affected and requires affected production scenario reruns before final profitability inference.",
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(result, indent=2))
