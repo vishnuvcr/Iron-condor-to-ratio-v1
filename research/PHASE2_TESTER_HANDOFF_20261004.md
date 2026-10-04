@@ -81,3 +81,19 @@ Additional mandatory checks:
 Developer corrected E146 malformed GitHub Actions expressions and E147 scenario-artifact naming mismatch. The analysis job now asserts all five scenario artifacts (0/5/10/20/50 bps) before statistical processing.
 
 Fresh tester audit is required on the exact post-remediation head. Production execution must still wait for authoritative historical NIFTY contract-master validation.
+
+
+## E150 fresh independent audit — developer head 4adbd3fb7d3de5c5bb9328400b3f6ac359768104
+
+Independently verify, without relying on developer assertions:
+1. expiry_close_ts is bounded by the date-specific F&O execution-session close;
+2. post-session observations cannot extend the expiry boundary;
+3. the regression test exercises the corrected helper/path;
+4. special-session handling cannot introduce an ineligible close;
+5. contract_end/expiry chronology remains coherent;
+6. E150 cannot introduce look-ahead or alter non-expiry execution timing;
+7. re-audit E146–E149 and the complete state-machine/math/cost/slippage controls at this exact head;
+8. assess whether E150 can materially change tested P&L or trade timing; do not require a full rerun unless impact is material;
+9. do not issue final profitability/trading-strategy acceptance from source inspection alone.
+
+Owner policy: continue under the lenient gate. No existing P&L is final. If E150 is materially outcome-changing, affected production scenarios become mandatory before final conclusion.
