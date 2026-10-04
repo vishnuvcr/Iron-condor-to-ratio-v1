@@ -612,3 +612,9 @@ User explicitly required automatic handover to the tester branch and instructed 
 - The complete G6 option sample is too large for practical serial IV solving in CI.
 - Since each Brent root is independent, developer switched the existing deterministic root loop to Numba `prange` parallel execution.
 - No approximation or sampling shortcut was introduced.
+
+
+## 2026-10-04 — E119 exact chunked reconstruction
+- The full historical option universe must remain in G6, so sampling was rejected.
+- Developer changed only the execution granularity: Arrow parquet batches of 250,000 rows, with identical mathematical processing and cumulative counters.
+- This controls memory and provides a finite execution architecture without weakening evidence requirements.
