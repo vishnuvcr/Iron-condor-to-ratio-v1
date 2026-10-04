@@ -133,6 +133,8 @@ class CostSchedule:
                 basis=row.get("basis", "turnover"),
                 side=row.get("side", "ALL"),
                 taxable=bool(row.get("taxable", False)),
+                method=row.get("method", "RATE"),
+                slabs=tuple(row.get("slabs", [])),
             )
             for row in raw["rules"]
         ]
