@@ -476,3 +476,10 @@ The 32-shard exhaustive scan completed without shard failures, but developer aud
 - The remediation workflow explicitly includes this branch in its push trigger, but the GitHub connector exposes no workflow-dispatch operation and reports no Actions run for corrected heads `e43acf88e10b4af13af54fe11d0c0a3cec5295ec` or `33fd3c798faa6104987f9440ba1d38a75e38eba3`.
 - The previous G6 run is **not** reused for the corrected code.
 - G6 remains **FAIL / OPEN** from tester PR #49; G13/G14 and Phase 2 remain blocked until a fresh exact-head run and independent tester re-audit.
+
+
+## 2026-10-04 — G6 conditional-acceptance assessment
+- The completed 32-shard G6 numerical scan is retained as immutable computational evidence, but PR #49 identified D1-D3 evidence-retention deficiencies.
+- A formal conditional-acceptance proposal is now recorded at `research/G6_CONDITIONAL_ACCEPTANCE_PROPOSAL_20261004.md`.
+- Independent tester branch `tester/phase-1-g6-conditional-acceptance-20261004` was created from developer remediation SHA `e9d319e7f2e902f77696fc4dbd029fa93cbbce7f`.
+- **G6 remains FAIL/OPEN pending the tester verdict; G13/G14 and Phase 2 remain blocked.** No stale artifact is being silently upgraded to a full PASS.
