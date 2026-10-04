@@ -877,3 +877,11 @@ E151 remediation is implemented at developer head 1501165689bf6f879628f34fab1fe7
 - production workflow gate requiring zero affected contract groups before production inference.
 
 Fresh isolated tester branch: tester/phase-2-e151-remediation-audit-20261004. Production acceptance remains deferred pending independent audit and quantitative E150 impact closure.
+
+
+## 2026-10-04 — Tester E151 v2 gate: E152 blocking defect
+- Independent tester audited developer head `66e2a06850eb75f4b9eebca4bf994ba592a59ff7`.
+- E151 interval-membership design is conceptually correct, but E152 timezone inconsistency makes the executable expiry predicate invalid for aware observations versus naive expiry dates.
+- The E150/E151 impact scan is therefore not evidence of zero affected groups.
+- Tester verdict: **FAIL / PRODUCTION GATE BLOCKED**.
+- E150 materiality remains unresolved; no final profitability or strategy conclusion is permitted.
