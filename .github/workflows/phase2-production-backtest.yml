@@ -114,6 +114,16 @@ jobs:
           python scripts/validate_phase2_cost_schedule.py
       - name: Normalize option partitions
         run: python scripts/prepare_phase2_normalized_data.py
+      - name: Save normalized cache
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            data/raw/index
+            data/raw/options/NIFTY
+            data/raw/contracts
+            data/processed/g6
+            data/processed/phase2/options
+          key: phase2-normalized-${hashFiles('scripts/prepare_phase2_normalized_data.py','scripts/phase1_g6_production_greeks.py','data/manifests/phase1_control_sources.json','data/manifests/phase1_session_rules.json')}
       - name: Upload normalization manifest
         uses: actions/upload-artifact@v4
         with:
@@ -161,4 +171,35 @@ jobs:
         with:
           name: phase2-backtest-${matrix.slippage_bps}bps
           path: data/results/phase2/slippage-${matrix.slippage_bps}bps
+          retention-days: 30
+
+  analysis:
+    needs: run
+    runs-on: ubuntu-latest
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${ inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install analysis dependencies
+        run: python -m pip install pandas pyarrow numpy
+      - name: Download all scenario artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: slippage-*-bps
+          path: data/results/phase2
+          merge-multiple: false
+      - name: Analyze
+        run: |
+          python scripts/analyze_phase2_results.py \
+            --results-root data/results/phase2 \
+            --output data/results/phase2-analysis
+      - name: Upload combined analysis
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase2-analysis
+          path: data/results/phase2-analysis
           retention-days: 30
