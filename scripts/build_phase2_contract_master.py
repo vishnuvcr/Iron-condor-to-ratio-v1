@@ -67,33 +67,6 @@ def lot_rule(expiry: pd.Timestamp) -> tuple[int, str]:
     raise RuntimeError(f"PHASE2_CONTRACT_LOT_RULE_MISSING:{e.date()}")
 
 
-def execution_intervals_for_date(expiry: pd.Timestamp) -> list[list[str]]:
-    rules = json.loads(SESSION_RULES.read_text())
-    d = pd.Timestamp(expiry).date().isoformat()
-    special = {x["date"]: x for x in rules.get("special_sessions", [])}
-    intervals = special[d]["execution_intervals"] if d in special else [[rules["regular_execution_session"]["start"], rules["regular_execution_session"]["end"]]]
-    if not intervals:
-        raise SystemExit(f"PHASE2_EXPIRY_EXECUTION_INTERVAL_MISSING:{d}")
-    return intervals
-
-
-def timestamp_in_execution_interval(timestamp: pd.Timestamp, expiry: pd.Timestamp) -> bool:
-    timestamp = pd.Timestamp(timestamp)
-    expiry = pd.Timestamp(expiry).tz_localize("Asia/Kolkata") if pd.Timestamp(expiry).tzinfo is None else pd.Timestamp(expiry).tz_convert("Asia/Kolkata")
-    timestamp = timestamp.tz_localize("Asia/Kolkata") if timestamp.tzinfo is None else timestamp.tz_convert("Asia/Kolkata")
-    if timestamp.normalize() != expiry.normalize():
-        return False
-    local_time = timestamp.time()
-    for start, end in execution_intervals_for_date(expiry):
-        sh, sm = map(int, start.split(":"))
-        eh, em = map(int, end.split(":"))
-        start_t = pd.Timestamp(f"{expiry.date()} {start}", tz="Asia/Kolkata").time()
-        end_t = pd.Timestamp(f"{expiry.date()} {end}", tz="Asia/Kolkata").time()
-        if start_t <= local_time <= end_t:
-            return True
-    return False
-
-
 def execution_intervals_for_date(expiry: pd.Timestamp) -> list[tuple[pd.Timestamp, pd.Timestamp]]:
     """Return explicitly permitted F&O execution intervals for an expiry date."""
     if not SESSION_RULES.exists():
@@ -154,7 +127,7 @@ def collect_monthly_expiries(files: list[Path]) -> set[pd.Timestamp]:
             df = batch.to_pandas()
             ts = ist_ts(df["timestamp"])
             exp = pd.to_datetime(df["expiry"], errors="coerce").dt.normalize()
-            mask = ts.between(STUDY_START, STUDY_END) & exp.notna() & (exp <= STUDY_END.normalize())
+            mask = ts.between(STUDY_START, STUDY_END) & exp.notna() & (exp.dt.date <= STUDY_END.date())
             if mask.any():
                 expiries.update(exp.loc[mask].tolist())
     if not expiries:
@@ -192,7 +165,7 @@ def main() -> None:
             )
             df = df[
                 df["timestamp"].between(STUDY_START, STUDY_END)
-                & (df["expiry"] <= STUDY_END.normalize())
+                & (df["expiry"].dt.date <= STUDY_END.date())
                 & df["expiry"].isin(monthly_expiries)
                 & df["strike"].notna()
                 & df["option_type"].isin(["CE", "PE"])
