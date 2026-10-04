@@ -57,3 +57,52 @@ def test_special_session_gap_observation_is_rejected():
             assert m.update_expiry_close_ts(pd.NaT, valid, expiry) == valid
         finally:
             m.SESSION_RULES = original
+
+
+def test_special_session_gap_is_not_executable():
+    import json, tempfile
+    import pandas as pd
+    import build_phase2_contract_master as m
+    expiry = pd.Timestamp("2024-03-02")
+    with tempfile.TemporaryDirectory() as td:
+        p = __import__("pathlib").Path(td) / "rules.json"
+        p.write_text(json.dumps({
+            "study_data_end":"2026-07-02",
+            "regular_execution_session":{"start":"09:15","end":"15:30"},
+            "special_sessions":[{"date":"2024-03-02","execution_intervals":[["09:15","10:00"],["11:30","12:30"]]}]
+        }))
+        original=m.SESSION_RULES
+        try:
+            m.SESSION_RULES=p
+            gap=expiry.tz_localize("Asia/Kolkata")+pd.Timedelta(hours=10,minutes=30)
+            second=expiry.tz_localize("Asia/Kolkata")+pd.Timedelta(hours=12,minutes=0)
+            assert not m.expiry_timestamp_is_executable(gap, expiry)
+            assert m.expiry_timestamp_is_executable(second, expiry)
+            assert pd.isna(m.update_expiry_close_ts(pd.NaT, gap, expiry))
+            assert m.update_expiry_close_ts(pd.NaT, second, expiry) == second
+        finally:
+            m.SESSION_RULES=original
+
+
+def test_session_horizon_is_fail_closed():
+    import json, tempfile
+    import pandas as pd
+    import build_phase2_contract_master as m
+    expiry = pd.Timestamp("2026-07-03")
+    with tempfile.TemporaryDirectory() as td:
+        p = __import__("pathlib").Path(td) / "rules.json"
+        p.write_text(json.dumps({
+            "study_data_end":"2026-07-02",
+            "regular_execution_session":{"start":"09:15","end":"15:30"},
+            "special_sessions":[]
+        }))
+        original=m.SESSION_RULES
+        try:
+            m.SESSION_RULES=p
+            try:
+                m.execution_intervals_for_date(expiry)
+                raise AssertionError("expected session-horizon failure")
+            except SystemExit as exc:
+                assert "PHASE2_SESSION_RULE_HORIZON_EXCEEDED" in str(exc)
+        finally:
+            m.SESSION_RULES=original
