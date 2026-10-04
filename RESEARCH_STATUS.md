@@ -549,3 +549,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Added pinned HF NIFTY option acquisition at revision `0f4800e`, with per-file SHA-256 validation, concurrent download, manifest provenance, and HF_TOKEN support.
 - Corrected workflow cache paths/hash inputs so option data are retained and reused.
 - G6 remains FAIL/OPEN pending fresh exact-head CI and independent tester re-audit.
+
+
+## 2026-10-04 — E114 HF option-listing correction
+- The first pinned HF option acquisition attempt failed before any download with HTTP 400 from the tree-list endpoint.
+- Corrected the API call to the supported recursive tree form.
+- G6 remains FAIL/OPEN pending fresh exact-head CI; no data have been accepted from this failed run.
