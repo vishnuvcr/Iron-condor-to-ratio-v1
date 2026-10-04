@@ -7,7 +7,7 @@ from pathlib import Path
 import pandas as pd, requests
 
 START=date(2021,1,1); END=date(2026,9,30)
-ID_START=24000; ID_END=27900
+ID_START=24000; ID_END=28500
 BASES=["https://www.rbi.org.in/scripts/WSSView.aspx?Id={}","https://rbi.org.in/Scripts/WSSView.aspx?Id={}","https://wss.rbi.org.in/Scripts/WSSView.aspx?Id={}"]
 RAW=Path("data/raw/g6_sources/rbi_wss")
 OUT=Path("data/processed/g6/risk_free.csv")
@@ -87,7 +87,7 @@ def fetch_one(sid):
     for base in BASES:
         u=base.format(sid)
         try:
-            r=requests.get(u,headers={"User-Agent":"Iron-condor-to-ratio-v1-research/1.0"},timeout=10)
+            r=requests.get(u,headers={"User-Agent":"Iron-condor-to-ratio-v1-research/1.0"},timeout=3)
             if r.status_code==200 and b"91-Day Treasury Bill (Primary) Yield" in r.content:
                 b=r.content
                 rr=extract(r.text,sid)
@@ -108,7 +108,7 @@ def fetch_one(sid):
 def main():
     RAW.mkdir(parents=True,exist_ok=True); OUT.parent.mkdir(parents=True,exist_ok=True); REPORT.parent.mkdir(parents=True,exist_ok=True)
     pages=[]; allrows=[]; errors=[]
-    with ThreadPoolExecutor(max_workers=20) as ex:
+    with ThreadPoolExecutor(max_workers=100) as ex:
         futures=[ex.submit(fetch_one,sid) for sid in range(ID_START,ID_END+1)]
         for fut in as_completed(futures):
             try:
