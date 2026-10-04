@@ -657,3 +657,7 @@ The developer corrected a material unit-conversion defect in NSE/IPFT rates befo
 ## 2026-10-04 — Phase 2 final milestone snapshot
 
 Developer completed and hardened the Phase 2 deterministic engine, static IC benchmark, date-effective cost layer, contract-master validation, G4-gated normalization pipeline, cycle-level execution, result analyzer, margin-proxy specification, and cache-first production workflow. Developer-pre-audit corrections E141–E145 were recorded. The final milestone snapshot is pinned at 3d5c41f13269618b5d742527df973f405974c762 and handed to isolated tester/phase-2-milestone-final-20261004. No production performance result is claimed until the historical contract master and independent audit are available.
+
+## 2026-10-04 — E146/E147 remediation and contract reconstruction
+
+Tester identified malformed Actions interpolation and artifact-name mismatch. Developer rewrote and inspected the workflow, corrected both defects, added five-scenario fail-closed analysis checks, and added deterministic monthly NIFTY contract-master reconstruction using official NSE lot-size chronology and pinned expiry-partitioned option data. No production result is claimed.
