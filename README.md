@@ -591,3 +591,7 @@ Independent tester identified E157 in developer head `7f9f9209c77416986ba0827028
 
 ## 2026-10-04 — E157 execution evidence status / E158
 The immutable E157 remediation baseline is `636ebdfdf89a97461709c7d4097f89a04e7228a3`. An execution-only descendant `32d9421a449fd12933e88dcf37c78f3f16b93a7b` adds the E157 branch to the Phase 2 workflow trigger and explicitly runs the E150/E151/E157 regression suite before the pinned-source impact scan. PR #57 binds that execution path to the exact head. GitHub currently exposes **zero Actions runs and zero statuses** for `32d9421a449fd12933e88dcf37c78f3f16b93a7b`, and direct runtime repository execution is unavailable because external network/DNS access is disabled. This is logged as E158; **no prior artifact is reused, no zero-impact result is asserted, and Phase 2 production remains BLOCKED.**
+
+
+## 2026-10-04 — E159 CI remediation
+Fresh CI run `37210327594` exposed E159 before production execution: five contract-master chronology tests failed because aware expiries were passed to an unconditional `tz_localize()` and two fixtures omitted `study_data_end`. Developer remediation branch `phase-2-e159-remediation-20261004` normalizes aware/naive expiries safely and completes the fixtures. The failed run is retained as negative evidence; no downstream impact scan/P&L result from that run is accepted. **E150 remains OPEN; Phase 2 production remains BLOCKED pending fresh exact-head CI and independent tester audit.**
