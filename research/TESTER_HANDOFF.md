@@ -163,3 +163,9 @@ Tester must independently verify the exact SHA, workflow contents, regression co
 
 ## Exact-head CI bootstrap trigger — 2026-10-04
 Execution branch remains derived from immutable E157 baseline `636ebdfdf89a97461709c7d4097f89a04e7228a3`. Main now contains infrastructure-only bootstrap workflow `phase2-exact-head-bootstrap.yml`, which checks out the PR head SHA exactly and runs the contract-master plus E150/E151/E157 regression suites. This commit is an execution trigger only; no research logic or data rules are changed.
+
+
+## E159 fresh remediation handoff — 2026-10-04
+Failed exact-head CI run: `37210327594`; execution SHA: `32d9421a449fd12933e88dcf37c78f3f16b93a7b`.
+
+E159 findings: `execution_intervals_for_date()` unconditionally localized an already-aware expiry; two chronology fixtures omitted `study_data_end`. Developer remediation branch: `phase-2-e159-remediation-20261004`. Required fresh audit: verify aware/naive expiry normalization, both fixture corrections, full contract-master chronology suite, E150/E151/E157 regression suite, exact checkout SHA, and then the pinned-source impact scan. Any nonzero affected groups require all affected production scenarios to rerun.
