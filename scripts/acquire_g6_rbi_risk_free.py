@@ -37,7 +37,10 @@ def git_blob_sha1(b: bytes) -> str:
 
 def parse_date(x):
     try:
-        return pd.to_datetime(str(x).strip(), dayfirst=True, errors="raise").date()
+        v = pd.to_datetime(str(x).strip(), dayfirst=True, errors="coerce")
+        if pd.isna(v):
+            return None
+        return v.date()
     except Exception:
         return None
 
