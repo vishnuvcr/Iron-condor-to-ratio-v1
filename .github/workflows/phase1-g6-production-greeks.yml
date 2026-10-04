@@ -198,3 +198,5 @@ jobs:
 # E121 exact-head revalidation trigger: shard configuration and output-path correction.
 
 # E129 final exact-head trigger after failure-evidence correction.
+
+# E130 final exact-head trigger after checksum-helper correction.
