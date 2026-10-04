@@ -24,3 +24,12 @@ def test_impact_classification_equivalent_naive_and_aware_closes_are_same():
     aware = pd.Timestamp("2025-10-30 15:30", tz="Asia/Kolkata")
     assert as_ist(naive) == as_ist(aware)
     assert classify_close_impact(naive, aware) is None
+
+
+def test_original_e150_close_is_later_than_intermediate_when_post_session_exists():
+    original = pd.Timestamp("2025-10-30 15:31", tz="Asia/Kolkata")
+    intermediate = pd.Timestamp("2025-10-30 15:30", tz="Asia/Kolkata")
+    corrected = pd.Timestamp("2025-10-30 15:30", tz="Asia/Kolkata")
+    assert original > intermediate
+    assert intermediate == corrected
+    assert classify_close_impact(original, corrected) == "changed"
