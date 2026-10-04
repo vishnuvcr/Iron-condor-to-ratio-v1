@@ -568,3 +568,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Exact-head production artifact reached complete input coverage but failed with diagnostic key mismatch `0.30`.
 - Corrected diagnostic target-key normalization; solver, target tolerance, data, and provenance rules unchanged.
 - G6 remains FAIL/OPEN pending fresh exact-head CI and independent tester re-audit.
+
+
+## 2026-10-04 — E116 G6 runtime bound
+- Exact-head run `37173353749` remained in the full production evidence scan for an extended period without completion.
+- Added a 30-minute workflow timeout to the production evidence step; timeout is explicitly a G6 FAIL condition.
+- A fresh exact-head run is required after this workflow correction. G6 remains FAIL/OPEN; G5 FAIL/WAIVED; G9 PASS; G13/G14 and Phase 2 BLOCKED.
