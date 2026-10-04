@@ -36,6 +36,7 @@ class EngineConfig:
     entry_min_dte_days: int = 20
     slippage_bps: float = 10.0
     force_close_minutes_before_expiry: int = 1
+    enable_transitions: bool = True
 
 
 @dataclass(frozen=True)
@@ -732,7 +733,7 @@ class BacktestEngine:
                     )
                     self.terminal_unclosed = True
 
-            elif self.state == "IRON_CONDOR":
+            elif self.state == "IRON_CONDOR" and self.cfg.enable_transitions:
                 call = next(
                     (x for x in self.position if x.side == "SELL" and x.option_type == "CE"),
                     None,
