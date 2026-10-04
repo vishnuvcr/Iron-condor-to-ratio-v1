@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - "phase-1-g6-production-greeks-20261004"
+      - "phase-1-g6-evidence-remediation-20261004"
     paths:
       - "scripts/phase1_g6_production_greeks.py"
       - "scripts/test_phase1_g6_production_greeks.py"
@@ -204,3 +205,4 @@ jobs:
 # E130 final exact-head trigger after checksum-helper correction.
 
 # E132 exact-head trigger after E131 documentation synchronization.
+# E134 remediation trigger: run the full G6 evidence chain on the isolated developer remediation branch.
