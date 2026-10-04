@@ -553,3 +553,12 @@
 - Reconciled the contract-master horizon: the builder now derives its study end from the session-control evidence horizon (study_data_end=2026-07-02) instead of claiming coverage to 2026-09-30 from a separate hard-coded horizon.
 - Added a batch-safe E150/E151 impact scan and wired it into the production workflow. The scan is required to determine whether corrected expiry timing affects any contract groups.
 - **Status:** corrected in source; quantitative impact scan still pending because the raw production dataset is not exposed through the repository connector. No old artifact is relabelled.
+
+
+### E151 — special-session interval membership and session-horizon inconsistency (2026-10-04)
+- **Severity:** MATERIAL CHRONOLOGY / COVERAGE CONTROL DEFECT.
+- Tester found that E150's special-session helper selected the maximum interval endpoint but did not require an observation to belong to one of the permitted disjoint execution intervals.
+- Corrected the contract builder to use an explicit interval-membership predicate. Added a regression for a 10:30 observation inside the 10:00–11:30 gap on the 2024-03-02 two-interval session.
+- The contract builder previously declared study end 2026-09-30 while the inspected session-rule manifest documented study_data_end 2026-07-02. Corrected the builder to align its study horizon with the documented session-rule evidence horizon and fail closed beyond it.
+- Added deterministic E150/E151 old-vs-corrected impact scanning. Production workflow now uploads the scan and fails closed if affected contract groups are detected, preventing final production inference without an affected rerun.
+- **Status:** remediation implemented; independent tester re-audit required.
