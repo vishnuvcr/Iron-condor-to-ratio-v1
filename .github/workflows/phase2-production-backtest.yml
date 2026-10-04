@@ -13,6 +13,7 @@ on:
       - "scripts/prepare_phase2_normalized_data.py"
       - "scripts/phase2_run_cycles.py"
       - "scripts/validate_phase2_contract_master.py"
+      - "scripts/build_phase2_contract_master.py"
       - "scripts/acquire_g6_nifty_options.py"
       - "scripts/acquire_g6_nifty_underlying.py"
       - "scripts/acquire_g6_nse_q_history.py"
@@ -106,6 +107,8 @@ jobs:
           PY
       - name: Reconcile sessions
         run: python scripts/phase1_session_reconciliation.py
+      - name: Reconstruct monthly historical contract master
+        run: python scripts/build_phase2_contract_master.py
       - name: Validate contract master
         run: python scripts/validate_phase2_contract_master.py
       - name: Validate cost schedule
