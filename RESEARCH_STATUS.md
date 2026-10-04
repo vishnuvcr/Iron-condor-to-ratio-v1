@@ -586,3 +586,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Deterministic tests passed on the preceding bounded run and the exact-head production scan exposed serial IV-root runtime as the computational bottleneck.
 - Developer parallelized independent IV roots with Numba `prange`; no mathematical formula, root bounds, tolerance, target delta, or fail-closed criterion changed.
 - G6 remains FAIL/OPEN pending fresh exact-head CI and tester audit.
+
+
+## 2026-10-04 — E119 exact chunked G6 reconstruction
+- Production reconstruction was converted from whole-file pandas loading to exact 250,000-row Arrow batches.
+- No option rows are discarded for performance; the same IV, delta, target-selection and failure logic is applied to every batch.
+- G6 remains FAIL/OPEN pending fresh exact-head CI and tester audit.
