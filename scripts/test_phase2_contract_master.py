@@ -34,3 +34,26 @@ def test_post_session_observation_cannot_extend_expiry_close_ts():
             assert m.update_expiry_close_ts(current, post, expiry) == valid
         finally:
             m.SESSION_RULES = original
+
+
+def test_special_session_gap_observation_is_rejected():
+    import json
+    import tempfile
+    import pandas as pd
+    import build_phase2_contract_master as m
+    expiry = pd.Timestamp("2024-03-02")
+    with tempfile.TemporaryDirectory() as td:
+        p = __import__("pathlib").Path(td) / "rules.json"
+        p.write_text(json.dumps({"regular_execution_session":{"start":"09:15","end":"15:30"},
+                                 "special_sessions":[{"date":"2024-03-02","execution_intervals":[["09:15","10:00"],["11:30","12:30"]]}]}))
+        original = m.SESSION_RULES
+        try:
+            m.SESSION_RULES = p
+            gap = expiry.tz_localize("Asia/Kolkata") + pd.Timedelta(hours=10, minutes=30)
+            valid = expiry.tz_localize("Asia/Kolkata") + pd.Timedelta(hours=12, minutes=30)
+            assert not m.timestamp_in_execution_interval(gap, expiry)
+            assert m.timestamp_in_execution_interval(valid, expiry)
+            assert pd.isna(m.update_expiry_close_ts(pd.NaT, gap, expiry))
+            assert m.update_expiry_close_ts(pd.NaT, valid, expiry) == valid
+        finally:
+            m.SESSION_RULES = original
