@@ -562,3 +562,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Production scan then failed on a pure target-key formatting bug (`'0.30'`).
 - Corrected canonical target keys and added regression coverage.
 - G6 remains FAIL/OPEN pending fresh exact-head CI and independent tester re-audit.
+
+
+## 2026-10-04 — E115 G6 target-key correction
+- Exact-head production artifact reached complete input coverage but failed with diagnostic key mismatch `0.30`.
+- Corrected diagnostic target-key normalization; solver, target tolerance, data, and provenance rules unchanged.
+- G6 remains FAIL/OPEN pending fresh exact-head CI and independent tester re-audit.
