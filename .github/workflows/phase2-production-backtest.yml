@@ -189,9 +189,15 @@ jobs:
       - name: Download all scenario artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: slippage-*-bps
+          pattern: phase2-backtest-*-bps
           path: data/results/phase2
           merge-multiple: false
+      - name: Assert all five scenario artifacts are present
+        run: |
+          set -euo pipefail
+          for bps in 0 5 10 20 50; do
+            test -d "data/results/phase2/phase2-backtest-${bps}bps"
+          done
       - name: Analyze
         run: |
           python scripts/analyze_phase2_results.py \
