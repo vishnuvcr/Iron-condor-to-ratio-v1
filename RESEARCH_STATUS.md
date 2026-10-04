@@ -580,3 +580,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Bounded G6 run `37175103199` failed 9 passed / 1 failed due solely to a stale vectorized-delta regression test.
 - Added `bs_delta_arrays` and repaired the test import/call path.
 - G6 remains FAIL/OPEN; fresh exact-head CI and independent tester audit required.
+
+
+## 2026-10-04 — E118 G6 computational correction
+- Deterministic tests passed on the preceding bounded run and the exact-head production scan exposed serial IV-root runtime as the computational bottleneck.
+- Developer parallelized independent IV roots with Numba `prange`; no mathematical formula, root bounds, tolerance, target delta, or fail-closed criterion changed.
+- G6 remains FAIL/OPEN pending fresh exact-head CI and tester audit.
