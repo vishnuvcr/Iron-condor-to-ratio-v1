@@ -501,3 +501,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - No provenance, target-series, duplicate/conflict, or no-lookahead rule was relaxed.
 - The prior exact-head run is non-authoritative because downstream evidence was never reached; fresh CI at the corrected head is required.
 - G6 remains FAIL/OPEN pending fresh CI and independent tester re-audit. G5 remains FAIL/WAIVED; G9 PASS; G13/G14 and Phase 2 BLOCKED.
+
+
+## 2026-10-04 — E106 RBI bootstrap-first correction
+- The RBI collector now tries the four independently identified official WSS IDs first, using their immutable expected SHA-256 provenance, and invokes the wide archive scan only if those candidates produce no rows.
+- This is an execution-performance correction only. G6 remains FAIL/OPEN because the corrected head still requires fresh CI evidence and independent tester approval. G5 remains FAIL/WAIVED, G9 PASS, G13/G14 and Phase 2 BLOCKED.
+- The workflow was touched to force exact-head revalidation, but the GitHub connector exposed no new workflow run for the corrected commits 5e90927245283c865c9a9a187fb9a3ec43e52dcd or 68c572e471b78009640d0e3aa3717d6a5d899e01; no CI success is inferred.
