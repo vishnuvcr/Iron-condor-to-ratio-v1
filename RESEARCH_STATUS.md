@@ -800,3 +800,24 @@ Historical contract metadata has been converted from a hard missing-file depende
 This is explicitly a reconstruction, not recovered original NSE member-file bytes.
 
 Phase 2 remains **NOT PRODUCTION-READY** until a fresh exact-head workflow execution succeeds and the independent tester audits the resulting manifest and five scenario ledgers.
+
+## 2026-10-04 — Exact-head execution status after E146–E148
+
+Developer head: 9e08a2882715b144cfe815f3c7d1382e848c9d18.
+
+Repository inspection confirms:
+- E146 GitHub Actions expression syntax corrected;
+- E147 artifact naming/analysis path corrected;
+- all five slippage scenarios are explicitly asserted before analysis;
+- E148 monthly historical contract-master reconstruction is implemented, chronology-tested and fail-closed;
+- official NSE lot-size chronology is recorded in research/PHASE2_CONTRACT_MASTER_PROVENANCE.md.
+
+Exact-head Actions runs observable through the GitHub connector: 0.
+
+Therefore:
+- production execution: NOT OBSERVED;
+- production P&L: NOT CLAIMED;
+- profitability conclusion: NOT CLAIMED;
+- tester final audit: PENDING.
+
+No previous artifact is relabelled as evidence for this corrected head.
