@@ -705,3 +705,9 @@ Developer corrected interval membership, aligned the contract-master horizon to 
 - Fresh CI run `37210327594` on execution lineage failed in the contract-master chronology suite before any impact scan or production scenario.
 - E159: aware expiry passed to unconditional `tz_localize()`; two regression fixtures lacked `study_data_end`.
 - Developer created `phase-2-e159-remediation-20261004`, fixed aware/naive expiry normalization and completed the fixtures. Fresh tester gate is required.
+
+
+## 2026-10-04 — E160 discovered and remediated
+- Fresh CI run `37210607051` reached the contract-master chronology suite after E159 remediation.
+- Six tests passed; one failed because the test fixture omitted regular-session `start`.
+- Developer fixed the fixture and created `phase-2-e160-remediation-20261004` with CI trigger enabled. Production remains blocked pending fresh exact-head evidence.
