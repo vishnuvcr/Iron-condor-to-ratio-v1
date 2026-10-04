@@ -1,0 +1,46 @@
+name: Phase 2 Exact-Head Bootstrap CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/phase2-production-backtest.yml"
+      - "scripts/**"
+      - "data/manifests/**"
+      - "data/costs/**"
+  workflow_dispatch:
+    inputs:
+      expected_commit_sha:
+        description: "Exact developer SHA to validate"
+        required: true
+        type: string
+
+jobs:
+  exact-head-bootstrap:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.expected_commit_sha || github.event.pull_request.head.sha }}
+      - name: Assert exact checkout
+        run: |
+          set -euo pipefail
+          expected="${{ inputs.expected_commit_sha || github.event.pull_request.head.sha }}"
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$expected"
+          echo "EXACT_CHECKOUT_SHA=$actual"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependencies
+        run: python -m pip install pandas pyarrow numba pytest requests lxml openpyxl
+      - name: Run contract-master chronology tests
+        run: PYTHONPATH=scripts pytest -q scripts/test_phase2_contract_master.py
+      - name: Run E150 E151 E157 impact-scan tests
+        run: PYTHONPATH=scripts pytest -q scripts/test_phase2_e150_impact_scan.py
+      - name: Verify E157 predicate
+        run: |
+          ! grep -F 'df["timestamp"].dt.normalize() == df["expiry"]' scripts/phase2_e150_impact_scan.py
+          grep -F 'same_local_calendar_date(df["timestamp"], df["expiry"])' scripts/phase2_e150_impact_scan.py
