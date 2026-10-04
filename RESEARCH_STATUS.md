@@ -49,3 +49,12 @@ The video demonstrates selected months and explicitly says the examples are sele
 - Latest observed state: prepare PASS; 1 shard complete PASS; 17 shards running; 11 queued; no shard failures observed; aggregate artifact not yet produced.
 - G6 remains OPEN. Phase 2 remains BLOCKED.
 - Tester handoff is intentionally withheld until the complete aggregate artifact exists and is tied to the frozen exact SHA.
+
+
+## 2026-10-04 — G6 continuation (latest observation)
+- Exact developer head under audit: `1a9eab7389b972c05362271ee9fb23092aa7354d`.
+- Exact-head Actions run: `37191768801`.
+- Latest observed state: prepare PASS; **6 of 32 total jobs completed successfully, 16 in progress, 8 queued; no completed job failures**.
+- Five exact-head shard artifacts are available; the aggregate artifact is not yet produced.
+- G6 remains OPEN. G13/G14 and Phase 2 remain BLOCKED.
+- Tester handoff is intentionally withheld until all 32 jobs complete successfully and the exact-head aggregate artifact exists.
