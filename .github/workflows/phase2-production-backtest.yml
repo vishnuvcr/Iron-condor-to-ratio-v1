@@ -11,6 +11,7 @@ on:
       - "phase-2-e152-remediation-20261004"
       - "phase-2-e153-e156-remediation-20261004"
       - "phase-2-e157-execution-20261004"
+      - "phase-2-e159-remediation-20261004"
     paths:
       - "scripts/phase2_backtest_engine.py"
       - "scripts/prepare_phase2_normalized_data.py"
