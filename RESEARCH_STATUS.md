@@ -606,3 +606,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Corrected the E120 implementation by defining and validating `G6_SHARD_INDEX`/`G6_SHARD_COUNT`, and writing shard-specific evidence files required by the aggregator.
 - Added a regression test for valid shard configuration.
 - G6 remains FAIL/OPEN; G5 remains FAIL/WAIVED; G9 PASS; G13/G14 and Phase 2 BLOCKED. Fresh exact-head CI is mandatory.
+
+
+## 2026-10-04 — E121 status
+- G6 remains **OPEN / IN PROGRESS**.
+- E120 exhaustive sharding failed immediately due to missing shard-variable definitions; no production rows were processed in that failed scan.
+- E121 corrected the configuration/output path. Next action is exact-head CI revalidation, followed by fresh independent tester handover only after a complete aggregated artifact succeeds.
