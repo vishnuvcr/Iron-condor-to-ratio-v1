@@ -308,3 +308,7 @@
 
 
 | E109 | 2026-10-04 | 1 / G6 | RBI Bulletin Excel parsing reached the pinned source successfully but a blank/metadata cell produced pandas `NaT`, which then failed comparison against `datetime.date`. | Date parser did not explicitly treat `NaT` as missing. | Changed date parsing to `errors="coerce"`, explicitly reject `pd.isna(v)`, then return the date. No source/provenance rule changed. |
+
+
+| E110 | 2026-10-04 | 1 / G6 | Exact production artifact failed closed with `UNDERLYING_INPUT_MISSING`: `data/raw/index/NIFTY.parquet` was required by the solver but was never materialized by the G6 workflow. | G6 source acquisition covered q/r but omitted the contemporaneous underlying parquet, so the production Greek audit could not legitimately compute IV/Delta. | Added a pinned Hugging Face acquisition for the independently audited NIFTY parquet, revision `92e0288`, expected SHA-256 `613864738250107807354c17c7092986960220ac3062b830c65cc5f9ec16fcf7`; cache/provenance validation and HF_TOKEN support added. |
+| E111 | 2026-10-04 | 1 / G6 | Initial workflow patch did not include `data/raw/index` in the G6 cache paths and did not fully add the new acquisition script to workflow path triggers. | The new source could be reacquired, but cache/reuse and workflow triggering were incomplete. | Corrected restore/save cache paths and push/PR path triggers for `scripts/acquire_g6_nifty_underlying.py`; fresh exact-head CI required. |
