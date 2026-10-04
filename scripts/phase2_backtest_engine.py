@@ -679,32 +679,52 @@ class BacktestEngine:
 
             if self.state == "FLAT":
                 if month_key not in self.month_attempted:
+                    # The first eligible entry opportunity is consumed once, even if
+                    # an expiry or target contract is unavailable. This prevents
+                    # repeated same-month entry attempts from missing data.
+                    self.month_attempted.add(month_key)
+                    gid = f"ENTRY-IC-{ts.strftime('%Y%m%dT%H%M%S')}"
                     expiry = self._entry_expiry(snapshot, ts)
-                    intended = self._build_ic(snapshot, expiry) if expiry is not None else None
-                    if intended is not None:
-                        gid = f"ENTRY-IC-{ts.strftime('%Y%m%dT%H%M%S')}"
-                        status, consumed = self._execute_group(ts, gid, intended)
-                        if status == "FILLED":
-                            self.position = intended
-                            self.state = "IRON_CONDOR"
-                            self.direction = None
-                            self.rearm = True
-                            self._set_ic_reference(snapshot, ts)
+                    if expiry is None:
+                        self.events.append(
+                            Event(
+                                str(ts), gid, "FLAT", "MONTHLY_ENTRY_SKIPPED", None,
+                                "NOT_ATTEMPTED", "FLAT", True, False,
+                                "NO_VALID_MONTHLY_EXPIRY",
+                            )
+                        )
+                    else:
+                        intended = self._build_ic(snapshot, expiry)
+                        if intended is None:
                             self.events.append(
                                 Event(
                                     str(ts), gid, "FLAT", "ENTER_IRON_CONDOR", None,
-                                    status, self.state, False, True, "MONTHLY_ENTRY",
+                                    "FAILED_INCOMPLETE_EXECUTION", "FLAT", True, False,
+                                    "TARGET_CONTRACT_UNAVAILABLE",
                                 )
                             )
                         else:
-                            self.events.append(
-                                Event(
-                                    str(ts), gid, "FLAT", "ENTER_IRON_CONDOR", None,
-                                    status, "FLAT", consumed, False,
-                                    self.last_execution_reason or "ENTRY_FAILED",
+                            status, consumed = self._execute_group(ts, gid, intended)
+                            if status == "FILLED":
+                                self.position = intended
+                                self.state = "IRON_CONDOR"
+                                self.direction = None
+                                self.rearm = True
+                                self._set_ic_reference(snapshot, ts)
+                                self.events.append(
+                                    Event(
+                                        str(ts), gid, "FLAT", "ENTER_IRON_CONDOR", None,
+                                        status, self.state, False, True, "MONTHLY_ENTRY",
+                                    )
                                 )
-                            )
-                        self.month_attempted.add(month_key)
+                            else:
+                                self.events.append(
+                                    Event(
+                                        str(ts), gid, "FLAT", "ENTER_IRON_CONDOR", None,
+                                        status, "FLAT", consumed, False,
+                                        self.last_execution_reason or "ENTRY_FAILED",
+                                    )
+                                )
 
             elif self._should_force_close(ts):
                 pre_state = self.state
