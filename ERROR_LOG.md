@@ -322,3 +322,6 @@
 
 
 | E115 | 2026-10-04 | 1 / G6 | Complete production scan reached option/underlying/r/q data and then raised `KeyError: '0.30'` while recording target-delta diagnostics. | Target error storage was initialized with `str(float)` keys (`0.3`) but later accessed using canonical two-decimal keys (`0.30`). | Standardized target-error keys to `f"{t:.2f}"` and added a deterministic regression test for all five target keys. |
+
+
+| E115 | 2026-10-04 | 1 / G6 | Complete G6 production scan failed after all inputs/coverage were valid with `failure_reason: "'0.30'"`. | `target_errors` was keyed by raw float strings (`0.3`) while the selected-target lookup used normalized two-decimal labels (`0.30`). | Normalized `target_errors` initialization to `f"{t:.2f}"`, matching counters and lookup keys. No selection criterion or data rule changed. |
