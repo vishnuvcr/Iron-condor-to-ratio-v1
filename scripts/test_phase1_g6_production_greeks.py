@@ -1,7 +1,7 @@
 import math
 import numpy as np
 from phase1_g6_production_greeks import (
-    bs_price, bs_delta, solve_iv_arrays, strict_prior, expiry_close
+    bs_price, bs_delta, bs_delta_arrays, solve_iv_arrays, strict_prior, expiry_close
 )
 
 def test_call_put_parity_shapes():
@@ -66,9 +66,8 @@ def test_target_delta_keys_use_canonical_two_decimal_format():
 
 
 def test_vectorized_delta_matches_scalar():
-    mod = load_module()
     s=np.array([18000.0,18000.0]); k=np.array([18000.0,18200.0]); t=np.array([30/365.0,30/365.0])
     r=np.array([0.06,0.06]); q=np.array([0.01,0.01]); iv=np.array([0.20,0.25]); kind=np.array([1,2])
-    got=mod.bs_delta_arrays(s,k,t,r,q,iv,kind)
-    exp=np.array([mod.bs_delta(float(a),float(b),float(c),float(d),float(e),float(g),int(h)) for a,b,c,d,e,g,h in zip(s,k,t,r,q,iv,kind)])
+    got=bs_delta_arrays(s,k,t,r,q,iv,kind)
+    exp=np.array([bs_delta(float(a),float(b),float(c),float(d),float(e),float(g),int(h)) for a,b,c,d,e,g,h in zip(s,k,t,r,q,iv,kind)])
     assert np.allclose(got,exp,rtol=1e-12,atol=1e-12)
