@@ -10,6 +10,7 @@ on:
       - "phase-2-backtest-engine-20261004"
       - "phase-2-e152-remediation-20261004"
       - "phase-2-e153-e156-remediation-20261004"
+      - "phase-2-e157-execution-20261004"
     paths:
       - "scripts/phase2_backtest_engine.py"
       - "scripts/prepare_phase2_normalized_data.py"
@@ -124,6 +125,8 @@ jobs:
         run: python scripts/phase1_session_reconciliation.py
       - name: Test contract master chronology
         run: PYTHONPATH=scripts pytest -q scripts/test_phase2_contract_master.py
+      - name: Test E150 E151 chronology and E157 vectorized calendar predicate
+        run: PYTHONPATH=scripts pytest -q scripts/test_phase2_e150_impact_scan.py
       - name: Reconstruct monthly historical contract master
         run: python scripts/build_phase2_contract_master.py
       - name: Run E150/E151 old-vs-corrected impact scan
