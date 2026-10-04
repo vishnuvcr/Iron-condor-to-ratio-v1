@@ -24,6 +24,8 @@ on:
       - "data/processed/g6/**"
       - "scripts/acquire_g6_nse_q_history.py"
       - "scripts/acquire_g6_rbi_risk_free.py"
+      - "scripts/acquire_g6_nifty_underlying.py"
+      - "scripts/acquire_g6_nifty_options.py"
   workflow_dispatch:
     inputs:
       expected_commit_sha:
@@ -108,8 +110,10 @@ jobs:
         with:
           path: |
             data/raw/g6_sources
+            data/raw/index
+            data/raw/options/NIFTY
             data/processed/g6
-          key: g6-rq-20261004-${{ hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','scripts/acquire_g6_nifty_underlying.py','data/manifests/phase1_control_sources.json') }}
+          key: g6-rq-20261004-${{ hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','scripts/acquire_g6_nifty_underlying.py','scripts/acquire_g6_nifty_options.py','data/manifests/phase1_control_sources.json') }}
       - name: Run deterministic G6 solver tests
         run: pytest -q scripts/test_phase1_g6_production_greeks.py
       - name: Run fail-closed G6 production evidence audit
