@@ -146,3 +146,5 @@ jobs:
 # E114 exact-head revalidation trigger: supported HF option tree listing.
 
 # E115 exact-head revalidation trigger: canonical target delta keys.
+
+# E115 exact-head revalidation trigger: normalized target-delta diagnostic keys.
