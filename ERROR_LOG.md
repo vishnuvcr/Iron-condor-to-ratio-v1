@@ -366,3 +366,9 @@
 - Consequently, the aggregator's equality check can compare `None` across shards and fail to establish actual dividend coverage.
 - This is a substantive evidence-completeness defect, not a mathematical conclusion.
 - Current exact-head run 37180326783 must not be promoted to G6 PASS on this basis.
+
+
+### E124 — G6 aggregate workflow trigger omission (2026-10-04)
+- **Status:** CORRECTED; fresh exact-head validation required.
+- The aggregate script was not included in push/PR path filters, so an aggregation-only correction could fail to launch automatic validation.
+- Added `scripts/aggregate_g6_production_greeks.py` to both push and pull-request trigger paths.
