@@ -13,7 +13,7 @@ RAW_ROOT = Path("data/raw/options/NIFTY")
 OUT = Path("data/raw/contracts/nifty_contract_master.parquet")
 MANIFEST = Path("data/raw/contracts/nifty_contract_master_manifest.json")
 STUDY_START = pd.Timestamp("2021-01-01", tz="Asia/Kolkata")
-STUDY_END = pd.Timestamp("2026-09-30 23:59:59", tz="Asia/Kolkata")
+STUDY_END = None
 TICK_SIZE = 0.05
 SESSION_RULES = Path("data/manifests/phase1_session_rules.json")
 
@@ -49,6 +49,16 @@ def ist_ts(series: pd.Series) -> pd.Series:
     return x.dt.tz_convert("Asia/Kolkata")
 
 
+def load_study_end() -> pd.Timestamp:
+    if not SESSION_RULES.exists():
+        raise SystemExit("PHASE2_SESSION_RULES_MISSING_FOR_STUDY_HORIZON")
+    rules = json.loads(SESSION_RULES.read_text())
+    raw = rules.get("study_data_end")
+    if not raw:
+        raise SystemExit("PHASE2_SESSION_STUDY_HORIZON_MISSING")
+    return pd.Timestamp(raw).tz_localize("Asia/Kolkata") + pd.Timedelta(hours=23, minutes=59, seconds=59)
+
+
 def lot_rule(expiry: pd.Timestamp) -> tuple[int, str]:
     e = pd.Timestamp(expiry).normalize()
     for start, end, lot, effective in LOT_RULES:
@@ -57,23 +67,41 @@ def lot_rule(expiry: pd.Timestamp) -> tuple[int, str]:
     raise RuntimeError(f"PHASE2_CONTRACT_LOT_RULE_MISSING:{e.date()}")
 
 
+def execution_intervals_for_date(expiry: pd.Timestamp) -> list[list[str]]:
+    rules = json.loads(SESSION_RULES.read_text())
+    d = pd.Timestamp(expiry).date().isoformat()
+    special = {x["date"]: x for x in rules.get("special_sessions", [])}
+    intervals = special[d]["execution_intervals"] if d in special else [[rules["regular_execution_session"]["start"], rules["regular_execution_session"]["end"]]]
+    if not intervals:
+        raise SystemExit(f"PHASE2_EXPIRY_EXECUTION_INTERVAL_MISSING:{d}")
+    return intervals
+
+
+def timestamp_in_execution_interval(timestamp: pd.Timestamp, expiry: pd.Timestamp) -> bool:
+    if timestamp.normalize() != expiry:
+        return False
+    local_time = timestamp.tz_convert("Asia/Kolkata").time()
+    for start, end in execution_intervals_for_date(expiry):
+        sh, sm = map(int, start.split(":"))
+        eh, em = map(int, end.split(":"))
+        start_t = pd.Timestamp(f"{expiry.date()} {start}", tz="Asia/Kolkata").time()
+        end_t = pd.Timestamp(f"{expiry.date()} {end}", tz="Asia/Kolkata").time()
+        if start_t <= local_time <= end_t:
+            return True
+    return False
+
+
 def expiry_execution_close_ts(expiry: pd.Timestamp) -> pd.Timestamp:
     """Return the last strategy-execution minute allowed on the expiry date."""
     if not SESSION_RULES.exists():
         raise SystemExit("PHASE2_SESSION_RULES_MISSING_FOR_EXPIRY_CLOSE")
-    rules = json.loads(SESSION_RULES.read_text())
-    d = pd.Timestamp(expiry).date().isoformat()
-    special = {x["date"]: x for x in rules.get("special_sessions", [])}
-    ends = [end for _, end in special[d]["execution_intervals"]] if d in special else [rules["regular_execution_session"]["end"]]
-    if not ends:
-        raise SystemExit(f"PHASE2_EXPIRY_EXECUTION_INTERVAL_MISSING:{d}")
-    hh, mm = max(tuple(map(int, x.split(":"))) for x in ends)
+    intervals = execution_intervals_for_date(expiry)
+    hh, mm = map(int, intervals[-1][1].split(":"))
     return pd.Timestamp(expiry).tz_localize("Asia/Kolkata") + pd.Timedelta(hours=hh, minutes=mm)
 
 
 def update_expiry_close_ts(current: pd.Timestamp, row_timestamp: pd.Timestamp, expiry: pd.Timestamp) -> pd.Timestamp:
-    cutoff = expiry_execution_close_ts(expiry)
-    if row_timestamp.normalize() == expiry and row_timestamp <= cutoff:
+    if timestamp_in_execution_interval(row_timestamp, expiry):
         if pd.isna(current) or row_timestamp > current:
             return row_timestamp
     return current
@@ -108,6 +136,8 @@ def collect_monthly_expiries(files: list[Path]) -> set[pd.Timestamp]:
 
 
 def main() -> None:
+    global STUDY_END
+    STUDY_END = load_study_end()
     files = list_files()
     monthly_expiries = collect_monthly_expiries(files)
 
