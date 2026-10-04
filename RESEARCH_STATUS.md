@@ -33,3 +33,11 @@ The video demonstrates selected months and explicitly says the examples are sele
 - research/STRATEGY_SPEC.md
 - research/LITERATURE_AND_DATA_REVIEW.md
 - research/TESTER_HANDOFF.md
+
+
+## 2026-10-04 — G6 continuation
+- Exact developer head under audit: `1a9eab7389b972c05362271ee9fb23092aa7354d`.
+- Exact-head Actions run: `37191768801`.
+- Latest observed state: prepare PASS; 1 shard complete PASS; 17 shards running; 11 queued; no shard failures observed; aggregate artifact not yet produced.
+- G6 remains OPEN. Phase 2 remains BLOCKED.
+- Tester handoff is intentionally withheld until the complete aggregate artifact exists and is tied to the frozen exact SHA.
