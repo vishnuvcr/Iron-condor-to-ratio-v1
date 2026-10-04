@@ -534,3 +534,9 @@ User explicitly required automatic handover to the tester branch and instructed 
 - Developer continued after E105 without treating the prolonged RBI acquisition as a gate result.
 - The RBI collector was corrected to bootstrap from known official WSS candidates before fallback discovery; no research acceptance criteria were weakened.
 - Exact-head workflow revalidation was attempted by a workflow-file trigger commit, but the available GitHub connector reported zero workflow runs for the corrected commits. G6 remains OPEN and no phase advancement occurred.
+
+
+## 2026-10-04 — Automatic tester re-audit PR #48
+- Developer handed exact head b75e64d3f6caf9f086a0c063153ccc6315aa5c5 to isolated tester branch tester/phase-1-g6-reaudit-e106-20261004.
+- Tester independently verified E106 source controls but returned **G6 FAIL/OPEN** because zero Actions runs are exposed for the audited head; no exact-head artifact can be accepted.
+- Developer must correct the CI execution/evidence gap and automatically re-handover the corrected exact head. No phase advancement.
