@@ -262,8 +262,13 @@ def main():
                 if good.any():
                     gd=df.loc[valid].iloc[np.flatnonzero(good)].copy()
                     gd["iv"]=iv[good]
-                    gd["signed_delta"]=[bs_delta(float(s),float(k),float(t),float(r0),float(q0),float(v),int(kk))
-                                        for s,k,t,r0,q0,v,kk in zip(gd["underlying"],gd["strike"],gd["t"],gd["r"],gd["q"],gd["iv"],kind[valid.to_numpy()][good])]
+                    s_arr=gd["underlying"].to_numpy(dtype=float); k_arr=gd["strike"].to_numpy(dtype=float)
+                    t_arr=gd["t"].to_numpy(dtype=float); r_arr=gd["r"].to_numpy(dtype=float); q_arr=gd["q"].to_numpy(dtype=float)
+                    v_arr=gd["iv"].to_numpy(dtype=float)
+                    z=(np.log(s_arr/k_arr)+(r_arr-q_arr+0.5*v_arr*v_arr)*t_arr)/(v_arr*np.sqrt(t_arr))
+                    cdf=0.5*(1.0+np.vectorize(math.erf)(z/np.sqrt(2.0)))
+                    disc=np.exp(-q_arr*t_arr)
+                    gd["signed_delta"]=np.where(kind[valid.to_numpy()][good]==1,disc*cdf,-disc*(1.0-cdf))
                     gd["abs_delta"]=gd["signed_delta"].abs()
                     delta_hist += np.histogram(gd["signed_delta"].clip(-0.999999,0.999999),bins=delta_bins)[0]
                     abs_hist += np.histogram(gd["abs_delta"].clip(0,0.999999),bins=abs_bins)[0]
