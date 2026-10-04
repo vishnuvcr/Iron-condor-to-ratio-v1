@@ -149,3 +149,13 @@ Fresh tester branch must be created from the final handoff SHA and must independ
 Prior developer head `7f9f9209c77416986ba0827028067ab5b911160f` is rejected for the impact scan because its vectorized expiry-day filter mixed timezone-aware timestamps with timezone-naive expiry dates. Developer remediation branch: `phase-2-e157-remediation-20261004`.
 
 Required fresh tester checks: (1) verify the vectorized predicate explicitly compares Asia/Kolkata local calendar dates; (2) execute the new naive/aware/mismatch regression tests; (3) inspect the three chronology states for preservation; (4) independently run/verify the pinned-source impact scan, source hashes, coverage/group counts, classification counts and deterministic report hash; (5) verify exact developer SHA in CI artifacts, without reusing prior artifacts; (6) if affected groups are nonzero, require affected production scenario reruns. E150 and Phase 2 production remain blocked until PASS.
+
+
+## E157 execution handoff / E158 limitation — 2026-10-04
+E157 remediation baseline: `636ebdfdf89a97461709c7d4097f89a04e7228a3`.
+Execution descendant: `32d9421a449fd12933e88dcf37c78f3f16b93a7b`.
+PR: #57.
+
+The execution workflow explicitly runs `scripts/test_phase2_contract_master.py` and `scripts/test_phase2_e150_impact_scan.py`, then reconstructs the contract master and runs the pinned-source E150/E151 impact scan. The exact execution SHA currently has zero GitHub Actions runs/statuses exposed by the available connector, and local repository execution is unavailable because external network/DNS access is disabled.
+
+Tester must independently verify the exact SHA, workflow contents, regression coverage, and absence of any stale artifact reuse. If an externally observable exact-head CI artifact becomes available, audit its checkout SHA, tests, source-file count/SHA-256 inventory, contracts scanned, chronology classifications/timestamps, gap/post-session counts and deterministic report hash. Any affected groups require corrected production scenario reruns. Until such evidence exists, E150 and Phase 2 remain blocked.
