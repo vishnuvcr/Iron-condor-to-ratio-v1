@@ -656,3 +656,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - The 32 exhaustive shards completed successfully on the preceding head, but that head is non-authoritative because the aggregate job was still configured for 8 shards.
 - E131 corrected the aggregate configuration to 32.
 - A fresh exact-head run is mandatory before tester handover.
+
+
+### E126 status — G6 aggregate dependency correction
+- Aggregate failure was isolated to missing NumPy in the aggregation job; all 32 shard artifacts completed.
+- Aggregate now installs NumPy explicitly.
+- Fresh exact-head CI evidence is required; prior run is invalid for gate approval.
