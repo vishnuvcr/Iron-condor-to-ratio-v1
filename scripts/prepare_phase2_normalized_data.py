@@ -42,6 +42,16 @@ def build_contract_ids(df: pd.DataFrame) -> pd.Series:
     )
 
 
+def strategy_monthly_expiries(files: list[Path]) -> set[pd.Timestamp]:
+    expiries = pd.to_datetime([x.stem for x in files], errors="coerce")
+    if expiries.isna().any():
+        raise RuntimeError("PHASE2_OPTION_FILE_EXPIRY_NAME_FAILURE")
+    frame = pd.DataFrame({"expiry": expiries})
+    frame["year"] = frame["expiry"].dt.year
+    frame["month"] = frame["expiry"].dt.month
+    return set(frame.groupby(["year","month"])["expiry"].max().tolist())
+
+
 def load_contract_master() -> pd.DataFrame:
     if not CONTRACT_MASTER.exists():
         raise RuntimeError("PHASE2_CONTRACT_MASTER_MISSING")
@@ -258,11 +268,13 @@ def main():
 
     if not OPT_ROOT.exists():
         raise SystemExit("PHASE2_OPTION_SOURCE_MISSING")
-    files = sorted(OPT_ROOT.glob("*.parquet"))
+    all_files = sorted(OPT_ROOT.glob("*.parquet"))
     if args.limit_files:
-        files = files[:args.limit_files]
-    if not files:
+        all_files = all_files[:args.limit_files]
+    if not all_files:
         raise SystemExit("PHASE2_OPTION_SOURCE_EMPTY")
+    monthly_expiries = strategy_monthly_expiries(all_files)
+    files = [x for x in all_files if pd.Timestamp(x.stem) in monthly_expiries]
 
     outputs = []
     for raw in files:
@@ -276,6 +288,8 @@ def main():
         "allowed_trading_days": len(allowed_days),
         "session_reconciliation_sha256": sha256_file(RECONCILIATION),
         "raw_files": len(files),
+        "all_source_files": len(all_files),
+        "strategy_monthly_expiry_files": len(files),
         "outputs": outputs,
         "contract_master_sha256": sha256_file(CONTRACT_MASTER),
         "underlying_sha256": sha256_file(INDEX),
