@@ -331,3 +331,6 @@
 
 
 | E117 | 2026-10-04 | 1 / G6 | Bounded exact-head run `37175103199` failed deterministic tests: `test_vectorized_delta_matches_scalar` referenced undefined `load_module` and nonexistent `bs_delta_arrays`. | Regression test was stale relative to the production solver API. | Added the actual `bs_delta_arrays` numba primitive and repaired the test to import/call the production functions directly. This changes no trading or Greek calculation semantics except exposing the already scalar-defined delta as a deterministic vector primitive. |
+
+
+| E118 | 2026-10-04 | 1 / G6 | Full-sample G6 production scan remained computationally slow because the Brent IV solver evaluated independent roots serially for every valid option row. | Serial execution made the 77M-row-scale historical option evidence impractical within the bounded CI window. | Changed the IV solver to Numba `prange` parallel execution. Each row remains solved by the identical Brent algorithm, bounds, tolerance, and rejection rules; only independent execution order is parallelized. |
