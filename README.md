@@ -549,3 +549,10 @@ An automated E150/E151 impact scan is included in the production workflow. No pr
 The independent E150 audit found a second chronology defect: special sessions with disjoint execution intervals were being treated as a single endpoint rather than explicit interval membership. The remediation now rejects timestamps inside non-trading gaps and fails closed beyond the session-rule evidence horizon of 2026-07-02.
 
 A deterministic old-vs-corrected E150/E151 impact scan is now part of the production workflow. Any affected contract group blocks production inference and requires affected scenario reruns. No profitability/trading-strategy conclusion is final.
+
+
+## 2026-10-04 — E151 remediation / fresh tester gate
+
+Developer head 1501165689bf6f879628f34fab1fe787e1759697 now enforces special-session interval membership, aligns the contract horizon to the documented 2026-07-02 session-data horizon, excludes out-of-horizon expiries, and runs a deterministic E150/E151 old-vs-corrected impact scan before production backtest execution.
+
+Fresh independent tester branch: tester/phase-2-e151-remediation-audit-20261004. No profitability or strategy conclusion is final until the impact scan is independently verified and any affected cycles are rerun.
