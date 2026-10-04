@@ -701,3 +701,27 @@ Phase 2 has started with:
 - synthetic regression fixtures before full-data execution.
 
 No optimization or profitability claim is made at Phase 2 start.
+
+
+## 2026-10-04 — Phase 2 engine milestone
+
+Developer Phase 2 branch: `phase-2-backtest-engine-20261004`.
+Pull request: #53.
+
+Implemented:
+- deterministic monthly-entry / monthly-expiry operationalization;
+- source-derived IC → directional-ratio state machine;
+- one-minute completed-bar decision chronology;
+- strictly-next eligible option-bar execution;
+- adverse 0/5/10/20/50-bps configuration support;
+- historical tick-size floor and atomic multi-leg execution;
+- date-indexed cost-rule resolution with fail-closed missing-rule behavior;
+- event, fill and charge ledgers;
+- deterministic regression fixtures;
+- manual/PR GitHub Actions test workflow.
+
+No profitability result has been claimed. Exact-data integration remains dependent on the normalized Phase 1 production dataset and complete date-specific cost schedule.
+
+Validation control note:
+- PR-triggered Actions run for exact Phase 2 head `8a060402e76e5d3b8acdc10b13a7c21f3bdd538f` was not observable through the GitHub connector (zero workflow runs/statuses).
+- This is logged as an execution-environment limitation, not as a test pass.
