@@ -372,3 +372,10 @@
 - **Status:** CORRECTED; fresh exact-head validation required.
 - The aggregate script was not included in push/PR path filters, so an aggregation-only correction could fail to launch automatic validation.
 - Added `scripts/aggregate_g6_production_greeks.py` to both push and pull-request trigger paths.
+
+
+### E125 — superseded G6 workflow queue (2026-10-04)
+- **Status:** CORRECTED.
+- Incremental E123/E124 commits produced multiple queued G6 runs.
+- Added GitHub Actions concurrency with `cancel-in-progress: true` per branch so only the latest developer head can remain authoritative.
+- Superseded runs are not eligible for tester evidence.
