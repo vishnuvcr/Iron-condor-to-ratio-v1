@@ -595,3 +595,7 @@ The immutable E157 remediation baseline is `636ebdfdf89a97461709c7d4097f89a04e72
 
 ## 2026-10-04 — E159 CI remediation
 Fresh CI run `37210327594` exposed E159 before production execution: five contract-master chronology tests failed because aware expiries were passed to an unconditional `tz_localize()` and two fixtures omitted `study_data_end`. Developer remediation branch `phase-2-e159-remediation-20261004` normalizes aware/naive expiries safely and completes the fixtures. The failed run is retained as negative evidence; no downstream impact scan/P&L result from that run is accepted. **E150 remains OPEN; Phase 2 production remains BLOCKED pending fresh exact-head CI and independent tester audit.**
+
+
+## 2026-10-04 — E160 remediation
+Fresh CI run `37210607051` passed six of seven contract-master chronology tests and exposed one incomplete regression fixture: the regular session omitted `start`. This is logged as E160 and corrected on `phase-2-e160-remediation-20261004`. No impact scan or production scenario was executed from the failed run. **E150 remains OPEN; Phase 2 production remains BLOCKED.**
