@@ -368,7 +368,7 @@ def choose_expiry(
     cutoff = decision_ts.normalize() + pd.Timedelta(days=min_dte_days)
     candidates = (
         snapshot[
-            (snapshot["expiry"] > cutoff)
+            (snapshot["expiry"] >= cutoff)
             & snapshot["session_eligible"]
         ]["expiry"]
         .dropna()
