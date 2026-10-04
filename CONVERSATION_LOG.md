@@ -644,3 +644,8 @@ User explicitly required automatic handover to the tester branch and instructed 
 User accepted the historical G6 aggregate for research progression with deferred audit and requested a more lenient gate posture for the remainder of the research. The tester branch recorded the corresponding pragmatic progression policy: intermediate evidence-completeness gaps may be audited at milestones/final acceptance, while mathematical errors, look-ahead, bad data, incorrect cost/slippage treatment, logical defects and reproducibility failures remain blocking.
 
 Developer response: adopt the recorded waiver, keep all G6 D1–D3 limitations visible, and begin Phase 2 deterministic engine implementation without optimization.
+
+
+## 2026-10-04 — Phase 2 engine continuation
+
+Developer recorded the owner-authorized progression waiver, opened the dedicated Phase 2 branch, added a deterministic state-machine engine, normalized-data contract, proxy execution/cost layer, regression tests and automated/manual CI workflow. The engine was subsequently hardened for monthly-expiry selection, date-specific expiry close, atomic failure handling, trigger crossings, test ordering and reproducibility. No profitability result or optimization claim has been made. PR #53 was opened; the GitHub connector currently exposes zero exact-head workflow runs/statuses, so no CI pass is claimed.
