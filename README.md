@@ -453,3 +453,8 @@ The single-job G6 scan was computationally impractical despite exact batching an
 
 ## 2026-10-04 — E121 G6 shard configuration correction
 The first E120 sharded execution failed because the production module referenced undefined shard configuration variables. The developer added validated `G6_SHARD_INDEX`/`G6_SHARD_COUNT` configuration, shard-specific evidence filenames, and regression coverage. No mathematical/data rule changed. G6 remains OPEN/FAIL pending fresh exact-head CI and independent tester re-audit; G5 remains FAIL/waived, G9 PASS, G13/G14 and Phase 2 BLOCKED.
+
+
+### Latest G6 status — E121
+- **G6: OPEN / IN PROGRESS.** E120's exhaustive 8-shard implementation failed closed before production scanning because shard variables were undefined. E121 corrected this; exact-head CI revalidation is required before tester handover.
+- G5 remains **FAIL / WAIVED FOR CONTINUED RESEARCH** and G9 remains **PASS**. G13/G14 and Phase 2 remain blocked.
