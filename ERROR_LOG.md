@@ -411,3 +411,10 @@
 - This would have caused the aggregator to inspect only shard 00–07 and reject/incompletely represent the 32-shard evidence set.
 - Corrected the aggregate environment to `G6_SHARD_COUNT=32`.
 - No mathematical/data-selection rule changed.
+
+
+### E133 — G6 shard-count expansion to 32 (2026-10-04)
+- **Status:** OPEN / audit in progress.
+- Exact-head run 37188412462 uses 32 shards rather than the earlier 8-shard design.
+- Several shards have completed successfully and others remain active/queued.
+- Tester approval must verify deterministic complete file partitioning, aggregate coverage, and absence of row omission/duplication under the 32-way partition.
