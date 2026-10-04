@@ -593,3 +593,9 @@ User explicitly required automatic handover to the tester branch and instructed 
 - Production scan failure was isolated to a formatting mismatch between target delta keys `0.3` and `0.30`.
 - Developer normalized the diagnostic dictionary keys to two decimals. No trading logic changed.
 - Fresh exact-head CI and independent tester handover remain mandatory.
+
+
+## 2026-10-04 — E116 G6 runtime bound
+- The full G6 scan was materially processing the complete option set but did not finish within a practical window.
+- Developer added a 30-minute CI timeout to prevent the research gate from becoming unbounded.
+- The existing run is not treated as a PASS; fresh exact-head evidence remains mandatory.
