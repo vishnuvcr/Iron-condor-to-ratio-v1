@@ -129,3 +129,9 @@ The RBI WSS production schema currently preserves the source's labelled observat
 For production eligibility, the labelled observation date is treated as a conservative **eligibility date**, not as a claim about the exact publication timestamp. The join is strictly prior to the trading date (`allow_exact_matches=False`), so a rate labelled for the trading date can never be used on that date. This convention is conservative whenever the source cannot become available before its labelled observation date; if an actual publication/availability date is later established, it may only reduce eligibility, never expand it.
 
 The production evidence must report this limitation explicitly. No same-day, forward-filled, interpolated, or future observation is permitted.
+
+
+## E106 risk-free source hierarchy update
+- Production risk-free input is the 91-day Government of India Treasury-bill implicit auction yield from RBI Bulletin Table 26, acquired from the immutable Reserve Bank Innovation Hub mirror commit `0db4ddb88c3119347e809af78c93beb4d1c874d4` and verified against Git blob SHA-1 `ff603b132a2aa2aee8b1bc08d0d1e68879af2ea7`.
+- The RBI Bulletin documents the 91-day T-bill auction series as a weekly official government-securities-market series; its auction date is used conservatively as the eligibility date and same-day use is prohibited by strict-prior joining. citeturn10search4turn10search0
+- RBI WSS pages remain a secondary reconciliation/control source and are not silently substituted for the production series.
