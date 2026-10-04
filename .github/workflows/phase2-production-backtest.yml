@@ -1,0 +1,164 @@
+name: Phase 2 Production Backtest
+
+concurrency:
+  group: phase2-production-${github.ref}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - "phase-2-backtest-engine-20261004"
+    paths:
+      - "scripts/phase2_backtest_engine.py"
+      - "scripts/prepare_phase2_normalized_data.py"
+      - "scripts/phase2_run_cycles.py"
+      - "scripts/validate_phase2_contract_master.py"
+      - "scripts/acquire_g6_nifty_options.py"
+      - "scripts/acquire_g6_nifty_underlying.py"
+      - "scripts/acquire_g6_nse_q_history.py"
+      - "scripts/acquire_g6_rbi_risk_free.py"
+      - "data/manifests/phase1_control_sources.json"
+      - "data/manifests/phase1_session_rules.json"
+      - "data/raw/contracts/**"
+      - "data/costs/phase2_cost_schedule_legacy_pre2022.json"
+      - ".github/workflows/phase2-production-backtest.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/phase2_backtest_engine.py"
+      - "scripts/prepare_phase2_normalized_data.py"
+      - "scripts/phase2_run_cycles.py"
+      - "scripts/validate_phase2_contract_master.py"
+      - "scripts/acquire_g6_nifty_options.py"
+      - "scripts/acquire_g6_nifty_underlying.py"
+      - "scripts/acquire_g6_nse_q_history.py"
+      - "scripts/acquire_g6_rbi_risk_free.py"
+      - "data/manifests/phase1_control_sources.json"
+      - "data/manifests/phase1_session_rules.json"
+      - "data/raw/contracts/**"
+      - "data/costs/phase2_cost_schedule_legacy_pre2022.json"
+      - ".github/workflows/phase2-production-backtest.yml"
+  workflow_dispatch:
+    inputs:
+      expected_commit_sha:
+        description: "Exact developer SHA to validate"
+        required: false
+        default: ""
+        type: string
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    permissions: {contents: read}
+    env:
+      HF_TOKEN: ${secrets.HF_TOKEN}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha}
+      - name: Assert immutable checkout
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          expected="${inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha}"
+          test -z "$expected" || test "$actual" = "$expected"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Restore source cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            data/raw/g6_sources
+            data/raw/index
+            data/raw/options/NIFTY
+            data/processed/g6
+          key: g6-rq-20261004-${hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','scripts/acquire_g6_nifty_underlying.py','scripts/acquire_g6_nifty_options.py','data/manifests/phase1_control_sources.json')}
+          restore-keys: |
+            g6-rq-20261004-
+      - name: Install dependencies
+        run: python -m pip install pandas pyarrow numba pytest requests lxml openpyxl
+      - name: Acquire pinned NIFTY options
+        run: python scripts/acquire_g6_nifty_options.py
+      - name: Acquire pinned NIFTY underlying
+        run: python scripts/acquire_g6_nifty_underlying.py
+      - name: Acquire official RBI risk free and NSE dividend history
+        run: |
+          python scripts/acquire_g6_rbi_risk_free.py
+          python scripts/acquire_g6_nse_q_history.py
+          python - <<'PY'
+          import json, pandas as pd
+          from pathlib import Path
+          raw=json.loads(Path('data/processed/g6/nse_nifty50_pepb_raw.json').read_text())
+          rows=[]
+          for ch in raw['chunks']:
+              outer=json.loads(ch['payload'])
+              inner=outer.get('d',[]) if isinstance(outer,dict) else outer
+              rows.extend(json.loads(inner) if isinstance(inner,str) else inner)
+          out=pd.DataFrame(rows)
+          if out.empty:
+              raise SystemExit('NSE Q returned no rows')
+          out['date']=pd.to_datetime(out['DATE'],errors='coerce').dt.date
+          out['div_yield_pct']=pd.to_numeric(out['divYield'],errors='coerce')
+          out[['date','div_yield_pct']].dropna().drop_duplicates('date').to_csv(
+              'data/processed/g6/dividend_yield.csv',index=False
+          )
+          PY
+      - name: Reconcile sessions
+        run: python scripts/phase1_session_reconciliation.py
+      - name: Validate contract master
+        run: python scripts/validate_phase2_contract_master.py
+      - name: Validate cost schedule
+        run: |
+          python scripts/test_phase2_cost_schedule.py
+          python scripts/validate_phase2_cost_schedule.py
+      - name: Normalize option partitions
+        run: python scripts/prepare_phase2_normalized_data.py
+      - name: Upload normalization manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase2-normalization-manifest
+          path: data/processed/phase2/options/manifest.json
+
+  run:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        slippage_bps: [0, 5, 10, 20, 50]
+    runs-on: ubuntu-latest
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: python -m pip install pandas pyarrow numba numpy pytest
+      - name: Restore source and normalized caches
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            data/raw/index
+            data/raw/options/NIFTY
+            data/raw/contracts
+            data/processed/g6
+            data/processed/phase2/options
+          key: phase2-normalized-${hashFiles('scripts/prepare_phase2_normalized_data.py','scripts/phase1_g6_production_greeks.py','data/manifests/phase1_control_sources.json','data/manifests/phase1_session_rules.json')}
+          restore-keys: |
+            phase2-normalized-
+      - name: Validate contract master again
+        run: python scripts/validate_phase2_contract_master.py
+      - name: Run cycle backtest
+        run: |
+          mkdir -p data/results/phase2/slippage-${matrix.slippage_bps}bps
+          python scripts/phase2_run_cycles.py             --normalized-root data/processed/phase2/options             --costs data/costs/phase2_cost_schedule_legacy_pre2022.json             --slippage-bps ${matrix.slippage_bps}             --output data/results/phase2/slippage-${matrix.slippage_bps}bps
+      - name: Upload result artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase2-backtest-${matrix.slippage_bps}bps
+          path: data/results/phase2/slippage-${matrix.slippage_bps}bps
+          retention-days: 30
