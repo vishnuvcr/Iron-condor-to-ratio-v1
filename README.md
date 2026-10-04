@@ -429,3 +429,7 @@ G6 production now reaches Greek selection with all required data inputs, but the
 
 ## 2026-10-04 — E115 G6 target-key correction
 The complete G6 scan reached valid input/coverage state but failed on an internal diagnostic key mismatch (`0.3` versus `0.30`). This was corrected without changing the Greek solver or selection rules. G6 remains OPEN/FAIL pending fresh exact-head CI and tester re-audit.
+
+
+## 2026-10-04 — E116 G6 runtime bound
+The complete G6 production audit became an unbounded CI bottleneck. A 30-minute workflow timeout was added to the production-evidence step; timeout is fail-closed, not success. G6 remains OPEN/FAIL pending fresh bounded execution and independent tester re-audit.
