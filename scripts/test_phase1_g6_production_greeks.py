@@ -46,6 +46,7 @@ def test_strict_prior_never_uses_same_day():
     out=strict_prior(left,src)
     assert out.loc[out["date"]==__import__("pandas").Timestamp("2024-01-02"),"r"].iloc[0]==.06
     assert out.loc[out["date"]==__import__("pandas").Timestamp("2024-01-03"),"r"].iloc[0]==.07
+    assert out.loc[out["date"]==__import__("pandas").Timestamp("2024-01-02"),"source_date"].iloc[0]==__import__("pandas").Timestamp("2024-01-01")
 
 def test_expiry_close_convention():
     assert expiry_close("2025-10-28")==__import__("pandas").Timestamp("2025-10-28 15:30:00")
@@ -85,3 +86,12 @@ def test_sha256_file_uses_bound_chunk_variable(tmp_path):
     p.write_bytes(b"abc"*1000)
     import hashlib
     assert sha256_file(p)==hashlib.sha256(b"abc"*1000).hexdigest()
+
+
+def test_strict_prior_source_date_is_strictly_earlier():
+    import pandas as pd
+    src=pd.DataFrame({"date":pd.to_datetime(["2024-01-02","2024-01-03"]),"r":[0.06,0.07]})
+    out=strict_prior(pd.to_datetime(["2024-01-02","2024-01-03","2024-01-04"]),src)
+    assert pd.isna(out.loc[out["date"]==pd.Timestamp("2024-01-02"),"source_date"].iloc[0])
+    assert out.loc[out["date"]==pd.Timestamp("2024-01-03"),"source_date"].iloc[0]==pd.Timestamp("2024-01-02")
+    assert out.loc[out["date"]==pd.Timestamp("2024-01-04"),"source_date"].iloc[0]==pd.Timestamp("2024-01-03")
