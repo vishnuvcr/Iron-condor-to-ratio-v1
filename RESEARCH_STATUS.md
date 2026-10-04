@@ -528,3 +528,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Root cause: the Git blob hash verifier encoded a literal backslash sequence instead of the required NUL byte; a second source inspection caught and corrected the escaping.
 - The pinned RBI Bulletin commit/blob identity remains unchanged.
 - G6 remains FAIL/OPEN pending fresh exact-head CI. G5 remains FAIL/WAIVED; G9 PASS; G13/G14 and Phase 2 BLOCKED.
+
+
+## 2026-10-04 — E109 RBI Bulletin parser correction
+- Immutable source verification now passes on the RBI Bulletin Table 26 source.
+- CI next failed only because blank Excel metadata cells were converted to `NaT` and compared to dates.
+- Corrected parser to coerce invalid dates to missing and skip them.
+- G6 remains FAIL/OPEN pending fresh exact-head CI and tester audit.
