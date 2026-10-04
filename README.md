@@ -445,3 +445,7 @@ The G6 production scan was computationally dominated by serial independent IV ro
 
 ## 2026-10-04 — E119 exact chunked G6 reconstruction
 The production G6 scan now processes every pinned option row in exact 250,000-row Arrow batches instead of loading each file wholesale. This is an execution/memory correction only: no sampling, row omission, interpolation, or mathematical shortcut was introduced. G6 remains OPEN/FAIL pending fresh exact-head CI.
+
+
+## 2026-10-04 — E120 exhaustive G6 sharding
+The single-job G6 scan was computationally impractical despite exact batching and parallel IV roots. The production evidence path is now 8 deterministic, exhaustive option-file shards plus a fail-closed aggregator. Every row remains included exactly once; no sampling or approximation is introduced. G6 remains OPEN/FAIL pending fresh exact-head CI and independent tester re-audit.
