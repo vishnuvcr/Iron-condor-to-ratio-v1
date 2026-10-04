@@ -3,12 +3,12 @@
 Research project to reproduce and independently backtest the YouTube strategy “What If the Iron Condor Starts Trending? Ratio Spread Strategy”.
 
 ## Current role
-Developer (developer branch). The independent tester operates through a separate tester branch/PR and must independently authorize Phase 1.
+Tester (isolated tester branch). This branch contains independent audit evidence only; developer implementation changes are not made here.
 ## Current phase
 **Phase 1 — data acquisition and validation: IN PROGRESS. Phase 0 is APPROVED.**
 
 ## Gate
-Phase 1 is **IN PROGRESS / NOT APPROVED**. Tester PR #32 independently approved G9 under the revised proxy-execution methodology, but G13 remains BLOCKED because G5/G6/G7/G8/G10/G11 are not yet production-accepted. Phase 2 remains BLOCKED.
+Phase 1 is **IN PROGRESS / NOT APPROVED**. G9 remains independently approved under the revised proxy-execution methodology, but the exact-head G6 audit is **FAIL / OPEN** because mandatory evidence fields are incomplete. G13/G14 and Phase 2 remain BLOCKED.
 
 ### Latest independently verified evidence
 - Developer exact tip audited: `378a130b6d450b288be140655f9b0b75aad840b3`
@@ -462,3 +462,14 @@ The first E120 sharded execution failed because the production module referenced
 
 ## 2026-10-04 — E131 G6 aggregation alignment
 The 32-shard exhaustive scan completed without shard failures, but developer audit found the aggregate job was still configured for 8 shards. E131 corrected the aggregator to consume all 32 shards. The preceding scan is not accepted as G6 evidence; fresh exact-head CI and independent tester audit remain mandatory.
+
+
+## 2026-10-04 — Independent G6 final audit
+- Developer head audited: `1a9eab7389b972c05362271ee9fb23092aa7354d`.
+- Actions run: `37191768801`.
+- Aggregate artifact: `11299929192`; SHA-256: `80512999956437e2acfdbcea2d4a6a6ebfb659267691ef033dcf7b19f55c3ae6`.
+- 32 shard artifacts and the aggregate are tied to the exact developer SHA.
+- Independent consistency checks passed for IV convergence totals, delta histograms, target counts, and tolerance bounds.
+- **Tester verdict: G6 FAIL / OPEN** due to missing IV iteration/residual evidence, explicit expiry/date coverage, and explicit future-input/no-lookahead evidence.
+- Full report: [Independent G6 tester audit](research/TESTER_G6_FINAL_AUDIT_20261004.md).
+- Developer remediation is required before a fresh tester handoff. Phase 2 remains blocked.
