@@ -449,3 +449,12 @@
 - The corrected remediation head `e43acf88e10b4af13af54fe11d0c0a3cec5295ec` has the G6 workflow push trigger explicitly enabled for `phase-1-g6-evidence-remediation-20261004`, but the GitHub connector reports zero workflow runs for the commit. The connector exposes no workflow-dispatch action.
 - No prior-run artifact is being reused as evidence for the corrected code.
 - Resolution: retain the remediation branch and G6 FAIL/OPEN; continue repository-native execution attempts when available. A fresh exact-head Actions run is mandatory before tester re-audit.
+
+
+### E138 — G6 conditional-acceptance tester verdict (2026-10-04)
+- **Status:** CONDITIONAL PASS WITH CONDITIONS; formal G6 gate remains OPEN.
+- Independent tester determined that the previously completed numerical G6 result may be retained as provisional research evidence because the aggregate is internally reconciled and no mathematical contradiction was identified.
+- The decision does not waive mandatory G6 evidence: D1 IV iteration/residual evidence, D2 expiry/date coverage, and D3 explicit future-input/no-lookahead evidence remain outstanding for the old artifact.
+- The corrected evidence implementation must be executed at an exact developer head and independently re-audited before G6 can become formally PASS.
+- No G13/G14 or Phase 2 advancement is authorized by this conditional verdict.
+- Report: `research/TESTER_G6_CONDITIONAL_ACCEPTANCE_AUDIT_20261004.md`.
