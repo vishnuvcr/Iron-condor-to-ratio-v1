@@ -15,7 +15,7 @@ UNDERLYING_PATH = Path("data/raw/index/NIFTY.parquet")
 NORMALIZED_ROOT = Path("data/processed/phase2/options")
 
 
-def eligible_entry_dates(index: pd.DataFrame, rules: dict) -> pd.Series:
+def eligible_entry_dates(index: pd.DataFrame, rules: dict, allowed_days: set[str]) -> pd.Series:
     ts_col = next(c for c in index.columns if c.lower() in {"timestamp", "datetime", "date"})
     ts = pd.to_datetime(index[ts_col], errors="coerce")
     if getattr(ts.dt, "tz", None) is None:
@@ -52,6 +52,8 @@ def eligible_entry_dates(index: pd.DataFrame, rules: dict) -> pd.Series:
             eligible.loc[day.eq(d)] = False
 
     days = pd.DataFrame({"day": local.dt.normalize(), "eligible": eligible})
+    days["day_str"] = days["day"].dt.strftime("%Y-%m-%d")
+    days = days[days["day_str"].isin(allowed_days)]
     return days.loc[days["eligible"]].groupby("day")["day"].min()
 
 
@@ -117,15 +119,25 @@ def main():
     args = ap.parse_args()
 
     rules = json.loads(RULES_PATH.read_text())
+    recon_path = Path("data/validation/phase1_session_reconciliation.json")
+    if not recon_path.exists():
+        raise SystemExit("PHASE2_G4_RECONCILIATION_MISSING")
+    recon = json.loads(recon_path.read_text())
+    allowed_days = {
+        row["day"] for row in recon.get("rows", [])
+        if row["status"] in {"NORMAL_ELIGIBLE", "SPECIAL_SESSION_RECONCILED"}
+    }
+    if not allowed_days:
+        raise SystemExit("PHASE2_G4_NO_ALLOWED_DAYS")
     index = pd.read_parquet(UNDERLYING_PATH)
-    entry_days = eligible_entry_dates(index, rules)
+    entry_days = eligible_entry_dates(index, rules, allowed_days)
 
     root = Path(args.normalized_root)
     files = sorted(root.glob("*.parquet"))
     if not files:
         raise SystemExit("PHASE2_NORMALIZED_INPUT_EMPTY")
 
-    expiries = [pd.Timestamp(f.stem, errors="raise") for f in files]
+    expiries = [pd.to_datetime(f.stem, errors="raise") for f in files]
     schedule = build_expiry_schedule(expiries, entry_days, 20)
     costs = CostSchedule.from_json(Path(args.costs))
 
