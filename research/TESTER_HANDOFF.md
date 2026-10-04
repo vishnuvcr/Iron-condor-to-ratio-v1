@@ -117,3 +117,14 @@ Required independent checks at the next gate:
 - re-audit E146–E151 and confirm no regression in fail-closed workflow behavior.
 
 Production acceptance remains BLOCKED until this gate passes. No profitability, tradability, or strategy conclusion is authorized.
+
+
+## E152 exact-head freeze — 2026-10-04
+
+Exact developer head for this fresh gate: 75cc4b3f9f43bb09a68c47eda400ca13197e4cda.
+
+Fresh isolated tester branch: tester/phase-2-e152-final-audit-v2-20261004.
+
+The remediation PR is #54. The workflow now triggers on the remediation branch, includes the new regression tests in path filters, and executes the E150/E151 impact scan once before fail-closed production validation.
+
+Tester must treat only this exact developer SHA and artifacts generated from it as authoritative.
