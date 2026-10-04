@@ -503,3 +503,7 @@ The Phase 2 validation workflow is configured with PR and manual triggers, but n
 The engine now uses a dated, fail-closed cost layer with historical NSE option slabs, Paytm Money brokerage cohort assumptions, STT, SEBI, stamp duty and GST. The initial rate-conversion defect was caught before production results and corrected with unit tests; see ERROR_LOG.md E141.
 
 Phase 3 preparation is documented in research/PHASE3_STATISTICAL_ANALYSIS_PLAN.md and market-context requirements in research/PHASE2_CONTEXT_DATA_SPEC.md. These are analysis preparations, not performance results.
+
+## 2026-10-04 — Phase 2 integration control
+
+Phase 2 has an exact end-to-end workflow, but **no production strategy result is being asserted yet**. The remaining hard input is the authoritative historical NIFTY contract master needed for lot-size, tick-size and contract-lifecycle reconciliation. See [contract-master specification](research/PHASE2_CONTRACT_MASTER_SPEC.md), [production run specification](research/PHASE2_PRODUCTION_RUN_SPEC.md), [statistical analysis plan](research/PHASE3_STATISTICAL_ANALYSIS_PLAN.md), and [context-data specification](research/PHASE2_CONTEXT_DATA_SPEC.md).
