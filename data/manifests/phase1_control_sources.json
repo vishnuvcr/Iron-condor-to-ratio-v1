@@ -119,6 +119,11 @@
       "name": "NSE IX Historical NLT/Block Trade",
       "url": "https://www.nseix.com/markets/historical-nlt",
       "use": "historical GIFT NIFTY/global-crossing activity context"
+    },
+    {
+      "name": "Hugging Face audited NIFTY 1-minute underlying",
+      "url": "https://huggingface.co/datasets/thetrademarkk/india-index-options-1m/blob/92e0288/index/NIFTY.parquet",
+      "use": "G6 contemporaneous underlying; pinned revision and SHA-256, independent source audit required; not an official exchange source"
     }
   ],
   "greek_sources": [
@@ -156,6 +161,13 @@
       "field": "Div Yield",
       "source_identity": "NSE Indices Historical Data report endpoint",
       "expected_sha256": "1eaf3a540f4e3829a8280650781380dcc1e04a8f1486c9cacb684b0a6677e11f"
+    },
+    {
+      "name": "Hugging Face NIFTY underlying revision 92e0288",
+      "url": "https://huggingface.co/datasets/thetrademarkk/india-index-options-1m/blob/92e0288/index/NIFTY.parquet",
+      "field": "1-minute NIFTY spot OHLC",
+      "source_identity": "pinned HF revision/file",
+      "expected_sha256": "613864738250107807354c17c7092986960220ac3062b830c65cc5f9ec16fcf7"
     }
   ]
 }
