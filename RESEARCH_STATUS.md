@@ -574,3 +574,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Exact-head run `37173353749` remained in the full production evidence scan for an extended period without completion.
 - Added a 30-minute workflow timeout to the production evidence step; timeout is explicitly a G6 FAIL condition.
 - A fresh exact-head run is required after this workflow correction. G6 remains FAIL/OPEN; G5 FAIL/WAIVED; G9 PASS; G13/G14 and Phase 2 BLOCKED.
+
+
+## 2026-10-04 — E117 deterministic-test correction
+- Bounded G6 run `37175103199` failed 9 passed / 1 failed due solely to a stale vectorized-delta regression test.
+- Added `bs_delta_arrays` and repaired the test import/call path.
+- G6 remains FAIL/OPEN; fresh exact-head CI and independent tester audit required.
