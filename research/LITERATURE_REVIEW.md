@@ -41,3 +41,8 @@ Targeted literature review for (1) condor/iron-condor empirical performance, (2)
 
 ## Review boundary
 This is a research-planning literature pass, not a claim that the cited studies validate the YouTube-derived transition strategy. The final manuscript will expand the bibliography, document inclusion/exclusion criteria, and distinguish peer-reviewed work from working papers and web sources.
+
+
+## 2026-10-04 — NSE special-session chronology verification
+
+NSE's official circular for the 02-Mar-2024 special live trading session confirms two separate F&O normal-market intervals: 09:15–10:00 and 11:30–12:30. This independently supports interval-membership logic rather than a single maximum-session-end cutoff. citeturn0search14
