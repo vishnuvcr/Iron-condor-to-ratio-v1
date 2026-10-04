@@ -83,3 +83,16 @@ The master-file manifest must contain:
 - exact Git SHA.
 
 Until this file is present and passes validation, no production backtest result may be labelled historical-contract-correct.
+
+## Reconstruction clarification
+
+The primary study now uses a deterministic **monthly historical contract-master reconstruction** generated from the pinned NIFTY option partitions and official NSE lot-size chronology. It is not represented as recovered original NSE member-file bytes.
+
+The reconstruction is accepted as the production candidate only after:
+1. all source option partitions are acquired and hash-validated;
+2. official monthly lot-size chronology is regression-tested;
+3. every monthly contract has an expiry-day observation;
+4. lifecycle, identifier and provenance validation passes;
+5. the independent tester audits the exact resulting manifest.
+
+An exact historical NSE contract file, if later obtained, supersedes the reconstruction after reconciliation.
