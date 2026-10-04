@@ -581,3 +581,10 @@
 - E156: fixed the pandas datetime/date comparison by comparing local calendar dates explicitly.
 - Added source SHA-256 inventory and deterministic report-content hash to the impact artifact.
 - Production inference remains blocked until exact-head CI and independent tester verification are obtained.
+
+
+### E157 — vectorized expiry-day timezone comparison (2026-10-04)
+- **Severity:** MATERIAL CHRONOLOGY / IMPACT-SCAN DEFECT; corrected before any production result.
+- Independent tester found the E150 impact scan compared timezone-aware `timestamp` calendar dates with timezone-naive `expiry` values in the vectorized filter. This can exclude valid expiry-day observations before the original/intermediate/corrected chronology states are constructed.
+- Resolution: added `same_local_calendar_date()` which explicitly normalizes both series to Asia/Kolkata and compares local calendar dates; replaced the defective vectorized predicate and added regressions for naive expiry, aware expiry, and mismatched local dates.
+- **Outcome:** no zero-impact conclusion or production P&L result is accepted from the defective head. Fresh exact-head tester audit is mandatory.
