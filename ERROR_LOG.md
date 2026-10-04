@@ -544,3 +544,12 @@
 - Corrected the builder to derive the expiry-day execution cutoff from the date-specific F&O session rules and to accept only expiry-day observations at or before that cutoff.
 - Added a regression test proving a valid 15:30 observation remains the expiry close when a later 15:31 observation is present.
 - **Policy outcome:** no full five-scenario rerun is required at this stage. Existing Phase 2 P&L/profitability evidence remains non-final until the consolidated audit assesses whether the corrected boundary can affect the tested window/results.
+
+
+### E151 — special-session interval membership and session-horizon inconsistency (2026-10-04)
+- **Severity:** MATERIAL CHRONOLOGY / DATA-HORIZON CONTROL; production acceptance remains blocked.
+- Tester found that E150 used the maximum special-session endpoint rather than testing whether an observation belongs to one of multiple disjoint execution intervals.
+- Corrected the contract builder to accept expiry observations only when they fall inside an explicitly allowed execution interval, with a regression test at the 10:30 gap on the 2024-03-02 two-session day.
+- Reconciled the contract-master horizon: the builder now derives its study end from the session-control evidence horizon (study_data_end=2026-07-02) instead of claiming coverage to 2026-09-30 from a separate hard-coded horizon.
+- Added a batch-safe E150/E151 impact scan and wired it into the production workflow. The scan is required to determine whether corrected expiry timing affects any contract groups.
+- **Status:** corrected in source; quantitative impact scan still pending because the raw production dataset is not exposed through the repository connector. No old artifact is relabelled.
