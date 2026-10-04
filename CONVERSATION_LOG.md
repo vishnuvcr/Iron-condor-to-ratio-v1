@@ -668,3 +668,12 @@ Tester identified malformed Actions interpolation and artifact-name mismatch. De
 Tester identified E150: expiry_close_ts could be extended by post-session observations in the reconstructed contract master. User authorized a narrower remediation path: fix E150, add a regression test, do not rerun the full five-scenario historical backtest yet, continue research/statistical/manuscript work without treating existing P&L as final, and perform a consolidated final audit including E150 impact.
 
 Developer corrected the contract-master builder and added the 15:30/15:31 regression test. No production result is relabelled or finalized. If the final audit finds material E150 sensitivity, affected production scenarios must be rerun before the final profitability/trading-strategy conclusion.
+
+
+## 2026-10-04 — Independent tester E150/E151 audit and remediation
+
+Tester confirmed E150's ordinary 15:30/15:31 fix but found E151: disjoint special-session gaps were not tested for interval membership. Tester also identified that the contract builder claimed 2026-09-30 while the session-control evidence horizon ended 2026-07-02.
+
+Developer remediation: contract expiry timestamps now require explicit membership in an allowed execution interval; a 10:30 gap regression was added for the 2024-03-02 two-session session. Contract-master study horizon is derived from the session manifest. A batch-safe E150/E151 impact scan is integrated into the production workflow.
+
+The impact scan must establish whether corrected expiry timing affects any contract groups. No production result is finalized until that question is independently closed.
