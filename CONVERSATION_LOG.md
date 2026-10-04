@@ -630,3 +630,10 @@ User explicitly required automatic handover to the tester branch and instructed 
 - The first E120 sharded execution failed deterministically because the solver referenced an undefined `SHARD_COUNT`.
 - Developer isolated the defect to configuration wiring, not data, mathematics, or the exhaustive partition design.
 - Added validated shard environment configuration, shard-specific output naming, and a regression test. No gate advanced.
+
+
+## 2026-10-04 — E121 action log
+- User requested resume/continue.
+- Developer audited the newest E120 CI failure and immutable artifact.
+- Failure isolated to undefined `SHARD_COUNT`; deterministic tests and all source acquisition had succeeded.
+- Developer applied E121 configuration/output correction. Hidden chain-of-thought is not copied; only concise action/result records are retained.
