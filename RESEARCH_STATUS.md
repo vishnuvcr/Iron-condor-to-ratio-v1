@@ -671,3 +671,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Previous G6 evidence is explicitly rejected for the corrected code.
 - **G6: FAIL / OPEN. G13/G14 and Phase 2: BLOCKED.**
 - Next gate transition requires fresh exact-head CI followed by a fresh isolated tester audit.
+
+
+## 2026-10-04 — G6 conditional-acceptance route opened
+- User authorized proceeding with a proposed Conditional Pass assessment rather than automatically discarding the completed numerical G6 scan.
+- Added `research/G6_CONDITIONAL_ACCEPTANCE_PROPOSAL_20261004.md` defining D1-D3 evidence limitations and requiring an explicit independent tester verdict.
+- A fresh isolated tester branch `tester/phase-1-g6-conditional-acceptance-20261004` was created from developer remediation head `e9d319e7f2e902f77696fc4dbd029fa93cbbce7f` for independent assessment.
+- Until tester verdict, G6 remains FAIL/OPEN and G13/G14/Phase 2 remain blocked. The old aggregate artifact is not relabelled as containing evidence it lacks.
