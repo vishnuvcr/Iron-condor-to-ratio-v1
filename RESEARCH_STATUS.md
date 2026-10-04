@@ -821,3 +821,15 @@ Therefore:
 - tester final audit: PENDING.
 
 No previous artifact is relabelled as evidence for this corrected head.
+
+
+## 2026-10-04 — E150 controlled remediation / lenient-gate continuation
+
+E150 was identified as a contract-master chronology defect: the previous reconstruction could let post-session expiry-day observations extend expiry_close_ts. The developer corrected the builder to use the date-specific F&O execution-session close and added a regression test for the 15:30/15:31 boundary.
+
+Per the owner-authorized lenient-gate policy:
+- no full five-scenario historical rerun is performed now;
+- Phase 2 research/statistical/manuscript preparation may continue only where conclusions do not depend on unresolved expiry-close timing;
+- no existing P&L/profitability result is treated as final;
+- the consolidated final audit must explicitly assess E150 impact before a trading-strategy conclusion;
+- if E150 can materially change trade timing/P&L, affected production scenarios must be rerun before the final conclusion; otherwise E150 may be documented as a controlled limitation.
