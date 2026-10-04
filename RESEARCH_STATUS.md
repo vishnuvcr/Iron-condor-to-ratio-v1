@@ -851,3 +851,17 @@ The contract-master horizon is also reconciled to the session-control evidence h
 An E150/E151 impact-scan script is now integrated into the production workflow. The quantitative impact result remains pending because raw production option data and exact-head workflow artifacts are not observable through the current connector.
 
 Phase 2 remains conditional for continued development; production acceptance and final profitability inference remain blocked.
+
+
+## 2026-10-04 — E151 chronology remediation
+
+The independent E150 audit identified E151: multi-interval special sessions were not enforcing interval membership, and the contract builder horizon (2026-09-30) exceeded the session-rule evidence horizon (2026-07-02).
+
+Developer remediation:
+- contract expiry timestamps now require membership in an explicitly permitted execution interval;
+- dates beyond the session-rule evidence horizon fail closed;
+- contract-master study horizon is aligned to 2026-07-02;
+- deterministic old-vs-corrected E150/E151 impact scan added;
+- production workflow uploads the impact scan and fails closed when affected contract groups exist.
+
+Production profitability remains blocked until the independent tester verifies this remediation and the impact scan quantitatively closes the E150 materiality question.
