@@ -556,3 +556,11 @@ A deterministic old-vs-corrected E150/E151 impact scan is now part of the produc
 Developer head 1501165689bf6f879628f34fab1fe787e1759697 now enforces special-session interval membership, aligns the contract horizon to the documented 2026-07-02 session-data horizon, excludes out-of-horizon expiries, and runs a deterministic E150/E151 old-vs-corrected impact scan before production backtest execution.
 
 Fresh independent tester branch: tester/phase-2-e151-remediation-audit-20261004. No profitability or strategy conclusion is final until the impact scan is independently verified and any affected cycles are rerun.
+
+## 2026-10-04 — E152 remediation
+
+The independent tester rejected developer head 66e2a06850eb75f4b9eebca4bf994ba592a59ff7 because expiry dates and option timestamps were compared across naive/aware timezone types, and the E150 impact scan omitted old-only/corrected-only missing-close cases.
+
+Developer remediation branch: phase-2-e152-remediation-20261004. The contract builder now keeps expiry as a local calendar date and explicitly normalizes timestamps to Asia/Kolkata for execution-interval comparisons. The impact scan now fail-closes on changed, old-only, and corrected-only close states. Regression tests cover timezone equivalence/mismatch and all three impact classifications.
+
+Phase 2 remains production-blocked. The corrected impact scan must be executed over the pinned source, independently verified, and followed by affected-scenario reruns if any affected groups are found. Exact-head CI evidence remains mandatory; no prior artifact is reused as corrected-head evidence. See the error log, tester handoff, and Phase 2 milestone report.
