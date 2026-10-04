@@ -840,3 +840,12 @@ Per the owner-authorized lenient-gate policy:
 Phase 3 preparation continues without executing or interpreting new production P&L. The statistical plan now explicitly locks result-bearing sections until E150 impact is resolved. A structured manuscript framework has been added at research/MANUSCRIPT_FRAMEWORK.md.
 
 Current rule: expiry-day timing analyses are E150-dependent; no final profitability inference, parameter selection, or strategy recommendation is permitted from provisional evidence.
+
+
+## 2026-10-04 — Independent tester E150 final audit
+- Audited developer head `a60c785215558f90eab32be5babde2af9a55ff31`.
+- E150 ordinary 15:30/15:31 boundary correction: **PASS at code/regression level**.
+- E150 historical materiality: **UNRESOLVED** because affected raw expiry-day observations cannot be independently quantified from the available repository content surface and no exact-head production artifact is observable.
+- E151 found: special-session multi-interval gaps are not constrained by interval membership in the expiry-close helper.
+- Tester verdict: **CONDITIONAL PASS FOR CONTINUED DEVELOPMENT — PRODUCTION ACCEPTANCE DEFERRED**.
+- No profitability, tradability, or final strategy conclusion is accepted.
