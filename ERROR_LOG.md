@@ -337,3 +337,6 @@
 
 
 | E119 | 2026-10-04 | 1 / G6 | Full exact production reconstruction remained too slow/memory-heavy when each option parquet file was loaded as one pandas frame. | Whole-file loading created large transient frames and prevented controlled progress without changing the mathematical sample. | Changed the production loop to process every parquet file in exact 250,000-row Arrow batches. All rows remain included; no sampling, filtering of decision rows, or mathematical shortcut was introduced. Counters and target-selection logic run identically per batch. |
+
+
+| E120 | 2026-10-04 | 1 / G6 | Full exact G6 production scan remained computationally unbounded in a single job even after row batching and Numba parallel roots. | The exhaustive requirement was correct, but single-job execution was the bottleneck. | Re-architected production evidence into 8 exact option-file shards, each processing every assigned row with unchanged mathematics, then a deterministic aggregator verifies complete file partition and merges counters/histograms. No sampling or approximation. |
