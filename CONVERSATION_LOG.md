@@ -624,3 +624,9 @@ User explicitly required automatic handover to the tester branch and instructed 
 - The G6 specification requires the full historical option universe, so sampling was rejected.
 - Developer split the exact option-file set into 8 deterministic shards, retaining identical IV/delta/target logic and merging evidence only after all shards complete.
 - The aggregator verifies shard indices, total-file coverage, shared source evidence and histogram bin compatibility before producing the final evidence artifact.
+
+
+## 2026-10-04 — E121 G6 shard configuration correction
+- The first E120 sharded execution failed deterministically because the solver referenced an undefined `SHARD_COUNT`.
+- Developer isolated the defect to configuration wiring, not data, mathematics, or the exhaustive partition design.
+- Added validated shard environment configuration, shard-specific output naming, and a regression test. No gate advanced.
