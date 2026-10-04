@@ -35,5 +35,6 @@ jobs:
       - name: Syntax and unit tests
         run: |
           set -euo pipefail
-          python -m py_compile scripts/phase2_backtest_engine.py scripts/phase2_run_backtest.py scripts/test_phase2_backtest_engine.py
+          python -m py_compile scripts/phase2_backtest_engine.py scripts/phase2_run_backtest.py scripts/test_phase2_backtest_engine.py scripts/test_phase2_cost_schedule.py
           PYTHONPATH=scripts pytest -q scripts/test_phase2_backtest_engine.py
+          python scripts/test_phase2_cost_schedule.py
