@@ -15,6 +15,7 @@ MANIFEST = Path("data/raw/contracts/nifty_contract_master_manifest.json")
 STUDY_START = pd.Timestamp("2021-01-01", tz="Asia/Kolkata")
 STUDY_END = pd.Timestamp("2026-09-30 23:59:59", tz="Asia/Kolkata")
 TICK_SIZE = 0.05
+SESSION_RULES = Path("data/manifests/phase1_session_rules.json")
 
 LOT_RULES = [
     # Monthly NIFTY contracts used by this study.
@@ -54,6 +55,28 @@ def lot_rule(expiry: pd.Timestamp) -> tuple[int, str]:
         if start <= e <= end:
             return lot, effective
     raise RuntimeError(f"PHASE2_CONTRACT_LOT_RULE_MISSING:{e.date()}")
+
+
+def expiry_execution_close_ts(expiry: pd.Timestamp) -> pd.Timestamp:
+    """Return the last strategy-execution minute allowed on the expiry date."""
+    if not SESSION_RULES.exists():
+        raise SystemExit("PHASE2_SESSION_RULES_MISSING_FOR_EXPIRY_CLOSE")
+    rules = json.loads(SESSION_RULES.read_text())
+    d = pd.Timestamp(expiry).date().isoformat()
+    special = {x["date"]: x for x in rules.get("special_sessions", [])}
+    ends = [end for _, end in special[d]["execution_intervals"]] if d in special else [rules["regular_execution_session"]["end"]]
+    if not ends:
+        raise SystemExit(f"PHASE2_EXPIRY_EXECUTION_INTERVAL_MISSING:{d}")
+    hh, mm = max(tuple(map(int, x.split(":"))) for x in ends)
+    return pd.Timestamp(expiry).tz_localize("Asia/Kolkata") + pd.Timedelta(hours=hh, minutes=mm)
+
+
+def update_expiry_close_ts(current: pd.Timestamp, row_timestamp: pd.Timestamp, expiry: pd.Timestamp) -> pd.Timestamp:
+    cutoff = expiry_execution_close_ts(expiry)
+    if row_timestamp.normalize() == expiry and row_timestamp <= cutoff:
+        if pd.isna(current) or row_timestamp > current:
+            return row_timestamp
+    return current
 
 
 def list_files() -> list[Path]:
@@ -137,9 +160,9 @@ def main() -> None:
                 )
                 item["contract_start"] = min(item["contract_start"], row.timestamp)
                 item["contract_end"] = max(item["contract_end"], row.timestamp)
-                if row.timestamp.normalize() == expiry:
-                    if pd.isna(item["expiry_close_ts"]) or row.timestamp > item["expiry_close_ts"]:
-                        item["expiry_close_ts"] = row.timestamp
+                item["expiry_close_ts"] = update_expiry_close_ts(
+                    item["expiry_close_ts"], row.timestamp, expiry
+                )
 
     rows = []
     for item in acc.values():
@@ -169,7 +192,7 @@ def main() -> None:
         "tick_sizes": sorted(out["tick_size"].unique().tolist()),
         "source_files": len(files),
         "source_sha256": {str(p): sha256(p) for p in files},
-        "method": "deterministic reconstruction from pinned NIFTY 1-minute option bars plus official NSE lot-size circular chronology; raw-bar lifecycle and expiry-close timestamps retained",
+        "method": "deterministic reconstruction from pinned NIFTY 1-minute option bars plus official NSE lot-size circular chronology; expiry-close bounded by date-specific F&O execution-session close",
         "source_references": SOURCE_REFS,
         "output_sha256": sha256(OUT),
     }
