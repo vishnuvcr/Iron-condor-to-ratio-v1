@@ -382,3 +382,7 @@ The G6 production branch now includes a fail-closed production Greek evidence sc
 
 ## 2026-10-04 — automatic tester handover and E104 correction
 The developer branch automatically handed exact head 2dd4506e5173052c58573a94f9a3368f1a7d3190 to isolated tester branch tester/phase-1-g6-handover-20261004 (PR #47). The tester correctly returned G6 FAIL/OPEN and identified E104: the RBI cache path existed but the acquisition script did not actually reuse retained pages, and availability-date semantics were insufficiently explicit. The developer corrected the acquisition with fail-closed sidecar SHA-256 cache validation, immutable expected hashes for bootstrapped RBI pages, rejection of unproven retained files, and an explicit conservative observation-date eligibility convention with strict-prior same-day exclusion. A regression test was added. G5 remains FAIL/waived for continued research; G9 remains PASS; G13/G14 and Phase 2 remain blocked. Fresh exact-head CI and automatic tester re-handover are required.
+
+
+## 2026-10-04 — E105 acquisition-runtime correction
+The exact-head G6 validation run `37171349785` remained in official RBI acquisition without reaching tests/evidence. The developer identified the operational cause (broad WSS scan, 20 workers, 10-second timeout) and tightened it to IDs 24000–28500, 100 workers, 3-second timeout. No data-integrity or no-lookahead safeguards were relaxed. G6 remains OPEN/FAIL pending fresh exact-head CI and independent tester re-audit; G5 remains FAIL/waived, G9 PASS, G13/G14 and Phase 2 BLOCKED.
