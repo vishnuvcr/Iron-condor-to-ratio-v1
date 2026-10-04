@@ -1,0 +1,313 @@
+{
+  "metadata": {
+    "scenario": "LEGACY_PRE_AUG_2022",
+    "brokerage_cohort": "PAYTM_LEGACY_PRE_2022",
+    "study_start": "2021-01-01",
+    "study_end": "2026-09-30",
+    "gst_rate": 0.18,
+    "sources": {
+      "paytm_brokerage": "https://www.paytmmoney.com/blog/brokerage-charges-increase-from-25th-aug-23-existing-users-will-continue-on-old-brokerage-charges/",
+      "paytm_flat_20": "https://www.paytmmoney.com/blog/all-new-paytm-money-updates-revisions-and-more/",
+      "nse_txn_2023": "https://nsearchives.nseindia.com/content/circulars/FA56129.pdf",
+      "nse_txn_2024": "https://nsearchives.nseindia.com/content/circulars/FA64232.pdf",
+      "nse_txn_2026": "https://nsearchives.nseindia.com/content/circulars/FA73061.pdf",
+      "stt_2024": "https://nsearchives.nseindia.com/content/circulars/FATAX63809.pdf",
+      "stt_2026": "https://nsearchives.nseindia.com/content/circulars/FATAX73524.pdf",
+      "sebi_2021": "https://www.sebi.gov.in/sebi_data/attachdocs/aug-2021/1628678904669.pdf",
+      "sebi_2026": "https://www.sebi.gov.in/sebi_data/attachdocs/jan-2026/1767852346757.pdf",
+      "stamp_duty": "https://www.nseindia.com/static/invest/first-time-investor-stamp-duty-charges-taxes"
+    }
+  },
+  "rules": [
+    {
+      "charge_type": "BROKERAGE",
+      "cohort": "PAYTM_LEGACY_PRE_2022",
+      "effective_from": "2021-01-01",
+      "effective_to": "2022-08-05",
+      "fixed_per_order": 10,
+      "basis": "order",
+      "side": "ALL",
+      "taxable": true
+    },
+    {
+      "charge_type": "BROKERAGE",
+      "cohort": "PAYTM_LEGACY_PRE_2022",
+      "effective_from": "2022-08-05",
+      "effective_to": "2025-01-15",
+      "fixed_per_order": 15,
+      "basis": "order",
+      "side": "ALL",
+      "taxable": true
+    },
+    {
+      "charge_type": "BROKERAGE",
+      "cohort": "PAYTM_LEGACY_PRE_2022",
+      "effective_from": "2025-01-15",
+      "effective_to": null,
+      "fixed_per_order": 20,
+      "basis": "order",
+      "side": "ALL",
+      "taxable": true
+    },
+    {
+      "charge_type": "NSE_TRANSACTION",
+      "effective_from": "2021-01-01",
+      "effective_to": "2023-04-01",
+      "basis": "turnover",
+      "side": "ALL",
+      "taxable": true,
+      "method": "MONTHLY_SLAB",
+      "slabs": [
+        {
+          "lower": 0,
+          "upper": 30000000,
+          "flat": 2500,
+          "rate": 0
+        },
+        {
+          "lower": 30000000,
+          "upper": 1000000000,
+          "flat": 0,
+          "rate": 0.00053
+        },
+        {
+          "lower": 1000000000,
+          "upper": 7500000000,
+          "flat": 0,
+          "rate": 0.000505
+        },
+        {
+          "lower": 7500000000,
+          "upper": 15000000000,
+          "flat": 0,
+          "rate": 0.000455
+        },
+        {
+          "lower": 15000000000,
+          "upper": 20000000000,
+          "flat": 0,
+          "rate": 0.000405
+        },
+        {
+          "lower": 20000000000,
+          "upper": null,
+          "flat": 0,
+          "rate": 0.00033
+        }
+      ]
+    },
+    {
+      "charge_type": "NSE_TRANSACTION",
+      "effective_from": "2023-04-01",
+      "effective_to": "2024-04-01",
+      "basis": "turnover",
+      "side": "ALL",
+      "taxable": true,
+      "method": "MONTHLY_SLAB",
+      "slabs": [
+        {
+          "lower": 0,
+          "upper": 30000000,
+          "flat": 2500,
+          "rate": 0
+        },
+        {
+          "lower": 30000000,
+          "upper": 1000000000,
+          "flat": 0,
+          "rate": 0.0005
+        },
+        {
+          "lower": 1000000000,
+          "upper": 7500000000,
+          "flat": 0,
+          "rate": 0.000475
+        },
+        {
+          "lower": 7500000000,
+          "upper": 15000000000,
+          "flat": 0,
+          "rate": 0.000425
+        },
+        {
+          "lower": 15000000000,
+          "upper": 20000000000,
+          "flat": 0,
+          "rate": 0.000375
+        },
+        {
+          "lower": 20000000000,
+          "upper": null,
+          "flat": 0,
+          "rate": 0.0003
+        }
+      ]
+    },
+    {
+      "charge_type": "NSE_TRANSACTION",
+      "effective_from": "2024-04-01",
+      "effective_to": "2024-10-01",
+      "basis": "turnover",
+      "side": "ALL",
+      "taxable": true,
+      "method": "MONTHLY_SLAB",
+      "slabs": [
+        {
+          "lower": 0,
+          "upper": 30000000,
+          "flat": 2500,
+          "rate": 0
+        },
+        {
+          "lower": 30000000,
+          "upper": 1000000000,
+          "flat": 0,
+          "rate": 0.000495
+        },
+        {
+          "lower": 1000000000,
+          "upper": 7500000000,
+          "flat": 0,
+          "rate": 0.00047
+        },
+        {
+          "lower": 7500000000,
+          "upper": 15000000000,
+          "flat": 0,
+          "rate": 0.00042
+        },
+        {
+          "lower": 15000000000,
+          "upper": 20000000000,
+          "flat": 0,
+          "rate": 0.00037
+        },
+        {
+          "lower": 20000000000,
+          "upper": null,
+          "flat": 0,
+          "rate": 0.000295
+        }
+      ]
+    },
+    {
+      "charge_type": "NSE_TRANSACTION",
+      "effective_from": "2024-10-01",
+      "effective_to": "2026-03-01",
+      "rate": 0.00003503,
+      "basis": "turnover",
+      "side": "ALL",
+      "taxable": true,
+      "method": "RATE"
+    },
+    {
+      "charge_type": "NSE_TRANSACTION",
+      "effective_from": "2026-03-01",
+      "effective_to": null,
+      "rate": 0.0000355299,
+      "basis": "turnover",
+      "side": "ALL",
+      "taxable": true,
+      "method": "RATE"
+    },
+    {
+      "charge_type": "IPFT",
+      "effective_from": "2021-01-01",
+      "effective_to": "2023-04-01",
+      "rate": 1e-10,
+      "basis": "turnover",
+      "side": "ALL",
+      "taxable": false
+    },
+    {
+      "charge_type": "IPFT",
+      "effective_from": "2023-04-01",
+      "effective_to": "2026-03-01",
+      "rate": 5e-7,
+      "basis": "turnover",
+      "side": "ALL",
+      "taxable": false
+    },
+    {
+      "charge_type": "IPFT",
+      "effective_from": "2026-03-01",
+      "effective_to": null,
+      "rate": 1e-10,
+      "basis": "turnover",
+      "side": "ALL",
+      "taxable": false
+    },
+    {
+      "charge_type": "SEBI",
+      "effective_from": "2021-01-01",
+      "effective_to": "2026-01-01",
+      "rate": 0.0000015,
+      "basis": "turnover",
+      "side": "ALL",
+      "taxable": false
+    },
+    {
+      "charge_type": "SEBI",
+      "effective_from": "2026-01-01",
+      "effective_to": null,
+      "rate": 0.000001,
+      "basis": "turnover",
+      "side": "ALL",
+      "taxable": false
+    },
+    {
+      "charge_type": "STT",
+      "effective_from": "2021-01-01",
+      "effective_to": "2023-04-01",
+      "rate": 0.000625,
+      "basis": "turnover",
+      "side": "SELL",
+      "taxable": false
+    },
+    {
+      "charge_type": "STT",
+      "effective_from": "2021-01-01",
+      "effective_to": null,
+      "rate": 0,
+      "basis": "turnover",
+      "side": "BUY",
+      "taxable": false
+    },
+    {
+      "charge_type": "STT",
+      "effective_from": "2023-04-01",
+      "effective_to": "2026-04-01",
+      "rate": 0.001,
+      "basis": "turnover",
+      "side": "SELL",
+      "taxable": false
+    },
+    {
+      "charge_type": "STT",
+      "effective_from": "2026-04-01",
+      "effective_to": null,
+      "rate": 0.0015,
+      "basis": "turnover",
+      "side": "SELL",
+      "taxable": false
+    },
+    {
+      "charge_type": "STAMP_DUTY",
+      "effective_from": "2021-01-01",
+      "effective_to": null,
+      "rate": 0.00003,
+      "basis": "turnover",
+      "side": "BUY",
+      "taxable": false
+    },
+    {
+      "charge_type": "STAMP_DUTY",
+      "effective_from": "2021-01-01",
+      "effective_to": null,
+      "rate": 0,
+      "basis": "turnover",
+      "side": "SELL",
+      "taxable": false
+    }
+  ]
+}
