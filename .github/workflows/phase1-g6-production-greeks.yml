@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.expected_commit_sha || github.sha }}
+          ref: ${{ github.event.inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with: {python-version: "3.11"}
       - name: Restore G6 official-source cache
@@ -57,7 +57,7 @@ jobs:
         run: |
           set -euo pipefail
           actual="$(git rev-parse HEAD)"
-          expected="${{ github.event.inputs.expected_commit_sha }}"
+          expected="${{ github.event.inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }}"
           if [ -n "$expected" ]; then test "$actual" = "$expected"; fi
           echo "G6 exact checkout SHA: $actual"
 
@@ -111,4 +111,4 @@ jobs:
 # E104 exact-head revalidation trigger: cache/provenance and no-lookahead corrections.
 
 # E105 exact-head revalidation trigger: bounded RBI acquisition runtime correction.
-# E105 exact-head revalidation trigger: prioritize known official RBI WSS pages before fallback scan.
+# E107 exact-head PR validation: checkout and assert pull-request head SHA.
