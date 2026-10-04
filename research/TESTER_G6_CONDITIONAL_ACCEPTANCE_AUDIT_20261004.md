@@ -89,3 +89,19 @@ The conditional classification means only that the completed numerical result ne
 The conditional decision is deliberately narrow: **retain the numerical result as provisional evidence; keep the formal G6 gate OPEN until the corrected evidence path is executed and independently verified.**
 
 Tester branch: `tester/phase-1-g6-conditional-acceptance-20261004`.
+
+
+## Follow-up control-plane verification — 2026-10-04
+
+Developer reports exact head `94ea4b12de8ab9be2c404534db501ec30d53fd81` and PR #52. Independent tester verification confirms:
+- PR #52 head SHA is exactly `94ea4b12de8ab9be2c404534db501ec30d53fd81`.
+- GitHub's commit workflow-run query returns **zero workflow runs** for that exact SHA.
+- Commit status is `pending` with zero published statuses.
+- Therefore no fresh exact-head CI artifact is presently available to audit.
+- The prior numerical artifact is not reused as fresh evidence.
+
+**Tester control-plane state: WAITING FOR FRESH EXACT-HEAD ARTIFACT.**
+
+No new G6 verdict is issued. The existing **CONDITIONAL PASS WITH CONDITIONS** remains the latest tester verdict, while the formal G6 gate remains OPEN.
+
+**Next tester gate:** once a fresh exact-head aggregate artifact exists, independently verify exact checkout binding, all 32 shards, complete file partition, D1-D3 evidence, expiry/date coverage, strict-prior/no-lookahead controls, mathematical reconciliation, checksums, and fail-closed aggregation before issuing a new verdict.
