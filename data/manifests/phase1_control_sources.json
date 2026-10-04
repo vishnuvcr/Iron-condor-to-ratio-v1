@@ -43,15 +43,16 @@
   ],
   "risk_free_sources": [
     {
-      "name": "RBI Weekly Statistical Supplement",
-      "url": "https://www.rbi.org.in/scripts/WSSView.aspx?Id=26722",
-      "field": "91-Day Treasury Bill (Primary) Yield"
+      "name": "RBI Bulletin Table 26 — Auctions of 91-Day Government of India Treasury Bills",
+      "url": "https://github.com/Reserve-Bank-Innovation-Hub/dbie.rbihub.in/blob/0db4ddb88c3119347e809af78c93beb4d1c874d4/data/publications/monthly-rbi-bulletin/government-accounts-and-treasury-bills/table-26-auctions-of-government-of-india-treasury-bills.xlsx",
+      "field": "91-day implicit auction yield at cut-off",
+      "use": "production risk-free input; immutable mirror commit and Git blob SHA-1 pinned"
     },
     {
-      "name": "RBI Weekly Statistical Supplement — 91-Day Treasury Bill Primary Yield",
-      "url": "https://www.rbi.org.in/scripts/WSSView.aspx?Id=27637",
+      "name": "RBI Weekly Statistical Supplement",
+      "url": "https://www.rbi.org.in/scripts/WSSView.aspx?Id=26722",
       "field": "91-Day Treasury Bill (Primary) Yield",
-      "use": "date-aligned historical risk-free candidate"
+      "use": "secondary reconciliation/control"
     }
   ],
   "paytm_money_sources": [
