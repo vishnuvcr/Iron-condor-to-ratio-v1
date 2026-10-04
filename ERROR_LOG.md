@@ -536,3 +536,11 @@
 - The corrected workflow contains push, pull-request and manual-dispatch paths, but this environment cannot invoke workflow_dispatch directly.
 - No prior artifact is reused as fresh evidence.
 - **Status:** production execution pending externally observable exact-head CI; no scientific result is claimed.
+
+
+### E150 — expiry-close reconstruction can include post-session observations (2026-10-04)
+- **Severity:** MATERIAL PRE-PRODUCTION CHRONOLOGY DEFECT; no production result affected.
+- The historical contract-master reconstruction derives `expiry_close_ts` from the maximum raw option timestamp observed on expiry day.
+- Earlier Phase 1 evidence documents that raw source files can contain pre/post-window observations, so the raw maximum is not guaranteed to be the F&O execution close.
+- **Impact:** expiry-close timing used by forced-close logic can be overstated.
+- **Resolution required:** derive expiry-close from the applicable date-specific F&O execution interval/session control or an authoritative exchange source, and add a regression test preventing post-session observations from changing it.
