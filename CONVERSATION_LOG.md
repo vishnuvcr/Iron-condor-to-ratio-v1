@@ -684,3 +684,10 @@ The impact scan must establish whether corrected expiry timing affects any contr
 Tester identified E151: the E150 helper could accept observations in gaps between disjoint special-session intervals, and the contract builder extended to 2026-09-30 despite the session-rule evidence horizon ending 2026-07-02.
 
 Developer corrected interval membership, aligned the contract-master horizon to the documented evidence horizon, added regression tests, and added an old-vs-corrected E150/E151 impact scan to the production workflow. The workflow fails closed if affected contract groups are detected. Final profitability remains locked pending independent tester verification and quantitative impact closure.
+
+
+## 2026-10-04 — E157 developer remediation handoff
+- User supplied independent tester FAIL for developer SHA `7f9f9209c77416986ba0827028067ab5b911160f`.
+- Tester finding: the E150 impact scan vectorized filter compared Asia/Kolkata-aware `timestamp` values with timezone-naive `expiry` values, potentially removing valid expiry-day rows before chronology reconstruction.
+- Developer response: created isolated remediation branch `phase-2-e157-remediation-20261004`; replaced the predicate with explicit Asia/Kolkata local-calendar-date comparison; added vectorized regression tests for naive expiry, aware expiry and mismatched dates; recorded E157 in the error log, README and tester handoff.
+- Current research state: E150 OPEN, Phase 2 production BLOCKED, no profitability/trading-strategy conclusion authorized. Fresh tester gate required from the immutable remediation head.
