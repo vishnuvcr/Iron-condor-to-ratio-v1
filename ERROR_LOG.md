@@ -426,3 +426,19 @@
 - All 32 shard artifacts completed successfully and downloaded by aggregate job `111405080689`.
 - Aggregate failed because `scripts/aggregate_g6_production_greeks.py` imports NumPy but the aggregate job installed no NumPy.
 - No scientific output was accepted from the failed aggregate.
+
+
+### E134 — G6 final tester evidence-completeness failure (2026-10-04)
+- **Status:** CORRECTIVE BRANCH ACTIVE; fresh tester audit required.
+- Independent tester PR #49 audited exact head `1a9eab7389b972c05362271ee9fb23092aa7354d` and found G6 FAIL/OPEN because the evidence artifact omitted IV iteration/residual summaries, explicit expiry/date coverage, and explicit future-input/no-lookahead counters.
+- The underlying mathematical/data-path consistency checks passed; this is an evidence-completeness defect, not a change to the scientific model.
+- Developer remediation branch `phase-1-g6-evidence-remediation-20261004` adds these fields and fail-closed aggregate checks. Fresh exact-head CI and a fresh isolated tester branch are mandatory before G6 can pass.
+
+### E135 — G6 tester orchestration tooling-limit record (2026-10-04)
+- **Status:** Tooling limitation; no scientific conclusion affected.
+- A batch artifact-download attempt hit the Code Mode nested-tool-call ceiling after 20 shard downloads. The remaining shard artifacts were not locally unpacked in that call; exact-head metadata and the aggregate's 32-shard fail-closed checks remain available.
+- This limitation did not alter the tester's G6 FAIL determination.
+
+### E136 — GitHub branch-creation connector parameter misuse (2026-10-04)
+- **Status:** Corrected; no repository mutation occurred from the failed call.
+- The first tester-branch creation request used incorrect connector parameter names. The branch was subsequently created correctly from the frozen developer SHA.
