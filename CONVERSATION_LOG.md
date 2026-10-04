@@ -567,3 +567,10 @@ User explicitly required automatic handover to the tester branch and instructed 
 - The missing input is the independently audited NIFTY 1-minute spot parquet, not a reason to substitute another underlying series.
 - Developer added pinned HF acquisition at revision `92e0288`, expected SHA-256 `613864738250107807354c17c7092986960220ac3062b830c65cc5f9ec16fcf7`, with cache/provenance validation and HF_TOKEN support.
 - Workflow cache/trigger paths were then corrected. No gate advanced; fresh exact-head CI and tester audit remain mandatory.
+
+
+## 2026-10-04 — E112/E113 option-input materialization
+- G6 production progressed through all source acquisition and solver tests but failed at the fail-closed production scan because no NIFTY option parquet inputs were present.
+- Developer added pinned HF option-chain acquisition for the NIFTY directory, preserving per-file SHA-256 provenance and rejecting mismatches.
+- Workflow caching and hash dependencies were corrected so the option data are not re-downloaded unnecessarily.
+- No gate advancement; fresh exact-head CI and tester handover remain mandatory.
