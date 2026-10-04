@@ -112,3 +112,8 @@ Independently verify:
 8. if an independently executed impact scan reports affected groups, require affected production scenario reruns before final inference.
 
 No final profitability conclusion is permitted until E150 materiality is quantitatively closed.
+
+
+## Final E151 gate v2 — developer head 66e2a06850eb75f4b9eebca4bf994ba592a59ff7
+
+Audit the exact head independently. Verify interval membership, horizon filtering, old-vs-corrected impact scan semantics, workflow fail-closed gating, exact SHA/reproducibility, and all prior E146-E150 controls. If affected contract groups are found, do not permit final inference without affected production reruns. If zero are found, quantify that result and assess whether E150 can be classified non-material for the tested study horizon.
