@@ -426,3 +426,22 @@
 - All 32 shard artifacts completed successfully and downloaded by aggregate job `111405080689`.
 - Aggregate failed because `scripts/aggregate_g6_production_greeks.py` imports NumPy but the aggregate job installed no NumPy.
 - No scientific output was accepted from the failed aggregate.
+
+
+### E134 — G6 final tester evidence-completeness failure (2026-10-04)
+- **Status:** FAIL / remediation required.
+- Independent tester audit of exact-head run 37191768801 found that the production scanner computes IV iteration counts and residuals internally but does not preserve them in the evidence artifact, despite the G6 specification requiring those diagnostics.
+- The report also lacks explicit expiry-validity/expiry-date coverage counters and an explicit machine-readable future-input/no-lookahead audit result.
+- Mathematical consistency checks passed for the available aggregate: IV histogram total equals converged count, delta histograms reconcile, target counts reconcile, and all target errors remain within tolerance.
+- Resolution: G6 remains OPEN. Developer must add the missing evidence fields, extend aggregate validation, rerun the exact-head workflow, and obtain a fresh independent tester audit.
+
+### E135 — G6 tester orchestration tooling-limit record (2026-10-04)
+- **Status:** Non-scientific tooling incident; no research conclusion affected.
+- The tester's connector batch attempted to download all 32 shard artifacts in one orchestration call and hit the Code Mode maximum nested-tool-call limit after 20 downloads.
+- The remaining shard packages were not locally unpacked in that call; their exact-head artifact metadata and the aggregate's fail-closed 32-shard checks were retained as evidence.
+- Resolution: do not infer local unpacking of the remaining shards. Treat this as a tooling limitation only and preserve the G6 FAIL caused by substantive evidence-completeness defects.
+
+### E136 — GitHub branch-creation connector parameter misuse (2026-10-04)
+- **Status:** Corrected; no repository mutation occurred from the failed call.
+- The first tester-branch creation call used `repo_full_name`, `branch`, and `from_branch` instead of the connector's required `repository_full_name`, `branch_name`, and `sha/base_ref` fields.
+- Resolution: retried with the exact frozen developer SHA and successfully created isolated tester branch `tester/phase-1-g6-final-audit-20261004`.
