@@ -574,3 +574,9 @@ User explicitly required automatic handover to the tester branch and instructed 
 - Developer added pinned HF option-chain acquisition for the NIFTY directory, preserving per-file SHA-256 provenance and rejecting mismatches.
 - Workflow caching and hash dependencies were corrected so the option data are not re-downloaded unnecessarily.
 - No gate advancement; fresh exact-head CI and tester handover remain mandatory.
+
+
+## 2026-10-04 — E114 HF option-listing correction
+- HF rejected the option file-list request because the request mixed unsupported `expand`/pagination parameters with the recursive tree endpoint.
+- Developer corrected the listing request to recursive tree only, preserving pinned revision and per-file hash validation.
+- No gate advancement; fresh exact-head CI remains mandatory.
