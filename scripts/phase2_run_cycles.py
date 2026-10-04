@@ -66,7 +66,7 @@ def build_expiry_schedule(expiry_dates: list[pd.Timestamp], entry_days: pd.Serie
     rows = []
     for entry_day in entry_days:
         cutoff = pd.Timestamp(entry_day).normalize() + pd.Timedelta(days=min_dte)
-        candidates = monthly[monthly["expiry"] > cutoff]
+        candidates = monthly[monthly["expiry"] >= cutoff]
         if candidates.empty:
             continue
         chosen = candidates.iloc[0]["expiry"]
