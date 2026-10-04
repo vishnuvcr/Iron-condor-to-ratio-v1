@@ -76,7 +76,7 @@ The source describes a reversal zone around 1.20–1.30; the literal core freeze
 These are isolated from the source-derived rules and must be disclosed:
 
 1. **Entry timing:** first decision-eligible minute of each calendar month for which a valid expiry is available.
-2. **Expiry selection:** nearest available expiry at least 20 calendar days after the entry date. The 20-day floor is an operational convention, not a claim about the source video.
+2. **Expiry selection:** nearest available expiry at least 20 calendar days after the entry date, restricted to the latest listed expiry date in each calendar month. This uses the observed contract expiry field rather than projecting a weekday rule backward. The 20-day floor is an operational convention, not a claim about the source video.
 3. **Target selection:** absolute-delta error <= 0.05; ties broken by higher volume, then smaller strike distance, then lower strike.
 4. **Trigger frequency:** every completed eligible one-minute bar.
 5. **Forced expiry exit:** the engine creates a close event on the last decision minute before the date-specific `expiry_close_ts` cutoff supplied in the normalized data; no hard-coded historical close is projected backward and no settlement payoff is synthesized.
