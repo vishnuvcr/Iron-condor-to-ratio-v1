@@ -274,3 +274,9 @@
 
 
 | E103 | 2026-10-04 | 1 / G6 | Final primary RBI acquisition run 37158613890 executed all three official RBI/WSS hostnames over the bounded archive range but produced zero parseable 91-Day Treasury Bill (Primary) Yield rows. | Production r input cannot be established from the primary machine-readable source in the CI environment; proceeding with a mirror without explicit provenance would contaminate G6 acceptance. | Record the external access/provenance blocker, retain G6 FAIL/OPEN, and investigate any secondary RBI mirror only as a separately labelled cross-check/provisional source. No silent substitution or gate advancement. |
+
+## 2026-10-04 — Tester PR #46 secondary RBI cross-check
+- Tester branch `tester/phase-1-g6-secondary-r-crosscheck-20261004` independently reviewed the provisional Dataful RBI-derived cross-check.
+- Tester determination: **G6 FAIL / OPEN**. The source is not accepted as a production r input without immutable full-file provenance, coverage/duplicate audit, and reconciliation to primary RBI WSS observations.
+- No Phase 2 authorization. G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH.
+- Tester report: `research/TESTER_REPORT_G6_SECONDARY_R_CROSSCHECK_20261004.md`; PR #46 targets this developer branch and is intentionally not merged as a gate-advancement mechanism.
