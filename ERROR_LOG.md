@@ -358,3 +358,11 @@
 - All eight shard jobs remained in the production scan step for an extended period without terminal status, while the exact-head validation run remained queued behind them.
 - No production result is accepted from this run until all shards terminate and aggregation completes.
 - This is being treated as a bounded CI/runtime issue, not as evidence that the mathematical method passed or failed.
+
+
+### E123 — G6 dividend-coverage evidence gap detected before tester audit (2026-10-04)
+- **Status:** OPEN / remediation required after current exact-head run is resolved.
+- `scripts/aggregate_g6_production_greeks.py` expects `dividend_coverage`, but the current production report does not emit that field.
+- Consequently, the aggregator's equality check can compare `None` across shards and fail to establish actual dividend coverage.
+- This is a substantive evidence-completeness defect, not a mathematical conclusion.
+- Current exact-head run 37180326783 must not be promoted to G6 PASS on this basis.
