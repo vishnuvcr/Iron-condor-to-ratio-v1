@@ -535,3 +535,12 @@ Under the authorized lenient-gate policy, the full five-scenario backtest is **n
 ## 2026-10-04 — Statistical/manuscript preparation
 
 Under the owner-authorized lenient gate, Phase 3 methodology and manuscript structure are being prepared without treating provisional production evidence as final. See [statistical analysis plan](research/PHASE3_STATISTICAL_ANALYSIS_PLAN.md) and [manuscript framework](research/MANUSCRIPT_FRAMEWORK.md). E150-dependent expiry-day results remain locked pending the consolidated audit.
+
+
+## 2026-10-04 — Independent tester E150 final audit
+- Audited developer head `a60c785215558f90eab32be5babde2af9a55ff31`.
+- E150 ordinary 15:30/15:31 boundary correction: **PASS at code/regression level**.
+- E150 historical materiality: **UNRESOLVED** because affected raw expiry-day observations cannot be independently quantified from the available repository content surface and no exact-head production artifact is observable.
+- E151 found: special-session multi-interval gaps are not constrained by interval membership in the expiry-close helper.
+- Tester verdict: **CONDITIONAL PASS FOR CONTINUED DEVELOPMENT — PRODUCTION ACCEPTANCE DEFERRED**.
+- No profitability, tradability, or final strategy conclusion is accepted.
