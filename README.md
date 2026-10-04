@@ -3,12 +3,12 @@
 Research project to reproduce and independently backtest the YouTube strategy “What If the Iron Condor Starts Trending? Ratio Spread Strategy”.
 
 ## Current role
-Developer (developer branch). The independent tester operates through a separate tester branch/PR and must independently authorize Phase 1.
+Developer (remediation branch). Independent tester PR #49 failed G6 evidence completeness; developer remediation is isolated here and requires a fresh tester handoff.
 ## Current phase
 **Phase 1 — data acquisition and validation: IN PROGRESS. Phase 0 is APPROVED.**
 
 ## Gate
-Phase 1 is **IN PROGRESS / NOT APPROVED**. Tester PR #32 independently approved G9 under the revised proxy-execution methodology, but G13 remains BLOCKED because G5/G6/G7/G8/G10/G11 are not yet production-accepted. Phase 2 remains BLOCKED.
+Phase 1 is **IN PROGRESS / NOT APPROVED**. G6 exact-head CI completed on the prior developer head, but tester PR #49 returned **G6 FAIL / OPEN** for missing IV iteration/residual, expiry/date coverage, and explicit no-lookahead evidence. G13/G14 and Phase 2 remain BLOCKED.
 
 ### Latest independently verified evidence
 - Developer exact tip audited: `378a130b6d450b288be140655f9b0b75aad840b3`
@@ -462,3 +462,11 @@ The first E120 sharded execution failed because the production module referenced
 
 ## 2026-10-04 — E131 G6 aggregation alignment
 The 32-shard exhaustive scan completed without shard failures, but developer audit found the aggregate job was still configured for 8 shards. E131 corrected the aggregator to consume all 32 shards. The preceding scan is not accepted as G6 evidence; fresh exact-head CI and independent tester audit remain mandatory.
+
+
+## 2026-10-04 — G6 evidence remediation
+- Tester PR #49: G6 **FAIL / OPEN** on exact head `1a9eab7389b972c05362271ee9fb23092aa7354d`.
+- Remediation branch: `phase-1-g6-evidence-remediation-20261004`.
+- Scientific model unchanged; evidence now records IV iteration/residual distributions, expiry/date coverage, and explicit strict-prior/future-input audit results.
+- Fresh exact-head CI and independent tester re-audit are required before G6 approval.
+- [Tester G6 audit report](research/TESTER_G6_FINAL_AUDIT_20261004.md) is retained on the isolated tester branch/PR #49.
