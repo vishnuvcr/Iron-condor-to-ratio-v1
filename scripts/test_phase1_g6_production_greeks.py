@@ -49,3 +49,11 @@ def test_strict_prior_never_uses_same_day():
 
 def test_expiry_close_convention():
     assert expiry_close("2025-10-28")==__import__("pandas").Timestamp("2025-10-28 15:30:00")
+
+
+def test_strict_prior_is_conservative_against_same_day_observation():
+    import pandas as pd
+    src=pd.DataFrame({"date":pd.to_datetime(["2024-01-03"]),"r":[0.07]})
+    out=strict_prior(pd.to_datetime(["2024-01-03","2024-01-04"]),src)
+    assert pd.isna(out.loc[out["date"]==pd.Timestamp("2024-01-03"),"r"].iloc[0])
+    assert out.loc[out["date"]==pd.Timestamp("2024-01-04"),"r"].iloc[0]==0.07
