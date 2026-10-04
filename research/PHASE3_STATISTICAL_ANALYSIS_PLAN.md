@@ -76,3 +76,8 @@ Every sensitivity run must retain:
 A positive result at 0 bps but negative result at the 10 bps primary scenario will be interpreted as execution-fragile. A positive result only after omitting realistic fees/costs will not be considered a viable strategy conclusion.
 
 No single Sharpe ratio or CAGR is sufficient for acceptance. Tail behavior, cost drag, regime dependence and reproducibility are co-equal decision criteria.
+
+
+## E150 dependency note — pre-results Phase 3 preparation
+
+Statistical and manuscript preparation may proceed before production rerun, but all result-bearing sections remain locked. Any analysis involving expiry-day timing must be marked E150-dependent until the consolidated audit determines impact. No parameter selection, profitability claim, or final inference is permitted from provisional evidence.
