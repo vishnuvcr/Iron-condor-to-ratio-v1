@@ -168,6 +168,13 @@
       "field": "1-minute NIFTY spot OHLC",
       "source_identity": "pinned HF revision/file",
       "expected_sha256": "613864738250107807354c17c7092986960220ac3062b830c65cc5f9ec16fcf7"
+    },
+    {
+      "name": "Hugging Face NIFTY option-chain files revision 0f4800e",
+      "url": "https://huggingface.co/datasets/thetrademarkk/india-index-options-1m/tree/0f4800e/options/NIFTY",
+      "field": "1-minute NIFTY option OHLCV(+OI) bars",
+      "source_identity": "pinned HF dataset revision; per-file SHA-256 manifest required",
+      "use": "G6 production option inputs; research-data source, not exchange-primary"
     }
   ]
 }
