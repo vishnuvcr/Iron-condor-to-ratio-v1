@@ -157,3 +157,5 @@ jobs:
 # E117 exact-head revalidation trigger: repaired deterministic delta regression.
 
 # E118 exact-head revalidation trigger: parallel independent IV roots.
+
+# E119 exact-head revalidation trigger: exact 250k-row Arrow batching.
