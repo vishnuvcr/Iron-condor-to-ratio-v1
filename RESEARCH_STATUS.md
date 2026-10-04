@@ -485,3 +485,11 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Tester determination: **G6 FAIL / OPEN**. The source is not accepted as a production r input without immutable full-file provenance, coverage/duplicate audit, and reconciliation to primary RBI WSS observations.
 - No Phase 2 authorization. G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH.
 - Tester report: `research/TESTER_REPORT_G6_SECONDARY_R_CROSSCHECK_20261004.md`; PR #46 targets this developer branch and is intentionally not merged as a gate-advancement mechanism.
+
+
+## 2026-10-04 — Automatic tester handover / E104 correction
+- Tester PR #47 independently failed G6/Phase 1 and identified E104: RBI cache reuse was not actually implemented despite the cache path, and availability-date semantics were insufficiently explicit.
+- Developer correction committed on the active G6 branch: cache-hit pages now require sidecar SHA-256 validation and known bootstrapped pages additionally require immutable expected SHA-256; retained files without provenance fail closed.
+- G6 no-lookahead semantics were clarified: the RBI labelled observation date is a conservative eligibility date, never a claim of exact publication time; strict-prior excludes same-day observations.
+- Added regression coverage for same-day exclusion.
+- G5 remains FAIL/waived for continued research; G6 remains OPEN pending fresh exact-head CI and independent tester re-audit; G9 remains PASS; G13/G14 and Phase 2 remain BLOCKED.
