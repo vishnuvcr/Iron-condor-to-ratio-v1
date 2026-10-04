@@ -15,7 +15,8 @@ Developer.
 - Developer head: `1a9eab7389b972c05362271ee9fb23092aa7354d`
 - GitHub Actions run: `37191768801`
 - Preparation job: PASS
-- Shards: 1 completed PASS, 17 in progress, 11 queued at latest observation
+- Shards: **6 completed PASS, 16 in progress, 8 queued; 0 completed failures** at latest observation
+- Exact-head shard artifacts: **5**
 - Aggregate artifact: not yet available
 - Prior aggregate failure E126 was a missing NumPy dependency and has been corrected; prior-run artifacts are not eligible as current-head evidence.
 
