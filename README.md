@@ -433,3 +433,7 @@ The complete G6 scan reached valid input/coverage state but failed on an interna
 
 ## 2026-10-04 — E116 G6 runtime bound
 The complete G6 production audit became an unbounded CI bottleneck. A 30-minute workflow timeout was added to the production-evidence step; timeout is fail-closed, not success. G6 remains OPEN/FAIL pending fresh bounded execution and independent tester re-audit.
+
+
+## 2026-10-04 — E117 G6 deterministic-test correction
+The bounded G6 run failed deterministic testing because one regression test referenced a stale loader and undefined vectorized-delta function. The production module now exposes a deterministic vectorized delta primitive and the test calls the actual module API. G6 remains OPEN/FAIL pending fresh exact-head CI.
