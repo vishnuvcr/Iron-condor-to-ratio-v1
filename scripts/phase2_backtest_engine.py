@@ -271,21 +271,22 @@ class CostSchedule:
 
 
 
+def _to_ist_timestamp(series: pd.Series) -> pd.Series:
+    parsed = pd.to_datetime(series, errors="coerce")
+    if getattr(parsed.dt, "tz", None) is None:
+        return parsed.dt.tz_localize("Asia/Kolkata")
+    return parsed.dt.tz_convert("Asia/Kolkata")
+
+
 def normalize_bars(df: pd.DataFrame) -> pd.DataFrame:
     out = df.copy()
     missing = REQUIRED_COLUMNS - set(out.columns)
     if missing:
         raise ValueError(f"MISSING_ENGINE_COLUMNS:{sorted(missing)}")
 
-    out["timestamp"] = (
-        pd.to_datetime(out["timestamp"], utc=True, errors="coerce")
-        .dt.tz_convert("Asia/Kolkata")
-    )
+    out["timestamp"] = _to_ist_timestamp(out["timestamp"])
     out["expiry"] = pd.to_datetime(out["expiry"], errors="coerce").dt.normalize()
-    out["expiry_close_ts"] = (
-        pd.to_datetime(out["expiry_close_ts"], utc=True, errors="coerce")
-        .dt.tz_convert("Asia/Kolkata")
-    )
+    out["expiry_close_ts"] = _to_ist_timestamp(out["expiry_close_ts"])
 
     for col in (
         "strike", "open", "close", "volume", "underlying",
