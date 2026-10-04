@@ -463,3 +463,10 @@
 - The project owner accepted the historical G6 aggregate for research progression with deferred audit and instructed that intermediate gate strictness be reduced.
 - Effect: later research phases may proceed without waiting for a fresh exact-head G6 evidence artifact, while D1–D3 remain explicit limitations and material scientific/data/execution/reproducibility defects remain blocking.
 - Safeguard: no historical G6 artifact is relabelled as containing missing evidence; final independent audit remains mandatory before any validated trading conclusion.
+
+
+### E140 — Phase 2 validation workflow not observable through connector (2026-10-04)
+- **Status:** OPEN / execution-environment limitation.
+- Exact Phase 2 developer head `8a060402e76e5d3b8acdc10b13a7c21f3bdd538f` was placed in PR #53 with a dedicated PR/manual workflow.
+- The GitHub connector reports zero workflow runs and zero published statuses for that exact commit.
+- No CI pass is claimed from this absence. Source code, specification and regression design remain subject to later independent milestone audit.
