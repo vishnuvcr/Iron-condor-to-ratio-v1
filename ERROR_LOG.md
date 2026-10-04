@@ -588,3 +588,11 @@
 - Independent tester found the E150 impact scan compared timezone-aware `timestamp` calendar dates with timezone-naive `expiry` values in the vectorized filter. This can exclude valid expiry-day observations before the original/intermediate/corrected chronology states are constructed.
 - Resolution: added `same_local_calendar_date()` which explicitly normalizes both series to Asia/Kolkata and compares local calendar dates; replaced the defective vectorized predicate and added regressions for naive expiry, aware expiry, and mismatched local dates.
 - **Outcome:** no zero-impact conclusion or production P&L result is accepted from the defective head. Fresh exact-head tester audit is mandatory.
+
+
+### E158 — exact-head execution unavailable in current connector/runtime (2026-10-04)
+- **Status:** OPEN / EXECUTION-ENVIRONMENT LIMITATION; not a scientific-data defect.
+- Exact execution head `32d9421a449fd12933e88dcf37c78f3f16b93a7b` was derived from immutable E157 baseline `636ebdfdf89a97461709c7d4097f89a04e7228a3`.
+- Phase 2 workflow was updated only to include the E157 execution branch and explicitly run `test_phase2_e150_impact_scan.py` alongside the contract-master chronology suite before the pinned-source impact scan.
+- GitHub reports zero Actions runs and zero published statuses for the exact execution SHA. The available connector exposes workflow-run reads/re-runs but no workflow-dispatch operation. Direct repository clone/execution from the model runtime also fails because external DNS/network access is unavailable.
+- **Resolution/control:** no previous artifact is reused, no zero-impact result is asserted, and no production P&L/profitability inference is made. The exact execution SHA is handed to a fresh independent tester gate; CI execution remains a hard prerequisite for immutable quantitative evidence.
