@@ -102,6 +102,8 @@ class ChargeRule:
     basis: str = "turnover"
     side: str = "ALL"
     taxable: bool = False
+    method: str = "RATE"
+    slabs: tuple[dict, ...] = ()
 
     def applies(self, d: date, side: str) -> bool:
         return (
@@ -147,48 +149,124 @@ class CostSchedule:
             )
         return matches[0]
 
-    def calculate(
-        self,
-        execution_date: date,
-        side: str,
-        turnover: float,
-        order_group_id: str,
-        contract_id: str,
-    ) -> list[Charge]:
-        charges: list[Charge] = []
+    @staticmethod
+    def _monthly_slab_charge(turnover: float, slabs: tuple[dict, ...]) -> float:
+        remaining = float(turnover)
+        total = 0.0
+        for slab in slabs:
+            lower = float(slab.get("lower", 0.0))
+            upper = slab.get("upper")
+            flat = float(slab.get("flat", 0.0))
+            rate = float(slab.get("rate", 0.0))
+            if turnover <= lower:
+                continue
+            if upper is None:
+                total += flat + max(0.0, remaining) * rate
+                remaining = 0.0
+                break
+            width = max(0.0, float(upper) - lower)
+            used = min(max(0.0, remaining), width)
+            total += flat
+            total += used * rate
+            remaining -= used
+            if remaining <= 0:
+                break
+        return total
+
+    def _fixed_charges_for_fill(self, fill_row: pd.Series) -> tuple[list[Charge], float]:
+        execution_date = pd.Timestamp(fill_row["execution_timestamp"]).date()
+        side = str(fill_row["side"])
+        turnover = float(fill_row["premium_turnover"])
+        group_id = str(fill_row["order_group_id"])
+        contract_id = str(fill_row["contract_id"])
+        out: list[Charge] = []
         taxable_services = 0.0
-        for charge_type in ("BROKERAGE", "NSE_TRANSACTION", "IPFT", "SEBI"):
+
+        for charge_type in ("BROKERAGE", "IPFT", "SEBI", "STT", "STAMP_DUTY"):
             rule = self._resolve(charge_type, execution_date, side)
+            if rule.method == "MONTHLY_SLAB":
+                raise RuntimeError(f"UNSUPPORTED_MONTHLY_SLAB_FOR:{charge_type}")
             basis = turnover if rule.basis == "turnover" else 1.0
             amount = rule.fixed_per_order + rule.rate * basis
-            charges.append(
+            out.append(
                 Charge(
-                    order_group_id, str(execution_date), contract_id, charge_type,
+                    group_id, str(execution_date), contract_id, charge_type,
                     amount, basis, rule.rate, rule.fixed_per_order,
                 )
             )
             if rule.taxable:
                 taxable_services += amount
 
-        for charge_type in ("STT", "STAMP_DUTY"):
-            rule = self._resolve(charge_type, execution_date, side)
-            basis = turnover if rule.basis == "turnover" else 1.0
-            amount = rule.fixed_per_order + rule.rate * basis
-            charges.append(
+        return out, taxable_services
+
+    def calculate_for_fills(self, fills: pd.DataFrame) -> list[Charge]:
+        if fills.empty:
+            return []
+
+        work = fills.copy()
+        work["execution_timestamp"] = pd.to_datetime(
+            work["execution_timestamp"], utc=True, errors="raise"
+        )
+        work["execution_date"] = work["execution_timestamp"].dt.date
+        work["month"] = work["execution_timestamp"].dt.strftime("%Y-%m")
+        work["premium_turnover"] = pd.to_numeric(
+            work["premium_turnover"], errors="raise"
+        ).abs()
+
+        charge_rows: list[Charge] = []
+        taxable_by_fill: dict[int, float] = {}
+
+        for idx, row in work.iterrows():
+            fixed, taxable = self._fixed_charges_for_fill(row)
+            charge_rows.extend(fixed)
+            taxable_by_fill[idx] = taxable
+
+        work["nse_charge"] = 0.0
+        for month, group in work.groupby("month", sort=True):
+            execution_date = min(group["execution_date"])
+            rule = self._resolve("NSE_TRANSACTION", execution_date, "ALL")
+            total_turnover = float(group["premium_turnover"].sum())
+            if rule.method == "MONTHLY_SLAB":
+                monthly_total = self._monthly_slab_charge(total_turnover, rule.slabs)
+                if total_turnover > 0:
+                    work.loc[group.index, "nse_charge"] = (
+                        group["premium_turnover"] / total_turnover * monthly_total
+                    )
+            else:
+                work.loc[group.index, "nse_charge"] = (
+                    float(rule.fixed_per_order)
+                    + rule.rate * group["premium_turnover"]
+                    if rule.basis == "turnover"
+                    else float(rule.fixed_per_order) + rule.rate
+                )
+
+        for idx, row in work.iterrows():
+            nse_rule = self._resolve("NSE_TRANSACTION", row["execution_date"], "ALL")
+            amount = float(row["nse_charge"])
+            basis = float(row["premium_turnover"]) if nse_rule.basis == "turnover" else 1.0
+            charge_rows.append(
                 Charge(
-                    order_group_id, str(execution_date), contract_id, charge_type,
-                    amount, basis, rule.rate, rule.fixed_per_order,
+                    str(row["order_group_id"]), str(row["execution_date"]),
+                    str(row["contract_id"]), "NSE_TRANSACTION", amount,
+                    basis, nse_rule.rate, nse_rule.fixed_per_order,
                 )
             )
+            if nse_rule.taxable:
+                taxable_by_fill[idx] = taxable_by_fill.get(idx, 0.0) + amount
 
-        gst_amount = self.gst_rate * taxable_services
-        charges.append(
-            Charge(
-                order_group_id, str(execution_date), contract_id, "GST",
-                gst_amount, taxable_services, self.gst_rate, 0.0,
-            )
-        )
-        return charges
+        for idx, row in work.iterrows():
+            gst_basis = float(taxable_by_fill.get(idx, 0.0))
+            if gst_basis:
+                charge_rows.append(
+                    Charge(
+                        str(row["order_group_id"]), str(row["execution_date"]),
+                        str(row["contract_id"]), "GST", self.gst_rate * gst_basis,
+                        gst_basis, self.gst_rate, 0.0,
+                    )
+                )
+
+        return charge_rows
+
 
 
 def normalize_bars(df: pd.DataFrame) -> pd.DataFrame:
@@ -499,18 +577,6 @@ class BacktestEngine:
                 return "FAILED_INCOMPLETE_EXECUTION", True
 
             turnover = abs(leg.lots) * float(row["lot_size"]) * fill_price
-            try:
-                charges = self.costs.calculate(
-                    execution_date=pd.Timestamp(row["timestamp"]).date(),
-                    side=leg.side,
-                    turnover=turnover,
-                    order_group_id=group_id,
-                    contract_id=leg.contract_id,
-                )
-            except Exception as exc:
-                self.last_execution_reason = str(exc)
-                return "FAILED_INCOMPLETE_EXECUTION", True
-
             staged_fills.append(
                 Fill(
                     group_id,
@@ -528,11 +594,9 @@ class BacktestEngine:
                     "FILLED",
                 )
             )
-            staged_charges.extend(charges)
             staged_cash += self._qty_cash(
                 leg.lots, int(row["lot_size"]), fill_price, leg.side
             )
-            staged_cash -= sum(c.amount for c in charges)
 
         self.fills.extend(staged_fills)
         self.charges.extend(staged_charges)
@@ -846,14 +910,20 @@ class BacktestEngine:
                 ):
                     self.last_metric = metric
 
+        fill_frame = pd.DataFrame([asdict(x) for x in self.fills])
+        self.charges = self.costs.calculate_for_fills(fill_frame)
+        self.cash -= sum(c.amount for c in self.charges)
+
         metadata = pd.DataFrame([{
             "engine_version": "phase2-engine-v1",
             "state": self.state,
             "terminal_unclosed": self.terminal_unclosed,
+            "gross_cash": self.cash + sum(c.amount for c in self.charges),
             "cash": self.cash,
             "fills": len(self.fills),
             "charges": len(self.charges),
             "events": len(self.events),
+            "monthly_exchange_charge_method": "EXACT_MONTHLY_TOTAL_ALLOCATED_PRO_RATA_TO_LEG_TURNOVER",
         }])
 
         return {
