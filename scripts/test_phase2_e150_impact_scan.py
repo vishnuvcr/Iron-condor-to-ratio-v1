@@ -1,6 +1,6 @@
 import pandas as pd
 
-from phase2_e150_impact_scan import classify_close_impact, as_ist
+from phase2_e150_impact_scan import classify_close_impact, as_ist, same_local_calendar_date
 
 
 def test_impact_classification_treats_changed_as_affected():
@@ -33,3 +33,25 @@ def test_original_e150_close_is_later_than_intermediate_when_post_session_exists
     assert original > intermediate
     assert intermediate == corrected
     assert classify_close_impact(original, corrected) == "changed"
+
+
+
+def test_vectorized_expiry_day_filter_accepts_aware_timestamp_and_naive_expiry():
+    timestamps = pd.Series([pd.Timestamp("2025-10-30 15:30", tz="Asia/Kolkata")])
+    expiries = pd.Series([pd.Timestamp("2025-10-30")])
+    mask = same_local_calendar_date(timestamps, expiries)
+    assert mask.tolist() == [True]
+
+
+def test_vectorized_expiry_day_filter_rejects_different_local_calendar_date():
+    timestamps = pd.Series([pd.Timestamp("2025-10-30 15:30", tz="Asia/Kolkata")])
+    expiries = pd.Series([pd.Timestamp("2025-10-31")])
+    mask = same_local_calendar_date(timestamps, expiries)
+    assert mask.tolist() == [False]
+
+
+def test_vectorized_expiry_day_filter_handles_aware_expiry_equivalently():
+    timestamps = pd.Series([pd.Timestamp("2025-10-30 15:30", tz="Asia/Kolkata")])
+    expiries = pd.Series([pd.Timestamp("2025-10-30", tz="Asia/Kolkata")])
+    mask = same_local_calendar_date(timestamps, expiries)
+    assert mask.tolist() == [True]
