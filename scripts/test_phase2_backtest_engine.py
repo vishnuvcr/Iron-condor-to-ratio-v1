@@ -18,7 +18,8 @@ def make_row(ts, expiry, strike, ot, d, op, cp, session=True):
         "timestamp":ts,"expiry":expiry,"strike":strike,"option_type":ot,
         "open":op,"close":cp,"volume":1000,"underlying":20000.0,
         "abs_delta":d,"tick_size":0.05,"lot_size":75,
-        "session_eligible":session,"execution_eligible":session
+        "session_eligible":session,"execution_eligible":session,
+        "expiry_close_ts":pd.Timestamp(expiry, tz="Asia/Kolkata").replace(hour=15, minute=30)
     }
 
 def fixture():
@@ -76,6 +77,19 @@ def test_costs_are_required():
 
 if __name__=="__main__":
     for fn in [test_slippage_floor_and_rejection,test_engine_enters_ic_and_transitions,
-               test_missing_next_bar_fails_group_without_partial_fill,test_costs_are_required]:
+               test_missing_next_bar_fails_group_without_partial_fill,test_costs_are_required,test_transition_missing_target_is_consumed]:
         fn()
     print("phase2 engine tests passed")
+
+
+def test_transition_missing_target_is_consumed():
+    df=fixture()
+    t1=pd.Timestamp("2025-10-01 09:16:00",tz="Asia/Kolkata")
+    bad=(df["timestamp"]==t1) & (df["option_type"]=="CE") & df["strike"].isin([20000,20500,22000])
+    df=df[~bad]
+    engine=BacktestEngine(df,cost_schedule(),EngineConfig(entry_min_dte_days=1,slippage_bps=0))
+    result=engine.run()
+    tr=result["events"][result["events"]["event_type"]=="TRANSITION_TO_RATIO"].iloc[0]
+    assert tr["execution_status"]=="FAILED_INCOMPLETE_EXECUTION"
+    assert tr["trigger_consumed"]
+    assert tr["post_state"]=="IRON_CONDOR"
