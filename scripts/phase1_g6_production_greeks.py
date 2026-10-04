@@ -157,7 +157,10 @@ def solve_iv_arrays(s,k,t,r,q,premium,kind):
 def sha256_file(p:Path)->str:
     h=hashlib.sha256()
     with p.open("rb") as f:
-        for b in iter(lambda:f.read(1024*1024),b): h.update(b)
+        while True:
+            chunk=f.read(1024*1024)
+            if not chunk: break
+            h.update(chunk)
     return h.hexdigest()
 
 def norm_ts(s):
@@ -334,3 +337,4 @@ if __name__=="__main__":
 
 # E121 exact-head revalidation trigger: corrected G6 shard environment and evidence output.
 # E123: explicit dividend-coverage evidence is required for aggregate validation.
+# E126: corrected SHA-256 chunk iteration; the prior lambda default referenced an unbound variable.
