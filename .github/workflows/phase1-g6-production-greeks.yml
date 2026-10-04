@@ -48,7 +48,7 @@ jobs:
           path: |
             data/raw/g6_sources
             data/processed/g6
-          key: g6-rq-20261004-${{ hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','data/manifests/phase1_control_sources.json') }}
+          key: g6-rq-20261004-${{ hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','scripts/acquire_g6_nifty_underlying.py','data/manifests/phase1_control_sources.json') }}
           restore-keys: |
             g6-rq-20261004-
       - name: Install production dependencies
@@ -60,6 +60,11 @@ jobs:
           expected="${{ github.event.inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }}"
           if [ -n "$expected" ]; then test "$actual" = "$expected"; fi
           echo "G6 exact checkout SHA: $actual"
+
+      - name: Acquire pinned audited NIFTY underlying
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python scripts/acquire_g6_nifty_underlying.py
 
       - name: Acquire official NSE dividend-yield history
         run: |
@@ -95,7 +100,7 @@ jobs:
           path: |
             data/raw/g6_sources
             data/processed/g6
-          key: g6-rq-20261004-${{ hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','data/manifests/phase1_control_sources.json') }}
+          key: g6-rq-20261004-${{ hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','scripts/acquire_g6_nifty_underlying.py','data/manifests/phase1_control_sources.json') }}
       - name: Run deterministic G6 solver tests
         run: pytest -q scripts/test_phase1_g6_production_greeks.py
       - name: Run fail-closed G6 production evidence audit
