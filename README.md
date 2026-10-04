@@ -6,10 +6,18 @@ Research project to reproduce and independently backtest the YouTube strategy �
 Developer.
 
 ## Current phase
-**Phase 0 — specification, literature/data review and reproducibility controls: COMPLETE.**
+**Phase 1 — data acquisition and validation: G6 production historical Greeks/IV audit is OPEN and running on the frozen developer head. Phase 0 is complete.**
 
 ## Gate
-**Phase 1 is blocked pending an independent tester report.** No backtest implementation has been advanced past this gate.
+**G6 remains OPEN. Phase 2 remains BLOCKED.** The current exact-head CI run must finish all exhaustive shards and produce the aggregate artifact before an isolated tester handoff is permitted.
+
+### Current exact-head evidence
+- Developer head: `1a9eab7389b972c05362271ee9fb23092aa7354d`
+- GitHub Actions run: `37191768801`
+- Preparation job: PASS
+- Shards: 1 completed PASS, 17 in progress, 11 queued at latest observation
+- Aggregate artifact: not yet available
+- Prior aggregate failure E126 was a missing NumPy dependency and has been corrected; prior-run artifacts are not eligible as current-head evidence.
 
 ## Source strategy
 The uploaded transcript is the primary strategy source. It specifies a monthly Iron Condor using short call/put near 0.30 delta and long call/put near 0.10 delta; transition when either short IC leg reaches approximately 0.10 delta; directional ratio spreads; continuation and reversal delta triggers; and discretionary profit-taking/expiry-day discussion.
@@ -31,7 +39,7 @@ The strategy's triggers depend on intraday option deltas. NSE public historical-
 Each phase will use a separate branch. Every phase will update status and error logs. Backtests will include configurable slippage, brokerage, transaction charges and other applicable costs. Synthetic data is permitted only for engine/unit tests, not for the primary performance conclusion.
 
 ## Current conclusion
-No performance conclusion is justified yet. Phase 0 established a reproducible specification and identified the key data requirement and ambiguity controls.
+No trading or performance conclusion is justified yet. The current work is confined to production historical Greek/IV evidence required for Phase 1.
 
 ## Branch
 Phase 0 branch: phase-0-specification.
