@@ -456,3 +456,10 @@
 - This is not a gate pass. A formal proposal documents D1-D3 and requires independent tester disposition.
 - Fresh tester branch `tester/phase-1-g6-conditional-acceptance-20261004` was created from exact developer remediation SHA `e9d319e7f2e902f77696fc4dbd029fa93cbbce7f`.
 - Until the independent verdict, G6 remains FAIL/OPEN and no Phase 2 work is authorized.
+
+
+### E139 — progression-waiver transition to Phase 2 (2026-10-04)
+- **Status:** CONTROL-POLICY CHANGE; no scientific conclusion affected.
+- The project owner accepted the historical G6 aggregate for research progression with deferred audit and instructed that intermediate gate strictness be reduced.
+- Effect: later research phases may proceed without waiting for a fresh exact-head G6 evidence artifact, while D1–D3 remain explicit limitations and material scientific/data/execution/reproducibility defects remain blocking.
+- Safeguard: no historical G6 artifact is relabelled as containing missing evidence; final independent audit remains mandatory before any validated trading conclusion.
