@@ -510,3 +510,10 @@ This file records user-visible project instructions and work decisions, not hidd
 - RBI public WSS/DBIE availability is independently corroborated externally, but the machine-readable primary series could not be retrieved by this CI execution environment. No secondary mirror has been substituted into production.
 - **G6 remains FAIL / OPEN.** This is the final planned blind primary-host retry. A secondary RBI mirror may be investigated only as a separately labelled cross-check/provisional source and cannot silently convert G6 to PASS.
 - G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH; G13/G14 and Phase 2 remain BLOCKED.
+
+
+## 2026-10-04 — Tester PR #46 secondary RBI cross-check
+- Tester branch `tester/phase-1-g6-secondary-r-crosscheck-20261004` independently reviewed the provisional Dataful RBI-derived cross-check.
+- Tester determination: **G6 FAIL / OPEN**. The source is not accepted as a production r input without immutable full-file provenance, coverage/duplicate audit, and reconciliation to primary RBI WSS observations.
+- No Phase 2 authorization. G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH.
+- Tester report: `research/TESTER_REPORT_G6_SECONDARY_R_CROSSCHECK_20261004.md`; PR #46 targets this developer branch and is intentionally not merged as a gate-advancement mechanism.
