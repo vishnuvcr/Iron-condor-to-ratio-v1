@@ -91,3 +91,8 @@ The independent tester branch records the project-owner waiver that the historic
 The tester will consolidate independent audits at milestone/final acceptance. The deferred checklist remains: data provenance/coverage, mathematical and sign correctness, look-ahead/execution chronology, transaction costs/brokerage/slippage, backtest correctness, regime/statistical methodology, robustness, reproducibility, and manuscript/code/status consistency.
 
 Phase 2 developer work is now authorized under this progression policy. This does not retroactively change the historical G6 gate wording.
+
+
+## 2026-10-04 — Phase 2 milestone handoff
+
+Phase 2 is active under the owner progression waiver. The dedicated developer milestone handoff is `research/PHASE2_TESTER_HANDOFF_20261004.md`. The tester should independently audit the state machine, chronology/no-lookahead, atomic execution, slippage, date-specific cost resolution and reproducibility before final acceptance. Intermediate audit timing does not authorize omission of material defects.
