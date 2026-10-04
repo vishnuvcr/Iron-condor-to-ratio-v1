@@ -117,6 +117,7 @@ jobs:
       - name: Run deterministic G6 solver tests
         run: pytest -q scripts/test_phase1_g6_production_greeks.py
       - name: Run fail-closed G6 production evidence audit
+        timeout-minutes: 30
         run: python scripts/phase1_g6_production_greeks.py
       - name: Upload G6 production evidence
         if: always()
