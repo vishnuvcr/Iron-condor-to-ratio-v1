@@ -606,3 +606,9 @@ User explicitly required automatic handover to the tester branch and instructed 
 - The test referenced `load_module` and `bs_delta_arrays`, neither defined in the current solver.
 - Developer added the vectorized delta primitive and aligned the regression test with the production module API.
 - No gate advancement.
+
+
+## 2026-10-04 — E118 IV solver performance correction
+- The complete G6 option sample is too large for practical serial IV solving in CI.
+- Since each Brent root is independent, developer switched the existing deterministic root loop to Numba `prange` parallel execution.
+- No approximation or sampling shortcut was introduced.
