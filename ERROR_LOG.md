@@ -596,3 +596,11 @@
 - Phase 2 workflow was updated only to include the E157 execution branch and explicitly run `test_phase2_e150_impact_scan.py` alongside the contract-master chronology suite before the pinned-source impact scan.
 - GitHub reports zero Actions runs and zero published statuses for the exact execution SHA. The available connector exposes workflow-run reads/re-runs but no workflow-dispatch operation. Direct repository clone/execution from the model runtime also fails because external DNS/network access is unavailable.
 - **Resolution/control:** no previous artifact is reused, no zero-impact result is asserted, and no production P&L/profitability inference is made. The exact execution SHA is handed to a fresh independent tester gate; CI execution remains a hard prerequisite for immutable quantitative evidence.
+
+
+### E159 — contract-master aware-expiry normalization and incomplete test fixtures (2026-10-04)
+- **Severity:** MATERIAL TEST/GATE DEFECT; production remained blocked and no scenario results were generated from the failed run.
+- Fresh exact-head CI run `37210327594` on execution lineage exposed five failures in `test_phase2_contract_master.py`.
+- Root causes: `execution_intervals_for_date()` unconditionally called `tz_localize()` on an already-aware expiry; two regression fixtures omitted required `study_data_end` and therefore raised `KeyError` before exercising chronology behavior.
+- Resolution: normalize expiry as Asia/Kolkata by localizing naive values and converting aware values; add the required study horizon to both fixtures.
+- The failed run is retained as immutable negative evidence. A fresh exact-head run is required; no downstream impact scan or production scenario was allowed to execute.
