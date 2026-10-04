@@ -528,3 +528,9 @@ User explicitly required automatic handover to the tester branch and instructed 
 - Inspection showed the corrected cache/provenance implementation still used a broad 24000–27900 scan with 20 workers and 10-second timeouts; this could consume an excessive CI window.
 - Developer tightened the scan to 24000–28500, 100 workers, 3-second timeouts, preserving fail-closed behavior and all provenance/no-lookahead rules.
 - The run `37171349785` is not a gate result. A fresh exact-head run is required, followed by automatic isolated tester handover.
+
+
+## 2026-10-04 — E106 automatic continuation
+- Developer continued after E105 without treating the prolonged RBI acquisition as a gate result.
+- The RBI collector was corrected to bootstrap from known official WSS candidates before fallback discovery; no research acceptance criteria were weakened.
+- Exact-head workflow revalidation was attempted by a workflow-file trigger commit, but the available GitHub connector reported zero workflow runs for the corrected commits. G6 remains OPEN and no phase advancement occurred.
