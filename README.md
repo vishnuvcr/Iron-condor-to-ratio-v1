@@ -483,3 +483,10 @@ The 32-shard exhaustive scan completed without shard failures, but developer aud
 - A formal conditional-acceptance proposal is now recorded at `research/G6_CONDITIONAL_ACCEPTANCE_PROPOSAL_20261004.md`.
 - Independent tester branch `tester/phase-1-g6-conditional-acceptance-20261004` was created from developer remediation SHA `e9d319e7f2e902f77696fc4dbd029fa93cbbce7f`.
 - **G6 remains FAIL/OPEN pending the tester verdict; G13/G14 and Phase 2 remain blocked.** No stale artifact is being silently upgraded to a full PASS.
+
+
+## 2026-10-04 — Research progression waiver and Phase 2
+
+The project owner accepted the historical G6 aggregate for research progression with deferred audit. G6 D1–D3 remain explicit limitations and are not retroactively claimed as satisfied. Intermediate evidence-completeness gates may be audited at milestone/final review, while material mathematical, look-ahead, data-quality, cost/slippage, logical and reproducibility failures remain blocking.
+
+Phase 2 deterministic engine work is now active. [Research plan](RESEARCH_PLAN.md) · [Status](RESEARCH_STATUS.md) · [Tester handoff](research/TESTER_HANDOFF.md) · [Literature review](research/LITERATURE_REVIEW.md) · [Error log](ERROR_LOG.md).
