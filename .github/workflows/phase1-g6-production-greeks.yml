@@ -200,3 +200,5 @@ jobs:
 # E129 final exact-head trigger after failure-evidence correction.
 
 # E130 final exact-head trigger after checksum-helper correction.
+
+# E132 exact-head trigger after E131 documentation synchronization.
