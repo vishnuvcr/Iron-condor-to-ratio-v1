@@ -1,7 +1,7 @@
 name: Phase 2 Production Backtest
 
 concurrency:
-  group: phase2-production-${github.ref}
+  group: phase2-production-${{github.ref}
   cancel-in-progress: true
 
 on:
@@ -51,16 +51,16 @@ jobs:
     runs-on: ubuntu-latest
     permissions: {contents: read}
     env:
-      HF_TOKEN: ${secrets.HF_TOKEN}
+      HF_TOKEN: ${{secrets.HF_TOKEN}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha}
+          ref: ${{inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha}
       - name: Assert immutable checkout
         run: |
           set -euo pipefail
           actual="$(git rev-parse HEAD)"
-          expected="${inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha}"
+          expected="${{inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha}"
           test -z "$expected" || test "$actual" = "$expected"
       - uses: actions/setup-python@v5
         with:
@@ -73,7 +73,7 @@ jobs:
             data/raw/index
             data/raw/options/NIFTY
             data/processed/g6
-          key: g6-rq-20261004-${hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','scripts/acquire_g6_nifty_underlying.py','scripts/acquire_g6_nifty_options.py','data/manifests/phase1_control_sources.json')}
+          key: g6-rq-20261004-${{hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','scripts/acquire_g6_nifty_underlying.py','scripts/acquire_g6_nifty_options.py','data/manifests/phase1_control_sources.json')}
           restore-keys: |
             g6-rq-20261004-
       - name: Install dependencies
@@ -123,7 +123,7 @@ jobs:
             data/raw/contracts
             data/processed/g6
             data/processed/phase2/options
-          key: phase2-normalized-${hashFiles('scripts/prepare_phase2_normalized_data.py','scripts/phase1_g6_production_greeks.py','data/manifests/phase1_control_sources.json','data/manifests/phase1_session_rules.json')}
+          key: phase2-normalized-${{hashFiles('scripts/prepare_phase2_normalized_data.py','scripts/phase1_g6_production_greeks.py','data/manifests/phase1_control_sources.json','data/manifests/phase1_session_rules.json')}
       - name: Upload normalization manifest
         uses: actions/upload-artifact@v4
         with:
@@ -141,7 +141,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha}
+          ref: ${{inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -156,21 +156,21 @@ jobs:
             data/raw/contracts
             data/processed/g6
             data/processed/phase2/options
-          key: phase2-normalized-${hashFiles('scripts/prepare_phase2_normalized_data.py','scripts/phase1_g6_production_greeks.py','data/manifests/phase1_control_sources.json','data/manifests/phase1_session_rules.json')}
+          key: phase2-normalized-${{hashFiles('scripts/prepare_phase2_normalized_data.py','scripts/phase1_g6_production_greeks.py','data/manifests/phase1_control_sources.json','data/manifests/phase1_session_rules.json')}
           restore-keys: |
             phase2-normalized-
       - name: Validate contract master again
         run: python scripts/validate_phase2_contract_master.py
       - name: Run cycle backtest
         run: |
-          mkdir -p data/results/phase2/slippage-${matrix.slippage_bps}bps
-          python scripts/phase2_run_cycles.py             --normalized-root data/processed/phase2/options             --costs data/costs/phase2_cost_schedule_legacy_pre2022.json             --slippage-bps ${matrix.slippage_bps}             --output data/results/phase2/slippage-${matrix.slippage_bps}bps
+          mkdir -p data/results/phase2/slippage-${{matrix.slippage_bps}bps
+          python scripts/phase2_run_cycles.py             --normalized-root data/processed/phase2/options             --costs data/costs/phase2_cost_schedule_legacy_pre2022.json             --slippage-bps ${{matrix.slippage_bps}             --output data/results/phase2/slippage-${{matrix.slippage_bps}bps
       - name: Upload result artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: phase2-backtest-${matrix.slippage_bps}bps
-          path: data/results/phase2/slippage-${matrix.slippage_bps}bps
+          name: phase2-backtest-${{matrix.slippage_bps}bps
+          path: data/results/phase2/slippage-${{matrix.slippage_bps}bps
           retention-days: 30
 
   analysis:
@@ -180,7 +180,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${ inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }
+          ref: ${{ inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
