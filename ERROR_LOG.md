@@ -529,3 +529,10 @@
 - Implemented a deterministic monthly contract-master reconstruction with raw-source hashes, expiry-day controls, lifecycle fields, lot size, tick size and provenance.
 - This does not claim recovery of original NSE member-file bytes; that distinction is mandatory in the manuscript.
 - **Status:** candidate production input pending independent audit and successful CI execution.
+
+### E149 — exact-head Phase 2 Actions run not observable (2026-10-04)
+- **Severity:** EXECUTION-ENVIRONMENT LIMITATION.
+- Developer head 9e08a2882715b144cfe815f3c7d1382e848c9d18 has no workflow run exposed by the available GitHub connector.
+- The corrected workflow contains push, pull-request and manual-dispatch paths, but this environment cannot invoke workflow_dispatch directly.
+- No prior artifact is reused as fresh evidence.
+- **Status:** production execution pending externally observable exact-head CI; no scientific result is claimed.
