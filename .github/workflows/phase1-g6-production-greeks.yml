@@ -52,7 +52,7 @@ jobs:
           restore-keys: |
             g6-rq-20261004-
       - name: Install production dependencies
-        run: python -m pip install pandas pyarrow numba pytest requests lxml
+        run: python -m pip install pandas pyarrow numba pytest requests lxml openpyxl
       - name: Assert immutable checkout
         run: |
           set -euo pipefail
