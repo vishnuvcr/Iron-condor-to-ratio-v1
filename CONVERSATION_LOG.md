@@ -540,3 +540,10 @@ User explicitly required automatic handover to the tester branch and instructed 
 - Developer handed exact head b75e64d3f6caf9f086a0c063153ccc6315aa5c5 to isolated tester branch tester/phase-1-g6-reaudit-e106-20261004.
 - Tester independently verified E106 source controls but returned **G6 FAIL/OPEN** because zero Actions runs are exposed for the audited head; no exact-head artifact can be accepted.
 - Developer must correct the CI execution/evidence gap and automatically re-handover the corrected exact head. No phase advancement.
+
+
+## 2026-10-04 — E106 structured RBI risk-free source correction
+- Investigation of the acquisition bottleneck found a better official source path: RBI Bulletin Table 26 contains the structured 91-day Government of India Treasury-bill auction history and implicit yield field.
+- The Reserve Bank Innovation Hub repository provides an immutable mirror at commit `0db4ddb88c3119347e809af78c93beb4d1c874d4`; its processor documents the 91-day sheet and `implicit_yield` column.
+- Developer replaced the broad WSS-ID scan with this pinned source, cache/provenance validation, Git blob SHA-1 verification, and conservative auction-date strict-prior semantics.
+- This is a source-methodology correction within G6, not Phase 2 authorization. A fresh exact-head CI run and automatic tester handover remain mandatory.
