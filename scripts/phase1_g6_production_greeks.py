@@ -17,6 +17,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 import subprocess
 from datetime import datetime
 from pathlib import Path
@@ -31,7 +32,11 @@ OPT_ROOT=ROOT/"raw/options/NIFTY"
 UNDERLYING=ROOT/"raw/index/NIFTY.parquet"
 R_PATH=ROOT/"processed/g6/risk_free.csv"
 Q_PATH=ROOT/"processed/g6/dividend_yield.csv"
-OUT=ROOT/"validation/phase1_g6_production_greeks_report.json"
+SHARD_INDEX=int(os.environ.get("G6_SHARD_INDEX","0"))
+SHARD_COUNT=int(os.environ.get("G6_SHARD_COUNT","1"))
+if SHARD_COUNT < 1 or SHARD_INDEX < 0 or SHARD_INDEX >= SHARD_COUNT:
+    raise ValueError(f"INVALID_G6_SHARD_CONFIG:{SHARD_INDEX}:{SHARD_COUNT}")
+OUT=ROOT/"validation"/f"phase1_g6_production_greeks_shard_{SHARD_INDEX:02d}.json"
 STUDY_START=pd.Timestamp("2021-01-01")
 STUDY_END=pd.Timestamp("2026-09-30")
 EXPIRY_CLOSE_HOUR=15
