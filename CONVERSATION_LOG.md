@@ -661,3 +661,10 @@ Developer completed and hardened the Phase 2 deterministic engine, static IC ben
 ## 2026-10-04 — E146/E147 remediation and contract reconstruction
 
 Tester identified malformed Actions interpolation and artifact-name mismatch. Developer rewrote and inspected the workflow, corrected both defects, added five-scenario fail-closed analysis checks, and added deterministic monthly NIFTY contract-master reconstruction using official NSE lot-size chronology and pinned expiry-partitioned option data. No production result is claimed.
+
+
+## 2026-10-04 — User-authorized E150 lenient continuation
+
+Tester identified E150: expiry_close_ts could be extended by post-session observations in the reconstructed contract master. User authorized a narrower remediation path: fix E150, add a regression test, do not rerun the full five-scenario historical backtest yet, continue research/statistical/manuscript work without treating existing P&L as final, and perform a consolidated final audit including E150 impact.
+
+Developer corrected the contract-master builder and added the 15:30/15:31 regression test. No production result is relabelled or finalized. If the final audit finds material E150 sensitivity, affected production scenarios must be rerun before the final profitability/trading-strategy conclusion.
