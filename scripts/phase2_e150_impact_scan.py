@@ -183,7 +183,7 @@ def main() -> None:
         "special_gap_affected_groups": sum(1 for x in affected if x["gap_candidate_count"] > 0),
         "max_extension_seconds": max((x["extension_seconds"] for x in affected if x["extension_seconds"] is not None), default=0.0),
         "examples": affected[:20],
-        "interpretation": "Zero affected groups supports a non-material E150/E151 chronology assessment at the contract-close layer. Any changed, old-only, or corrected-only group is affected and requires affected production scenario reruns before final profitability inference.",
+        "interpretation": "E150 materiality is assessed against the original defective latest-raw expiry-day close. Any original-vs-corrected change, original-only, or corrected-only group is affected and requires production scenario reruns before final inference. Intermediate pre-E151 differences are separately reported for E151 diagnostics.",
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(result, indent=2))
