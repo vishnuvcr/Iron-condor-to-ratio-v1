@@ -116,3 +116,14 @@ def test_naive_timestamps_are_interpreted_as_ist():
     out = normalize_bars(df)
     assert str(out.loc[0, "timestamp"]) == "2025-10-01 09:15:00+05:30"
     assert str(out.loc[0, "expiry_close_ts"].utcoffset()) == "5:30:00"
+
+
+def test_static_ic_mode_never_transitions():
+    engine=BacktestEngine(
+        fixture(),
+        cost_schedule(),
+        EngineConfig(entry_min_dte_days=1,slippage_bps=0,enable_transitions=False),
+    )
+    result=engine.run()
+    assert (result["events"]["event_type"]=="ENTER_IRON_CONDOR").any()
+    assert not (result["events"]["event_type"]=="TRANSITION_TO_RATIO").any()
