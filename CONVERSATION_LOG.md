@@ -677,3 +677,10 @@ Tester confirmed E150's ordinary 15:30/15:31 fix but found E151: disjoint specia
 Developer remediation: contract expiry timestamps now require explicit membership in an allowed execution interval; a 10:30 gap regression was added for the 2024-03-02 two-session session. Contract-master study horizon is derived from the session manifest. A batch-safe E150/E151 impact scan is integrated into the production workflow.
 
 The impact scan must establish whether corrected expiry timing affects any contract groups. No production result is finalized until that question is independently closed.
+
+
+## 2026-10-04 — E151 remediation after independent tester audit
+
+Tester identified E151: the E150 helper could accept observations in gaps between disjoint special-session intervals, and the contract builder extended to 2026-09-30 despite the session-rule evidence horizon ending 2026-07-02.
+
+Developer corrected interval membership, aligned the contract-master horizon to the documented evidence horizon, added regression tests, and added an old-vs-corrected E150/E151 impact scan to the production workflow. The workflow fails closed if affected contract groups are detected. Final profitability remains locked pending independent tester verification and quantitative impact closure.
