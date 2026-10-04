@@ -97,3 +97,18 @@ Independently verify, without relying on developer assertions:
 9. do not issue final profitability/trading-strategy acceptance from source inspection alone.
 
 Owner policy: continue under the lenient gate. No existing P&L is final. If E150 is materially outcome-changing, affected production scenarios become mandatory before final conclusion.
+
+
+## E151 remediation audit — developer head 1501165689bf6f879628f34fab1fe787e1759697
+
+Independently verify:
+1. special-session timestamps must belong to an explicit execution interval;
+2. timestamps in disjoint-session gaps are rejected;
+3. dates beyond session_data_end fail closed;
+4. contract-master and E150 impact scan exclude expiries beyond the documented session horizon;
+5. the old-vs-corrected impact scan faithfully reproduces pre-E151 semantics and corrected semantics;
+6. workflow uploads the impact scan and blocks production inference when affected groups exist;
+7. exact SHA/reproducibility and E146–E150 controls remain intact;
+8. if an independently executed impact scan reports affected groups, require affected production scenario reruns before final inference.
+
+No final profitability conclusion is permitted until E150 materiality is quantitatively closed.
