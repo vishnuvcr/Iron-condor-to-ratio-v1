@@ -77,3 +77,11 @@ def test_g6_shard_configuration_is_valid():
     from phase1_g6_production_greeks import SHARD_INDEX, SHARD_COUNT
     assert SHARD_COUNT >= 1
     assert 0 <= SHARD_INDEX < SHARD_COUNT
+
+
+def test_sha256_file_uses_bound_chunk_variable(tmp_path):
+    from phase1_g6_production_greeks import sha256_file
+    p=tmp_path/"x.bin"
+    p.write_bytes(b"abc"*1000)
+    import hashlib
+    assert sha256_file(p)==hashlib.sha256(b"abc"*1000).hexdigest()
