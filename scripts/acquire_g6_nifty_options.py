@@ -6,7 +6,7 @@ import requests
 
 ROOT=Path("data/raw/options/NIFTY")
 MANIFEST=ROOT/"hf_manifest.json"
-API="https://huggingface.co/api/datasets/thetrademarkk/india-index-options-1m/tree/0f4800e/options/NIFTY?recursive=true&expand=true&limit=1000"
+API="https://huggingface.co/api/datasets/thetrademarkk/india-index-options-1m/tree/0f4800e/options/NIFTY?recursive=true"
 BASE="https://huggingface.co/datasets/thetrademarkk/india-index-options-1m/resolve/0f4800e/"
 REVISION="0f4800e"
 
