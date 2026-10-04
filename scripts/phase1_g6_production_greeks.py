@@ -250,60 +250,61 @@ def main():
             cols=pf.schema.names
             miss=REQUIRED_OPT-set(cols)
             if miss: raise RuntimeError("OPTION_SCHEMA_FAILURE:"+",".join(sorted(miss)))
-            df=pd.read_parquet(fp,columns=list(REQUIRED_OPT))
-            counters["option_rows_scanned"]+=len(df)
-            df["timestamp"]=norm_ts(df["timestamp"])
-            df["expiry_close"]=df["expiry"].map(expiry_close)
-            df["strike"]=pd.to_numeric(df["strike"],errors="coerce")
-            df["close"]=pd.to_numeric(df["close"],errors="coerce")
-            df["volume"]=pd.to_numeric(df["volume"],errors="coerce").fillna(0.0)
-            df=df[(df["timestamp"]>=STUDY_START)&(df["timestamp"]<STUDY_END+pd.Timedelta(days=1))]
-            counters["option_rows_study_window"]+=len(df)
-            if df.empty: continue
-            df=df.merge(udf,on="timestamp",how="left",validate="many_to_one")
-            counters["underlying_exact_match"]+=int(df["underlying"].notna().sum())
-            counters["underlying_missing"]+=int(df["underlying"].isna().sum())
-            dates=df["timestamp"].dt.normalize().astype(str)
-            df["r"]=dates.map(day_to_r); df["q"]=dates.map(day_to_q)
-            counters["r_missing"]+=int(df["r"].isna().sum()); counters["q_missing"]+=int(df["q"].isna().sum())
-            df["t"]=(df["expiry_close"]-df["timestamp"]).dt.total_seconds()/31557600.0
-            kind=np.where(df["option_type"].astype(str).str.upper().isin(["CE","CALL","C"]),1,2)
-            valid=(df["underlying"].notna()&df["r"].notna()&df["q"].notna()&df["t"].notna()&
-                   (df["t"]>0)&df["strike"].gt(0)&df["underlying"].gt(0)&df["close"].gt(0))
-            counters["invalid_model_input"]+=int((~valid).sum())
-            arr=df.loc[valid,["underlying","strike","t","r","q","close"]].astype(float)
-            if len(arr):
-                iv,it,res,code=solve_iv_arrays(arr["underlying"].to_numpy(),arr["strike"].to_numpy(),arr["t"].to_numpy(),
-                                               arr["r"].to_numpy(),arr["q"].to_numpy(),arr["close"].to_numpy(),
-                                               kind[valid.to_numpy()])
-                counters["nonpositive_premium"]+=int((code==2).sum())
-                counters["no_arbitrage_rejection"]+=int((code==3).sum())
-                counters["bracket_failure"]+=int((code==4).sum())
-                counters["non_convergence"]+=int((code==5).sum())
-                counters["iv_converged"]+=int((code==6).sum())
-                good=code==6
-                if good.any():
-                    gd=df.loc[valid].iloc[np.flatnonzero(good)].copy()
-                    gd["iv"]=iv[good]
-                    gd["signed_delta"]=bs_delta_arrays(gd["underlying"].to_numpy(dtype=float),gd["strike"].to_numpy(dtype=float),
-                                                          gd["t"].to_numpy(dtype=float),gd["r"].to_numpy(dtype=float),
-                                                          gd["q"].to_numpy(dtype=float),gd["iv"].to_numpy(dtype=float),
-                                                          kind[valid.to_numpy()][good])
-                    gd["abs_delta"]=gd["signed_delta"].abs()
-                    delta_hist += np.histogram(gd["signed_delta"].clip(-0.999999,0.999999),bins=delta_bins)[0]
-                    abs_hist += np.histogram(gd["abs_delta"].clip(0,0.999999),bins=abs_bins)[0]
-                    iv_hist += np.histogram(gd["iv"].clip(0,2.999999),bins=iv_bins)[0]
-                    for (ts,ex,ot),g in gd.groupby(["timestamp","expiry","option_type"],sort=False):
-                        counters["target_timestamp_groups"]+=1
-                        for target in TARGETS:
-                            g=g.assign(delta_error=(g["abs_delta"]-target).abs(), strike_distance=(g["strike"]-g["underlying"]).abs())
-                            eligible=g[g["delta_error"]<=DELTA_TOL]
-                            if eligible.empty: continue
-                            selected=eligible.sort_values(["delta_error","volume","strike_distance"],ascending=[True,False,True],kind="mergesort").iloc[0]
-                            key=f"target_available_{target:.2f}"
-                            counters[key]+=1
-                            counters["target_selected_records"]+=1
-                            target_errors[f"{target:.2f}"].append(float(selected["delta_error"]))
+            for batch in pf.iter_batches(batch_size=250000,columns=list(REQUIRED_OPT)):
+                df=batch.to_pandas()
+                counters["option_rows_scanned"]+=len(df)
+                df["timestamp"]=norm_ts(df["timestamp"])
+                df["expiry_close"]=df["expiry"].map(expiry_close)
+                df["strike"]=pd.to_numeric(df["strike"],errors="coerce")
+                df["close"]=pd.to_numeric(df["close"],errors="coerce")
+                df["volume"]=pd.to_numeric(df["volume"],errors="coerce").fillna(0.0)
+                df=df[(df["timestamp"]>=STUDY_START)&(df["timestamp"]<STUDY_END+pd.Timedelta(days=1))]
+                counters["option_rows_study_window"]+=len(df)
+                if df.empty: continue
+                df=df.merge(udf,on="timestamp",how="left",validate="many_to_one")
+                counters["underlying_exact_match"]+=int(df["underlying"].notna().sum())
+                counters["underlying_missing"]+=int(df["underlying"].isna().sum())
+                dates=df["timestamp"].dt.normalize().astype(str)
+                df["r"]=dates.map(day_to_r); df["q"]=dates.map(day_to_q)
+                counters["r_missing"]+=int(df["r"].isna().sum()); counters["q_missing"]+=int(df["q"].isna().sum())
+                df["t"]=(df["expiry_close"]-df["timestamp"]).dt.total_seconds()/31557600.0
+                kind=np.where(df["option_type"].astype(str).str.upper().isin(["CE","CALL","C"]),1,2)
+                valid=(df["underlying"].notna()&df["r"].notna()&df["q"].notna()&df["t"].notna()&
+                       (df["t"]>0)&df["strike"].gt(0)&df["underlying"].gt(0)&df["close"].gt(0))
+                counters["invalid_model_input"]+=int((~valid).sum())
+                arr=df.loc[valid,["underlying","strike","t","r","q","close"]].astype(float)
+                if len(arr):
+                    iv,it,res,code=solve_iv_arrays(arr["underlying"].to_numpy(),arr["strike"].to_numpy(),arr["t"].to_numpy(),
+                                                   arr["r"].to_numpy(),arr["q"].to_numpy(),arr["close"].to_numpy(),
+                                                   kind[valid.to_numpy()])
+                    counters["nonpositive_premium"]+=int((code==2).sum())
+                    counters["no_arbitrage_rejection"]+=int((code==3).sum())
+                    counters["bracket_failure"]+=int((code==4).sum())
+                    counters["non_convergence"]+=int((code==5).sum())
+                    counters["iv_converged"]+=int((code==6).sum())
+                    good=code==6
+                    if good.any():
+                        gd=df.loc[valid].iloc[np.flatnonzero(good)].copy()
+                        gd["iv"]=iv[good]
+                        gd["signed_delta"]=bs_delta_arrays(gd["underlying"].to_numpy(dtype=float),gd["strike"].to_numpy(dtype=float),
+                                                              gd["t"].to_numpy(dtype=float),gd["r"].to_numpy(dtype=float),
+                                                              gd["q"].to_numpy(dtype=float),gd["iv"].to_numpy(dtype=float),
+                                                              kind[valid.to_numpy()][good])
+                        gd["abs_delta"]=gd["signed_delta"].abs()
+                        delta_hist += np.histogram(gd["signed_delta"].clip(-0.999999,0.999999),bins=delta_bins)[0]
+                        abs_hist += np.histogram(gd["abs_delta"].clip(0,0.999999),bins=abs_bins)[0]
+                        iv_hist += np.histogram(gd["iv"].clip(0,2.999999),bins=iv_bins)[0]
+                        for (ts,ex,ot),g in gd.groupby(["timestamp","expiry","option_type"],sort=False):
+                            counters["target_timestamp_groups"]+=1
+                            for target in TARGETS:
+                                g=g.assign(delta_error=(g["abs_delta"]-target).abs(), strike_distance=(g["strike"]-g["underlying"]).abs())
+                                eligible=g[g["delta_error"]<=DELTA_TOL]
+                                if eligible.empty: continue
+                                selected=eligible.sort_values(["delta_error","volume","strike_distance"],ascending=[True,False,True],kind="mergesort").iloc[0]
+                                key=f"target_available_{target:.2f}"
+                                counters[key]+=1
+                                counters["target_selected_records"]+=1
+                                target_errors[f"{target:.2f}"].append(float(selected["delta_error"]))
         report["diagnostics"]=counters
         report["target_error_summary"]={k:({"count":len(v),"max_error":max(v),"mean_error":float(np.mean(v))} if v else {"count":0})
                                         for k,v in target_errors.items()}
