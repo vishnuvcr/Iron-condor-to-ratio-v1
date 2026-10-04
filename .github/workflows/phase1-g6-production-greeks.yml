@@ -118,3 +118,5 @@ jobs:
 # E107 exact-head revalidation trigger: diagnose pinned RBI Bulletin blob mismatch.
 
 # E108 exact-head revalidation trigger: corrected Git blob verifier.
+
+# E109 exact-head revalidation trigger: NaT-safe RBI Bulletin parser.
