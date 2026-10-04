@@ -507,3 +507,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - The RBI collector now tries the four independently identified official WSS IDs first, using their immutable expected SHA-256 provenance, and invokes the wide archive scan only if those candidates produce no rows.
 - This is an execution-performance correction only. G6 remains FAIL/OPEN because the corrected head still requires fresh CI evidence and independent tester approval. G5 remains FAIL/WAIVED, G9 PASS, G13/G14 and Phase 2 BLOCKED.
 - The workflow was touched to force exact-head revalidation, but the GitHub connector exposed no new workflow run for the corrected commits 5e90927245283c865c9a9a187fb9a3ec43e52dcd or 68c572e471b78009640d0e3aa3717d6a5d899e01; no CI success is inferred.
+
+
+## 2026-10-04 — Tester PR #48 / E107
+- Fresh isolated tester branch tester/phase-1-g6-reaudit-e106-20261004 independently audited developer head b75e64d3f6caf9f086a0c063153ccc6315aa5c5.
+- Tester found E106 code-level controls PASS on inspection, but exact-head Actions evidence absent; **G6 = FAIL/OPEN**.
+- G5 remains FAIL/WAIVED FOR CONTINUED RESEARCH; G9 PASS; G13/G14 and Phase 2 BLOCKED. Tester requires observable exact-head CI/artifact evidence and fresh re-handover after correction.
