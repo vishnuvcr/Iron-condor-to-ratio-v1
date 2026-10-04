@@ -75,13 +75,6 @@ def test_costs_are_required():
     result=engine.run()
     assert (result["events"]["execution_status"]=="FAILED_INCOMPLETE_EXECUTION").any()
 
-if __name__=="__main__":
-    for fn in [test_slippage_floor_and_rejection,test_engine_enters_ic_and_transitions,
-               test_missing_next_bar_fails_group_without_partial_fill,test_costs_are_required,test_transition_missing_target_is_consumed]:
-        fn()
-    print("phase2 engine tests passed")
-
-
 def test_transition_missing_target_is_consumed():
     df=fixture()
     t1=pd.Timestamp("2025-10-01 09:16:00",tz="Asia/Kolkata")
@@ -93,3 +86,20 @@ def test_transition_missing_target_is_consumed():
     assert tr["execution_status"]=="FAILED_INCOMPLETE_EXECUTION"
     assert tr["trigger_consumed"]
     assert tr["post_state"]=="IRON_CONDOR"
+def test_transition_missing_target_is_consumed():
+    df=fixture()
+    t1=pd.Timestamp("2025-10-01 09:16:00",tz="Asia/Kolkata")
+    bad=(df["timestamp"]==t1) & (df["option_type"]=="CE") & df["strike"].isin([20000,20500,22000])
+    df=df[~bad]
+    engine=BacktestEngine(df,cost_schedule(),EngineConfig(entry_min_dte_days=1,slippage_bps=0))
+    result=engine.run()
+    tr=result["events"][result["events"]["event_type"]=="TRANSITION_TO_RATIO"].iloc[0]
+    assert tr["execution_status"]=="FAILED_INCOMPLETE_EXECUTION"
+    assert tr["trigger_consumed"]
+    assert tr["post_state"]=="IRON_CONDOR"
+
+if __name__=="__main__":
+    for fn in [test_slippage_floor_and_rejection,test_engine_enters_ic_and_transitions,
+               test_missing_next_bar_fails_group_without_partial_fill,test_costs_are_required,test_transition_missing_target_is_consumed]:
+        fn()
+    print("phase2 engine tests passed")
