@@ -581,3 +581,11 @@
 - E156: fixed the pandas datetime/date comparison by comparing local calendar dates explicitly.
 - Added source SHA-256 inventory and deterministic report-content hash to the impact artifact.
 - Production inference remains blocked until exact-head CI and independent tester verification are obtained.
+
+
+### E157 — Phase 2 impact-scan aware/naive expiry-day filter (2026-10-04)
+- **Status:** OPEN / remediation required.
+- `scripts/phase2_e150_impact_scan.py` normalizes option timestamps to Asia/Kolkata but leaves the expiry Series timezone-naive, then compares `timestamp.dt.normalize()` directly with `expiry`.
+- Pandas does not treat this as equivalent local-calendar-date equality; an otherwise matching aware timestamp/date pair is filtered out.
+- Consequence: the scan can omit valid expiry-day rows before constructing original/intermediate/corrected chronology states, making any zero-impact result invalid for E150 closure.
+- Required fix: normalize both operands to the same timezone or compare explicit local calendar dates, add vectorized-filter regression coverage, rerun the impact scan, and obtain exact-head CI evidence.
