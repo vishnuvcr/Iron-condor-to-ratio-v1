@@ -37,3 +37,14 @@ if __name__=="__main__":
     ]:
         fn()
     print("phase2 cost schedule unit tests passed")
+
+
+def test_monthly_slab_math():
+    from phase2_backtest_engine import CostSchedule
+    slabs=(
+        {"lower":0,"upper":30_000_000,"flat":2500,"rate":0},
+        {"lower":30_000_000,"upper":1_000_000_000,"flat":0,"rate":0.0005},
+        {"lower":1_000_000_000,"upper":7_500_000_000,"flat":0,"rate":0.000475},
+    )
+    assert CostSchedule._monthly_slab_charge(20_000_000,slabs) == 2500
+    assert abs(CostSchedule._monthly_slab_charge(50_000_000,slabs) - (2500 + 20_000_000*0.0005)) < 1e-9
