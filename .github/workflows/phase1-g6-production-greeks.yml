@@ -107,3 +107,5 @@ jobs:
           name: phase1-g6-production-greeks
           path: data/validation/phase1_g6_production_greeks_report.json
           retention-days: 30
+
+# E104 exact-head revalidation trigger: cache/provenance and no-lookahead corrections.
