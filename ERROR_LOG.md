@@ -379,3 +379,11 @@
 - Incremental E123/E124 commits produced multiple queued G6 runs.
 - Added GitHub Actions concurrency with `cancel-in-progress: true` per branch so only the latest developer head can remain authoritative.
 - Superseded runs are not eligible for tester evidence.
+
+
+### E126 — G6 shard timeout at 30 minutes (2026-10-04)
+- **Status:** CORRECTED; fresh exact-head validation required.
+- Exact-head run 37180326783 demonstrated shard 3 exhaustively scanning for 30 minutes before timeout, with the log confirming the production Python process was terminated at the 30-minute limit.
+- The shard held roughly one-eighth of the full option population, so the calculation did not complete within the bounded wall-clock budget.
+- No rows are to be sampled, skipped, interpolated, or mathematically simplified to hide the runtime issue.
+- Increased exhaustive file-index partitioning from 8 to 32 shards while retaining the same production solver, row traversal, exact timestamp joins, and aggregation logic.
