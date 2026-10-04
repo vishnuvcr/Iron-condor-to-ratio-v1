@@ -496,3 +496,10 @@
 - Direct container/network retrieval of the pinned Hugging Face parquet file failed because the model-side runtime has no external DNS/network access.
 - The repository workflow retains the pinned Hugging Face acquisition path, cache-first restoration and immutable source-revision controls.
 - No external data were fabricated or substituted as a consequence of this failure.
+
+### E144 — inclusive minimum-DTE boundary mismatch (2026-10-04)
+- **Severity:** MINOR LOGIC/SPECIFICATION MISMATCH; corrected before production run.
+- The written rule specified an expiry at least 20 calendar days from entry, while the first implementation used a strict greater-than comparison.
+- Corrected both the engine and cycle scheduler to use an inclusive 20-day boundary.
+- Added a regression test at exactly 20 days.
+- **Outcome:** no production result used the prior strict-boundary implementation.
