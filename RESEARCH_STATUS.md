@@ -513,3 +513,11 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Fresh isolated tester branch tester/phase-1-g6-reaudit-e106-20261004 independently audited developer head b75e64d3f6caf9f086a0c063153ccc6315aa5c5.
 - Tester found E106 code-level controls PASS on inspection, but exact-head Actions evidence absent; **G6 = FAIL/OPEN**.
 - G5 remains FAIL/WAIVED FOR CONTINUED RESEARCH; G9 PASS; G13/G14 and Phase 2 BLOCKED. Tester requires observable exact-head CI/artifact evidence and fresh re-handover after correction.
+
+
+## 2026-10-04 — E106 G6 risk-free source architecture correction
+- The stalled WSS-ID acquisition was replaced with the structured RBI Bulletin Table 26 91-day T-bill auction series.
+- Production source is pinned to Reserve Bank Innovation Hub commit `0db4ddb88c3119347e809af78c93beb4d1c874d4`, blob SHA-1 `ff603b132a2aa2aee8b1bc08d0d1e68879af2ea7`.
+- The workflow now installs `openpyxl`; source bytes are cache-validated and Git-blob-hash validated before reuse.
+- The RBI WSS series remains a secondary reconciliation/control source, not a silent fallback.
+- G6 remains FAIL/OPEN pending fresh exact-head CI and independent tester re-audit. G5 remains FAIL/WAIVED; G9 PASS; G13/G14 and Phase 2 BLOCKED.
