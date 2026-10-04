@@ -330,3 +330,5 @@ def main():
 
 if __name__=="__main__":
     main()
+
+# E121 exact-head revalidation trigger: corrected G6 shard environment and evidence output.
