@@ -127,3 +127,5 @@ jobs:
 # E108 exact-head revalidation trigger: corrected Git blob verifier.
 
 # E109 exact-head revalidation trigger: NaT-safe RBI Bulletin parser.
+
+# E111 exact-head revalidation trigger: pinned NIFTY underlying materialization.
