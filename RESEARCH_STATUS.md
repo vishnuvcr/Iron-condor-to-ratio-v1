@@ -650,3 +650,9 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - SHA-256 helper corrected and regression coverage added.
 - G6 remains OPEN; Phase 2 remains BLOCKED.
 - Next automatic run from the corrected developer head is the only candidate for tester handover.
+
+
+### E131 status — G6 aggregation alignment
+- The 32 exhaustive shards completed successfully on the preceding head, but that head is non-authoritative because the aggregate job was still configured for 8 shards.
+- E131 corrected the aggregate configuration to 32.
+- A fresh exact-head run is mandatory before tester handover.
