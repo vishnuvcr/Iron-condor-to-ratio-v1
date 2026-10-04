@@ -334,3 +334,6 @@
 
 
 | E118 | 2026-10-04 | 1 / G6 | Full-sample G6 production scan remained computationally slow because the Brent IV solver evaluated independent roots serially for every valid option row. | Serial execution made the 77M-row-scale historical option evidence impractical within the bounded CI window. | Changed the IV solver to Numba `prange` parallel execution. Each row remains solved by the identical Brent algorithm, bounds, tolerance, and rejection rules; only independent execution order is parallelized. |
+
+
+| E119 | 2026-10-04 | 1 / G6 | Full exact production reconstruction remained too slow/memory-heavy when each option parquet file was loaded as one pandas frame. | Whole-file loading created large transient frames and prevented controlled progress without changing the mathematical sample. | Changed the production loop to process every parquet file in exact 250,000-row Arrow batches. All rows remain included; no sampling, filtering of decision rows, or mathematical shortcut was introduced. Counters and target-selection logic run identically per batch. |
