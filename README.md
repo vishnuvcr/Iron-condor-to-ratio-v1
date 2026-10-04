@@ -405,3 +405,7 @@ G6 production risk-free acquisition has been redesigned around RBI Bulletin Tabl
 
 ## 2026-10-04 — E107/E108 source-verifier correction
 The first RBI Bulletin provenance validation failed because the Git blob verifier itself encoded the header incorrectly. The developer corrected the NUL-byte construction and verified the committed source line directly. The pinned RBI Bulletin commit/blob identity is unchanged. G6 remains OPEN/FAIL pending fresh exact-head CI and independent tester re-audit; no gate was advanced.
+
+
+## 2026-10-04 — E109 RBI Bulletin parser correction
+Immutable RBI Bulletin provenance validation passed, after which CI exposed a blank-cell/`NaT` parser edge case. The date parser was hardened to coerce invalid cells to missing and skip them. G6 remains OPEN/FAIL pending fresh exact-head CI and independent tester re-audit.
