@@ -278,6 +278,11 @@ def choose_expiry(
     decision_ts: pd.Timestamp,
     min_dte_days: int,
 ) -> Optional[pd.Timestamp]:
+    """Select the nearest expiry that is the latest listed expiry in its month.
+
+    This operationalizes "monthly" without projecting the historical weekday
+    convention backward. The raw contract expiry field remains authoritative.
+    """
     cutoff = decision_ts.normalize() + pd.Timedelta(days=min_dte_days)
     candidates = (
         snapshot[
@@ -288,7 +293,17 @@ def choose_expiry(
         .drop_duplicates()
         .sort_values()
     )
-    return candidates.iloc[0] if not candidates.empty else None
+    if candidates.empty:
+        return None
+    frame = pd.DataFrame({"expiry": candidates})
+    frame["year"] = frame["expiry"].dt.year
+    frame["month"] = frame["expiry"].dt.month
+    monthly = (
+        frame.groupby(["year", "month"], as_index=False)["expiry"]
+        .max()
+        .sort_values("expiry")
+    )
+    return monthly.iloc[0]["expiry"] if not monthly.empty else None
 
 
 def adverse_fill(
