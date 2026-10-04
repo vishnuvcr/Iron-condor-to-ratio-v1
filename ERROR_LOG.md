@@ -292,3 +292,9 @@
 - The corrected RBI acquisition still used a broad archive scan before leveraging the four independently identified official WSS IDs with immutable expected SHA-256 values.
 - This created unnecessary runtime exposure after E105. The acquisition was changed to try the known official IDs first and retain the 24,000–27,900 scan only as fallback discovery.
 - No acceptance criterion, provenance rule, target-series rule, duplicate rule, or no-lookahead rule was relaxed. Fresh exact-head CI is required.
+
+
+## 2026-10-04 — E107 exact-head CI trigger/evidence gap
+- After E106, the available GitHub connector exposed no workflow-dispatch operation and reported zero workflow runs for corrected commits 5e90927245283c865c9a9a187fb9a3ec43e52dcd and 68c572e471b78009640d0e3aa3717d6a5d899e01.
+- Tester PR #48 independently confirmed G6 FAIL/OPEN because exact-head Actions/artifact evidence is absent.
+- Resolution: retain G6 FAIL/OPEN, do not substitute the prior run, and require an observable exact-head CI execution before any gate advancement.
