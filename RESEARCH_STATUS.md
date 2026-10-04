@@ -612,3 +612,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - G6 remains **OPEN / IN PROGRESS**.
 - E120 exhaustive sharding failed immediately due to missing shard-variable definitions; no production rows were processed in that failed scan.
 - E121 corrected the configuration/output path. Next action is exact-head CI revalidation, followed by fresh independent tester handover only after a complete aggregated artifact succeeds.
+
+
+## 2026-10-04 — E122 status
+- G6 remains **OPEN / IN PROGRESS**.
+- E121 corrected the shard-variable defect and launched eight exhaustive scans.
+- E122 records prolonged CI shard runtime saturation; the exact-head run is queued and no evidence has been accepted.
+- Phase 2 remains blocked; no tester gate has been advanced.
