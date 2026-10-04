@@ -65,6 +65,7 @@ def main() -> None:
             df = df[
                 df["timestamp"].between(study_start, study_end)
                 & df["expiry"].notna()
+                & (df["expiry"] <= pd.Timestamp(rules["study_data_end"]).date())
                 & df["strike"].notna()
                 & df["option_type"].isin(["CE", "PE"])
                 & (df["timestamp"].dt.normalize() == df["expiry"])
