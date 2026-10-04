@@ -3,10 +3,11 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import dataclass, asdict
-from datetime import date, datetime, time, timedelta
-from pathlib import Path
+import subprocess
 from bisect import bisect_right
+from dataclasses import asdict, dataclass
+from datetime import date
+from pathlib import Path
 from typing import Iterable, Optional
 
 import numpy as np
@@ -15,8 +16,9 @@ import pandas as pd
 REQUIRED_COLUMNS = {
     "timestamp", "expiry", "strike", "option_type", "open", "close", "volume",
     "underlying", "abs_delta", "tick_size", "lot_size",
-    "session_eligible", "execution_eligible",
+    "session_eligible", "execution_eligible", "expiry_close_ts",
 }
+
 
 @dataclass(frozen=True)
 class EngineConfig:
@@ -35,6 +37,7 @@ class EngineConfig:
     slippage_bps: float = 10.0
     force_close_minutes_before_expiry: int = 1
 
+
 @dataclass(frozen=True)
 class LegIntent:
     contract_id: str
@@ -44,6 +47,7 @@ class LegIntent:
     expiry: str
     option_type: str
     expiry_close_ts: str
+
 
 @dataclass(frozen=True)
 class Fill:
@@ -61,6 +65,7 @@ class Fill:
     premium_turnover: float
     status: str
 
+
 @dataclass(frozen=True)
 class Charge:
     order_group_id: str
@@ -71,6 +76,7 @@ class Charge:
     basis: float
     rate: float
     fixed: float
+
 
 @dataclass(frozen=True)
 class Event:
@@ -85,6 +91,7 @@ class Event:
     retry_eligible_after_rearm: bool
     reason: str
 
+
 @dataclass(frozen=True)
 class ChargeRule:
     charge_type: str
@@ -97,13 +104,16 @@ class ChargeRule:
     taxable: bool = False
 
     def applies(self, d: date, side: str) -> bool:
-        if d < self.effective_from:
-            return False
-        if self.effective_to is not None and d >= self.effective_to:
-            return False
-        return self.side == "ALL" or self.side == side
+        return (
+            self.effective_from <= d
+            and (self.effective_to is None or d < self.effective_to)
+            and (self.side == "ALL" or self.side == side)
+        )
+
 
 class CostSchedule:
+    REQUIRED_CHARGES = ("BROKERAGE", "NSE_TRANSACTION", "IPFT", "SEBI", "STT", "STAMP_DUTY")
+
     def __init__(self, rules: Iterable[ChargeRule], gst_rate: float = 0.18):
         self.rules = list(rules)
         self.gst_rate = float(gst_rate)
@@ -111,90 +121,225 @@ class CostSchedule:
     @staticmethod
     def from_json(path: Path) -> "CostSchedule":
         raw = json.loads(path.read_text())
-        rules = []
-        for row in raw["rules"]:
-            rules.append(
-                ChargeRule(
-                    charge_type=row["charge_type"],
-                    effective_from=date.fromisoformat(row["effective_from"]),
-                    effective_to=(
-                        date.fromisoformat(row["effective_to"])
-                        if row.get("effective_to") else None
-                    ),
-                    fixed_per_order=float(row.get("fixed_per_order", 0.0)),
-                    rate=float(row.get("rate", 0.0)),
-                    basis=row.get("basis", "turnover"),
-                    side=row.get("side", "ALL"),
-                    taxable=bool(row.get("taxable", False)),
-                )
+        rules = [
+            ChargeRule(
+                charge_type=row["charge_type"],
+                effective_from=date.fromisoformat(row["effective_from"]),
+                effective_to=date.fromisoformat(row["effective_to"]) if row.get("effective_to") else None,
+                fixed_per_order=float(row.get("fixed_per_order", 0.0)),
+                rate=float(row.get("rate", 0.0)),
+                basis=row.get("basis", "turnover"),
+                side=row.get("side", "ALL"),
+                taxable=bool(row.get("taxable", False)),
             )
+            for row in raw["rules"]
+        ]
         return CostSchedule(rules, gst_rate=float(raw.get("gst_rate", 0.18)))
 
     def _resolve(self, charge_type: str, d: date, side: str) -> ChargeRule:
-        matches = [r for r in self.rules if r.charge_type == charge_type and r.applies(d, side)]
+        matches = [
+            r for r in self.rules
+            if r.charge_type == charge_type and r.applies(d, side)
+        ]
         if len(matches) != 1:
-            raise RuntimeError(f"COST_RULE_RESOLUTION_FAILURE:{charge_type}:{d}:{side}:{len(matches)}")
+            raise RuntimeError(
+                f"COST_RULE_RESOLUTION_FAILURE:{charge_type}:{d}:{side}:{len(matches)}"
+            )
         return matches[0]
 
     def calculate(
-        self, execution_date: date, side: str, turnover: float, order_group_id: str,
-        contract_id: str, brokerage_taxable: float = 0.0
+        self,
+        execution_date: date,
+        side: str,
+        turnover: float,
+        order_group_id: str,
+        contract_id: str,
     ) -> list[Charge]:
-        out: list[Charge] = []
+        charges: list[Charge] = []
         taxable_services = 0.0
-        for charge_type in ["BROKERAGE", "NSE_TRANSACTION", "IPFT", "SEBI"]:
+        for charge_type in ("BROKERAGE", "NSE_TRANSACTION", "IPFT", "SEBI"):
             rule = self._resolve(charge_type, execution_date, side)
             basis = turnover if rule.basis == "turnover" else 1.0
             amount = rule.fixed_per_order + rule.rate * basis
-            out.append(Charge(order_group_id, str(execution_date), contract_id, charge_type, amount, basis, rule.rate, rule.fixed_per_order))
+            charges.append(
+                Charge(
+                    order_group_id, str(execution_date), contract_id, charge_type,
+                    amount, basis, rule.rate, rule.fixed_per_order,
+                )
+            )
             if rule.taxable:
                 taxable_services += amount
-        stt = self._resolve("STT", execution_date, side)
-        stt_basis = turnover if stt.basis == "turnover" else 1.0
-        stt_amount = stt.fixed_per_order + stt.rate * stt_basis
-        out.append(Charge(order_group_id, str(execution_date), contract_id, "STT", stt_amount, stt_basis, stt.rate, stt.fixed_per_order))
-        stamp = self._resolve("STAMP_DUTY", execution_date, side)
-        stamp_basis = turnover if stamp.basis == "turnover" else 1.0
-        stamp_amount = stamp.fixed_per_order + stamp.rate * stamp_basis
-        out.append(Charge(order_group_id, str(execution_date), contract_id, "STAMP_DUTY", stamp_amount, stamp_basis, stamp.rate, stamp.fixed_per_order))
+
+        for charge_type in ("STT", "STAMP_DUTY"):
+            rule = self._resolve(charge_type, execution_date, side)
+            basis = turnover if rule.basis == "turnover" else 1.0
+            amount = rule.fixed_per_order + rule.rate * basis
+            charges.append(
+                Charge(
+                    order_group_id, str(execution_date), contract_id, charge_type,
+                    amount, basis, rule.rate, rule.fixed_per_order,
+                )
+            )
+
         gst_amount = self.gst_rate * taxable_services
-        out.append(Charge(order_group_id, str(execution_date), contract_id, "GST", gst_amount, taxable_services, self.gst_rate, 0.0))
-        return out
+        charges.append(
+            Charge(
+                order_group_id, str(execution_date), contract_id, "GST",
+                gst_amount, taxable_services, self.gst_rate, 0.0,
+            )
+        )
+        return charges
+
+
+def normalize_bars(df: pd.DataFrame) -> pd.DataFrame:
+    out = df.copy()
+    missing = REQUIRED_COLUMNS - set(out.columns)
+    if missing:
+        raise ValueError(f"MISSING_ENGINE_COLUMNS:{sorted(missing)}")
+
+    out["timestamp"] = (
+        pd.to_datetime(out["timestamp"], utc=True, errors="coerce")
+        .dt.tz_convert("Asia/Kolkata")
+    )
+    out["expiry"] = pd.to_datetime(out["expiry"], errors="coerce").dt.normalize()
+    out["expiry_close_ts"] = (
+        pd.to_datetime(out["expiry_close_ts"], utc=True, errors="coerce")
+        .dt.tz_convert("Asia/Kolkata")
+    )
+
+    for col in (
+        "strike", "open", "close", "volume", "underlying",
+        "abs_delta", "tick_size", "lot_size",
+    ):
+        out[col] = pd.to_numeric(out[col], errors="coerce")
+
+    out["option_type"] = (
+        out["option_type"].astype(str).str.upper().str.strip()
+        .replace({"CALL": "CE", "C": "CE", "PUT": "PE", "P": "PE"})
+    )
+    if (~out["option_type"].isin(["CE", "PE"])).any():
+        raise ValueError("INVALID_OPTION_TYPE")
+
+    out["session_eligible"] = out["session_eligible"].astype(bool)
+    out["execution_eligible"] = (
+        out["execution_eligible"].astype(bool) & out["session_eligible"]
+    )
+    if (
+        out["timestamp"].isna().any()
+        or out["expiry"].isna().any()
+        or out["expiry_close_ts"].isna().any()
+    ):
+        raise ValueError("INVALID_TIMESTAMP_OR_EXPIRY_OR_CLOSE")
+
+    return out
+
+
+def build_contract_ids(df: pd.DataFrame) -> pd.Series:
+    return (
+        df["expiry"].dt.strftime("%Y-%m-%d")
+        + "|"
+        + df["strike"].map(lambda x: f"{x:.4f}")
+        + "|"
+        + df["option_type"]
+    )
+
+
+def select_target(
+    snapshot: pd.DataFrame,
+    expiry: pd.Timestamp,
+    option_type: str,
+    target_delta: float,
+    tolerance: float,
+) -> Optional[pd.Series]:
+    g = snapshot[
+        (snapshot["expiry"] == expiry)
+        & (snapshot["option_type"] == option_type)
+        & np.isfinite(snapshot["abs_delta"])
+    ].copy()
+    if g.empty:
+        return None
+
+    g["delta_error"] = (g["abs_delta"] - target_delta).abs()
+    g = g[g["delta_error"] <= tolerance].copy()
+    if g.empty:
+        return None
+
+    g["strike_distance"] = (g["strike"] - g["underlying"]).abs()
+    g["volume"] = g["volume"].fillna(-np.inf)
+    return g.sort_values(
+        ["delta_error", "volume", "strike_distance", "strike"],
+        ascending=[True, False, True, True],
+        kind="mergesort",
+    ).iloc[0]
+
+
+def choose_expiry(
+    snapshot: pd.DataFrame,
+    decision_ts: pd.Timestamp,
+    min_dte_days: int,
+) -> Optional[pd.Timestamp]:
+    cutoff = decision_ts.normalize() + pd.Timedelta(days=min_dte_days)
+    candidates = (
+        snapshot[
+            (snapshot["expiry"] > cutoff)
+            & snapshot["session_eligible"]
+        ]["expiry"]
+        .dropna()
+        .drop_duplicates()
+        .sort_values()
+    )
+    return candidates.iloc[0] if not candidates.empty else None
+
+
+def adverse_fill(
+    base: float,
+    side: str,
+    tick: float,
+    bps: float,
+) -> Optional[float]:
+    if not np.isfinite(base) or not np.isfinite(tick):
+        return None
+    if base <= 0 or tick <= 0 or bps < 0:
+        return None
+    slip = max(tick, bps * base / 10_000.0)
+    fill = base + slip if side == "BUY" else base - slip
+    return float(fill) if fill > 0 and np.isfinite(fill) else None
+
 
 class OptionBook:
     def __init__(self, bars: pd.DataFrame):
-        df = bars.copy()
-        missing = REQUIRED_COLUMNS - set(df.columns)
-        if missing:
-            raise ValueError(f"MISSING_ENGINE_COLUMNS:{sorted(missing)}")
-        df = normalize_bars(df)
+        df = normalize_bars(bars)
         if "contract_id" not in df.columns:
             df["contract_id"] = build_contract_ids(df)
+
         if df.duplicated(subset=["timestamp", "contract_id"]).any():
             raise ValueError("DUPLICATE_BAR_CONTRACT_TIMESTAMP")
+
         self.df = df.sort_values(["contract_id", "timestamp"]).reset_index(drop=True)
         self.by_contract = {
             cid: g.reset_index(drop=True)
             for cid, g in self.df.groupby("contract_id", sort=False)
         }
-        self.times = {
-            cid: list(g["timestamp"])
-            for cid, g in self.by_contract.items()
-        }
+        self.times = {cid: list(g["timestamp"]) for cid, g in self.by_contract.items()}
 
-    def next_execution_row(self, contract_id: str, decision_ts: pd.Timestamp) -> Optional[pd.Series]:
+    def next_execution_row(
+        self, contract_id: str, decision_ts: pd.Timestamp
+    ) -> Optional[pd.Series]:
         g = self.by_contract.get(contract_id)
         if g is None:
             return None
+
         times = self.times[contract_id]
-        idx = bisect_right(times, decision_ts.to_pydatetime())
+        idx = bisect_right(times, pd.Timestamp(decision_ts))
+
         while idx < len(g):
             row = g.iloc[idx]
             idx += 1
-            if bool(row["execution_eligible"]):
-                expiry_close = pd.Timestamp(row["expiry_close_ts"])
-                if row["timestamp"] <= expiry_close:
-                    return row
+            if not bool(row["execution_eligible"]):
+                continue
+            if row["timestamp"] > row["expiry_close_ts"]:
+                return None
+            return row
         return None
 
     def snapshot(self, ts: pd.Timestamp, contract_id: str) -> Optional[pd.Series]:
@@ -202,139 +347,145 @@ class OptionBook:
         if g is None:
             return None
         hit = g[g["timestamp"] == ts]
-        if hit.empty:
-            return None
-        return hit.iloc[0]
+        return hit.iloc[0] if not hit.empty else None
 
-def normalize_bars(df: pd.DataFrame) -> pd.DataFrame:
-    out = df.copy()
-    out["timestamp"] = pd.to_datetime(out["timestamp"], utc=True, errors="coerce").dt.tz_convert("Asia/Kolkata")
-    out["expiry"] = pd.to_datetime(out["expiry"], errors="coerce").dt.normalize()
-    out["expiry_close_ts"] = pd.to_datetime(out["expiry_close_ts"], utc=True, errors="coerce").dt.tz_convert("Asia/Kolkata")
-    for c in ["strike", "open", "close", "volume", "underlying", "abs_delta", "tick_size", "lot_size"]:
-        out[c] = pd.to_numeric(out[c], errors="coerce")
-    out["option_type"] = out["option_type"].astype(str).str.upper().str.strip().replace({
-        "CALL": "CE", "C": "CE", "PUT": "PE", "P": "PE"
-    })
-    out["session_eligible"] = out["session_eligible"].astype(bool)
-    out["execution_eligible"] = out["execution_eligible"].astype(bool) & out["session_eligible"]
-    if out["timestamp"].isna().any() or out["expiry"].isna().any() or out["expiry_close_ts"].isna().any():
-        raise ValueError("INVALID_TIMESTAMP_OR_EXPIRY_OR_CLOSE")
-    return out
-
-def build_contract_ids(df: pd.DataFrame) -> pd.Series:
-    return (
-        df["expiry"].dt.strftime("%Y-%m-%d") + "|" +
-        df["strike"].map(lambda x: f"{x:.4f}") + "|" +
-        df["option_type"]
-    )
-
-def select_target(
-    snapshot: pd.DataFrame, expiry: pd.Timestamp, option_type: str,
-    target_delta: float, tolerance: float
-) -> Optional[pd.Series]:
-    g = snapshot[(snapshot["expiry"] == expiry) & (snapshot["option_type"] == option_type)].copy()
-    if g.empty:
-        return None
-    g["delta_error"] = (g["abs_delta"] - target_delta).abs()
-    g = g[g["delta_error"] <= tolerance].copy()
-    if g.empty:
-        return None
-    g["strike_distance"] = (g["strike"] - g["underlying"]).abs()
-    return g.sort_values(
-        ["delta_error", "volume", "strike_distance", "strike"],
-        ascending=[True, False, True, True],
-        kind="mergesort",
-    ).iloc[0]
-
-def choose_expiry(snapshot: pd.DataFrame, decision_ts: pd.Timestamp, min_dte_days: int) -> Optional[pd.Timestamp]:
-    candidates = snapshot[
-        (snapshot["expiry"] > decision_ts.normalize() + pd.Timedelta(days=min_dte_days)) &
-        snapshot["session_eligible"]
-    ]["expiry"].dropna().drop_duplicates().sort_values()
-    return candidates.iloc[0] if not candidates.empty else None
-
-def adverse_fill(base: float, side: str, tick: float, bps: float) -> Optional[float]:
-    if not np.isfinite(base) or not np.isfinite(tick) or base <= 0 or tick <= 0:
-        return None
-    slip = max(tick, bps * base / 10_000.0)
-    fill = base + slip if side == "BUY" else base - slip
-    return float(fill) if fill > 0 and np.isfinite(fill) else None
 
 class BacktestEngine:
-    def __init__(self, bars: pd.DataFrame, costs: CostSchedule, config: EngineConfig = EngineConfig()):
+    def __init__(
+        self,
+        bars: pd.DataFrame,
+        costs: CostSchedule,
+        config: EngineConfig = EngineConfig(),
+    ):
         self.book = OptionBook(bars)
         self.costs = costs
         self.cfg = config
+
         self.fills: list[Fill] = []
         self.charges: list[Charge] = []
         self.events: list[Event] = []
+
         self.cash = 0.0
         self.month_attempted: set[str] = set()
         self.state = "FLAT"
         self.direction: Optional[str] = None
         self.position: list[LegIntent] = []
+
         self.rearm = True
         self.last_metric: Optional[float] = None
         self.last_call_delta: Optional[float] = None
         self.last_put_delta: Optional[float] = None
-        self.last_execution_reason: str = ""
-        self.terminal_unclosed: bool = False
-
-    def _snapshot_at(self, ts: pd.Timestamp) -> pd.DataFrame:
-        return self.book.df[(self.book.df["timestamp"] == ts) & self.book.df["session_eligible"]]
-
-    def _entry_expiry(self, snap: pd.DataFrame, ts: pd.Timestamp) -> Optional[pd.Timestamp]:
-        return choose_expiry(snap, ts, self.cfg.entry_min_dte_days)
-
-    def _build_ic(self, snap: pd.DataFrame, expiry: pd.Timestamp) -> Optional[list[LegIntent]]:
-        legs = []
-        specs = [("CE", "SELL", 0.30, -1), ("CE", "BUY", 0.10, 1),
-                 ("PE", "SELL", 0.30, -1), ("PE", "BUY", 0.10, 1)]
-        for ot, side, target, lots in specs:
-            row = select_target(snap, expiry, ot, target, self.cfg.delta_tolerance)
-            if row is None:
-                return None
-            legs.append(LegIntent(str(row["contract_id"]), side, lots, float(row["strike"]), str(row["expiry"].date()), ot, str(row["expiry_close_ts"])))
-        return legs
-
-    def _build_ratio(self, snap: pd.DataFrame, expiry: pd.Timestamp, direction: str, continuation: bool = False) -> Optional[list[LegIntent]]:
-        ot = "CE" if direction == "DOWN" else "PE"
-        if continuation:
-            ds = (self.cfg.continuation_long_delta, self.cfg.continuation_short_delta, self.cfg.continuation_hedge_delta)
-        else:
-            ds = (self.cfg.initial_long_delta, self.cfg.initial_short_delta, self.cfg.initial_hedge_delta)
-        specs = [(ot, "BUY", ds[0], 1), (ot, "SELL", ds[1], -2), (ot, "BUY", ds[2], 1)]
-        legs: list[LegIntent] = []
-        for ot2, side, target, lots in specs:
-            row = select_target(snap, expiry, ot2, target, self.cfg.delta_tolerance)
-            if row is None:
-                return None
-            legs.append(LegIntent(str(row["contract_id"]), side, lots, float(row["strike"]), str(row["expiry"].date()), ot2, str(row["expiry_close_ts"])))
-        return legs
+        self.last_execution_reason = ""
+        self.terminal_unclosed = False
 
     @staticmethod
     def _qty_cash(lots: int, lot_size: int, price: float, side: str) -> float:
-        qty = abs(lots) * lot_size
-        return -qty * price if side == "BUY" else qty * price
+        quantity = abs(lots) * lot_size
+        return -quantity * price if side == "BUY" else quantity * price
 
-    def _execute_group(self, decision_ts: pd.Timestamp, group_id: str, intended: list[LegIntent]) -> tuple[str, bool]:
+    def _snapshot_at(self, ts: pd.Timestamp) -> pd.DataFrame:
+        return self.book.df[
+            (self.book.df["timestamp"] == ts)
+            & self.book.df["session_eligible"]
+        ]
+
+    def _entry_expiry(
+        self, snapshot: pd.DataFrame, ts: pd.Timestamp
+    ) -> Optional[pd.Timestamp]:
+        return choose_expiry(snapshot, ts, self.cfg.entry_min_dte_days)
+
+    def _build_ic(
+        self, snapshot: pd.DataFrame, expiry: pd.Timestamp
+    ) -> Optional[list[LegIntent]]:
+        specs = [
+            ("CE", "SELL", 0.30, -1),
+            ("CE", "BUY", 0.10, 1),
+            ("PE", "SELL", 0.30, -1),
+            ("PE", "BUY", 0.10, 1),
+        ]
+        legs: list[LegIntent] = []
+        for option_type, side, target, lots in specs:
+            row = select_target(
+                snapshot, expiry, option_type, target, self.cfg.delta_tolerance
+            )
+            if row is None:
+                return None
+            legs.append(
+                LegIntent(
+                    str(row["contract_id"]), side, lots, float(row["strike"]),
+                    str(row["expiry"].date()), option_type, str(row["expiry_close_ts"]),
+                )
+            )
+        return legs
+
+    def _build_ratio(
+        self,
+        snapshot: pd.DataFrame,
+        expiry: pd.Timestamp,
+        direction: str,
+        continuation: bool = False,
+    ) -> Optional[list[LegIntent]]:
+        option_type = "CE" if direction == "DOWN" else "PE"
+        if continuation:
+            targets = (
+                self.cfg.continuation_long_delta,
+                self.cfg.continuation_short_delta,
+                self.cfg.continuation_hedge_delta,
+            )
+        else:
+            targets = (
+                self.cfg.initial_long_delta,
+                self.cfg.initial_short_delta,
+                self.cfg.initial_hedge_delta,
+            )
+
+        specs = [
+            (option_type, "BUY", targets[0], 1),
+            (option_type, "SELL", targets[1], -2),
+            (option_type, "BUY", targets[2], 1),
+        ]
+        legs: list[LegIntent] = []
+        for opt, side, target, lots in specs:
+            row = select_target(
+                snapshot, expiry, opt, target, self.cfg.delta_tolerance
+            )
+            if row is None:
+                return None
+            legs.append(
+                LegIntent(
+                    str(row["contract_id"]), side, lots, float(row["strike"]),
+                    str(row["expiry"].date()), opt, str(row["expiry_close_ts"]),
+                )
+            )
+        return legs
+
+    def _execute_group(
+        self,
+        decision_ts: pd.Timestamp,
+        group_id: str,
+        intended: list[LegIntent],
+    ) -> tuple[str, bool]:
         staged_fills: list[Fill] = []
         staged_charges: list[Charge] = []
-        total_cash = 0.0
+        staged_cash = 0.0
         self.last_execution_reason = ""
+
         for leg in intended:
             row = self.book.next_execution_row(leg.contract_id, decision_ts)
             if row is None:
                 self.last_execution_reason = f"MISSING_NEXT_ELIGIBLE_BAR:{leg.contract_id}"
                 return "FAILED_INCOMPLETE_EXECUTION", True
-            fill_price = adverse_fill(float(row["open"]), leg.side, float(row["tick_size"]), self.cfg.slippage_bps)
+
+            fill_price = adverse_fill(
+                float(row["open"]), leg.side, float(row["tick_size"]), self.cfg.slippage_bps
+            )
             if fill_price is None:
                 self.last_execution_reason = f"INVALID_FILL_INPUT:{leg.contract_id}"
                 return "FAILED_INCOMPLETE_EXECUTION", True
+
             turnover = abs(leg.lots) * float(row["lot_size"]) * fill_price
             try:
-                c = self.costs.calculate(
+                charges = self.costs.calculate(
                     execution_date=pd.Timestamp(row["timestamp"]).date(),
                     side=leg.side,
                     turnover=turnover,
@@ -344,199 +495,421 @@ class BacktestEngine:
             except Exception as exc:
                 self.last_execution_reason = str(exc)
                 return "FAILED_INCOMPLETE_EXECUTION", True
+
             staged_fills.append(
-                Fill(group_id, str(decision_ts), str(row["timestamp"]), leg.contract_id, leg.side,
-                     leg.lots, int(row["lot_size"]), float(row["open"]), fill_price,
-                     float(row["tick_size"]), abs(fill_price - float(row["open"])), turnover, "FILLED")
+                Fill(
+                    group_id,
+                    str(decision_ts),
+                    str(row["timestamp"]),
+                    leg.contract_id,
+                    leg.side,
+                    leg.lots,
+                    int(row["lot_size"]),
+                    float(row["open"]),
+                    fill_price,
+                    float(row["tick_size"]),
+                    abs(fill_price - float(row["open"])),
+                    turnover,
+                    "FILLED",
+                )
             )
-            staged_charges.extend(c)
-            total_cash += self._qty_cash(leg.lots, int(row["lot_size"]), fill_price, leg.side)
-            total_cash -= sum(x.amount for x in c)
+            staged_charges.extend(charges)
+            staged_cash += self._qty_cash(
+                leg.lots, int(row["lot_size"]), fill_price, leg.side
+            )
+            staged_cash -= sum(c.amount for c in charges)
+
         self.fills.extend(staged_fills)
         self.charges.extend(staged_charges)
-        self.cash += total_cash
+        self.cash += staged_cash
         return "FILLED", False
 
-    def _metric(self, ts: pd.Timestamp) -> Optional[float]:
-        if not self.position:
-            return None
-        vals = []
-        for leg in self.position:
+    def _position_metric(self, ts: pd.Timestamp, position: list[LegIntent]) -> Optional[float]:
+        metric = 0.0
+        found_short = False
+        for leg in position:
             if leg.side != "SELL":
                 continue
+            found_short = True
             row = self.book.snapshot(ts, leg.contract_id)
             if row is None or not np.isfinite(row["abs_delta"]):
                 return None
-            vals.append(float(row["abs_delta"]) * abs(leg.lots))
-        return float(sum(vals)) if vals else None
+            metric += float(row["abs_delta"]) * abs(leg.lots)
+        return metric if found_short else None
 
-    def _rearm_logic(self, metric: Optional[float], state: str) -> None:
-        if metric is None:
+    def _arm_if_reentered(self, metric: Optional[float]) -> None:
+        if metric is None or self.rearm:
             return
-        if state == "IRON_CONDOR":
-            if metric > self.cfg.ic_short_trigger:
-                self.rearm = True
-        elif state == "RATIO":
-            if self.rearm is False and self.cfg.ratio_continuation_trigger < metric < self.cfg.ratio_reversal_trigger:
-                self.rearm = True
+        if self.state == "IRON_CONDOR" and metric > self.cfg.ic_short_trigger:
+            self.rearm = True
+        elif (
+            self.state == "RATIO"
+            and self.cfg.ratio_continuation_trigger < metric < self.cfg.ratio_reversal_trigger
+        ):
+            self.rearm = True
+
+    def _expiry_cutoff(self) -> Optional[pd.Timestamp]:
+        if not self.position:
+            return None
+        values = [pd.Timestamp(x.expiry_close_ts) for x in self.position]
+        return min(values) - pd.Timedelta(minutes=self.cfg.force_close_minutes_before_expiry)
 
     def _should_force_close(self, ts: pd.Timestamp) -> bool:
-        if not self.position:
-            return False
-        expiry = min(pd.Timestamp(x.expiry) for x in self.position)
-        cutoff = expiry.normalize() + pd.Timedelta(hours=15, minutes=30) - pd.Timedelta(minutes=self.cfg.force_close_minutes_before_expiry)
-        return ts >= cutoff
+        cutoff = self._expiry_cutoff()
+        return cutoff is not None and ts >= cutoff
 
-    def _close_position(self, ts: pd.Timestamp, event_type: str) -> tuple[str, str, bool]:
+    def _close_position(
+        self, ts: pd.Timestamp, event_type: str
+    ) -> tuple[str, bool, str]:
         close_legs = [
-            LegIntent(x.contract_id, "BUY" if x.side == "SELL" else "SELL", abs(x.lots),
-                      x.strike, x.expiry, x.option_type, x.expiry_close_ts)
+            LegIntent(
+                x.contract_id,
+                "BUY" if x.side == "SELL" else "SELL",
+                abs(x.lots),
+                x.strike,
+                x.expiry,
+                x.option_type,
+                x.expiry_close_ts,
+            )
             for x in self.position
         ]
         gid = f"{event_type}-{ts.strftime('%Y%m%dT%H%M%S')}"
-        return self._execute_group(ts, gid, close_legs)
+        status, consumed = self._execute_group(ts, gid, close_legs)
+        return status, consumed, gid
+
+    def _set_ratio_metric(self, ts: pd.Timestamp) -> None:
+        self.last_metric = self._position_metric(ts, self.position)
 
     def run(self) -> dict[str, pd.DataFrame]:
-        times = self.book.df.loc[self.book.df["session_eligible"], "timestamp"].drop_duplicates().sort_values()
-        prev_state = self.state
+        times = (
+            self.book.df.loc[self.book.df["session_eligible"], "timestamp"]
+            .drop_duplicates()
+            .sort_values()
+        )
+
         for ts in times:
-            snap = self._snapshot_at(ts)
-            if snap.empty:
+            snapshot = self._snapshot_at(ts)
+            if snapshot.empty or self.terminal_unclosed:
                 continue
+
             month_key = ts.strftime("%Y-%m")
+
             if self.state == "FLAT":
                 if month_key not in self.month_attempted:
-                    expiry = self._entry_expiry(snap, ts)
-                    self.month_attempted.add(month_key)
-                    if expiry is not None:
-                        intended = self._build_ic(snap, expiry)
-                        if intended is not None:
-                            gid = f"ENTRY-IC-{ts.strftime('%Y%m%dT%H%M%S')}"
-                            status, _, consumed = self._execute_group(ts, gid, intended)
-                            if status == "FILLED":
-                                self.position = intended
-                                self.state = "IRON_CONDOR"
-                                self.direction = None
-                                self.rearm = True
-                                self.last_metric = None
-                                self.events.append(Event(str(ts), gid, "FLAT", "ENTER_IRON_CONDOR", None, status, self.state, False, True, "MONTHLY_ENTRY"))
-                            else:
-                                self.events.append(Event(str(ts), gid, "FLAT", "ENTER_IRON_CONDOR", None, status, "FLAT", consumed, False, "ENTRY_FAILED"))
+                    expiry = self._entry_expiry(snapshot, ts)
+                    intended = self._build_ic(snapshot, expiry) if expiry is not None else None
+                    if intended is not None:
+                        gid = f"ENTRY-IC-{ts.strftime('%Y%m%dT%H%M%S')}"
+                        status, consumed = self._execute_group(ts, gid, intended)
+                        if status == "FILLED":
+                            self.position = intended
+                            self.state = "IRON_CONDOR"
+                            self.direction = None
+                            self.rearm = True
+                            self._set_ic_reference(snapshot, ts)
+                            self.events.append(
+                                Event(
+                                    str(ts), gid, "FLAT", "ENTER_IRON_CONDOR", None,
+                                    status, self.state, False, True, "MONTHLY_ENTRY",
+                                )
+                            )
+                        else:
+                            self.events.append(
+                                Event(
+                                    str(ts), gid, "FLAT", "ENTER_IRON_CONDOR", None,
+                                    status, "FLAT", consumed, False,
+                                    self.last_execution_reason or "ENTRY_FAILED",
+                                )
+                            )
+                        self.month_attempted.add(month_key)
+
             elif self._should_force_close(ts):
-                gid = f"EXPIRY-CLOSE-{ts.strftime('%Y%m%dT%H%M%S')}"
-                pre = self.state
-                status, _, consumed = self._close_position(ts, "EXPIRY_CLOSE")
+                pre_state = self.state
+                status, consumed, gid = self._close_position(ts, "EXPIRY_CLOSE")
                 if status == "FILLED":
-                    self.events.append(Event(str(ts), gid, pre, "EXPIRY_CLOSE", None, status, "FLAT", False, True, "FORCED_BEFORE_EXPIRY"))
+                    self.events.append(
+                        Event(
+                            str(ts), gid, pre_state, "EXPIRY_CLOSE", None,
+                            status, "FLAT", False, True, "FORCED_BEFORE_EXPIRY",
+                        )
+                    )
                     self.position = []
                     self.state = "FLAT"
                     self.direction = None
                     self.rearm = True
                     self.last_metric = None
+                    self.last_call_delta = None
+                    self.last_put_delta = None
                 else:
-                    self.events.append(Event(str(ts), gid, pre, "EXPIRY_CLOSE", None, status, pre, consumed, False, "EXPIRY_CLOSE_FAILED"))
+                    self.events.append(
+                        Event(
+                            str(ts), gid, pre_state, "EXPIRY_CLOSE", None,
+                            status, pre_state, consumed, False,
+                            self.last_execution_reason or "EXPIRY_CLOSE_FAILED",
+                        )
+                    )
+                    self.terminal_unclosed = True
+
             elif self.state == "IRON_CONDOR":
-                call = next((x for x in self.position if x.side == "SELL" and x.option_type == "CE"), None)
-                put = next((x for x in self.position if x.side == "SELL" and x.option_type == "PE"), None)
+                call = next(
+                    (x for x in self.position if x.side == "SELL" and x.option_type == "CE"),
+                    None,
+                )
+                put = next(
+                    (x for x in self.position if x.side == "SELL" and x.option_type == "PE"),
+                    None,
+                )
                 call_row = self.book.snapshot(ts, call.contract_id) if call else None
                 put_row = self.book.snapshot(ts, put.contract_id) if put else None
-                direction = None
-                metric = None
+
                 if call_row is not None and put_row is not None:
-                    pc=float(call_row["abs_delta"]); pp=float(put_row["abs_delta"])
-                    prior_call = self.last_metric
-                    if self.last_metric is None:
-                        self.last_metric = max(pc, pp)
-                    if self.rearm and pc <= self.cfg.ic_short_trigger and (prior_call is None or prior_call > self.cfg.ic_short_trigger):
-                        direction, metric = "DOWN", pc
-                    elif self.rearm and pp <= self.cfg.ic_short_trigger and (prior_call is None or prior_call > self.cfg.ic_short_trigger):
-                        direction, metric = "UP", pp
-                    self.last_metric = max(pc, pp)
-                if direction:
-                    expiry = min(pd.Timestamp(x.expiry) for x in self.position)
-                    intended = self._build_ratio(snap, expiry, direction, continuation=False)
-                    if intended is not None:
+                    call_delta = float(call_row["abs_delta"])
+                    put_delta = float(put_row["abs_delta"])
+                    self._arm_if_reentered(max(call_delta, put_delta))
+
+                    direction = None
+                    trigger_metric = None
+                    if self.rearm:
+                        if (
+                            self.last_call_delta is not None
+                            and self.last_call_delta > self.cfg.ic_short_trigger
+                            and call_delta <= self.cfg.ic_short_trigger
+                        ):
+                            direction = "DOWN"
+                            trigger_metric = call_delta
+                        elif (
+                            self.last_put_delta is not None
+                            and self.last_put_delta > self.cfg.ic_short_trigger
+                            and put_delta <= self.cfg.ic_short_trigger
+                        ):
+                            direction = "UP"
+                            trigger_metric = put_delta
+
+                    self.last_call_delta = call_delta
+                    self.last_put_delta = put_delta
+
+                    if direction is not None:
+                        expiry = min(pd.Timestamp(x.expiry) for x in self.position)
+                        ratio = self._build_ratio(snapshot, expiry, direction, continuation=False)
                         gid = f"TRANSITION-{direction}-{ts.strftime('%Y%m%dT%H%M%S')}"
-                        combined = sum(
-                            float(self.book.snapshot(ts, x.contract_id)["abs_delta"]) * abs(x.lots)
-                            for x in self.position if x.side=="SELL"
-                        )
-                        close_then_open = [
-                            LegIntent(x.contract_id, "BUY" if x.side=="SELL" else "SELL", abs(x.lots), x.strike, x.expiry, x.option_type, x.expiry_close_ts)
-                            for x in self.position
-                        ] + intended
-                        status, _, consumed = self._execute_group(ts, gid, close_then_open)
-                        self.events.append(Event(str(ts), gid, "IRON_CONDOR", "TRANSITION_TO_RATIO", combined, status,
-                                                 "RATIO" if status=="FILLED" else "IRON_CONDOR", True if status!="FILLED" else False,
-                                                 status=="FILLED", "SOURCE_TRANSITION"))
-                        if status == "FILLED":
-                            self.position=intended; self.state="RATIO"; self.direction=direction; self.rearm=True; self.last_metric=0.0
+                        combined = call_delta if direction == "DOWN" else put_delta
+                        if ratio is None:
+                            status, consumed = "FAILED_INCOMPLETE_EXECUTION", True
+                            self.last_execution_reason = "TARGET_CONTRACT_UNAVAILABLE"
                         else:
-                            self.rearm=False
+                            close_then_open = [
+                                LegIntent(
+                                    x.contract_id,
+                                    "BUY" if x.side == "SELL" else "SELL",
+                                    abs(x.lots),
+                                    x.strike,
+                                    x.expiry,
+                                    x.option_type,
+                                    x.expiry_close_ts,
+                                )
+                                for x in self.position
+                            ] + ratio
+                            status, consumed = self._execute_group(ts, gid, close_then_open)
+
+                        if status == "FILLED":
+                            self.position = ratio
+                            self.state = "RATIO"
+                            self.direction = direction
+                            self.rearm = True
+                            self._set_ratio_metric(ts)
+                        else:
+                            self.rearm = False
+
+                        self.events.append(
+                            Event(
+                                str(ts), gid, "IRON_CONDOR", "TRANSITION_TO_RATIO",
+                                combined, status,
+                                "RATIO" if status == "FILLED" else "IRON_CONDOR",
+                                consumed if status != "FILLED" else False,
+                                status == "FILLED",
+                                self.last_execution_reason or "SOURCE_TRANSITION",
+                            )
+                        )
+
             elif self.state == "RATIO":
-                metric = self._metric(ts)
+                metric = self._position_metric(ts, self.position)
                 if metric is None:
                     continue
-                if not self.rearm and self.cfg.ratio_continuation_trigger < metric < self.cfg.ratio_reversal_trigger:
-                    self.rearm = True
+
+                self._arm_if_reentered(metric)
+
                 if self.rearm and self.last_metric is not None:
-                    if self.last_metric > self.cfg.ratio_continuation_trigger and metric <= self.cfg.ratio_continuation_trigger:
-                        expiry=min(pd.Timestamp(x.expiry) for x in self.position)
-                        intended=self._build_ratio(snap, expiry, self.direction or "DOWN", continuation=True)
-                        if intended is not None:
-                            gid=f"CONTINUE-{ts.strftime('%Y%m%dT%H%M%S')}"
-                            close_then_open=[LegIntent(x.contract_id,"BUY" if x.side=="SELL" else "SELL",abs(x.lots),x.strike,x.expiry,x.option_type) for x in self.position]+intended
-                            status,_,consumed=self._execute_group(ts,gid,close_then_open)
-                            self.events.append(Event(str(ts),gid,"RATIO","CONTINUATION_RESET",metric,status,"RATIO" if status=="FILLED" else "RATIO",
-                                                     False if status=="FILLED" else consumed,status=="FILLED","SAME_DIRECTION_RESET"))
-                            if status=="FILLED":
-                                self.position=intended; self.rearm=True
-                            else:
-                                self.rearm=False
-                    elif self.last_metric < self.cfg.ratio_reversal_trigger and metric >= self.cfg.ratio_reversal_trigger:
-                        expiry=min(pd.Timestamp(x.expiry) for x in self.position)
-                        opposite="UP" if self.direction=="DOWN" else "DOWN"
-                        intended=self._build_ratio(snap,expiry,opposite,continuation=False)
-                        if intended is not None:
-                            gid=f"REVERSAL-{ts.strftime('%Y%m%dT%H%M%S')}"
-                            close_then_open=[LegIntent(x.contract_id,"BUY" if x.side=="SELL" else "SELL",abs(x.lots),x.strike,x.expiry,x.option_type) for x in self.position]+intended
-                            status,_,consumed=self._execute_group(ts,gid,close_then_open)
-                            self.events.append(Event(str(ts),gid,"RATIO","REVERSAL",metric,status,"RATIO" if status=="FILLED" else "RATIO",
-                                                     False if status=="FILLED" else consumed,status=="FILLED","OPPOSITE_DIRECTION"))
-                            if status=="FILLED":
-                                self.position=intended; self.direction=opposite; self.rearm=True
-                            else:
-                                self.rearm=False
-                self.last_metric=metric
+                    if (
+                        self.last_metric > self.cfg.ratio_continuation_trigger
+                        and metric <= self.cfg.ratio_continuation_trigger
+                    ):
+                        expiry = min(pd.Timestamp(x.expiry) for x in self.position)
+                        ratio = self._build_ratio(snapshot, expiry, self.direction or "DOWN", continuation=True)
+                        gid = f"CONTINUE-{ts.strftime('%Y%m%dT%H%M%S')}"
+
+                        if ratio is None:
+                            status, consumed = "FAILED_INCOMPLETE_EXECUTION", True
+                            self.last_execution_reason = "TARGET_CONTRACT_UNAVAILABLE"
+                        else:
+                            close_then_open = [
+                                LegIntent(
+                                    x.contract_id,
+                                    "BUY" if x.side == "SELL" else "SELL",
+                                    abs(x.lots),
+                                    x.strike,
+                                    x.expiry,
+                                    x.option_type,
+                                    x.expiry_close_ts,
+                                )
+                                for x in self.position
+                            ] + ratio
+                            status, consumed = self._execute_group(ts, gid, close_then_open)
+
+                        self.events.append(
+                            Event(
+                                str(ts), gid, "RATIO", "CONTINUATION_RESET", metric, status,
+                                "RATIO", consumed if status != "FILLED" else False,
+                                status == "FILLED",
+                                self.last_execution_reason or "SAME_DIRECTION_RESET",
+                            )
+                        )
+                        if status == "FILLED":
+                            self.position = ratio
+                            self.rearm = True
+                            self._set_ratio_metric(ts)
+                        else:
+                            self.rearm = False
+
+                    elif (
+                        self.last_metric < self.cfg.ratio_reversal_trigger
+                        and metric >= self.cfg.ratio_reversal_trigger
+                    ):
+                        expiry = min(pd.Timestamp(x.expiry) for x in self.position)
+                        opposite = "UP" if self.direction == "DOWN" else "DOWN"
+                        ratio = self._build_ratio(snapshot, expiry, opposite, continuation=False)
+                        gid = f"REVERSAL-{ts.strftime('%Y%m%dT%H%M%S')}"
+
+                        if ratio is None:
+                            status, consumed = "FAILED_INCOMPLETE_EXECUTION", True
+                            self.last_execution_reason = "TARGET_CONTRACT_UNAVAILABLE"
+                        else:
+                            close_then_open = [
+                                LegIntent(
+                                    x.contract_id,
+                                    "BUY" if x.side == "SELL" else "SELL",
+                                    abs(x.lots),
+                                    x.strike,
+                                    x.expiry,
+                                    x.option_type,
+                                    x.expiry_close_ts,
+                                )
+                                for x in self.position
+                            ] + ratio
+                            status, consumed = self._execute_group(ts, gid, close_then_open)
+
+                        self.events.append(
+                            Event(
+                                str(ts), gid, "RATIO", "REVERSAL", metric, status,
+                                "RATIO", consumed if status != "FILLED" else False,
+                                status == "FILLED",
+                                self.last_execution_reason or "OPPOSITE_DIRECTION",
+                            )
+                        )
+                        if status == "FILLED":
+                            self.position = ratio
+                            self.direction = opposite
+                            self.rearm = True
+                            self._set_ratio_metric(ts)
+                        else:
+                            self.rearm = False
+
+                if self.last_metric is None or not any(
+                    e.execution_status == "FILLED"
+                    and e.decision_timestamp == str(ts)
+                    and e.event_type in {"CONTINUATION_RESET", "REVERSAL"}
+                    for e in self.events
+                ):
+                    self.last_metric = metric
+
+        metadata = pd.DataFrame([{
+            "engine_version": "phase2-engine-v1",
+            "state": self.state,
+            "terminal_unclosed": self.terminal_unclosed,
+            "cash": self.cash,
+            "fills": len(self.fills),
+            "charges": len(self.charges),
+            "events": len(self.events),
+        }])
 
         return {
             "fills": pd.DataFrame([asdict(x) for x in self.fills]),
             "charges": pd.DataFrame([asdict(x) for x in self.charges]),
             "events": pd.DataFrame([asdict(x) for x in self.events]),
+            "metadata": metadata,
         }
 
-def file_sha256(path: Path) -> str:
-    h=hashlib.sha256()
-    with path.open("rb") as f:
-        for chunk in iter(lambda: f.read(1024*1024), b""):
-            h.update(chunk)
-    return h.hexdigest()
+    def _set_ic_reference(self, snapshot: pd.DataFrame, ts: pd.Timestamp) -> None:
+        call = next(
+            (x for x in self.position if x.side == "SELL" and x.option_type == "CE"),
+            None,
+        )
+        put = next(
+            (x for x in self.position if x.side == "SELL" and x.option_type == "PE"),
+            None,
+        )
+        call_row = self.book.snapshot(ts, call.contract_id) if call else None
+        put_row = self.book.snapshot(ts, put.contract_id) if put else None
+        self.last_call_delta = float(call_row["abs_delta"]) if call_row is not None else None
+        self.last_put_delta = float(put_row["abs_delta"]) if put_row is not None else None
 
-def save_outputs(out_dir: Path, result: dict[str, pd.DataFrame], config: EngineConfig, inputs: list[Path]) -> None:
+    def _position_metric(self, ts: pd.Timestamp, position: list[LegIntent]) -> Optional[float]:
+        metric = 0.0
+        found_short = False
+        for leg in position:
+            if leg.side != "SELL":
+                continue
+            found_short = True
+            row = self.book.snapshot(ts, leg.contract_id)
+            if row is None or not np.isfinite(row["abs_delta"]):
+                return None
+            metric += float(row["abs_delta"]) * abs(leg.lots)
+        return metric if found_short else None
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def save_outputs(
+    out_dir: Path,
+    result: dict[str, pd.DataFrame],
+    config: EngineConfig,
+    inputs: list[Path],
+) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
-    for name, df in result.items():
-        df.to_parquet(out_dir / f"{name}.parquet", index=False)
-    manifest={
-        "engine_version":"phase2-engine-v1",
-        "config":asdict(config),
-        "git_sha":None,
-        "input_files":[{"path":str(p),"sha256":file_sha256(p)} for p in inputs],
-        "outputs":{name:str(out_dir/f"{name}.parquet") for name in result},
-    }
+    for name, frame in result.items():
+        frame.to_parquet(out_dir / f"{name}.parquet", index=False)
+
     try:
-        import subprocess
-        import os
-        manifest["git_sha"]=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
+        git_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
     except Exception:
-        pass
-    (out_dir/"manifest.json").write_text(json.dumps(manifest, indent=2, default=str))
+        git_sha = None
+
+    manifest = {
+        "engine_version": "phase2-engine-v1",
+        "config": asdict(config),
+        "git_sha": git_sha,
+        "input_files": [
+            {"path": str(path), "sha256": file_sha256(path)}
+            for path in inputs
+        ],
+        "outputs": {
+            name: str(out_dir / f"{name}.parquet")
+            for name in result
+        },
+    }
+    (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=2, default=str))
