@@ -521,3 +521,11 @@
 - Matrix artifact names and analysis download pattern are now identical: `phase2-backtest-<bps>bps`.
 - Added a fail-closed assertion requiring all five registered scenarios: 0/5/10/20/50 bps.
 - No production result used the mismatched artifact pipeline.
+
+### E148 — historical contract-master availability resolved as deterministic monthly reconstruction (2026-10-04)
+- **Severity:** DATA-PROVENANCE CONTROL.
+- Exact historical NSE member contract-file bytes were not available through the current repository acquisition path.
+- Official NSE circulars provide the effective monthly NIFTY lot-size chronology, while the pinned option source is organized by expiry and supplies observed lifecycle timestamps.
+- Implemented a deterministic monthly contract-master reconstruction with raw-source hashes, expiry-day controls, lifecycle fields, lot size, tick size and provenance.
+- This does not claim recovery of original NSE member-file bytes; that distinction is mandatory in the manuscript.
+- **Status:** candidate production input pending independent audit and successful CI execution.
