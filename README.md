@@ -386,3 +386,8 @@ The developer branch automatically handed exact head 2dd4506e5173052c58573a94f9a
 
 ## 2026-10-04 — E105 acquisition-runtime correction
 The exact-head G6 validation run `37171349785` remained in official RBI acquisition without reaching tests/evidence. The developer identified the operational cause (broad WSS scan, 20 workers, 10-second timeout) and tightened it to IDs 24000–28500, 100 workers, 3-second timeout. No data-integrity or no-lookahead safeguards were relaxed. G6 remains OPEN/FAIL pending fresh exact-head CI and independent tester re-audit; G5 remains FAIL/waived, G9 PASS, G13/G14 and Phase 2 BLOCKED.
+
+
+## 2026-10-04 — Current G6 execution status after E106
+- E106 corrected RBI acquisition runtime by trying the four known official WSS candidates before the wide fallback scan; immutable SHA/provenance and strict-prior controls remain unchanged.
+- Fresh exact-head CI is still required. The connector currently exposes no new Actions run for the corrected head, so G6 is FAIL/OPEN and Phase 2 remains BLOCKED.
