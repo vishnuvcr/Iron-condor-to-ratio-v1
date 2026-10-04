@@ -140,3 +140,5 @@ jobs:
 # E109 exact-head revalidation trigger: NaT-safe RBI Bulletin parser.
 
 # E111 exact-head revalidation trigger: pinned NIFTY underlying materialization.
+
+# E113 exact-head revalidation trigger: pinned NIFTY option materialization and cache.
