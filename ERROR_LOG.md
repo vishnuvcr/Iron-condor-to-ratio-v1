@@ -286,3 +286,9 @@
 
 
 | E105 | 2026-10-04 | 1 / G6 | Exact-head G6 CI run 37171349785 remained in RBI acquisition for an extended period because the source scanner used ~3,900 IDs, 20 workers, and 10-second request timeouts. | Functional fail-closed/cache logic was present, but acquisition could stall a research gate and did not bound the operational runtime tightly enough. | Tightened the bounded scan to IDs 24000–28500, 100 workers, and 3-second request timeouts. This does not relax provenance, target-series, conflict, or fail-closed requirements. Exact-head CI must be revalidated after the correction. The prior run remains non-authoritative and is not treated as a PASS. |
+
+
+## 2026-10-04 — E106 RBI bootstrap-first correction
+- The corrected RBI acquisition still used a broad archive scan before leveraging the four independently identified official WSS IDs with immutable expected SHA-256 values.
+- This created unnecessary runtime exposure after E105. The acquisition was changed to try the known official IDs first and retain the 24,000–27,900 scan only as fallback discovery.
+- No acceptance criterion, provenance rule, target-series rule, duplicate rule, or no-lookahead rule was relaxed. Fresh exact-head CI is required.
