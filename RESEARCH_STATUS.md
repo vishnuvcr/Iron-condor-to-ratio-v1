@@ -555,3 +555,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - The first pinned HF option acquisition attempt failed before any download with HTTP 400 from the tree-list endpoint.
 - Corrected the API call to the supported recursive tree form.
 - G6 remains FAIL/OPEN pending fresh exact-head CI; no data have been accepted from this failed run.
+
+
+## 2026-10-04 — E115 target-key correction
+- Exact G6 run `37172761921` successfully acquired NIFTY options, NIFTY underlying, NSE dividend yield, and RBI 91-day T-bill yield; deterministic tests passed.
+- Production scan then failed on a pure target-key formatting bug (`'0.30'`).
+- Corrected canonical target keys and added regression coverage.
+- G6 remains FAIL/OPEN pending fresh exact-head CI and independent tester re-audit.
