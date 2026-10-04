@@ -482,3 +482,11 @@
   - IPFT ₹0.01/crore → 0.000000001 turnover rate.
 - Added explicit unit-conversion regression tests and CI inclusion.
 - **Outcome:** no backtest results were generated from the defective schedule.
+
+
+### E142 — Phase 2 naive-timestamp timezone defect caught before production run (2026-10-04)
+- **Severity:** MATERIAL CHRONOLOGY / LOOK-AHEAD DEFECT; corrected before any production result.
+- G6 normalization produces timezone-naive Asia/Kolkata timestamps. The initial Phase 2 parser interpreted naive timestamps as UTC, which would have shifted bars by 5 hours 30 minutes.
+- Corrected Phase 2 timestamp normalization now localizes naive values to Asia/Kolkata and converts timezone-aware values to Asia/Kolkata.
+- Added a regression test covering naive decision and expiry-close timestamps.
+- **Outcome:** no production backtest result used the defective timezone interpretation.
