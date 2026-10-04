@@ -637,3 +637,10 @@ User explicitly required automatic handover to the tester branch and instructed 
 - Developer audited the newest E120 CI failure and immutable artifact.
 - Failure isolated to undefined `SHARD_COUNT`; deterministic tests and all source acquisition had succeeded.
 - Developer applied E121 configuration/output correction. Hidden chain-of-thought is not copied; only concise action/result records are retained.
+
+
+## 2026-10-04 — User progression decision / Phase 2 authorization
+
+User accepted the historical G6 aggregate for research progression with deferred audit and requested a more lenient gate posture for the remainder of the research. The tester branch recorded the corresponding pragmatic progression policy: intermediate evidence-completeness gaps may be audited at milestones/final acceptance, while mathematical errors, look-ahead, bad data, incorrect cost/slippage treatment, logical defects and reproducibility failures remain blocking.
+
+Developer response: adopt the recorded waiver, keep all G6 D1–D3 limitations visible, and begin Phase 2 deterministic engine implementation without optimization.
