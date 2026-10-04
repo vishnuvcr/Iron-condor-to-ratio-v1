@@ -142,3 +142,5 @@ jobs:
 # E111 exact-head revalidation trigger: pinned NIFTY underlying materialization.
 
 # E113 exact-head revalidation trigger: pinned NIFTY option materialization and cache.
+
+# E114 exact-head revalidation trigger: supported HF option tree listing.
