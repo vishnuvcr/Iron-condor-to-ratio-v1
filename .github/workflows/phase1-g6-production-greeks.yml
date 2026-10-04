@@ -109,3 +109,5 @@ jobs:
           retention-days: 30
 
 # E104 exact-head revalidation trigger: cache/provenance and no-lookahead corrections.
+
+# E105 exact-head revalidation trigger: bounded RBI acquisition runtime correction.
