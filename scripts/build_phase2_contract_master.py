@@ -78,7 +78,8 @@ def execution_intervals_for_date(expiry: pd.Timestamp) -> list[tuple[pd.Timestam
         raise SystemExit(f"PHASE2_SESSION_RULE_HORIZON_EXCEEDED:{d}>{horizon}")
     special = {x["date"]: x for x in rules.get("special_sessions", [])}
     raw = special[d]["execution_intervals"] if d in special else [[rules["regular_execution_session"]["start"], rules["regular_execution_session"]["end"]]]
-    base = pd.Timestamp(expiry).tz_localize("Asia/Kolkata")
+    base = pd.Timestamp(expiry)
+    base = base.tz_localize("Asia/Kolkata") if base.tzinfo is None else base.tz_convert("Asia/Kolkata")
     intervals = []
     for start, end in raw:
         sh, sm = map(int, start.split(":"))
