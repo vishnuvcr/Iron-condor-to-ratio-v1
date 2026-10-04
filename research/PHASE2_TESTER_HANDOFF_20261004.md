@@ -62,3 +62,17 @@ The historical G6 D1–D3 evidence gaps remain deferred under the owner progress
 - FAIL / material correctness or reproducibility defect
 
 No tester report should be inferred from this handoff alone.
+
+## 2026-10-04 — Fresh exact-head milestone scope
+
+Current developer head after chronology, contract-master, normalization and production-workflow hardening: 2939f05e5b604e6a7694c594b20749d6b2cafaf3.
+
+Additional mandatory checks:
+- E142 timezone correction: naive G6 IST timestamps must remain IST in Phase 2.
+- Historical contract-master validator must fail closed when absent or inconsistent.
+- G4 reconciliation must gate normalized trading days.
+- Normalization must require raw option open prices, exact underlying timestamp matches, strict-prior r/q, contract lifecycle validity, and production Greeks.
+- Cycle runner must process the selected monthly-expiry schedule without overlapping positions and must fail on terminal unclosed cycles.
+- Static IC benchmark mode must use the same execution/cost layer.
+- Production workflow must cache normalized data across matrix jobs and produce deterministic scenario artifacts.
+- No CI success may be inferred where the connector exposes no exact-head run.
