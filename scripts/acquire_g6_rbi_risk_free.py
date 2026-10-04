@@ -100,7 +100,7 @@ def main():
         r.raise_for_status()
         b = r.content
         if git_blob_sha1(b) != SOURCE_BLOB_SHA1:
-            raise RuntimeError("RBI_BULLETIN_IMMUTABLE_BLOB_MISMATCH")
+            raise RuntimeError(f"RBI_BULLETIN_IMMUTABLE_BLOB_MISMATCH:computed_git_blob_sha1={git_blob_sha1(b)}:bytes={len(b)}")
         RAW.mkdir(parents=True, exist_ok=True)
         XLSX.write_bytes(b)
         META.write_text(json.dumps({
