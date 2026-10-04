@@ -509,3 +509,16 @@
 - The manifest calculation attempted boolean conversion of pandas DataFrames.
 - Replaced with deterministic list-length counting.
 - No production result used the defective expression.
+
+
+### E146 — Phase 2 workflow expression interpolation defect (2026-10-04)
+- **Severity:** MATERIAL PRODUCTION-WORKFLOW DEFECT; no production result affected.
+- Independent tester found malformed GitHub Actions expression interpolation in `.github/workflows/phase2-production-backtest.yml`, including checkout/ref expressions using single-brace syntax rather than `${{ ... }}`.
+- **Impact:** exact-head checkout and workflow execution cannot be treated as reproducible until corrected.
+- **Resolution required:** correct all affected expressions and independently inspect the corrected workflow.
+
+### E147 — Phase 2 analysis artifact-pattern mismatch (2026-10-04)
+- **Severity:** MATERIAL PRODUCTION-WORKFLOW DEFECT; no production result affected.
+- Matrix jobs upload `phase2-backtest-<bps>bps` artifacts, while the analysis job requests `slippage-*-bps`.
+- **Impact:** combined analysis may receive none of the intended scenario artifacts.
+- **Resolution required:** align artifact names/patterns and add a fail-closed assertion that all five registered scenarios are present before analysis.
