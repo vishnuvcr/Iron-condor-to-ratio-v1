@@ -280,3 +280,6 @@
 - Tester determination: **G6 FAIL / OPEN**. The source is not accepted as a production r input without immutable full-file provenance, coverage/duplicate audit, and reconciliation to primary RBI WSS observations.
 - No Phase 2 authorization. G5 remains FAIL / WAIVED FOR CONTINUED RESEARCH.
 - Tester report: `research/TESTER_REPORT_G6_SECONDARY_R_CROSSCHECK_20261004.md`; PR #46 targets this developer branch and is intentionally not merged as a gate-advancement mechanism.
+
+
+| E104 | 2026-10-04 | 1 / G6 | Independent tester PR #47 found that the RBI acquisition restored a cache path but the acquisition script still unconditionally re-requested every WSS ID; it also did not explicitly preserve the conservative distinction between source observation date and actual publication/availability date. | Cache reuse/provenance requirements were not actually satisfied, and no-lookahead semantics were under-specified. | Corrected the acquisition to validate cached HTML plus sidecar SHA-256 provenance before reuse, reject unproven retained files, retain immutable expected hashes for bootstrapped WSS pages, and explicitly document/use the source observation date only as a conservative eligibility date with strict-prior exclusion. Added a same-day strict-prior regression test. Fresh tester handover required. |
