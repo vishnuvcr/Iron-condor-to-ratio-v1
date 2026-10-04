@@ -196,3 +196,5 @@ jobs:
 # E120 exact-head revalidation trigger: exhaustive 8-shard production evidence.
 
 # E121 exact-head revalidation trigger: shard configuration and output-path correction.
+
+# E129 final exact-head trigger after failure-evidence correction.
