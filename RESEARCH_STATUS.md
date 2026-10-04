@@ -599,3 +599,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Replaced it with 8 parallel exact file shards plus an aggregation gate.
 - Every option parquet file is assigned to exactly one shard; each row is processed once; the aggregator rejects missing/duplicate/incomplete shard evidence.
 - G6 remains FAIL/OPEN pending fresh exact-head CI and independent tester audit.
+
+
+## 2026-10-04 — E121 G6 shard configuration correction
+- Exact sharded run `37177271358` failed closed immediately with `failure_reason: name 'SHARD_COUNT' is not defined` after acquisition and deterministic tests passed.
+- Corrected the E120 implementation by defining and validating `G6_SHARD_INDEX`/`G6_SHARD_COUNT`, and writing shard-specific evidence files required by the aggregator.
+- Added a regression test for valid shard configuration.
+- G6 remains FAIL/OPEN; G5 remains FAIL/WAIVED; G9 PASS; G13/G14 and Phase 2 BLOCKED. Fresh exact-head CI is mandatory.
