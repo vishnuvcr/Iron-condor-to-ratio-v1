@@ -110,3 +110,18 @@ GST is currently configured at 18% on taxable broker/exchange service components
 ## Status
 
 The schedule is a production-ready research control candidate. Exact effective-date validation of the 2026 SEBI change and final Paytm Money taxable-component mapping remain mandatory before final manuscript acceptance.
+
+
+## Modeling boundary — exchange slab scope
+
+Historical NSE equity-option transaction charges before October 2024 are member-level monthly slab charges. The strategy-only backtest does not have the user's other account turnover, so the primary research model treats the strategy's own monthly option premium turnover as the billable turnover base.
+
+This is an explicit **isolated-strategy account assumption**, not a claim about the user's full Paytm Money account. Sensitivity around this assumption will be reported in the final cost-robustness discussion. The monthly slab total is calculated from the complete strategy fill ledger for that month and allocated to individual fills pro-rata for audit reporting; the allocation does not change the total charge.
+
+## Brokerage cohort boundary
+
+The pinned primary schedule uses the Paytm Money pre-5-Aug-2022 legacy cohort. This is a scenario assumption because the user's actual account opening date is not part of the research dataset. The final manuscript must state that the brokerage result is cohort-specific.
+
+## 2026 SEBI fee boundary
+
+The 2026 SEBI fee schedule in the repository is a provisional effective-date control pending exact notification-effective-date reconciliation. The final production release must verify the effective date before treating the 2026-01-01 boundary as definitive.
