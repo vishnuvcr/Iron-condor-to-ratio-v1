@@ -43,6 +43,7 @@ class LegIntent:
     strike: float
     expiry: str
     option_type: str
+    expiry_close_ts: str
 
 @dataclass(frozen=True)
 class Fill:
@@ -167,8 +168,9 @@ class OptionBook:
         if missing:
             raise ValueError(f"MISSING_ENGINE_COLUMNS:{sorted(missing)}")
         df = normalize_bars(df)
-        df["contract_id"] = df.get("contract_id", build_contract_ids(df))
-        if df["contract_id"].duplicated(["timestamp", "contract_id"]).any():
+        if "contract_id" not in df.columns:
+            df["contract_id"] = build_contract_ids(df)
+        if df.duplicated(subset=["timestamp", "contract_id"]).any():
             raise ValueError("DUPLICATE_BAR_CONTRACT_TIMESTAMP")
         self.df = df.sort_values(["contract_id", "timestamp"]).reset_index(drop=True)
         self.by_contract = {
@@ -190,7 +192,7 @@ class OptionBook:
             row = g.iloc[idx]
             idx += 1
             if bool(row["execution_eligible"]):
-                expiry_close = pd.Timestamp(row["expiry"]).normalize() + pd.Timedelta(hours=15, minutes=30)
+                expiry_close = pd.Timestamp(row["expiry_close_ts"])
                 if row["timestamp"] <= expiry_close:
                     return row
         return None
@@ -208,6 +210,7 @@ def normalize_bars(df: pd.DataFrame) -> pd.DataFrame:
     out = df.copy()
     out["timestamp"] = pd.to_datetime(out["timestamp"], utc=True, errors="coerce").dt.tz_convert("Asia/Kolkata")
     out["expiry"] = pd.to_datetime(out["expiry"], errors="coerce").dt.normalize()
+    out["expiry_close_ts"] = pd.to_datetime(out["expiry_close_ts"], utc=True, errors="coerce").dt.tz_convert("Asia/Kolkata")
     for c in ["strike", "open", "close", "volume", "underlying", "abs_delta", "tick_size", "lot_size"]:
         out[c] = pd.to_numeric(out[c], errors="coerce")
     out["option_type"] = out["option_type"].astype(str).str.upper().str.strip().replace({
@@ -215,8 +218,8 @@ def normalize_bars(df: pd.DataFrame) -> pd.DataFrame:
     })
     out["session_eligible"] = out["session_eligible"].astype(bool)
     out["execution_eligible"] = out["execution_eligible"].astype(bool) & out["session_eligible"]
-    if out["timestamp"].isna().any() or out["expiry"].isna().any():
-        raise ValueError("INVALID_TIMESTAMP_OR_EXPIRY")
+    if out["timestamp"].isna().any() or out["expiry"].isna().any() or out["expiry_close_ts"].isna().any():
+        raise ValueError("INVALID_TIMESTAMP_OR_EXPIRY_OR_CLOSE")
     return out
 
 def build_contract_ids(df: pd.DataFrame) -> pd.Series:
@@ -273,6 +276,10 @@ class BacktestEngine:
         self.position: list[LegIntent] = []
         self.rearm = True
         self.last_metric: Optional[float] = None
+        self.last_call_delta: Optional[float] = None
+        self.last_put_delta: Optional[float] = None
+        self.last_execution_reason: str = ""
+        self.terminal_unclosed: bool = False
 
     def _snapshot_at(self, ts: pd.Timestamp) -> pd.DataFrame:
         return self.book.df[(self.book.df["timestamp"] == ts) & self.book.df["session_eligible"]]
@@ -288,7 +295,7 @@ class BacktestEngine:
             row = select_target(snap, expiry, ot, target, self.cfg.delta_tolerance)
             if row is None:
                 return None
-            legs.append(LegIntent(str(row["contract_id"]), side, lots, float(row["strike"]), str(row["expiry"].date()), ot))
+            legs.append(LegIntent(str(row["contract_id"]), side, lots, float(row["strike"]), str(row["expiry"].date()), ot, str(row["expiry_close_ts"])))
         return legs
 
     def _build_ratio(self, snap: pd.DataFrame, expiry: pd.Timestamp, direction: str, continuation: bool = False) -> Optional[list[LegIntent]]:
@@ -303,7 +310,7 @@ class BacktestEngine:
             row = select_target(snap, expiry, ot2, target, self.cfg.delta_tolerance)
             if row is None:
                 return None
-            legs.append(LegIntent(str(row["contract_id"]), side, lots, float(row["strike"]), str(row["expiry"].date()), ot2))
+            legs.append(LegIntent(str(row["contract_id"]), side, lots, float(row["strike"]), str(row["expiry"].date()), ot2, str(row["expiry_close_ts"])))
         return legs
 
     @staticmethod
@@ -311,23 +318,20 @@ class BacktestEngine:
         qty = abs(lots) * lot_size
         return -qty * price if side == "BUY" else qty * price
 
-    def _execute_group(self, decision_ts: pd.Timestamp, group_id: str, intended: list[LegIntent]) -> tuple[str, str, bool]:
-        fills: list[Fill] = []
-        charges: list[Charge] = []
+    def _execute_group(self, decision_ts: pd.Timestamp, group_id: str, intended: list[LegIntent]) -> tuple[str, bool]:
+        staged_fills: list[Fill] = []
+        staged_charges: list[Charge] = []
         total_cash = 0.0
+        self.last_execution_reason = ""
         for leg in intended:
             row = self.book.next_execution_row(leg.contract_id, decision_ts)
             if row is None:
-                self.events.append(Event(str(decision_ts), group_id, self.state, "EXECUTION_ATTEMPT", None,
-                                         "FAILED_INCOMPLETE_EXECUTION", self.state, True, False,
-                                         f"MISSING_NEXT_ELIGIBLE_BAR:{leg.contract_id}"))
-                return "FAILED_INCOMPLETE_EXECUTION", self.state, True
+                self.last_execution_reason = f"MISSING_NEXT_ELIGIBLE_BAR:{leg.contract_id}"
+                return "FAILED_INCOMPLETE_EXECUTION", True
             fill_price = adverse_fill(float(row["open"]), leg.side, float(row["tick_size"]), self.cfg.slippage_bps)
             if fill_price is None:
-                self.events.append(Event(str(decision_ts), group_id, self.state, "EXECUTION_ATTEMPT", None,
-                                         "FAILED_INCOMPLETE_EXECUTION", self.state, True, False,
-                                         f"INVALID_FILL_INPUT:{leg.contract_id}"))
-                return "FAILED_INCOMPLETE_EXECUTION", self.state, True
+                self.last_execution_reason = f"INVALID_FILL_INPUT:{leg.contract_id}"
+                return "FAILED_INCOMPLETE_EXECUTION", True
             turnover = abs(leg.lots) * float(row["lot_size"]) * fill_price
             try:
                 c = self.costs.calculate(
@@ -338,21 +342,20 @@ class BacktestEngine:
                     contract_id=leg.contract_id,
                 )
             except Exception as exc:
-                self.events.append(Event(str(decision_ts), group_id, self.state, "EXECUTION_ATTEMPT", None,
-                                         "FAILED_INCOMPLETE_EXECUTION", self.state, True, False,
-                                         str(exc)))
-                return "FAILED_INCOMPLETE_EXECUTION", self.state, True
-            slippage = abs(fill_price - float(row["open"]))
-            fills.append(Fill(group_id, str(decision_ts), str(row["timestamp"]), leg.contract_id, leg.side,
-                              leg.lots, int(row["lot_size"]), float(row["open"]), fill_price,
-                              float(row["tick_size"]), slippage, turnover, "FILLED"))
-            charges.extend(c)
+                self.last_execution_reason = str(exc)
+                return "FAILED_INCOMPLETE_EXECUTION", True
+            staged_fills.append(
+                Fill(group_id, str(decision_ts), str(row["timestamp"]), leg.contract_id, leg.side,
+                     leg.lots, int(row["lot_size"]), float(row["open"]), fill_price,
+                     float(row["tick_size"]), abs(fill_price - float(row["open"])), turnover, "FILLED")
+            )
+            staged_charges.extend(c)
             total_cash += self._qty_cash(leg.lots, int(row["lot_size"]), fill_price, leg.side)
             total_cash -= sum(x.amount for x in c)
-        self.fills.extend(fills)
-        self.charges.extend(charges)
+        self.fills.extend(staged_fills)
+        self.charges.extend(staged_charges)
         self.cash += total_cash
-        return "FILLED", "POST_STATE", False
+        return "FILLED", False
 
     def _metric(self, ts: pd.Timestamp) -> Optional[float]:
         if not self.position:
@@ -387,7 +390,7 @@ class BacktestEngine:
     def _close_position(self, ts: pd.Timestamp, event_type: str) -> tuple[str, str, bool]:
         close_legs = [
             LegIntent(x.contract_id, "BUY" if x.side == "SELL" else "SELL", abs(x.lots),
-                      x.strike, x.expiry, x.option_type)
+                      x.strike, x.expiry, x.option_type, x.expiry_close_ts)
             for x in self.position
         ]
         gid = f"{event_type}-{ts.strftime('%Y%m%dT%H%M%S')}"
@@ -459,7 +462,7 @@ class BacktestEngine:
                             for x in self.position if x.side=="SELL"
                         )
                         close_then_open = [
-                            LegIntent(x.contract_id, "BUY" if x.side=="SELL" else "SELL", abs(x.lots), x.strike, x.expiry, x.option_type)
+                            LegIntent(x.contract_id, "BUY" if x.side=="SELL" else "SELL", abs(x.lots), x.strike, x.expiry, x.option_type, x.expiry_close_ts)
                             for x in self.position
                         ] + intended
                         status, _, consumed = self._execute_group(ts, gid, close_then_open)
