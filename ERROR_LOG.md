@@ -503,3 +503,9 @@
 - Corrected both the engine and cycle scheduler to use an inclusive 20-day boundary.
 - Added a regression test at exactly 20 days.
 - **Outcome:** no production result used the prior strict-boundary implementation.
+
+### E145 — cycle-runner pandas truth-value bug caught before production (2026-10-04)
+- **Severity:** RUNTIME BOOKKEEPING DEFECT; corrected before production run.
+- The manifest calculation attempted boolean conversion of pandas DataFrames.
+- Replaced with deterministic list-length counting.
+- No production result used the defective expression.
