@@ -153,3 +153,5 @@ jobs:
 # E116 exact-head revalidation trigger: Numba-vectorized delta calculation.
 
 # E116 exact-head revalidation trigger: bounded production scan runtime.
+
+# E117 exact-head revalidation trigger: repaired deterministic delta regression.
