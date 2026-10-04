@@ -159,3 +159,7 @@ PR: #57.
 The execution workflow explicitly runs `scripts/test_phase2_contract_master.py` and `scripts/test_phase2_e150_impact_scan.py`, then reconstructs the contract master and runs the pinned-source E150/E151 impact scan. The exact execution SHA currently has zero GitHub Actions runs/statuses exposed by the available connector, and local repository execution is unavailable because external network/DNS access is disabled.
 
 Tester must independently verify the exact SHA, workflow contents, regression coverage, and absence of any stale artifact reuse. If an externally observable exact-head CI artifact becomes available, audit its checkout SHA, tests, source-file count/SHA-256 inventory, contracts scanned, chronology classifications/timestamps, gap/post-session counts and deterministic report hash. Any affected groups require corrected production scenario reruns. Until such evidence exists, E150 and Phase 2 remain blocked.
+
+
+## Exact-head CI bootstrap trigger — 2026-10-04
+Execution branch remains derived from immutable E157 baseline `636ebdfdf89a97461709c7d4097f89a04e7228a3`. Main now contains infrastructure-only bootstrap workflow `phase2-exact-head-bootstrap.yml`, which checks out the PR head SHA exactly and runs the contract-master plus E150/E151/E157 regression suites. This commit is an execution trigger only; no research logic or data rules are changed.
