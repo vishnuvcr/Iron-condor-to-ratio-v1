@@ -144,7 +144,11 @@ def prepare_one(raw_path: Path, master: pd.DataFrame, underlying: pd.DataFrame, 
         df["close"] = pd.to_numeric(df["close"], errors="coerce")
         df["volume"] = pd.to_numeric(df["volume"], errors="coerce").fillna(0.0)
         df["option_type"] = df["option_type"].astype(str).str.upper().str.strip().replace({"CALL":"CE","C":"CE","PUT":"PE","P":"PE"})
-        df = df[(df["timestamp"] >= STUDY_START) & (df["timestamp"] <= STUDY_END)]
+        df = df[
+            (df["timestamp"] >= STUDY_START)
+            & (df["timestamp"] <= STUDY_END)
+            & df["expiry"].isin(monthly_expiries)
+        ]
         if df.empty:
             continue
         df["contract_id"] = build_contract_ids(df)
@@ -263,6 +267,7 @@ def main():
     if not allowed_days:
         raise SystemExit("PHASE2_G4_NO_ALLOWED_DAYS")
     master = load_contract_master()
+    monthly_expiries = set(pd.to_datetime(master["expiry"]).dropna().dt.normalize().unique())
     underlying = load_underlying()
     r, q = load_rates()
 
