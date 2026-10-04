@@ -24,7 +24,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import pyarrow.parquet as pq
-from numba import njit
+from numba import njit, prange
 
 ROOT=Path("data")
 OPT_ROOT=ROOT/"raw/options/NIFTY"
@@ -126,11 +126,11 @@ def bs_delta_arrays(s,k,t,r,q,sigma,kind):
         out[i]=disc*cdf if kind[i]==1 else -disc*(1.0-cdf)
     return out
 
-@njit(cache=True,parallel=False)
+@njit(cache=True,parallel=True)
 def solve_iv_arrays(s,k,t,r,q,premium,kind):
     n=len(s)
     iv=np.full(n,np.nan); iters=np.zeros(n,np.int32); residual=np.full(n,np.nan); code=np.zeros(n,np.int8)
-    for i in range(n):
+    for i in prange(n):
         if not (math.isfinite(s[i]) and math.isfinite(k[i]) and math.isfinite(t[i]) and math.isfinite(r[i]) and math.isfinite(q[i]) and math.isfinite(premium[i])):
             code[i]=1; continue
         if s[i]<=0 or k[i]<=0 or t[i]<=0 or premium[i]<=0:
