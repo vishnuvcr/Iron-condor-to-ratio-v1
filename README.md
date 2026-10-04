@@ -564,3 +564,8 @@ The independent tester rejected developer head 66e2a06850eb75f4b9eebca4bf994ba59
 Developer remediation branch: phase-2-e152-remediation-20261004. The contract builder now keeps expiry as a local calendar date and explicitly normalizes timestamps to Asia/Kolkata for execution-interval comparisons. The impact scan now fail-closes on changed, old-only, and corrected-only close states. Regression tests cover timezone equivalence/mismatch and all three impact classifications.
 
 Phase 2 remains production-blocked. The corrected impact scan must be executed over the pinned source, independently verified, and followed by affected-scenario reruns if any affected groups are found. Exact-head CI evidence remains mandatory; no prior artifact is reused as corrected-head evidence. See the error log, tester handoff, and Phase 2 milestone report.
+
+
+### E152 exact-head freeze
+
+Developer remediation head is now e323105248bbe38200f8771246ba5a323937655f. Fresh tester gate: tester/phase-2-e152-final-audit-v3-20261004. PR #54 contains the remediation. Production remains blocked pending independent verification and exact-head CI evidence.
