@@ -47,6 +47,20 @@ def executable(ts: pd.Timestamp, expiry: pd.Timestamp, intervals: list[tuple[pd.
     return ts.normalize() == expiry.normalize() and any(start <= ts <= end for start, end in intervals)
 
 
+def classify_close_impact(old_close: pd.Timestamp, corrected_close: pd.Timestamp) -> str | None:
+    old_present = pd.notna(old_close)
+    corrected_present = pd.notna(corrected_close)
+    if not old_present and not corrected_present:
+        return None
+    if old_present and corrected_present and as_ist(old_close) == as_ist(corrected_close):
+        return None
+    if old_present and corrected_present:
+        return "changed"
+    if old_present:
+        return "old_only"
+    return "corrected_only"
+
+
 def main() -> None:
     if not ROOT.exists():
         raise SystemExit("PHASE2_E150_IMPACT_SOURCE_MISSING")
@@ -112,18 +126,14 @@ def main() -> None:
         corrected_close = rec["corrected_close"]
         old_present = pd.notna(old_close)
         corrected_present = pd.notna(corrected_close)
-        if not old_present and not corrected_present:
+        category = classify_close_impact(old_close, corrected_close)
+        if category is None:
             continue
-        if old_present and corrected_present and old_close == corrected_close:
-            continue
-        if old_present and corrected_present:
-            category = "changed"
+        if category == "changed"
             extension_seconds = (old_close - corrected_close).total_seconds()
-        elif old_present:
-            category = "old_only"
+        elif category == "old_only":
             extension_seconds = None
         else:
-            category = "corrected_only"
             extension_seconds = None
         classification_counts[category] += 1
         affected.append({
