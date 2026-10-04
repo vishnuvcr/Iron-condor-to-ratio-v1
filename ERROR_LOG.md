@@ -340,3 +340,5 @@
 
 
 | E120 | 2026-10-04 | 1 / G6 | Full exact G6 production scan remained computationally unbounded in a single job even after row batching and Numba parallel roots. | The exhaustive requirement was correct, but single-job execution was the bottleneck. | Re-architected production evidence into 8 exact option-file shards, each processing every assigned row with unchanged mathematics, then a deterministic aggregator verifies complete file partition and merges counters/histograms. No sampling or approximation. |
+
+| E121 | 2026-10-04 | 1 / G6 | Exact sharded G6 run `37177271358` at `def91894f5cd6f30c94bd63f60d2f0e414bfccf3` failed immediately with `name 'SHARD_COUNT' is not defined`. | E120 added shard partitioning in the production solver but omitted the runtime configuration definition. | Added validated `G6_SHARD_INDEX`/`G6_SHARD_COUNT` environment configuration with safe defaults, shard-specific evidence filenames, and a deterministic regression test. No mathematical or data-selection rule changed. Fresh exact-head CI required. |
