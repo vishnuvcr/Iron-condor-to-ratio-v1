@@ -766,3 +766,21 @@ Non-blocking implementation work already completed:
 - statistical analysis and context specifications.
 
 The owner progression waiver remains active: intermediate evidence-completeness gaps may be deferred, but material data/logic/cost/look-ahead/reproducibility failures remain blocking.
+
+## 2026-10-04 — Final Phase 2 developer milestone snapshot
+
+Developer milestone head: 3d5c41f13269618b5d742527df973f405974c762.
+
+The deterministic engine, static IC comparator, dated cost layer, normalization pipeline, cycle runner, pre-registered analysis layer, margin proxy specification, and production GitHub Actions workflow are now documented and internally hardened.
+
+Independent tester branch for this snapshot:
+tester/phase-2-milestone-final-20261004.
+
+Current Phase 2 status:
+- Engineering: COMPLETE FOR MILESTONE REVIEW.
+- Production data result: NOT YET CLAIMED.
+- Hard external-data dependency: authoritative historical NIFTY contract master.
+- CI: workflow exists, but connector visibility of exact-head Actions remains unavailable.
+- Final Phase 2 acceptance: pending independent tester report.
+
+Phase 3 remains analysis-ready but not statistically executed without production result artifacts.
