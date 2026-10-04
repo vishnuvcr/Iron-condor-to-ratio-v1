@@ -28,7 +28,8 @@ R_PATH = Path("data/processed/g6/risk_free.csv")
 Q_PATH = Path("data/processed/g6/dividend_yield.csv")
 OUT_ROOT = Path("data/processed/phase2/options")
 STUDY_START = pd.Timestamp("2021-01-01")
-STUDY_END = pd.Timestamp("2026-09-30 23:59:59")
+STUDY_END = None
+RECONCILIATION = Path("data/validation/phase1_session_reconciliation.json")
 
 
 def build_contract_ids(df: pd.DataFrame) -> pd.Series:
@@ -117,7 +118,7 @@ def session_mask(ts: pd.Series, rules: dict) -> pd.Series:
     return out.astype(bool)
 
 
-def prepare_one(raw_path: Path, master: pd.DataFrame, underlying: pd.DataFrame, r: pd.DataFrame, q: pd.DataFrame, rules: dict, output: Path) -> dict:
+def prepare_one(raw_path: Path, master: pd.DataFrame, underlying: pd.DataFrame, r: pd.DataFrame, q: pd.DataFrame, rules: dict, allowed_days: set[str], output: Path) -> dict:
     pf = pq.ParquetFile(raw_path)
     required = {"timestamp", "expiry", "strike", "option_type", "open", "close", "volume"}
     missing = required - set(pf.schema.names)
@@ -201,6 +202,7 @@ def prepare_one(raw_path: Path, master: pd.DataFrame, underlying: pd.DataFrame, 
 
         df["abs_delta"] = df["signed_delta"].abs()
         df["session_eligible"] = session_mask(df["timestamp"], rules)
+        df["session_eligible"] &= df["timestamp"].dt.strftime("%Y-%m-%d").isin(allowed_days)
         if "open" not in df.columns:
             raise RuntimeError(f"PHASE2_OPTION_OPEN_MISSING:{raw_path.name}")
         df["execution_eligible"] = df["session_eligible"] & df["open"].notna()
@@ -235,6 +237,21 @@ def main():
     args = ap.parse_args()
 
     rules = json.loads(RULES.read_text())
+    end_text = rules.get("study_data_end")
+    if not end_text:
+        raise SystemExit("PHASE2_STUDY_END_MISSING")
+    study_end = pd.Timestamp(end_text).normalize() + pd.Timedelta(hours=23, minutes=59, seconds=59)
+    global STUDY_END
+    STUDY_END = study_end
+    if not RECONCILIATION.exists():
+        raise SystemExit("PHASE2_G4_RECONCILIATION_MISSING")
+    reconciliation = json.loads(RECONCILIATION.read_text())
+    allowed_days = {
+        row["day"] for row in reconciliation.get("rows", [])
+        if row["status"] in {"NORMAL_ELIGIBLE", "SPECIAL_SESSION_RECONCILED"}
+    }
+    if not allowed_days:
+        raise SystemExit("PHASE2_G4_NO_ALLOWED_DAYS")
     master = load_contract_master()
     underlying = load_underlying()
     r, q = load_rates()
@@ -250,12 +267,14 @@ def main():
     outputs = []
     for raw in files:
         out = Path(args.output) / raw.name
-        outputs.append(prepare_one(raw, master, underlying, r, q, rules, out))
+        outputs.append(prepare_one(raw, master, underlying, r, q, rules, allowed_days, out))
 
     manifest = {
         "status": "PHASE2_NORMALIZATION_COMPLETE",
         "study_start": str(STUDY_START.date()),
         "study_end": str(STUDY_END.date()),
+        "allowed_trading_days": len(allowed_days),
+        "session_reconciliation_sha256": sha256_file(RECONCILIATION),
         "raw_files": len(files),
         "outputs": outputs,
         "contract_master_sha256": sha256_file(CONTRACT_MASTER),
