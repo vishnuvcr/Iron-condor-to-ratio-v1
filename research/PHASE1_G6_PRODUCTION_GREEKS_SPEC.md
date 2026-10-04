@@ -145,3 +145,11 @@ The production evidence must report this limitation explicitly. No same-day, for
 ## E112 option-input materialization
 - G6 production requires the NIFTY option parquet inputs used by the exact option-bar decision process. These are acquired from Hugging Face dataset revision `0f4800e` under `options/NIFTY`, with per-file SHA-256 values captured in `data/raw/options/NIFTY/hf_manifest.json`.
 - Missing, mismatched, or incomplete option files fail closed. No interpolation, synthetic option bars, or silent file omission is permitted. The dataset itself is a research-data source and does not replace exchange-primary validation.
+
+
+## 2026-10-04 — E134 evidence-completeness remediation
+The independent tester's exact-head audit found that the production mathematics were internally consistent but the evidence artifact did not explicitly expose three mandatory acceptance fields. The corrected production evidence now records and aggregates:
+- IV iteration-count histogram and IV residual log10 histogram for converged roots;
+- explicit option-trading-date and expiry-date coverage, plus missing/non-positive time-to-expiry counters;
+- explicit same-day/future r/q counters and boolean strict-prior audit results.
+The aggregate now fails closed if these fields are absent, inconsistent, or non-strict-prior. This is an evidence-completeness correction only; the pricing equations, Brent bounds/tolerance, input universe, timestamp matching, target tolerance and deterministic tie-break are unchanged.
