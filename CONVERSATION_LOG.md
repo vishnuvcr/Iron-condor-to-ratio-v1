@@ -618,3 +618,9 @@ User explicitly required automatic handover to the tester branch and instructed 
 - The full historical option universe must remain in G6, so sampling was rejected.
 - Developer changed only the execution granularity: Arrow parquet batches of 250,000 rows, with identical mathematical processing and cumulative counters.
 - This controls memory and provides a finite execution architecture without weakening evidence requirements.
+
+
+## 2026-10-04 — E120 exhaustive sharding
+- The G6 specification requires the full historical option universe, so sampling was rejected.
+- Developer split the exact option-file set into 8 deterministic shards, retaining identical IV/delta/target logic and merging evidence only after all shards complete.
+- The aggregator verifies shard indices, total-file coverage, shared source evidence and histogram bin compatibility before producing the final evidence artifact.
