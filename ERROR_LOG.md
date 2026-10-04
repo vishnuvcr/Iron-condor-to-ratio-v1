@@ -571,3 +571,13 @@
 - Corrected the E150 impact scan to normalize timestamps consistently and to classify **changed**, **old-only**, and **corrected-only** close states as affected. Any such state blocks final inference and requires affected scenario reruns.
 - Added regressions for aware/naive timezone equivalence, calendar-date mismatch, and all three impact classifications.
 - No production P&L or profitability result is accepted from the defective implementation.
+
+
+### E153–E156 — E150 impact-scan remediation blockers (2026-10-04)
+- **Status:** CORRECTED; fresh independent tester gate required.
+- E153: fixed missing colon in the impact classification branch.
+- E154: corrected contract-master regression tests to call the public `expiry_timestamp_is_executable` predicate.
+- E155: restored the original E150 counterfactual as the latest raw expiry-day observation, including post-session observations; separately retained the intermediate pre-E151 endpoint-bounded close and corrected interval-member close.
+- E156: fixed the pandas datetime/date comparison by comparing local calendar dates explicitly.
+- Added source SHA-256 inventory and deterministic report-content hash to the impact artifact.
+- Production inference remains blocked until exact-head CI and independent tester verification are obtained.
