@@ -490,3 +490,9 @@
 - Corrected Phase 2 timestamp normalization now localizes naive values to Asia/Kolkata and converts timezone-aware values to Asia/Kolkata.
 - Added a regression test covering naive decision and expiry-close timestamps.
 - **Outcome:** no production backtest result used the defective timezone interpretation.
+
+### E143 — direct public-data fetch unavailable in the model-side container (2026-10-04)
+- **Status:** EXECUTION-ENVIRONMENT LIMITATION; no scientific result affected.
+- Direct container/network retrieval of the pinned Hugging Face parquet file failed because the model-side runtime has no external DNS/network access.
+- The repository workflow retains the pinned Hugging Face acquisition path, cache-first restoration and immutable source-revision controls.
+- No external data were fabricated or substituted as a consequence of this failure.
