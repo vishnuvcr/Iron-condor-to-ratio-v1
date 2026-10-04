@@ -403,3 +403,11 @@
 - This defect was exposed by the terminal evidence artifact, not by a partial scan.
 - Corrected to explicit chunk iteration and added a deterministic regression test.
 - No mathematical/data-quality conclusion was drawn from the failed run.
+
+
+### E131 — G6 32-shard aggregation mismatch (2026-10-04)
+- **Status:** CORRECTED; fresh exact-head validation required.
+- The production workflow scans 32 deterministic shards, but the aggregate job still supplied `G6_SHARD_COUNT=8`.
+- This would have caused the aggregator to inspect only shard 00–07 and reject/incompletely represent the 32-shard evidence set.
+- Corrected the aggregate environment to `G6_SHARD_COUNT=32`.
+- No mathematical/data-selection rule changed.
