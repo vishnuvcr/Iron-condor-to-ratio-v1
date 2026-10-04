@@ -862,19 +862,6 @@ class BacktestEngine:
         self.last_call_delta = float(call_row["abs_delta"]) if call_row is not None else None
         self.last_put_delta = float(put_row["abs_delta"]) if put_row is not None else None
 
-    def _position_metric(self, ts: pd.Timestamp, position: list[LegIntent]) -> Optional[float]:
-        metric = 0.0
-        found_short = False
-        for leg in position:
-            if leg.side != "SELL":
-                continue
-            found_short = True
-            row = self.book.snapshot(ts, leg.contract_id)
-            if row is None or not np.isfinite(row["abs_delta"]):
-                return None
-            metric += float(row["abs_delta"]) * abs(leg.lots)
-        return metric if found_short else None
-
 
 def file_sha256(path: Path) -> str:
     digest = hashlib.sha256()
