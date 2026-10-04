@@ -180,7 +180,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }
+          ref: ${{ inputs.expected_commit_sha || github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -196,7 +196,7 @@ jobs:
         run: |
           set -euo pipefail
           for bps in 0 5 10 20 50; do
-            test -d "data/results/phase2/phase2-backtest-${bps}bps"
+            test -d "data/results/phase2/phase2-backtest-${bps}bps/slippage-${bps}bps"
           done
       - name: Analyze
         run: |
