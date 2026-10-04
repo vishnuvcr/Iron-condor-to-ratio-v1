@@ -387,3 +387,11 @@
 - The shard held roughly one-eighth of the full option population, so the calculation did not complete within the bounded wall-clock budget.
 - No rows are to be sampled, skipped, interpolated, or mathematically simplified to hide the runtime issue.
 - Increased exhaustive file-index partitioning from 8 to 32 shards while retaining the same production solver, row traversal, exact timestamp joins, and aggregation logic.
+
+
+### E128 — G6 shard failure evidence was hidden (2026-10-04)
+- **Status:** CORRECTED; fresh exact-head validation required.
+- In run 37182645762, shard 10 exited code 2 after ~9m50s, but the shard evidence upload was skipped because the workflow uploaded only on success.
+- The production script writes structured failure reports, but the workflow did not preserve them on failure, preventing independent diagnosis.
+- Added `if: always()` evidence printing and artifact upload for shard reports.
+- No data rows are to be skipped or simplified to avoid this failure.
