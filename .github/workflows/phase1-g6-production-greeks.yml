@@ -1,5 +1,9 @@
 name: Phase 1 G6 Production Greek Evidence
 
+concurrency:
+  group: g6-production-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
