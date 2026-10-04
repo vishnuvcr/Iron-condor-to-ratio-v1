@@ -319,3 +319,6 @@
 
 
 | E114 | 2026-10-04 | 1 / G6 | HF option acquisition failed at the file-list stage with HTTP 400 because the tree API request combined `expand=true` and pagination parameters unsupported by that endpoint combination. | The acquisition contract was inferred too broadly instead of matching the documented recursive tree API. | Changed the listing call to the supported recursive tree endpoint without `expand/limit`; file-level SHA-256 validation remains unchanged. |
+
+
+| E115 | 2026-10-04 | 1 / G6 | Complete production scan reached option/underlying/r/q data and then raised `KeyError: '0.30'` while recording target-delta diagnostics. | Target error storage was initialized with `str(float)` keys (`0.3`) but later accessed using canonical two-decimal keys (`0.30`). | Standardized target-error keys to `f"{t:.2f}"` and added a deterministic regression test for all five target keys. |
