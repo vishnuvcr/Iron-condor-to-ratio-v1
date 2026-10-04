@@ -725,3 +725,22 @@ No profitability result has been claimed. Exact-data integration remains depende
 Validation control note:
 - PR-triggered Actions run for exact Phase 2 head `8a060402e76e5d3b8acdc10b13a7c21f3bdd538f` was not observable through the GitHub connector (zero workflow runs/statuses).
 - This is logged as an execution-environment limitation, not as a test pass.
+
+## 2026-10-04 — Phase 2 cost-model freeze candidate
+
+Current developer head before this status synchronization: a7c72e04fa5683528643a9af251fee6308509e7e.
+
+Cost layer now includes:
+- Paytm Money cohort-specific fixed brokerage assumptions;
+- historical NSE equity-option transaction slabs through 2024-09-30;
+- uniform NSE option transaction charge from 2024-10-01;
+- post-2026-03-01 NSE transaction/IPFT rates;
+- date-effective STT, SEBI turnover fee and stamp duty;
+- 18% GST on configured taxable service components;
+- exact monthly NSE slab totals calculated from the completed strategy fill ledger and allocated pro-rata only for reporting;
+- fail-closed rule-resolution and calendar/side coverage validation;
+- explicit unit-conversion tests.
+
+A material unit-conversion defect in the first cost schedule draft was caught before any production result, corrected, and logged as E141.
+
+Phase 2 milestone status: implementation freeze candidate; production-data integration and independent tester audit remain outstanding. No performance result is claimed.
