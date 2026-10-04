@@ -14,6 +14,10 @@ on:
       - "scripts/phase2_run_cycles.py"
       - "scripts/validate_phase2_contract_master.py"
       - "scripts/build_phase2_contract_master.py"
+      - "scripts/analyze_phase2_results.py"
+      - "scripts/test_phase2_backtest_engine.py"
+      - "scripts/test_phase2_cost_schedule.py"
+
       - "scripts/acquire_g6_nifty_options.py"
       - "scripts/acquire_g6_nifty_underlying.py"
       - "scripts/acquire_g6_nse_q_history.py"
@@ -30,6 +34,10 @@ on:
       - "scripts/prepare_phase2_normalized_data.py"
       - "scripts/phase2_run_cycles.py"
       - "scripts/validate_phase2_contract_master.py"
+      - "scripts/build_phase2_contract_master.py"
+      - "scripts/analyze_phase2_results.py"
+      - "scripts/test_phase2_backtest_engine.py"
+      - "scripts/test_phase2_cost_schedule.py"
       - "scripts/acquire_g6_nifty_options.py"
       - "scripts/acquire_g6_nifty_underlying.py"
       - "scripts/acquire_g6_nse_q_history.py"
@@ -126,7 +134,7 @@ jobs:
             data/raw/contracts
             data/processed/g6
             data/processed/phase2/options
-          key: phase2-normalized-${{ hashFiles('scripts/prepare_phase2_normalized_data.py','scripts/phase1_g6_production_greeks.py','data/manifests/phase1_control_sources.json','data/manifests/phase1_session_rules.json') }}
+          key: phase2-normalized-${{ hashFiles('scripts/prepare_phase2_normalized_data.py','scripts/build_phase2_contract_master.py','scripts/validate_phase2_contract_master.py','scripts/phase1_g6_production_greeks.py','data/manifests/phase1_control_sources.json','data/manifests/phase1_session_rules.json') }}
       - name: Upload normalization manifest
         uses: actions/upload-artifact@v4
         with:
@@ -159,7 +167,7 @@ jobs:
             data/raw/contracts
             data/processed/g6
             data/processed/phase2/options
-          key: phase2-normalized-${{ hashFiles('scripts/prepare_phase2_normalized_data.py','scripts/phase1_g6_production_greeks.py','data/manifests/phase1_control_sources.json','data/manifests/phase1_session_rules.json') }}
+          key: phase2-normalized-${{ hashFiles('scripts/prepare_phase2_normalized_data.py','scripts/build_phase2_contract_master.py','scripts/validate_phase2_contract_master.py','scripts/phase1_g6_production_greeks.py','data/manifests/phase1_control_sources.json','data/manifests/phase1_session_rules.json') }}
           restore-keys: |
             phase2-normalized-
       - name: Validate contract master again
