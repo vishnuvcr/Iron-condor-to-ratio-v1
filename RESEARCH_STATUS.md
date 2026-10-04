@@ -744,3 +744,25 @@ Cost layer now includes:
 A material unit-conversion defect in the first cost schedule draft was caught before any production result, corrected, and logged as E141.
 
 Phase 2 milestone status: implementation freeze candidate; production-data integration and independent tester audit remain outstanding. No performance result is claimed.
+
+## 2026-10-04 — Phase 2 integration-control status
+
+Current developer head before this status commit: 2939f05e5b604e6a7694c594b20749d6b2cafaf3.
+
+Phase 2 engineering is complete enough for independent milestone audit, but production performance is **not yet claimed**.
+
+Blocking scientific/data inputs for a production result:
+- authoritative historical NIFTY contract master with lot-size/tick-size/contract-lifecycle reconciliation;
+- successful end-to-end production workflow execution/observable artifacts;
+- independent tester milestone report on the exact final Phase 2 head.
+
+Non-blocking implementation work already completed:
+- deterministic source rule engine;
+- static IC benchmark mode;
+- cache-first production workflow;
+- G4 session-date gating;
+- production Greek normalization;
+- dated cost schedule and validations;
+- statistical analysis and context specifications.
+
+The owner progression waiver remains active: intermediate evidence-completeness gaps may be deferred, but material data/logic/cost/look-ahead/reproducibility failures remain blocking.
