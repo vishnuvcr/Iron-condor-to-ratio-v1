@@ -13,7 +13,7 @@ RAW_ROOT = Path("data/raw/options/NIFTY")
 OUT = Path("data/raw/contracts/nifty_contract_master.parquet")
 MANIFEST = Path("data/raw/contracts/nifty_contract_master_manifest.json")
 STUDY_START = pd.Timestamp("2021-01-01", tz="Asia/Kolkata")
-STUDY_END = None
+STUDY_END = pd.Timestamp("2026-07-02 23:59:59", tz="Asia/Kolkata")
 TICK_SIZE = 0.05
 SESSION_RULES = Path("data/manifests/phase1_session_rules.json")
 
@@ -78,9 +78,12 @@ def execution_intervals_for_date(expiry: pd.Timestamp) -> list[list[str]]:
 
 
 def timestamp_in_execution_interval(timestamp: pd.Timestamp, expiry: pd.Timestamp) -> bool:
-    if timestamp.normalize() != expiry:
+    timestamp = pd.Timestamp(timestamp)
+    expiry = pd.Timestamp(expiry).tz_localize("Asia/Kolkata") if pd.Timestamp(expiry).tzinfo is None else pd.Timestamp(expiry).tz_convert("Asia/Kolkata")
+    timestamp = timestamp.tz_localize("Asia/Kolkata") if timestamp.tzinfo is None else timestamp.tz_convert("Asia/Kolkata")
+    if timestamp.normalize() != expiry.normalize():
         return False
-    local_time = timestamp.tz_convert("Asia/Kolkata").time()
+    local_time = timestamp.time()
     for start, end in execution_intervals_for_date(expiry):
         sh, sm = map(int, start.split(":"))
         eh, em = map(int, end.split(":"))
@@ -115,7 +118,10 @@ def execution_intervals_for_date(expiry: pd.Timestamp) -> list[tuple[pd.Timestam
 
 
 def expiry_timestamp_is_executable(timestamp: pd.Timestamp, expiry: pd.Timestamp) -> bool:
-    if timestamp.normalize() != expiry:
+    timestamp = pd.Timestamp(timestamp)
+    expiry = pd.Timestamp(expiry).tz_localize("Asia/Kolkata") if pd.Timestamp(expiry).tzinfo is None else pd.Timestamp(expiry).tz_convert("Asia/Kolkata")
+    timestamp = timestamp.tz_localize("Asia/Kolkata") if timestamp.tzinfo is None else timestamp.tz_convert("Asia/Kolkata")
+    if timestamp.normalize() != expiry.normalize():
         return False
     return any(start <= timestamp <= end for start, end in execution_intervals_for_date(expiry))
 
