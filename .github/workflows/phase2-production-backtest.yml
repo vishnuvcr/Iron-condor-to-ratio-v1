@@ -15,6 +15,7 @@ on:
       - "scripts/validate_phase2_contract_master.py"
       - "scripts/build_phase2_contract_master.py"
       - "scripts/phase2_e150_impact_scan.py"
+      - "scripts/phase2_e150_impact_scan.py"
       - "scripts/analyze_phase2_results.py"
       - "scripts/test_phase2_backtest_engine.py"
       - "scripts/test_phase2_cost_schedule.py"
@@ -121,6 +122,25 @@ jobs:
         run: PYTHONPATH=scripts pytest -q scripts/test_phase2_contract_master.py
       - name: Reconstruct monthly historical contract master
         run: python scripts/build_phase2_contract_master.py
+      - name: Run E150/E151 old-vs-corrected impact scan
+        run: python scripts/phase2_e150_impact_scan.py
+      - name: Upload E150/E151 impact scan
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase2-e150-impact-scan
+          path: data/validation/phase2_e150_impact_scan.json
+          retention-days: 30
+      - name: Fail closed if expiry-close impact exists
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path("data/validation/phase2_e150_impact_scan.json").read_text())
+          affected=int(report["affected_contract_groups"])
+          if affected:
+              raise SystemExit(f"E150/E151_IMPACT_REQUIRES_AFFECTED_RERUN:{affected}")
+          print("E150/E151 impact scan: zero affected contract groups")
+          PY
       - name: Scan E150/E151 expiry timing impact
         run: python scripts/phase2_e150_impact_scan.py
       - name: Upload E150/E151 impact scan
