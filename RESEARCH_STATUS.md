@@ -542,3 +542,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Added pinned HF NIFTY acquisition with expected SHA-256 `613864738250107807354c17c7092986960220ac3062b830c65cc5f9ec16fcf7`, revision `92e0288`, cache validation, and `HF_TOKEN` support.
 - Corrected G6 workflow cache paths and trigger paths so the underlying source is retained/reused.
 - G6 remains FAIL/OPEN pending fresh exact-head CI and independent tester re-audit. G5 remains FAIL/WAIVED; G9 PASS; G13/G14 and Phase 2 BLOCKED.
+
+
+## 2026-10-04 — E112/E113 G6 option-input materialization
+- Exact G6 artifact `11292375340` showed underlying rows `486,050` and full strict-prior r/q coverage, but failed closed with `OPTION_INPUTS_MISSING`.
+- Added pinned HF NIFTY option acquisition at revision `0f4800e`, with per-file SHA-256 validation, concurrent download, manifest provenance, and HF_TOKEN support.
+- Corrected workflow cache paths/hash inputs so option data are retained and reused.
+- G6 remains FAIL/OPEN pending fresh exact-head CI and independent tester re-audit.
