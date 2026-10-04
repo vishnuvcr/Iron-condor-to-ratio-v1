@@ -425,3 +425,7 @@ The pinned NIFTY option acquisition initially failed at Hugging Face file listin
 
 ## 2026-10-04 — E115 target-key correction
 G6 production now reaches Greek selection with all required data inputs, but the latest scan exposed a target-delta diagnostic key-format bug (`0.3` versus `0.30`). The developer standardized the keys and added regression coverage. G6 remains OPEN/FAIL pending fresh exact-head CI and independent tester re-audit.
+
+
+## 2026-10-04 — E115 G6 target-key correction
+The complete G6 scan reached valid input/coverage state but failed on an internal diagnostic key mismatch (`0.3` versus `0.30`). This was corrected without changing the Greek solver or selection rules. G6 remains OPEN/FAIL pending fresh exact-head CI and tester re-audit.
