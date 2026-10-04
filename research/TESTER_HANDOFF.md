@@ -73,3 +73,12 @@ Tester must verify the exact developer head, Actions run/checkout SHA, complete 
 - Developer PR #37 implements that binding and adds an optional exact expected commit SHA for manual dispatch.
 - G6 remains OPEN; tester PR #36 also identified missing cache restore/save in the source-acquisition workflow. Developer PR #38 adds this cache control.
 - Tester must independently review the corrected exact heads and associated Actions evidence before any gate advancement.
+
+
+## 2026-10-04 — G6 conditional-acceptance tester handoff
+Developer requests an independent determination under `research/G6_CONDITIONAL_ACCEPTANCE_PROPOSAL_20261004.md`.
+
+Tester branch: `tester/phase-1-g6-conditional-acceptance-20261004`
+Developer assessment head: `e9d319e7f2e902f77696fc4dbd029fa93cbbce7f`
+
+The tester must review PR #49's findings and the immutable completed G6 artifact, then decide whether the numerical result can be conditionally accepted despite D1-D3 evidence-retention gaps. The tester must not infer missing artifact fields or relabel a normal PASS. Verdict must be PASS, FAIL, or CONDITIONAL PASS WITH CONDITIONS. Until that verdict exists, G6/G13/G14/Phase 2 remain blocked.
