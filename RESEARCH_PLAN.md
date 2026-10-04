@@ -46,7 +46,7 @@ Status: IN PROGRESS — G13/Phase 2 remains blocked
 - Prevent look-ahead in strike selection and execution.
 
 ## Phase 2 — Backtest engine
-Status: BLOCKED
+Status: IN PROGRESS — progression waiver active
 - Implement a deterministic Python state machine.
 - Use minute/event data where available.
 - Primary methodology uses the frozen bid/ask-free proxy-execution model in `research/PHASE1_EXECUTION_PROXY_SPEC.md`: decision on a completed 1-minute bar, base fill at the next eligible option bar open, adverse per-leg slippage of 0/5/10/20/50 bps with a historical tick-size floor, and date-effective transaction costs. Historical bid/ask is not reconstructed or claimed.
@@ -108,3 +108,17 @@ The frozen proxy convention is:
 The 10-bps scenario is the primary scenario; 0 bps is a diagnostic lower bound and 20/50 bps are stress sensitivities.
 
 This change supersedes the prior mandatory historical bid/ask requirement for the primary backtest. It does **not** authorize Phase 2: independent tester approval is required before Phase 2.
+
+
+## 2026-10-04 — Principal-investigator progression waiver
+
+The project owner accepted the historical G6 aggregate for research progression with deferred evidence audit and instructed that intermediate gate strictness be reduced. This is a control-policy change, not a change to the scientific model.
+
+Phase progression policy from this point:
+- material scientific/data defects remain blocking;
+- evidence-completeness defects may be deferred to milestone/final audit when the underlying numerical evidence is internally reconciled;
+- all costs, slippage, brokerage, taxes, data limitations, assumptions and provenance remain mandatory;
+- the independent tester remains separate and will consolidate milestone/final audits before final validated trading acceptance;
+- the original Phase 1 gates and their historical audit records remain append-only and are not retroactively relabelled.
+
+Phase 2 is therefore opened for deterministic engine implementation. No optimization is authorized at this step.
