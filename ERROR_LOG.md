@@ -470,3 +470,15 @@
 - Exact Phase 2 developer head `8a060402e76e5d3b8acdc10b13a7c21f3bdd538f` was placed in PR #53 with a dedicated PR/manual workflow.
 - The GitHub connector reports zero workflow runs and zero published statuses for that exact commit.
 - No CI pass is claimed from this absence. Source code, specification and regression design remain subject to later independent milestone audit.
+
+
+### E141 — cost schedule unit-conversion defect caught before integration (2026-10-04)
+- **Severity:** MATERIAL PRE-INTEGRATION COST-MODEL DEFECT; corrected before any production backtest result.
+- Initial JSON conversion incorrectly divided several NSE/IPFT rupee-per-crore/rupee-per-lakh rates by an extra factor of ten.
+- Corrected:
+  - NSE ₹3,503/crore → 0.0003503 turnover rate.
+  - NSE ₹3,552.99/crore → 0.000355299 turnover rate.
+  - IPFT ₹50/crore → 0.000005 turnover rate.
+  - IPFT ₹0.01/crore → 0.000000001 turnover rate.
+- Added explicit unit-conversion regression tests and CI inclusion.
+- **Outcome:** no backtest results were generated from the defective schedule.
