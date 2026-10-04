@@ -569,3 +569,17 @@ Phase 2 remains production-blocked. The corrected impact scan must be executed o
 ### E152 exact-head freeze
 
 Developer remediation head is now e323105248bbe38200f8771246ba5a323937655f. Fresh tester gate: tester/phase-2-e152-final-audit-v3-20261004. PR #54 contains the remediation. Production remains blocked pending independent verification and exact-head CI evidence.
+
+
+## 2026-10-04 — E153–E156 remediation
+
+Fresh tester audit of the prior E152 head found four blockers: impact-scan syntax, a stale regression-test predicate, an impact scan that did not reproduce the original E150 latest-raw-close defect, and an invalid pandas datetime/date comparison. The tester also found stale exact-head handoff provenance.
+
+Developer remediation in PR #55 restores the three-state chronology:
+1. original E150 defect = latest raw expiry-day observation, including post-session data;
+2. intermediate pre-E151 = latest expiry-day observation up to the latest allowed session endpoint;
+3. corrected E151 = latest observation inside an explicitly allowed execution interval.
+
+The scan now separately reports original-vs-corrected materiality and intermediate-vs-corrected diagnostics, compares study horizon using local calendar dates, and records source SHA-256 values plus a deterministic report-content hash.
+
+Phase 2 remains production-blocked until a fresh tester audits the exact final developer SHA, the complete tests execute successfully, the corrected scan runs over pinned data, and exact-head CI/artifact provenance is independently verified.
