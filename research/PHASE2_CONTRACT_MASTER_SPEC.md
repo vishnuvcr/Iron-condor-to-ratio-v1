@@ -96,3 +96,8 @@ The reconstruction is accepted as the production candidate only after:
 5. the independent tester audits the exact resulting manifest.
 
 An exact historical NSE contract file, if later obtained, supersedes the reconstruction after reconciliation.
+
+
+## E150 — expiry-close boundary control
+
+The reconstructed expiry_close_ts is not the latest raw timestamp observed on the expiry date. It is the latest observed option timestamp on that date that is at or before the date-specific F&O execution-session close in phase1_session_rules.json. Post-session observations remain source data for audit but cannot extend the execution boundary. A regression test explicitly proves that a 15:31 observation cannot extend a normal 15:30 expiry close.
