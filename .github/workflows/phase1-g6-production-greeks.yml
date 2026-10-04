@@ -12,6 +12,7 @@ on:
       - "data/processed/g6/**"
       - "scripts/acquire_g6_nse_q_history.py"
       - "scripts/acquire_g6_rbi_risk_free.py"
+      - "scripts/acquire_g6_nifty_underlying.py"
   pull_request:
     branches: [main]
     paths:
@@ -47,6 +48,7 @@ jobs:
         with:
           path: |
             data/raw/g6_sources
+            data/raw/index
             data/processed/g6
           key: g6-rq-20261004-${{ hashFiles('scripts/acquire_g6_nse_q_history.py','scripts/acquire_g6_rbi_risk_free.py','scripts/acquire_g6_nifty_underlying.py','data/manifests/phase1_control_sources.json') }}
           restore-keys: |
