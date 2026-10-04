@@ -71,3 +71,9 @@ def test_vectorized_delta_matches_scalar():
     got=bs_delta_arrays(s,k,t,r,q,iv,kind)
     exp=np.array([bs_delta(float(a),float(b),float(c),float(d),float(e),float(g),int(h)) for a,b,c,d,e,g,h in zip(s,k,t,r,q,iv,kind)])
     assert np.allclose(got,exp,rtol=1e-12,atol=1e-12)
+
+
+def test_g6_shard_configuration_is_valid():
+    from phase1_g6_production_greeks import SHARD_INDEX, SHARD_COUNT
+    assert SHARD_COUNT >= 1
+    assert 0 <= SHARD_INDEX < SHARD_COUNT
