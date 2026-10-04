@@ -184,7 +184,7 @@ jobs:
           merge-multiple: true
       - name: Aggregate exhaustive G6 evidence
         env:
-          G6_SHARD_COUNT: 8
+          G6_SHARD_COUNT: 32
         run: python scripts/aggregate_g6_production_greeks.py
       - name: Upload aggregated G6 production evidence
         uses: actions/upload-artifact@v4
