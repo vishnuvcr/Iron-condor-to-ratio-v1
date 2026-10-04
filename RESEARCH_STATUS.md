@@ -833,3 +833,10 @@ Per the owner-authorized lenient-gate policy:
 - no existing P&L/profitability result is treated as final;
 - the consolidated final audit must explicitly assess E150 impact before a trading-strategy conclusion;
 - if E150 can materially change trade timing/P&L, affected production scenarios must be rerun before the final conclusion; otherwise E150 may be documented as a controlled limitation.
+
+
+## 2026-10-04 — Pre-results statistical/manuscript continuation under E150 waiver
+
+Phase 3 preparation continues without executing or interpreting new production P&L. The statistical plan now explicitly locks result-bearing sections until E150 impact is resolved. A structured manuscript framework has been added at research/MANUSCRIPT_FRAMEWORK.md.
+
+Current rule: expiry-day timing analyses are E150-dependent; no final profitability inference, parameter selection, or strategy recommendation is permitted from provisional evidence.
