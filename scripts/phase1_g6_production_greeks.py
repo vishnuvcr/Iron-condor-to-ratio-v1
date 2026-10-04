@@ -215,7 +215,7 @@ def main():
                                  "r_missing","q_missing","invalid_model_input","nonpositive_premium","no_arbitrage_rejection",
                                  "bracket_failure","non_convergence","iv_converged","target_timestamp_groups","target_selected_records",
                                  "target_available_0.30","target_available_0.10","target_available_0.50","target_available_0.40","target_available_0.08"]}
-        target_errors={str(t):[] for t in TARGETS}
+        target_errors={f"{t:.2f}":[] for t in TARGETS}
         delta_bins=np.linspace(-1.0,1.0,101); delta_hist=np.zeros(100,dtype=np.int64)
         abs_bins=np.linspace(0.0,1.0,101); abs_hist=np.zeros(100,dtype=np.int64)
         iv_bins=np.linspace(0.0,3.0,121); iv_hist=np.zeros(120,dtype=np.int64)
