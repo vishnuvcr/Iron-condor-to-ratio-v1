@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -10,6 +11,14 @@ import pyarrow.parquet as pq
 ROOT = Path("data/raw/options/NIFTY")
 RULES = Path("data/manifests/phase1_session_rules.json")
 OUT = Path("data/validation/phase2_e150_impact_scan.json")
+
+
+def sha256(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as fh:
+        for block in iter(lambda: fh.read(1024 * 1024), b""):
+            h.update(block)
+    return h.hexdigest()
 
 
 def normalize_ts(series: pd.Series) -> pd.Series:
@@ -158,7 +167,6 @@ def main() -> None:
             continue
         extension_seconds = ((original_close - corrected_close).total_seconds()
                              if original_present and corrected_present else None)
-        classification_counts[category] += 1
         affected.append({
             "contract_id": f"{key[0]}|{key[1]:.4f}|{key[2]}",
             "classification": category,
@@ -174,6 +182,7 @@ def main() -> None:
         "status": "COMPLETE",
         "study_data_end": str(study_end),
         "source_files": len(files),
+        "source_sha256": {str(p): sha256(p) for p in files},
         "contracts_scanned": len(groups),
         "affected_contract_groups": len(affected),
         "original_vs_corrected_affected_contract_groups": len(affected),
@@ -186,6 +195,8 @@ def main() -> None:
         "interpretation": "E150 materiality is assessed against the original defective latest-raw expiry-day close. Any original-vs-corrected change, original-only, or corrected-only group is affected and requires production scenario reruns before final inference. Intermediate pre-E151 differences are separately reported for E151 diagnostics.",
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
+    payload = json.dumps(result, sort_keys=True, indent=2).encode()
+    result["report_content_sha256"] = hashlib.sha256(payload).hexdigest()
     OUT.write_text(json.dumps(result, indent=2))
     print(json.dumps(result, indent=2))
 
