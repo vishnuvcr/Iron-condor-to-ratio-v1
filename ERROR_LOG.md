@@ -418,3 +418,11 @@
 - Exact-head run 37188412462 uses 32 shards rather than the earlier 8-shard design.
 - Several shards have completed successfully and others remain active/queued.
 - Tester approval must verify deterministic complete file partitioning, aggregate coverage, and absence of row omission/duplication under the 32-way partition.
+
+
+### E126 — G6 aggregate missing NumPy dependency (2026-10-04)
+- **Status:** CORRECTED / fresh exact-head validation required.
+- Run `37188412462`, developer execution head `7825a59b47766b3116f6a3588a26fcaa4b2692a7`.
+- All 32 shard artifacts completed successfully and downloaded by aggregate job `111405080689`.
+- Aggregate failed because `scripts/aggregate_g6_production_greeks.py` imports NumPy but the aggregate job installed no NumPy.
+- No scientific output was accepted from the failed aggregate.
