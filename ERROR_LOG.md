@@ -509,3 +509,15 @@
 - The manifest calculation attempted boolean conversion of pandas DataFrames.
 - Replaced with deterministic list-length counting.
 - No production result used the defective expression.
+
+
+### E146 — Phase 2 workflow expression interpolation defect (2026-10-04)
+- **Severity:** WORKFLOW REPRODUCIBILITY DEFECT; corrected before production.
+- Corrected malformed single-brace GitHub Actions expressions in checkout/ref/cache/artifact workflow fields to valid \${{ ... }} syntax.
+- No production result used the malformed workflow.
+
+### E147 — Phase 2 analysis artifact-pattern mismatch (2026-10-04)
+- **Severity:** WORKFLOW ORCHESTRATION DEFECT; corrected before production.
+- Matrix artifact names and analysis download pattern are now identical: `phase2-backtest-<bps>bps`.
+- Added a fail-closed assertion requiring all five registered scenarios: 0/5/10/20/50 bps.
+- No production result used the mismatched artifact pipeline.
