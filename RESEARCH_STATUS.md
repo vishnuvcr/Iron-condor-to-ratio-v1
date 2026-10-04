@@ -592,3 +592,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - Production reconstruction was converted from whole-file pandas loading to exact 250,000-row Arrow batches.
 - No option rows are discarded for performance; the same IV, delta, target-selection and failure logic is applied to every batch.
 - G6 remains FAIL/OPEN pending fresh exact-head CI and tester audit.
+
+
+## 2026-10-04 — E120 exhaustive sharded G6 architecture
+- Single-job full-sample scan remained the computational bottleneck.
+- Replaced it with 8 parallel exact file shards plus an aggregation gate.
+- Every option parquet file is assigned to exactly one shard; each row is processed once; the aggregator rejects missing/duplicate/incomplete shard evidence.
+- G6 remains FAIL/OPEN pending fresh exact-head CI and independent tester audit.
