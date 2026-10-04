@@ -699,3 +699,9 @@ Developer corrected interval membership, aligned the contract-master horizon to 
 - Opened PR #57 to bind the execution path to the exact head.
 - GitHub reports zero Actions runs/statuses for the exact SHA. Direct clone from the runtime failed because external DNS/network access is unavailable.
 - E158 recorded as an execution-environment limitation. No previous artifact was reused; no quantitative impact result or profitability conclusion was fabricated.
+
+
+## 2026-10-04 — E159 discovered and remediated
+- Fresh CI run `37210327594` on execution lineage failed in the contract-master chronology suite before any impact scan or production scenario.
+- E159: aware expiry passed to unconditional `tz_localize()`; two regression fixtures lacked `study_data_end`.
+- Developer created `phase-2-e159-remediation-20261004`, fixed aware/naive expiry normalization and completed the fixtures. Fresh tester gate is required.
