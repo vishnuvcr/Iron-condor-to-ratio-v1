@@ -556,3 +556,10 @@ A deterministic old-vs-corrected E150/E151 impact scan is now part of the produc
 Developer head 1501165689bf6f879628f34fab1fe787e1759697 now enforces special-session interval membership, aligns the contract horizon to the documented 2026-07-02 session-data horizon, excludes out-of-horizon expiries, and runs a deterministic E150/E151 old-vs-corrected impact scan before production backtest execution.
 
 Fresh independent tester branch: tester/phase-2-e151-remediation-audit-20261004. No profitability or strategy conclusion is final until the impact scan is independently verified and any affected cycles are rerun.
+
+
+## 2026-10-04 — Independent tester E151 v2
+- Developer head `66e2a06850eb75f4b9eebca4bf994ba592a59ff7` was independently audited.
+- E151 interval membership and horizon controls are present, but E152 was found: timezone-aware observations are compared with timezone-naive expiry dates.
+- The E150/E151 impact scan is therefore invalid for zero-impact certification; corrected-close-missing groups are also omitted from the affected set.
+- **Production gate remains BLOCKED. No profitability/trading conclusion is accepted.**
