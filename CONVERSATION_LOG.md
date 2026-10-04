@@ -521,3 +521,10 @@ This file records user-visible project instructions and work decisions, not hidd
 
 ## 2026-10-04 — Automatic developer-to-tester handover and E104 correction
 User explicitly required automatic handover to the tester branch and instructed that research must not stop at a tester failure. Developer created tester PR #47 from exact head 2dd4506e5173052c58573a94f9a3368f1a7d3190. Tester independently returned FAIL/OPEN, identifying RBI cache reuse and no-lookahead semantics defects. Developer corrected both without advancing any gate, added regression coverage, and will automatically re-handover from the corrected exact head after CI evidence.
+
+
+## 2026-10-04 — E105 bounded acquisition remediation
+- The exact-head G6 run `37171349785` did not progress beyond official RBI acquisition within a reasonable bounded period.
+- Inspection showed the corrected cache/provenance implementation still used a broad 24000–27900 scan with 20 workers and 10-second timeouts; this could consume an excessive CI window.
+- Developer tightened the scan to 24000–28500, 100 workers, 3-second timeouts, preserving fail-closed behavior and all provenance/no-lookahead rules.
+- The run `37171349785` is not a gate result. A fresh exact-head run is required, followed by automatic isolated tester handover.
