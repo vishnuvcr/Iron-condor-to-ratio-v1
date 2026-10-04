@@ -70,10 +70,14 @@ def test_missing_next_bar_fails_group_without_partial_fill():
 
 def test_costs_are_required():
     df=fixture()
-    incomplete=CostSchedule([] ,gst_rate=0.18)
+    incomplete=CostSchedule([],gst_rate=0.18)
     engine=BacktestEngine(df,incomplete,EngineConfig(entry_min_dte_days=1,slippage_bps=0))
-    result=engine.run()
-    assert (result["events"]["execution_status"]=="FAILED_INCOMPLETE_EXECUTION").any()
+    try:
+        engine.run()
+    except RuntimeError as exc:
+        assert "COST_RULE_RESOLUTION_FAILURE" in str(exc)
+    else:
+        raise AssertionError("missing cost schedule did not fail closed")
 
 def test_transition_missing_target_is_consumed():
     df=fixture()
