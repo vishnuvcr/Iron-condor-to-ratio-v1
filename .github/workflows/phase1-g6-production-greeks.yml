@@ -148,7 +148,12 @@ jobs:
           G6_SHARD_COUNT: 32
         timeout-minutes: 30
         run: python scripts/phase1_g6_production_greeks.py
+      - name: Print G6 shard failure evidence
+        if: always()
+        run: |
+          if test -f data/validation/phase1_g6_production_greeks_shard_*.json; then cat data/validation/phase1_g6_production_greeks_shard_*.json; else echo "NO_SHARD_REPORT"; fi
       - name: Upload G6 shard evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: phase1-g6-shard-${{ matrix.shard }}
