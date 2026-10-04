@@ -325,3 +325,6 @@
 
 
 | E115 | 2026-10-04 | 1 / G6 | Complete G6 production scan failed after all inputs/coverage were valid with `failure_reason: "'0.30'"`. | `target_errors` was keyed by raw float strings (`0.3`) while the selected-target lookup used normalized two-decimal labels (`0.30`). | Normalized `target_errors` initialization to `f"{t:.2f}"`, matching counters and lookup keys. No selection criterion or data rule changed. |
+
+
+| E116 | 2026-10-04 | 1 / G6 | Exact-head full production scan `37173353749` remained in the production audit for many hours without completing. | The workflow had no explicit runtime bound, so a pathological/full-sample solver execution could stall the gate indefinitely. | Added a 30-minute CI timeout to the production evidence step. This is a runtime safety bound only; it does not change data, solver, selection, or fail-closed rules. A timeout is a FAIL, never a PASS. |
