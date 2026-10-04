@@ -51,8 +51,8 @@ def test_special_session_gap_observation_is_rejected():
             m.SESSION_RULES = p
             gap = expiry.tz_localize("Asia/Kolkata") + pd.Timedelta(hours=10, minutes=30)
             valid = expiry.tz_localize("Asia/Kolkata") + pd.Timedelta(hours=12, minutes=30)
-            assert not m.timestamp_in_execution_interval(gap, expiry)
-            assert m.timestamp_in_execution_interval(valid, expiry)
+            assert not m.expiry_timestamp_is_executable(gap, expiry)
+            assert m.expiry_timestamp_is_executable(valid, expiry)
             assert pd.isna(m.update_expiry_close_ts(pd.NaT, gap, expiry))
             assert m.update_expiry_close_ts(pd.NaT, valid, expiry) == valid
         finally:
