@@ -151,3 +151,5 @@ jobs:
 # E115 exact-head revalidation trigger: normalized target-delta diagnostic keys.
 
 # E116 exact-head revalidation trigger: Numba-vectorized delta calculation.
+
+# E116 exact-head revalidation trigger: bounded production scan runtime.
