@@ -50,6 +50,17 @@ def as_ist(value: pd.Timestamp) -> pd.Timestamp:
     return ts.tz_localize("Asia/Kolkata") if ts.tzinfo is None else ts.tz_convert("Asia/Kolkata")
 
 
+def same_local_calendar_date(timestamps: pd.Series, expiries: pd.Series) -> pd.Series:
+    """Compare local IST calendar dates without aware/naive datetime mixing."""
+    ts = normalize_ts(timestamps)
+    ex = pd.to_datetime(expiries, errors="coerce")
+    if getattr(ex.dt, "tz", None) is None:
+        ex = ex.dt.tz_localize("Asia/Kolkata")
+    else:
+        ex = ex.dt.tz_convert("Asia/Kolkata")
+    return ts.dt.date.eq(ex.dt.date)
+
+
 def executable(ts: pd.Timestamp, expiry: pd.Timestamp, intervals: list[tuple[pd.Timestamp, pd.Timestamp]]) -> bool:
     ts = as_ist(ts)
     expiry = as_ist(expiry)
@@ -98,7 +109,7 @@ def main() -> None:
                 & (df["expiry"].dt.date <= pd.Timestamp(rules["study_data_end"]).date())
                 & df["strike"].notna()
                 & df["option_type"].isin(["CE", "PE"])
-                & (df["timestamp"].dt.normalize() == df["expiry"])
+                & same_local_calendar_date(df["timestamp"], df["expiry"])
             ]
             for row in df.itertuples(index=False):
                 exp = pd.Timestamp(row.expiry)
