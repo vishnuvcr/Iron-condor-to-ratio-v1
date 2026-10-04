@@ -523,3 +523,10 @@ No production P&L is claimed until the exact-head workflow succeeds and the inde
 ## 2026-10-04 — Exact-head production execution pending
 
 Developer head `9e08a2882715b144cfe815f3c7d1382e848c9d18` contains the E146/E147 workflow corrections and E148 historical monthly contract reconstruction. Repository inspection is clean, but the available GitHub connector currently exposes zero Actions runs for this exact head. Consequently, no production P&L or profitability result is reported. See [Phase 2 contract provenance](research/PHASE2_CONTRACT_MASTER_PROVENANCE.md) and [Phase 2 milestone report](research/PHASE2_MILESTONE_REPORT_20261004.md).
+
+
+## 2026-10-04 — E150 expiry-close control
+
+E150 corrected a chronology defect in the reconstructed contract master: post-session observations could previously extend expiry_close_ts. The builder now bounds expiry_close_ts by the date-specific F&O execution-session close, with a regression test proving a 15:31 observation cannot extend a normal 15:30 close.
+
+Under the authorized lenient-gate policy, the full five-scenario backtest is **not rerun at this stage**. Research/statistical/manuscript work may continue as non-final evidence, but no profitability/trading-strategy conclusion is final until the consolidated audit determines whether E150 could materially affect the tested window. See [contract-master specification](research/PHASE2_CONTRACT_MASTER_SPEC.md) and [error log](ERROR_LOG.md).
