@@ -535,3 +535,10 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - CI next failed only because blank Excel metadata cells were converted to `NaT` and compared to dates.
 - Corrected parser to coerce invalid dates to missing and skip them.
 - G6 remains FAIL/OPEN pending fresh exact-head CI and tester audit.
+
+
+## 2026-10-04 — E110/E111 G6 underlying materialization
+- Exact G6 artifact `11291902175` at developer head `e1a2c3948673a39f678d66e498e571c393cd5fe9` failed closed solely because `data/raw/index/NIFTY.parquet` was missing.
+- Added pinned HF NIFTY acquisition with expected SHA-256 `613864738250107807354c17c7092986960220ac3062b830c65cc5f9ec16fcf7`, revision `92e0288`, cache validation, and `HF_TOKEN` support.
+- Corrected G6 workflow cache paths and trigger paths so the underlying source is retained/reused.
+- G6 remains FAIL/OPEN pending fresh exact-head CI and independent tester re-audit. G5 remains FAIL/WAIVED; G9 PASS; G13/G14 and Phase 2 BLOCKED.
