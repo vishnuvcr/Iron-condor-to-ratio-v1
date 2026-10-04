@@ -583,3 +583,7 @@ Developer remediation in PR #55 restores the three-state chronology:
 The scan now separately reports original-vs-corrected materiality and intermediate-vs-corrected diagnostics, compares study horizon using local calendar dates, and records source SHA-256 values plus a deterministic report-content hash.
 
 Phase 2 remains production-blocked until a fresh tester audits the exact final developer SHA, the complete tests execute successfully, the corrected scan runs over pinned data, and exact-head CI/artifact provenance is independently verified.
+
+
+## 2026-10-04 — E157 remediation
+Independent tester identified E157 in developer head `7f9f9209c77416986ba0827028067ab5b911160f`: the E150 impact scan's vectorized expiry-day predicate mixed Asia/Kolkata-aware timestamps with timezone-naive expiry dates, potentially filtering out valid expiry-day observations before chronology reconstruction. Developer remediation branch `phase-2-e157-remediation-20261004` replaces that comparison with an explicit local-calendar-date predicate and adds vectorized regression tests for naive/aware expiry and date mismatch. **E150 remains OPEN; Phase 2 production remains BLOCKED; no zero-impact, P&L, profitability or trading-strategy conclusion is authorized until a fresh tester audits the immutable remediation head and exact-head CI evidence.**
