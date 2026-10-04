@@ -148,7 +148,7 @@ def collect_monthly_expiries(files: list[Path]) -> set[pd.Timestamp]:
             df = batch.to_pandas()
             ts = ist_ts(df["timestamp"])
             exp = pd.to_datetime(df["expiry"], errors="coerce").dt.normalize()
-            mask = ts.between(STUDY_START, STUDY_END) & exp.notna()
+            mask = ts.between(STUDY_START, STUDY_END) & exp.notna() & (exp <= STUDY_END.normalize())
             if mask.any():
                 expiries.update(exp.loc[mask].tolist())
     if not expiries:
@@ -186,6 +186,7 @@ def main() -> None:
             )
             df = df[
                 df["timestamp"].between(STUDY_START, STUDY_END)
+                & (df["expiry"] <= STUDY_END.normalize())
                 & df["expiry"].isin(monthly_expiries)
                 & df["strike"].notna()
                 & df["option_type"].isin(["CE", "PE"])
