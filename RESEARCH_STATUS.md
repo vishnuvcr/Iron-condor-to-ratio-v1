@@ -840,3 +840,14 @@ Per the owner-authorized lenient-gate policy:
 Phase 3 preparation continues without executing or interpreting new production P&L. The statistical plan now explicitly locks result-bearing sections until E150 impact is resolved. A structured manuscript framework has been added at research/MANUSCRIPT_FRAMEWORK.md.
 
 Current rule: expiry-day timing analyses are E150-dependent; no final profitability inference, parameter selection, or strategy recommendation is permitted from provisional evidence.
+
+
+## 2026-10-04 — E151 remediation and impact-control stage
+
+Independent tester found E151: special-session expiry-day observations could fall in a non-trading gap because the E150 fix used the maximum interval endpoint. The developer corrected this to explicit execution-interval membership and added a disjoint-interval regression test.
+
+The contract-master horizon is also reconciled to the session-control evidence horizon (study_data_end=2026-07-02). The builder no longer claims contract coverage through 2026-09-30 without corresponding session evidence.
+
+An E150/E151 impact-scan script is now integrated into the production workflow. The quantitative impact result remains pending because raw production option data and exact-head workflow artifacts are not observable through the current connector.
+
+Phase 2 remains conditional for continued development; production acceptance and final profitability inference remain blocked.
