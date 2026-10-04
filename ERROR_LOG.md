@@ -298,3 +298,6 @@
 - After E106, the available GitHub connector exposed no workflow-dispatch operation and reported zero workflow runs for corrected commits 5e90927245283c865c9a9a187fb9a3ec43e52dcd and 68c572e471b78009640d0e3aa3717d6a5d899e01.
 - Tester PR #48 independently confirmed G6 FAIL/OPEN because exact-head Actions/artifact evidence is absent.
 - Resolution: retain G6 FAIL/OPEN, do not substitute the prior run, and require an observable exact-head CI execution before any gate advancement.
+
+
+| E106 | 2026-10-04 | 1 / G6 | The bounded RBI WSS ID scan remained operationally unsuitable for production validation and could not establish a complete primary risk-free series efficiently. | Continued scanning would risk an endless gate and still depended on fragile page-ID discovery. | Replaced production risk-free acquisition with RBI Bulletin Table 26 91-day Government of India Treasury-bill implicit auction yields from an immutable Reserve Bank Innovation Hub commit, verified by Git blob SHA-1. Cache reuse is fail-closed; source auction date is conservative eligibility date; same-day use is excluded. WSS remains reconciliation/control only. |
