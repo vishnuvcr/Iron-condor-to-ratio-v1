@@ -784,3 +784,19 @@ Current Phase 2 status:
 - Final Phase 2 acceptance: pending independent tester report.
 
 Phase 3 remains analysis-ready but not statistically executed without production result artifacts.
+
+## 2026-10-04 — E146/E147 remediation and contract-master reconstruction
+
+E146 and E147 are corrected in the production workflow, including a fail-closed five-scenario artifact assertion.
+
+Historical contract metadata has been converted from a hard missing-file dependency into a deterministic monthly contract-master reconstruction using:
+- pinned NIFTY expiry-partitioned option bars;
+- official NSE lot-size chronology;
+- observed lifecycle timestamps;
+- expiry-day close timestamps;
+- fixed index-option tick size;
+- immutable raw-source hashes.
+
+This is explicitly a reconstruction, not recovered original NSE member-file bytes.
+
+Phase 2 remains **NOT PRODUCTION-READY** until a fresh exact-head workflow execution succeeds and the independent tester audits the resulting manifest and five scenario ledgers.
