@@ -108,13 +108,20 @@ def fetch_one(sid):
 def main():
     RAW.mkdir(parents=True,exist_ok=True); OUT.parent.mkdir(parents=True,exist_ok=True); REPORT.parent.mkdir(parents=True,exist_ok=True)
     pages=[]; allrows=[]; errors=[]
-    with ThreadPoolExecutor(max_workers=100) as ex:
-        futures=[ex.submit(fetch_one,sid) for sid in range(ID_START,ID_END+1)]
-        for fut in as_completed(futures):
-            try:
-                rec,rr=fut.result(); pages.append(rec); allrows.extend(rr)
-            except Exception as e:
-                errors.append(str(e))
+    candidate_ids=sorted(EXPECTED_SHA256)
+    for sid in candidate_ids:
+        try:
+            rec,rr=fetch_one(sid); pages.append(rec); allrows.extend(rr)
+        except Exception as e:
+            errors.append(str(e))
+    if not allrows:
+        with ThreadPoolExecutor(max_workers=100) as ex:
+            futures=[ex.submit(fetch_one,sid) for sid in range(ID_START,ID_END+1) if sid not in candidate_ids]
+            for fut in as_completed(futures):
+                try:
+                    rec,rr=fut.result(); pages.append(rec); allrows.extend(rr)
+                except Exception as e:
+                    errors.append(str(e))
     df=pd.DataFrame(allrows)
     if df.empty:
         status_counts={}
