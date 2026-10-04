@@ -169,3 +169,7 @@ Execution branch remains derived from immutable E157 baseline `636ebdfdf89a97461
 Failed exact-head CI run: `37210327594`; execution SHA: `32d9421a449fd12933e88dcf37c78f3f16b93a7b`.
 
 E159 findings: `execution_intervals_for_date()` unconditionally localized an already-aware expiry; two chronology fixtures omitted `study_data_end`. Developer remediation branch: `phase-2-e159-remediation-20261004`. Required fresh audit: verify aware/naive expiry normalization, both fixture corrections, full contract-master chronology suite, E150/E151/E157 regression suite, exact checkout SHA, and then the pinned-source impact scan. Any nonzero affected groups require all affected production scenarios to rerun.
+
+
+## E160 fresh remediation handoff — 2026-10-04
+Run `37210607051` exact SHA `28162c1c7c34b7d322d33396eb3c34e9b61296bf` passed 6/7 contract-master chronology tests; the remaining failure was an incomplete fixture lacking regular-session `start`. Developer branch `phase-2-e160-remediation-20261004` adds `09:15` and enables its CI trigger. Fresh tester audit must verify all chronology tests, E150/E151/E157 tests, exact checkout SHA, then impact-scan evidence.
