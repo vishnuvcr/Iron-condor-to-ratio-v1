@@ -5,8 +5,8 @@ Updated: 2026-10-03
 | Phase | Status | Gate |
 |---|---|---|
 | 0 Specification/audit | COMPLETE | Seventh independent tester PASS |
-| 1 Data | IN PROGRESS | Pinned-source validation and acceptance gates |
-| 2 Engine | BLOCKED | Phase 1 independent tester approval |
+| 1 Data | CONDITIONALLY ACCEPTED FOR PROGRESSION | Historical G6 accepted; substantive audit deferred to milestone/final review |
+| 2 Engine | IN PROGRESS | Deterministic engine implementation under progression waiver |
 | 3 Experiments | BLOCKED | Phase 2 |
 | 4 Statistics | BLOCKED | Phase 3 |
 | 5 Interpretation | BLOCKED | Phase 4 |
@@ -686,3 +686,18 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - D1–D3 remain limitations of the historical artifact.
 - The corrected D1–D3 implementation requires a fresh exact-head GitHub Actions execution followed by a fresh isolated tester audit.
 - This status update is the developer execution handoff; no scientific model change is introduced.
+
+
+## 2026-10-04 — Progression waiver / Phase 2 start
+
+The historical G6 aggregate is accepted for research progression under the tester-recorded owner waiver. D1–D3 remain disclosed evidence-completeness limitations; they are deferred to milestone/final audit and are not represented as satisfied by the old artifact.
+
+Phase 2 has started with:
+- source-derived literal-core state-machine rules;
+- frozen completed-1-minute decision / next-eligible-minute-open execution proxy;
+- atomic multi-leg execution failure handling;
+- date-effective slippage, brokerage and statutory-cost layer;
+- deterministic trade/event ledger;
+- synthetic regression fixtures before full-data execution.
+
+No optimization or profitability claim is made at Phase 2 start.
