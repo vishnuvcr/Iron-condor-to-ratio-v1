@@ -183,3 +183,5 @@ jobs:
           retention-days: 30
 
 # E120 exact-head revalidation trigger: exhaustive 8-shard production evidence.
+
+# E121 exact-head revalidation trigger: shard configuration and output-path correction.
