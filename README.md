@@ -535,3 +535,10 @@ Under the authorized lenient-gate policy, the full five-scenario backtest is **n
 ## 2026-10-04 — Statistical/manuscript preparation
 
 Under the owner-authorized lenient gate, Phase 3 methodology and manuscript structure are being prepared without treating provisional production evidence as final. See [statistical analysis plan](research/PHASE3_STATISTICAL_ANALYSIS_PLAN.md) and [manuscript framework](research/MANUSCRIPT_FRAMEWORK.md). E150-dependent expiry-day results remain locked pending the consolidated audit.
+
+
+## 2026-10-04 — E151 chronology remediation
+
+E151 has been corrected: expiry-day timestamps must belong to an allowed execution interval, including on disjoint special-session days. The contract-master horizon is now tied to the documented session-data horizon of 2026-07-02.
+
+An automated E150/E151 impact scan is included in the production workflow. No production P&L is relabelled or finalized; final inference remains blocked until the impact question is quantitatively closed and independently audited.
