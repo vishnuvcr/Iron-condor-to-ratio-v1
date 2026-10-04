@@ -513,3 +513,9 @@ Phase 2 has an exact end-to-end workflow, but **no production strategy result is
 Phase 2 engineering is complete for milestone review at developer head `3d5c41f13269618b5d742527df973f405974c762`. See the [Phase 2 milestone report](research/PHASE2_MILESTONE_REPORT_20261004.md), [contract-master controls](research/PHASE2_CONTRACT_MASTER_SPEC.md), [production run specification](research/PHASE2_PRODUCTION_RUN_SPEC.md), [margin proxy](research/PHASE2_MARGIN_PROXY_SPEC.md), and [Phase 3 statistical plan](research/PHASE3_STATISTICAL_ANALYSIS_PLAN.md).
 
 No production P&L or profitability claim has been made yet. The remaining material data dependency is the authoritative historical NIFTY contract master; independent tester review is also pending.
+
+## 2026-10-04 — E146/E147 corrected; historical contract reconstruction added
+
+The Phase 2 production workflow now has valid GitHub Actions expressions, matching scenario artifact names, and a fail-closed assertion for all five slippage scenarios. Historical monthly NIFTY contract metadata is reconstructed deterministically from the pinned expiry-partitioned option source plus official NSE lot-size chronology. See [contract-master provenance](research/PHASE2_CONTRACT_MASTER_PROVENANCE.md).
+
+No production P&L is claimed until the exact-head workflow succeeds and the independent tester audits the resulting artifacts.
