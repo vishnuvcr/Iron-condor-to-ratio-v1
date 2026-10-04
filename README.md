@@ -507,3 +507,9 @@ Phase 3 preparation is documented in research/PHASE3_STATISTICAL_ANALYSIS_PLAN.m
 ## 2026-10-04 — Phase 2 integration control
 
 Phase 2 has an exact end-to-end workflow, but **no production strategy result is being asserted yet**. The remaining hard input is the authoritative historical NIFTY contract master needed for lot-size, tick-size and contract-lifecycle reconciliation. See [contract-master specification](research/PHASE2_CONTRACT_MASTER_SPEC.md), [production run specification](research/PHASE2_PRODUCTION_RUN_SPEC.md), [statistical analysis plan](research/PHASE3_STATISTICAL_ANALYSIS_PLAN.md), and [context-data specification](research/PHASE2_CONTEXT_DATA_SPEC.md).
+
+## 2026-10-04 — Final Phase 2 milestone snapshot
+
+Phase 2 engineering is complete for milestone review at developer head `3d5c41f13269618b5d742527df973f405974c762`. See the [Phase 2 milestone report](research/PHASE2_MILESTONE_REPORT_20261004.md), [contract-master controls](research/PHASE2_CONTRACT_MASTER_SPEC.md), [production run specification](research/PHASE2_PRODUCTION_RUN_SPEC.md), [margin proxy](research/PHASE2_MARGIN_PROXY_SPEC.md), and [Phase 3 statistical plan](research/PHASE3_STATISTICAL_ANALYSIS_PLAN.md).
+
+No production P&L or profitability claim has been made yet. The remaining material data dependency is the authoritative historical NIFTY contract master; independent tester review is also pending.
