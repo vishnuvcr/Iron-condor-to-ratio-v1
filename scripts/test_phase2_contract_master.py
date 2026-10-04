@@ -106,3 +106,46 @@ def test_session_horizon_is_fail_closed():
                 assert "PHASE2_SESSION_RULE_HORIZON_EXCEEDED" in str(exc)
         finally:
             m.SESSION_RULES=original
+
+
+def test_expiry_timezone_normalization_accepts_naive_and_aware_equivalents():
+    import json
+    import tempfile
+    import pandas as pd
+    import build_phase2_contract_master as m
+    expiry = pd.Timestamp("2025-10-30")
+    with tempfile.TemporaryDirectory() as td:
+        p = __import__("pathlib").Path(td) / "rules.json"
+        p.write_text(json.dumps({"study_data_end":"2026-07-02","regular_execution_session":{"start":"09:15","end":"15:30"},"special_sessions":[]}))
+        original = m.SESSION_RULES
+        try:
+            m.SESSION_RULES = p
+            aware = pd.Timestamp("2025-10-30 15:30", tz="Asia/Kolkata")
+            naive = pd.Timestamp("2025-10-30 15:30")
+            assert m.expiry_timestamp_is_executable(aware, expiry)
+            assert m.expiry_timestamp_is_executable(naive, expiry)
+            assert m.update_expiry_close_ts(pd.NaT, aware, expiry) == aware
+            assert m.update_expiry_close_ts(pd.NaT, naive, expiry) == aware.tz_localize(None)
+        finally:
+            m.SESSION_RULES = original
+
+
+def test_expiry_timezone_mismatch_is_not_treated_as_calendar_mismatch():
+    import json
+    import tempfile
+    import pandas as pd
+    import build_phase2_contract_master as m
+    expiry = pd.Timestamp("2025-10-30")
+    with tempfile.TemporaryDirectory() as td:
+        p = __import__("pathlib").Path(td) / "rules.json"
+        p.write_text(json.dumps({"study_data_end":"2026-07-02","regular_execution_session":{"start":"09:15","end":"15:30"},"special_sessions":[]}))
+        original = m.SESSION_RULES
+        try:
+            m.SESSION_RULES = p
+            ts = pd.Timestamp("2025-10-30 15:30", tz="Asia/Kolkata")
+            assert m.expiry_timestamp_is_executable(ts, expiry)
+            assert not m.expiry_timestamp_is_executable(
+                pd.Timestamp("2025-10-29 15:30", tz="Asia/Kolkata"), expiry
+            )
+        finally:
+            m.SESSION_RULES = original
