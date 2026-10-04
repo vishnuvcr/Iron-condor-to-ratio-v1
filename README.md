@@ -530,3 +530,8 @@ Developer head `9e08a2882715b144cfe815f3c7d1382e848c9d18` contains the E146/E147
 E150 corrected a chronology defect in the reconstructed contract master: post-session observations could previously extend expiry_close_ts. The builder now bounds expiry_close_ts by the date-specific F&O execution-session close, with a regression test proving a 15:31 observation cannot extend a normal 15:30 close.
 
 Under the authorized lenient-gate policy, the full five-scenario backtest is **not rerun at this stage**. Research/statistical/manuscript work may continue as non-final evidence, but no profitability/trading-strategy conclusion is final until the consolidated audit determines whether E150 could materially affect the tested window. See [contract-master specification](research/PHASE2_CONTRACT_MASTER_SPEC.md) and [error log](ERROR_LOG.md).
+
+
+## 2026-10-04 — Statistical/manuscript preparation
+
+Under the owner-authorized lenient gate, Phase 3 methodology and manuscript structure are being prepared without treating provisional production evidence as final. See [statistical analysis plan](research/PHASE3_STATISTICAL_ANALYSIS_PLAN.md) and [manuscript framework](research/MANUSCRIPT_FRAMEWORK.md). E150-dependent expiry-day results remain locked pending the consolidated audit.
