@@ -493,3 +493,11 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - G6 no-lookahead semantics were clarified: the RBI labelled observation date is a conservative eligibility date, never a claim of exact publication time; strict-prior excludes same-day observations.
 - Added regression coverage for same-day exclusion.
 - G5 remains FAIL/waived for continued research; G6 remains OPEN pending fresh exact-head CI and independent tester re-audit; G9 remains PASS; G13/G14 and Phase 2 remain BLOCKED.
+
+
+## 2026-10-04 — E105 bounded RBI acquisition correction
+- Exact-head G6 CI run `37171349785` remained in the RBI acquisition step long enough to expose an operational acquisition bottleneck.
+- Developer corrected the acquisition bounds/concurrency: WSS IDs 24000–28500, 100 workers, 3-second request timeout.
+- No provenance, target-series, duplicate/conflict, or no-lookahead rule was relaxed.
+- The prior exact-head run is non-authoritative because downstream evidence was never reached; fresh CI at the corrected head is required.
+- G6 remains FAIL/OPEN pending fresh CI and independent tester re-audit. G5 remains FAIL/WAIVED; G9 PASS; G13/G14 and Phase 2 BLOCKED.
