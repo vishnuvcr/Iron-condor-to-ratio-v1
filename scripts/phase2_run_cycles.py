@@ -82,7 +82,7 @@ def build_expiry_schedule(expiry_dates: list[pd.Timestamp], entry_days: pd.Serie
     return schedule.drop_duplicates("entry_month", keep="first")
 
 
-def run_cycle(normalized_file: Path, entry_day: str, costs: CostSchedule, slippage_bps: float) -> dict[str, pd.DataFrame]:
+def run_cycle(normalized_file: Path, entry_day: str, costs: CostSchedule, slippage_bps: float, enable_transitions: bool) -> dict[str, pd.DataFrame]:
     bars = pd.read_parquet(normalized_file)
     start = pd.Timestamp(entry_day).tz_localize("Asia/Kolkata")
     expiry = pd.to_datetime(bars["expiry"]).dropna().min()
@@ -97,6 +97,7 @@ def run_cycle(normalized_file: Path, entry_day: str, costs: CostSchedule, slippa
         EngineConfig(
             entry_min_dte_days=20,
             slippage_bps=slippage_bps,
+            enable_transitions=enable_transitions,
         ),
     )
     result = engine.run()
@@ -116,6 +117,7 @@ def main():
     ap.add_argument("--costs", required=True)
     ap.add_argument("--output", required=True)
     ap.add_argument("--slippage-bps", type=float, default=10.0)
+    ap.add_argument("--static-ic", action="store_true")
     args = ap.parse_args()
 
     rules = json.loads(RULES_PATH.read_text())
@@ -146,7 +148,7 @@ def main():
         file = root / f"{row.expiry}.parquet"
         if not file.exists():
             raise RuntimeError(f"PHASE2_SCHEDULED_EXPIRY_FILE_MISSING:{file}")
-        result = run_cycle(file, row.entry_day, costs, args.slippage_bps)
+        result = run_cycle(file, row.entry_day, costs, args.slippage_bps, enable_transitions=not args.static_ic)
         for key in outputs:
             if key in result and not result[key].empty:
                 outputs[key].append(result[key])
@@ -161,6 +163,7 @@ def main():
     manifest = {
         "status": "PHASE2_CYCLE_RUN_COMPLETE",
         "slippage_bps": args.slippage_bps,
+        "strategy_mode": "STATIC_IRON_CONDOR" if args.static_ic else "IRON_CONDOR_TO_RATIO",
         "cycles_scheduled": int(len(schedule)),
         "cycles_with_output": int(sum(bool(v) for v in outputs["metadata"])),
         "input_partitions": int(len(files)),
