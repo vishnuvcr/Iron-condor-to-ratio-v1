@@ -649,3 +649,7 @@ Developer response: adopt the recorded waiver, keep all G6 D1–D3 limitations v
 ## 2026-10-04 — Phase 2 engine continuation
 
 Developer recorded the owner-authorized progression waiver, opened the dedicated Phase 2 branch, added a deterministic state-machine engine, normalized-data contract, proxy execution/cost layer, regression tests and automated/manual CI workflow. The engine was subsequently hardened for monthly-expiry selection, date-specific expiry close, atomic failure handling, trigger crossings, test ordering and reproducibility. No profitability result or optimization claim has been made. PR #53 was opened; the GitHub connector currently exposes zero exact-head workflow runs/statuses, so no CI pass is claimed.
+
+## 2026-10-04 — Phase 2 cost-model hardening
+
+The developer corrected a material unit-conversion defect in NSE/IPFT rates before any production backtest, added explicit conversion tests, added a fail-closed date/side/slab validator, corrected JSON loading for monthly-slab fields, and updated the engine so monthly NSE slab charges are calculated from the completed strategy fill ledger. No production performance result used the defective schedule.
