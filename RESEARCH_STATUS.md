@@ -656,3 +656,11 @@ Tester PR #32 independently re-audited developer PR #31 at exact head `8b99cb3b2
 - The 32 exhaustive shards completed successfully on the preceding head, but that head is non-authoritative because the aggregate job was still configured for 8 shards.
 - E131 corrected the aggregate configuration to 32.
 - A fresh exact-head run is mandatory before tester handover.
+
+
+## 2026-10-04 — G6 remediation after tester PR #49
+- Developer remediation branch: `phase-1-g6-evidence-remediation-20261004`, based on audited exact head `1a9eab7389b972c05362271ee9fb23092aa7354d`.
+- Tester PR #49 verdict: **G6 FAIL / OPEN** for evidence completeness, not mathematical inconsistency.
+- Corrected evidence now includes IV iteration/residual histograms, explicit expiry/date coverage, and explicit strict-prior/future-input audit counters; aggregation is fail-closed on their absence or inconsistency.
+- Fresh exact-head CI is required. A fresh isolated tester branch must be created from the resulting developer head after CI completion.
+- G13/G14 and Phase 2 remain BLOCKED.
