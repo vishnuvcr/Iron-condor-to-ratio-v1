@@ -397,3 +397,7 @@ The exact-head G6 validation run `37171349785` remained in official RBI acquisit
 - Automatic isolated tester re-audit of developer head b75e64d3f6caf9f086a0c063153ccc6315aa5c5 returned **G6 FAIL/OPEN**.
 - E106 code-level controls were independently found sound, but exact-head Actions/artifact evidence is absent. G5 remains FAIL/WAIVED, G9 PASS, G13/G14 and Phase 2 BLOCKED.
 - Required next step: make exact-head CI observable through repository-native automation, verify artifact binding, then automatically hand the corrected exact head to a fresh tester branch.
+
+
+## 2026-10-04 — E106 structured RBI risk-free source
+G6 production risk-free acquisition has been redesigned around RBI Bulletin Table 26: the 91-day Government of India Treasury-bill implicit auction yield. The source is pinned to immutable Reserve Bank Innovation Hub commit `0db4ddb88c3119347e809af78c93beb4d1c874d4` / Git blob SHA-1 `ff603b132a2aa2aee8b1bc08d0d1e68879af2ea7`, with cache/provenance validation and conservative auction-date strict-prior semantics. RBI WSS remains a reconciliation/control source. G6 remains OPEN/FAIL pending exact-head CI and independent tester re-audit; G5 remains FAIL/waived, G9 PASS, G13/G14 and Phase 2 BLOCKED.
