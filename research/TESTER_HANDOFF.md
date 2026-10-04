@@ -143,3 +143,9 @@ PR #55 remediates E153–E156:
 - source SHA-256 inventory and report-content hash are recorded.
 
 Fresh tester branch must be created from the final handoff SHA and must independently verify source semantics, syntax/tests, the three-way chronology, pinned-data scan, provenance, and exact-head CI. Any original-vs-corrected affected group requires affected production scenario reruns. No E150 closure or profitability inference is permitted from earlier artifacts.
+
+
+## E157 fresh remediation handoff — 2026-10-04
+Prior developer head `7f9f9209c77416986ba0827028067ab5b911160f` is rejected for the impact scan because its vectorized expiry-day filter mixed timezone-aware timestamps with timezone-naive expiry dates. Developer remediation branch: `phase-2-e157-remediation-20261004`.
+
+Required fresh tester checks: (1) verify the vectorized predicate explicitly compares Asia/Kolkata local calendar dates; (2) execute the new naive/aware/mismatch regression tests; (3) inspect the three chronology states for preservation; (4) independently run/verify the pinned-source impact scan, source hashes, coverage/group counts, classification counts and deterministic report hash; (5) verify exact developer SHA in CI artifacts, without reusing prior artifacts; (6) if affected groups are nonzero, require affected production scenario reruns. E150 and Phase 2 production remain blocked until PASS.
