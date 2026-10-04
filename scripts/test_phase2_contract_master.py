@@ -23,7 +23,7 @@ def test_post_session_observation_cannot_extend_expiry_close_ts():
     expiry = pd.Timestamp("2025-10-30")
     with tempfile.TemporaryDirectory() as td:
         p = __import__("pathlib").Path(td) / "rules.json"
-        p.write_text(json.dumps({"study_data_end":"2026-07-02","regular_execution_session":{"end":"15:30"},"special_sessions":[]}))
+        p.write_text(json.dumps({"study_data_end":"2026-07-02","regular_execution_session":{"start":"09:15","end":"15:30"},"special_sessions":[]}))
         original = m.SESSION_RULES
         try:
             m.SESSION_RULES = p
