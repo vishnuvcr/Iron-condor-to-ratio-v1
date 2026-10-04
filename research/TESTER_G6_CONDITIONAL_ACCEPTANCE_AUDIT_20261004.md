@@ -105,3 +105,39 @@ Developer reports exact head `94ea4b12de8ab9be2c404534db501ec30d53fd81` and PR #
 No new G6 verdict is issued. The existing **CONDITIONAL PASS WITH CONDITIONS** remains the latest tester verdict, while the formal G6 gate remains OPEN.
 
 **Next tester gate:** once a fresh exact-head aggregate artifact exists, independently verify exact checkout binding, all 32 shards, complete file partition, D1-D3 evidence, expiry/date coverage, strict-prior/no-lookahead controls, mathematical reconciliation, checksums, and fail-closed aggregation before issuing a new verdict.
+
+
+## Principal-investigator progression waiver — 2026-10-04
+
+The project owner has explicitly directed that the historical G6 aggregate be **accepted for research progression** and that gate strictness be reduced from this point forward, with substantive audits consolidated before final acceptance.
+
+This changes the **research progression policy**, not the underlying numerical facts:
+
+- The prior G6 aggregate remains the accepted working evidence for Phase 1 progression.
+- D1-D3 evidence-completeness gaps are retained as documented limitations and must not be hidden.
+- Fresh CI evidence for D1-D3 is no longer a prerequisite for opening later research phases.
+- Later phases may proceed using the accepted G6 evidence, provided all material assumptions, costs, slippage, data limitations, and reproducibility risks remain disclosed.
+- Independent tester audits will be performed at milestone/final acceptance checkpoints rather than blocking every intermediate implementation step.
+- A final independent audit remains mandatory before any result is presented as a validated trading conclusion.
+
+### Revised tester verdict for progression
+
+**G6: ACCEPTED FOR RESEARCH PROGRESSION WITH DEFERRED AUDIT.**
+
+This is a user-authorized pragmatic research-control decision. It is not a claim that the historical artifact contains D1-D3 evidence that it does not contain.
+
+### Deferred final audit checklist
+
+Before final research acceptance, the tester will audit at minimum:
+1. data provenance and coverage;
+2. mathematical/sign/formula correctness;
+3. no-lookahead and execution chronology;
+4. transaction costs, brokerage and slippage;
+5. backtest implementation correctness;
+6. regime/statistical methodology;
+7. robustness and sensitivity claims;
+8. reproducibility and cached-data integrity;
+9. manuscript tables, figures, appendices and conclusions;
+10. consistency between code, evidence artifacts, README, status and error logs.
+
+**Research may continue past G6 under this waiver.**
