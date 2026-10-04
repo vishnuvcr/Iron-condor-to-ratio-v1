@@ -179,8 +179,9 @@ def expiry_close(exp):
 def strict_prior(left_dates, source):
     s=source.sort_values("date").copy()
     s["date"]=pd.to_datetime(s["date"],errors="coerce").astype("datetime64[ns]")
+    s=s.rename(columns={"date":"source_date"})
     l=pd.DataFrame({"date":pd.to_datetime(left_dates,errors="coerce").astype("datetime64[ns]").sort_values().unique()})
-    out=pd.merge_asof(l,s,on="date",direction="backward",allow_exact_matches=False)
+    out=pd.merge_asof(l,s,left_on="date",right_on="source_date",direction="backward",allow_exact_matches=False)
     return out
 
 def detect_underlying_columns(df):
@@ -236,14 +237,21 @@ def main():
             raise RuntimeError("STRICT_PRIOR_RQ_COVERAGE_FAILURE")
         day_to_r=dict(zip(rate_dates["date"].astype(str),rate_dates["r"]))
         day_to_q=dict(zip(div_dates["date"].astype(str),div_dates["q"]))
+        day_to_r_source=dict(zip(rate_dates["date"].astype(str),rate_dates["source_date"].astype(str)))
+        day_to_q_source=dict(zip(div_dates["date"].astype(str),div_dates["source_date"].astype(str)))
         counters={k:0 for k in ["option_rows_scanned","option_rows_study_window","underlying_exact_match","underlying_missing",
-                                 "r_missing","q_missing","invalid_model_input","nonpositive_premium","no_arbitrage_rejection",
+                                 "r_missing","q_missing","r_same_day","r_future","q_same_day","q_future",
+                                 "expiry_missing","expiry_nonpositive_t","expiry_valid",
+                                 "invalid_model_input","nonpositive_premium","no_arbitrage_rejection",
                                  "bracket_failure","non_convergence","iv_converged","target_timestamp_groups","target_selected_records",
                                  "target_available_0.30","target_available_0.10","target_available_0.50","target_available_0.40","target_available_0.08"]}
         target_errors={f"{t:.2f}":[] for t in TARGETS}
         delta_bins=np.linspace(-1.0,1.0,101); delta_hist=np.zeros(100,dtype=np.int64)
         abs_bins=np.linspace(0.0,1.0,101); abs_hist=np.zeros(100,dtype=np.int64)
         iv_bins=np.linspace(0.0,3.0,121); iv_hist=np.zeros(120,dtype=np.int64)
+        iteration_bins=np.arange(-0.5,100.5+1.0,1.0); iteration_hist=np.zeros(101,dtype=np.int64)
+        residual_log_bins=np.linspace(-16.0,0.0,65); residual_log_hist=np.zeros(64,dtype=np.int64)
+        option_trading_dates=set(); expiry_dates=set()
         files=sorted(OPT_ROOT.glob("*.parquet"))
         if not files: raise RuntimeError("OPTION_INPUTS_MISSING")
         all_files=files
@@ -269,10 +277,21 @@ def main():
                 df=df[(df["timestamp"]>=STUDY_START)&(df["timestamp"]<STUDY_END+pd.Timedelta(days=1))]
                 counters["option_rows_study_window"]+=len(df)
                 if df.empty: continue
+                option_trading_dates.update(df["timestamp"].dt.normalize().dt.strftime("%Y-%m-%d").dropna().unique().tolist())
+                counters["expiry_missing"]+=int(df["expiry_close"].isna().sum())
+                expiry_nonnull=df["expiry_close"].notna()
+                counters["expiry_nonpositive_t"]+=int((expiry_nonnull & ((df["expiry_close"]-df["timestamp"]).dt.total_seconds()<=0)).sum())
+                counters["expiry_valid"]+=int((expiry_nonnull & ((df["expiry_close"]-df["timestamp"]).dt.total_seconds()>0)).sum())
+                expiry_dates.update(df.loc[expiry_nonnull,"expiry_close"].dt.normalize().dt.strftime("%Y-%m-%d").dropna().unique().tolist())
                 df=df.merge(udf,on="timestamp",how="left",validate="many_to_one")
                 counters["underlying_exact_match"]+=int(df["underlying"].notna().sum())
                 counters["underlying_missing"]+=int(df["underlying"].isna().sum())
                 dates=df["timestamp"].dt.normalize().astype(str)
+                r_source=dates.map(day_to_r_source); q_source=dates.map(day_to_q_source)
+                counters["r_same_day"]+=int((r_source==dates).fillna(False).sum())
+                counters["r_future"]+=int((r_source>dates).fillna(False).sum())
+                counters["q_same_day"]+=int((q_source==dates).fillna(False).sum())
+                counters["q_future"]+=int((q_source>dates).fillna(False).sum())
                 df["r"]=dates.map(day_to_r); df["q"]=dates.map(day_to_q)
                 counters["r_missing"]+=int(df["r"].isna().sum()); counters["q_missing"]+=int(df["q"].isna().sum())
                 df["t"]=(df["expiry_close"]-df["timestamp"]).dt.total_seconds()/31557600.0
@@ -292,6 +311,12 @@ def main():
                     counters["iv_converged"]+=int((code==6).sum())
                     good=code==6
                     if good.any():
+                        iteration_hist += np.histogram(it[good],bins=iteration_bins)[0]
+                        residual_good=res[good]
+                        residual_good=residual_good[np.isfinite(residual_good) & (residual_good>=0)]
+                        if len(residual_good):
+                            residual_log=np.log10(np.maximum(residual_good,1e-16))
+                            residual_log_hist += np.histogram(np.clip(residual_log,-15.999999,-0.000001),bins=residual_log_bins)[0]
                         gd=df.loc[valid].iloc[np.flatnonzero(good)].copy()
                         gd["iv"]=iv[good]
                         gd["signed_delta"]=bs_delta_arrays(gd["underlying"].to_numpy(dtype=float),gd["strike"].to_numpy(dtype=float),
@@ -319,12 +344,31 @@ def main():
         report["greek_distributions"]={
             "signed_delta_histogram":{"bin_edges":delta_bins.tolist(),"counts":delta_hist.tolist()},
             "absolute_delta_histogram":{"bin_edges":abs_bins.tolist(),"counts":abs_hist.tolist()},
-            "iv_histogram":{"bin_edges":iv_bins.tolist(),"counts":iv_hist.tolist()}
+            "iv_histogram":{"bin_edges":iv_bins.tolist(),"counts":iv_hist.tolist()},
+            "iv_iteration_histogram":{"bin_edges":iteration_bins.tolist(),"counts":iteration_hist.tolist()},
+            "iv_residual_log10_histogram":{"bin_edges":residual_log_bins.tolist(),"counts":residual_log_hist.tolist()}
+        }
+        report["expiry_coverage"]={
+            "option_trading_date_count":len(option_trading_dates),
+            "option_trading_dates":sorted(option_trading_dates),
+            "expiry_date_count":len(expiry_dates),
+            "expiry_dates":sorted(expiry_dates),
+            "expiry_missing":counters["expiry_missing"],
+            "expiry_nonpositive_t":counters["expiry_nonpositive_t"],
+            "expiry_valid":counters["expiry_valid"]
+        }
+        report["no_lookahead_audit"]={
+            "r_same_day":counters["r_same_day"],
+            "r_future":counters["r_future"],
+            "q_same_day":counters["q_same_day"],
+            "q_future":counters["q_future"],
+            "r_strict_prior_only":counters["r_same_day"]==0 and counters["r_future"]==0,
+            "q_strict_prior_only":counters["q_same_day"]==0 and counters["q_future"]==0
         }
         report["checksums"]={"risk_free_csv":sha256_file(R_PATH),"dividend_yield_csv":sha256_file(Q_PATH),
                              "underlying_parquet":sha256_file(UNDERLYING)}
         report["status"]="PRODUCTION_SCAN_COMPLETE"
-        report["acceptance_decision"]="G6 remains OPEN until independent tester verifies complete r/q coverage, production counts, solver distributions, target evidence and exact-checkout artifact."
+        report["acceptance_decision"]="G6 remains OPEN until independent tester verifies complete r/q coverage, production counts, solver distributions, expiry/date coverage, explicit no-lookahead audit, target evidence and exact-checkout artifact."
     except Exception as exc:
         report["status"]="PRODUCTION_SCAN_FAILED"
         report["failure_reason"]=str(exc)
