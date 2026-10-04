@@ -587,3 +587,9 @@ User explicitly required automatic handover to the tester branch and instructed 
 - Failure was a `KeyError` caused solely by inconsistent float string formatting for target deltas.
 - Developer standardized target keys to two decimals and added a regression test.
 - No gate advancement; fresh exact-head CI and tester handover remain mandatory.
+
+
+## 2026-10-04 — E115 target-key correction
+- Production scan failure was isolated to a formatting mismatch between target delta keys `0.3` and `0.30`.
+- Developer normalized the diagnostic dictionary keys to two decimals. No trading logic changed.
+- Fresh exact-head CI and independent tester handover remain mandatory.
