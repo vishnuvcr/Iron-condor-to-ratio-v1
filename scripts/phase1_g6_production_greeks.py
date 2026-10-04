@@ -225,10 +225,11 @@ def main():
         div_dates=strict_prior(udf["timestamp"].dt.normalize(),q)
         report["rate_coverage"]={"underlying_days":int(udf["timestamp"].dt.normalize().nunique()),
                                  "strict_prior_r_days":int(rate_dates["r"].notna().sum()),
-                                 "strict_prior_q_days":int(div_dates["q"].notna().sum()),
-                                 "r_full":bool(rate_dates["r"].notna().all()),
-                                 "q_full":bool(div_dates["q"].notna().all())}
-        if not report["rate_coverage"]["r_full"] or not report["rate_coverage"]["q_full"]:
+                                 "r_full":bool(rate_dates["r"].notna().all())}
+        report["dividend_coverage"]={"underlying_days":int(udf["timestamp"].dt.normalize().nunique()),
+                                     "strict_prior_q_days":int(div_dates["q"].notna().sum()),
+                                     "q_full":bool(div_dates["q"].notna().all())}
+        if not report["rate_coverage"]["r_full"] or not report["dividend_coverage"]["q_full"]:
             raise RuntimeError("STRICT_PRIOR_RQ_COVERAGE_FAILURE")
         day_to_r=dict(zip(rate_dates["date"].astype(str),rate_dates["r"]))
         day_to_q=dict(zip(div_dates["date"].astype(str),div_dates["q"]))
@@ -332,3 +333,4 @@ if __name__=="__main__":
     main()
 
 # E121 exact-head revalidation trigger: corrected G6 shard environment and evidence output.
+# E123: explicit dividend-coverage evidence is required for aggregate validation.
