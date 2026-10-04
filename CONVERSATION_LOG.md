@@ -560,3 +560,10 @@ User explicitly required automatic handover to the tester branch and instructed 
 - The corrected Git blob verifier passed; RBI Bulletin acquisition then failed on a pandas `NaT` comparison from blank Excel cells.
 - Developer hardened the parser to coerce invalid dates to missing and explicitly skip `NaT`.
 - No gate advancement; fresh exact-head CI remains required.
+
+
+## 2026-10-04 — E110/E111 G6 underlying materialization correction
+- The first complete G6 production run reached the fail-closed audit and produced artifact `11291902175`; the artifact reported `UNDERLYING_INPUT_MISSING`.
+- The missing input is the independently audited NIFTY 1-minute spot parquet, not a reason to substitute another underlying series.
+- Developer added pinned HF acquisition at revision `92e0288`, expected SHA-256 `613864738250107807354c17c7092986960220ac3062b830c65cc5f9ec16fcf7`, with cache/provenance validation and HF_TOKEN support.
+- Workflow cache/trigger paths were then corrected. No gate advanced; fresh exact-head CI and tester audit remain mandatory.
