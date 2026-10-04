@@ -165,7 +165,7 @@ def main():
         "slippage_bps": args.slippage_bps,
         "strategy_mode": "STATIC_IRON_CONDOR" if args.static_ic else "IRON_CONDOR_TO_RATIO",
         "cycles_scheduled": int(len(schedule)),
-        "cycles_with_output": int(sum(bool(v) for v in outputs["metadata"])),
+        "cycles_with_output": int(len(outputs["metadata"])),
         "input_partitions": int(len(files)),
     }
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2))
