@@ -23,6 +23,7 @@ The engine consumes a normalized one-minute option table with one row per contra
 - `lot_size`: effective historical contract lot size
 - `session_eligible`: date-specific session eligibility
 - `execution_eligible`: whether the bar is eligible as a next-bar proxy execution observation
+- `expiry_close_ts`: date-specific expiry-session close timestamp used for expiry boundaries
 
 A deterministic `contract_id` is formed from expiry + strike + option type unless supplied.
 
@@ -78,7 +79,7 @@ These are isolated from the source-derived rules and must be disclosed:
 2. **Expiry selection:** nearest available expiry at least 20 calendar days after the entry date. The 20-day floor is an operational convention, not a claim about the source video.
 3. **Target selection:** absolute-delta error <= 0.05; ties broken by higher volume, then smaller strike distance, then lower strike.
 4. **Trigger frequency:** every completed eligible one-minute bar.
-5. **Forced expiry exit:** the engine creates a close event on the last decision minute before the configured expiry cutoff; no settlement payoff is synthesized.
+5. **Forced expiry exit:** the engine creates a close event on the last decision minute before the date-specific `expiry_close_ts` cutoff supplied in the normalized data; no hard-coded historical close is projected backward and no settlement payoff is synthesized.
 6. **Profit taking:** excluded from the literal core because the source is discretionary. A separate variant may be tested later.
 7. **Execution:** frozen Phase 1 next-eligible-open proxy with adverse slippage and atomic group execution.
 8. **Multi-leg position units:** quantities are whole lots; short two-lot ratio legs are two lots of the selected contract.
